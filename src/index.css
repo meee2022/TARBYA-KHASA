@@ -28,30 +28,36 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 /* ============ الوضع الليلي العنابي ============ */
 .dark body {
-  color: #e9e6ea;
-  background-color: #141013;
+  color: #efecf1;
+  background-color: #1a161b;
   background-image:
-    radial-gradient(1100px 420px at 100% -120px, rgba(138, 21, 56, 0.22), transparent),
-    radial-gradient(900px 380px at -10% 0%, rgba(138, 21, 56, 0.10), transparent);
+    radial-gradient(1100px 460px at 100% -160px, rgba(138, 21, 56, 0.16), transparent),
+    radial-gradient(820px 340px at -10% 0%, rgba(138, 21, 56, 0.06), transparent);
 }
-.dark .bg-white { background-color: #1e181b !important; }
-.dark .bg-white\/80 { background-color: rgba(26, 21, 24, 0.82) !important; }
-.dark .bg-slate-50 { background-color: #251e22 !important; }
-.dark .bg-slate-100 { background-color: #2c242a !important; }
+/* أسطح مرتفعة أفتح من الخلفية لتباين واضح */
+.dark .bg-white { background-color: #272029 !important; }
+.dark .bg-white\/80 { background-color: rgba(33, 27, 34, 0.85) !important; }
+.dark .bg-slate-50 { background-color: #2f2733 !important; }
+.dark .bg-slate-100 { background-color: #372e3c !important; }
 .dark .border-slate-200,
 .dark .border-slate-100,
 .dark .border-slate-300,
-.dark .border-slate-200\/70 { border-color: #3a3035 !important; }
-.dark .text-slate-800, .dark .text-slate-700 { color: #ece9eb !important; }
-.dark .text-slate-600, .dark .text-slate-500 { color: #beb6bc !important; }
-.dark .text-slate-400 { color: #8c848b !important; }
-.dark .text-grey, .dark .text-grey-dark { color: #a89fa6 !important; }
-.dark .bg-brand-light { background-color: rgba(138, 21, 56, 0.22) !important; }
-.dark .text-brand { color: #ea7298 !important; }
-.dark .shadow-soft, .dark .shadow-card { box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.7) !important; }
-.dark .inp { background-color: #251e22 !important; color: #ece9eb !important; border-color: #3a3035 !important; }
-.dark .skeleton { background: #2c242a; }
-.dark .bg-grey-dark { background-color: #100c0e !important; }
+.dark .border-slate-200\/70 { border-color: #423846 !important; }
+.dark .text-slate-800, .dark .text-slate-700 { color: #f3f0f4 !important; }
+.dark .text-slate-600, .dark .text-slate-500 { color: #c7c0cb !important; }
+.dark .text-slate-400 { color: #9a92a0 !important; }
+.dark .text-grey, .dark .text-grey-dark { color: #b6adba !important; }
+.dark .bg-brand-light { background-color: rgba(240, 128, 159, 0.15) !important; }
+.dark .text-brand { color: #f3899f !important; }
+.dark .shadow-soft, .dark .shadow-card { box-shadow: 0 8px 26px -12px rgba(0, 0, 0, 0.7) !important; }
+.dark .inp { background-color: #2f2733 !important; color: #f3f0f4 !important; border-color: #423846 !important; }
+.dark .skeleton { background: #372e3c; }
+.dark .bg-grey-dark { background-color: #151116 !important; }
+/* شارات الدلالة (صح/خطأ) بنبرة هادئة في الوضع الليلي */
+.dark .bg-emerald-100 { background-color: rgba(16, 185, 129, 0.16) !important; }
+.dark .text-emerald-700 { color: #5fd6a6 !important; }
+.dark .bg-rose-100 { background-color: rgba(244, 63, 94, 0.16) !important; }
+.dark .text-rose-700 { color: #f08699 !important; }
 
 @layer components {
   /* بطاقة قابلة للضغط مع تأثير ارتفاع ناعم */
