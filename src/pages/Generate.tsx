@@ -89,41 +89,26 @@ export default function Generate() {
             </div>
           </div>
 
-          <div className="flex gap-4 flex-wrap">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="font-bold text-slate-700 block mb-2">نوع اللعبة</label>
-              <select
-                value={gameType}
-                onChange={(e) => setGameType(e.target.value)}
-                className="border border-slate-300 rounded-lg px-3 py-2"
-              >
+              <label className="font-bold text-slate-700 block mb-1.5 text-sm">نوع اللعبة</label>
+              <select value={gameType} onChange={(e) => setGameType(e.target.value)} className="inp">
                 {GAME_TYPES.map((g) => (
                   <option key={g.key} value={g.key}>{g.label}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="font-bold text-slate-700 block mb-2">مستوى الصعوبة</label>
-              <select
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                className="border border-slate-300 rounded-lg px-3 py-2"
-              >
+              <label className="font-bold text-slate-700 block mb-1.5 text-sm">مستوى الصعوبة</label>
+              <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="inp">
                 <option value="easy">سهل</option>
                 <option value="medium">متوسط</option>
                 <option value="advanced">متقدّم</option>
               </select>
             </div>
             <div>
-              <label className="font-bold text-slate-700 block mb-2">عدد الأسئلة</label>
-              <input
-                type="number"
-                min={2}
-                max={10}
-                value={num}
-                onChange={(e) => setNum(Number(e.target.value))}
-                className="border border-slate-300 rounded-lg px-3 py-2 w-24"
-              />
+              <label className="font-bold text-slate-700 block mb-1.5 text-sm">عدد الأسئلة</label>
+              <input type="number" min={2} max={10} value={num} onChange={(e) => setNum(Number(e.target.value))} className="inp" />
             </div>
           </div>
 
@@ -163,19 +148,30 @@ export default function Generate() {
       </div>
 
       <aside className="space-y-3">
-        <div className="font-bold text-slate-700">أنشطة سابقة</div>
+        <div className="font-bold text-slate-800 flex items-center gap-2">
+          <span className="text-lg">🕘</span> أنشطة سابقة
+        </div>
         {!recent && <div className="text-sm text-slate-400">…</div>}
-        {recent && recent.length === 0 && <div className="text-sm text-slate-400">لا توجد أنشطة بعد.</div>}
+        {recent && recent.length === 0 && (
+          <div className="text-sm text-slate-400 bg-white border border-dashed border-slate-200 rounded-xl p-4 text-center">
+            لا توجد أنشطة بعد.
+          </div>
+        )}
         {recent?.map((a: any) => (
           <button
             key={a._id}
             onClick={() => navigate(`/play/${a._id}`)}
-            className="w-full text-right bg-white border border-slate-200 rounded-xl p-3 hover:shadow-sm"
+            className="group w-full text-right bg-white border border-slate-200 rounded-xl p-3 flex items-center gap-2.5 transition hover:border-brand hover:shadow-soft"
           >
-            <div className="font-medium text-slate-800 text-sm">{a.title}</div>
-            <div className="text-xs text-slate-400">
-              {CATEGORIES.find((c) => c.key === a.category)?.label} · {a.questions.length} أسئلة · {formatDate(a._creationTime)}
-            </div>
+            <span className="w-9 h-9 rounded-xl bg-brand-light text-brand grid place-items-center shrink-0 transition group-hover:bg-brand group-hover:text-white">
+              <CategoryIcon k={a.category} size={18} />
+            </span>
+            <span className="min-w-0">
+              <span className="block font-bold text-slate-800 text-sm truncate group-hover:text-brand transition">{a.title}</span>
+              <span className="block text-xs text-slate-400 truncate">
+                {a.questions.length} أسئلة · {formatDate(a._creationTime)}
+              </span>
+            </span>
           </button>
         ))}
       </aside>
