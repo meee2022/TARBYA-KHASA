@@ -36,3 +36,41 @@ export function questionToSpeech(prompt: string, options: string[]): string {
   const opts = options.map((o, i) => `الخيار ${i + 1}: ${o}`).join("، ");
   return `${prompt}. ${opts}`;
 }
+
+// قراءة نص مع إبلاغ موضع الحرف الجاري نطقه (لتظليل الكلمة) — قارئ ميسّر
+export function speakHighlighted(
+  text: string,
+  onCharIndex: (charIndex: number) => void,
+  onEnd?: () => void
+) {
+  if (!isSpeechSupported() || !text) {
+    onEnd?.();
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA";
+  if (arVoice) u.voice = arVoice;
+  u.rate = 0.88;
+  u.onboundary = (e) => {
+    if (typeof e.charIndex === "number") onCharIndex(e.charIndex);
+  };
+  u.onend = () => {
+    onCharIndex(-1);
+    onEnd?.();
+  };
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+// تحويل موضع الحرف إلى رقم الكلمة
+export function wordIndexFromChar(text: string, charIndex: number): number {
+  if (charIndex < 0) return -1;
+  const words = text.split(" ");
+  let pos = 0;
+  for (let i = 0; i < words.length; i++) {
+    const end = pos + words[i].length;
+    if (charIndex >= pos && charIndex <= end) return i;
+    pos = end + 1;
+  }
+  return -1;
+}

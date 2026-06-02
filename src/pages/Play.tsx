@@ -6,7 +6,8 @@ import { byKey } from "../categories";
 import { hasConvex } from "../convexClient";
 import MatchGame from "../components/MatchGame";
 import CategoryIcon from "../components/CategoryIcon";
-import { speak, stopSpeak, questionToSpeech, isSpeechSupported } from "../speech";
+import { speak, stopSpeak, questionToSpeech, isSpeechSupported, speakHighlighted, wordIndexFromChar } from "../speech";
+import ReaderToolbar, { useReaderPrefs, TINTS } from "../components/ReaderToolbar";
 
 const BRAND = { border: "#8A1538", bg: "#FAEEF1", tag: "#8A1538" };
 
@@ -23,6 +24,9 @@ export default function Play() {
   const [result, setResult] = useState<{ score: number; total: number } | null>(null);
   const [saved, setSaved] = useState(false);
   const [readAloud, setReadAloud] = useState(false);
+  const [readerOpen, setReaderOpen] = useState(false);
+  const [hlWord, setHlWord] = useState(-1);
+  const { prefs, set: setPrefs } = useReaderPrefs();
 
   const cat = useMemo(() => (activity ? byKey(activity.category) : null), [activity]);
 
@@ -136,6 +140,15 @@ export default function Play() {
           {readAloud ? "🔊 القراءة مفعّلة" : "🔇 تفعيل القراءة"}
         </button>
       )}
+      <button
+        onClick={() => setReaderOpen((v) => !v)}
+        className={`text-sm px-3 py-1.5 rounded-lg font-bold transition ${
+          readerOpen ? "bg-brand text-white" : "bg-white text-brand border border-brand/30"
+        }`}
+        title="القارئ الميسّر"
+      >
+        📖 قارئ ميسّر
+      </button>
       <select
         value={studentId}
         onChange={(e) => setStudentId(e.target.value)}
@@ -166,26 +179,56 @@ export default function Play() {
   }
 
   /* ---------- اختيار من متعدد / صح وخطأ ---------- */
+  const rTint = TINTS[prefs.tint];
+  const qSize = 22 * ui.fontScale * prefs.scale;
+  const optSize = 18 * ui.fontScale * prefs.scale;
+  const readText: React.CSSProperties = {
+    lineHeight: prefs.gap ? 2.2 : 1.7,
+    letterSpacing: prefs.dys ? "0.07em" : "normal",
+    wordSpacing: prefs.dys ? "0.2em" : "normal",
+  };
+  const qWords = q.prompt.split(" ");
+
   return (
     <div className="max-w-2xl mx-auto">
       {Header}
-      <div className="bg-white rounded-2xl border border-slate-200 p-6">
+      {readerOpen && <ReaderToolbar prefs={prefs} set={setPrefs} />}
+      <div className="rounded-2xl border border-slate-200 p-6" style={{ background: rTint || undefined, backgroundColor: rTint ? rTint : undefined }}>
+        <div className={`rounded-2xl ${rTint ? "" : "bg-white"}`}>
         <div className="text-sm text-slate-400 mb-3">سؤال {qi + 1} من {activity.questions.length}</div>
 
         <div className="flex items-start gap-2 mb-6">
-          <h2 className="font-bold text-slate-800 leading-relaxed" style={{ fontSize: fs(22) }}>{q.prompt}</h2>
+          <h2 className="font-bold text-slate-800" style={{ fontSize: qSize, ...readText }}>
+            {qWords.map((w, wi) => (
+              <span
+                key={wi}
+                style={wi === hlWord ? { background: "#FDE68A", borderRadius: 4, padding: "0 2px", color: "#1c1c28" } : undefined}
+              >
+                {w}{" "}
+              </span>
+            ))}
+          </h2>
           {isSpeechSupported() && (
-            <button
-              onClick={() => speak(questionToSpeech(q.prompt, q.options))}
-              className="text-2xl shrink-0 hover:scale-110 transition"
-              title="استمع للسؤال والخيارات"
-            >
-              🔊
-            </button>
+            <span className="flex flex-col gap-1 shrink-0">
+              <button
+                onClick={() => speak(questionToSpeech(q.prompt, q.options))}
+                className="text-2xl hover:scale-110 transition"
+                title="استمع للسؤال والخيارات"
+              >
+                🔊
+              </button>
+              <button
+                onClick={() => speakHighlighted(q.prompt, (ci) => setHlWord(wordIndexFromChar(q.prompt, ci)))}
+                className="text-xl hover:scale-110 transition"
+                title="قراءة ميسّرة مع تظليل الكلمات"
+              >
+                📖
+              </button>
+            </span>
           )}
         </div>
 
-        <div className="grid gap-3">
+        <div className={`grid gap-3 ${prefs.focus && chosen === null ? "focus-dim" : ""}`}>
           {q.options.map((opt: string, i: number) => {
             const isChosen = chosen === i;
             const isCorrect = i === q.answerIndex;
@@ -200,7 +243,7 @@ export default function Play() {
                 onClick={() => choose(i)}
                 disabled={chosen !== null}
                 className={`text-right rounded-xl border-2 font-medium transition flex items-center gap-3 ${btnPad}`}
-                style={{ ...style, fontSize: fs(18) }}
+                style={{ ...style, fontSize: optSize, ...readText }}
               >
                 {readAloud && isSpeechSupported() && chosen === null && (
                   <span
@@ -234,6 +277,7 @@ export default function Play() {
             </button>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

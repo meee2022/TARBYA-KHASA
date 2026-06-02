@@ -83,6 +83,10 @@ button:active:not(:disabled) { transform: scale(0.97); }
 }
 .animate-pop { animation: pop 0.25s ease-out; }
 
+/* وضع التركيز في القارئ الميسّر: تعتيم الخيارات حتى التفاعل */
+.focus-dim { opacity: 0.5; transition: opacity 0.2s ease; }
+.focus-dim:hover, .focus-dim:focus-within { opacity: 1; }
+
 /* توهّج Aurora متحرّك للهيدر (هوية عنابية) */
 @keyframes auroraShift {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
