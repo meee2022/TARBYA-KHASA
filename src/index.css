@@ -9,12 +9,27 @@
 body {
   margin: 0;
   font-family: "Tajawal", system-ui, sans-serif;
-  background: #f6f7fb;
   color: #1c1c28;
+  background-color: #f3f1f4;
+  background-image:
+    radial-gradient(1100px 420px at 100% -120px, rgba(138, 21, 56, 0.07), transparent),
+    radial-gradient(900px 380px at -10% 0%, rgba(88, 89, 91, 0.05), transparent);
+  background-attachment: fixed;
 }
 
 * {
   box-sizing: border-box;
+}
+
+@layer components {
+  /* بطاقة قابلة للضغط مع تأثير ارتفاع ناعم */
+  .lift {
+    @apply transition duration-200;
+  }
+  .lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px -14px rgba(138, 21, 56, 0.22);
+  }
 }
 
 @layer components {

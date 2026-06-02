@@ -37,7 +37,7 @@ export default function Home() {
               <Link
                 key={c.key}
                 to="/generate"
-                className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-brand hover:shadow-card"
+                className="lift group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-soft hover:border-brand"
               >
                 <div className="w-12 h-12 rounded-xl bg-brand-light text-brand grid place-items-center shrink-0 transition group-hover:bg-brand group-hover:text-white">
                   <CategoryIcon k={c.key} size={26} />
@@ -51,7 +51,7 @@ export default function Home() {
 
       <section className="grid md:grid-cols-3 gap-4">
         {site.steps.map((s, i) => (
-          <div key={i} className="bg-white rounded-xl border border-slate-200 p-5">
+          <div key={i} className="bg-white rounded-2xl border border-slate-200 shadow-soft p-5">
             <div className="w-8 h-8 rounded-full text-white grid place-items-center font-bold mb-2" style={{ background: primary }}>
               {i + 1}
             </div>

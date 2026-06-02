@@ -161,17 +161,18 @@ export default function Generate() {
           <button
             key={a._id}
             onClick={() => navigate(`/play/${a._id}`)}
-            className="group w-full text-right bg-white border border-slate-200 rounded-xl p-3 flex items-center gap-2.5 transition hover:border-brand hover:shadow-soft"
+            className="lift group w-full text-right bg-white border border-slate-200 rounded-2xl p-3 flex items-center gap-2.5 shadow-soft hover:border-brand"
           >
-            <span className="w-9 h-9 rounded-xl bg-brand-light text-brand grid place-items-center shrink-0 transition group-hover:bg-brand group-hover:text-white">
-              <CategoryIcon k={a.category} size={18} />
+            <span className="w-10 h-10 rounded-xl bg-brand-light text-brand grid place-items-center shrink-0 transition group-hover:bg-brand group-hover:text-white">
+              <CategoryIcon k={a.category} size={20} />
             </span>
-            <span className="min-w-0">
+            <span className="min-w-0 flex-1">
               <span className="block font-bold text-slate-800 text-sm truncate group-hover:text-brand transition">{a.title}</span>
               <span className="block text-xs text-slate-400 truncate">
                 {a.questions.length} أسئلة · {formatDate(a._creationTime)}
               </span>
             </span>
+            <span className="text-brand opacity-0 group-hover:opacity-100 transition shrink-0 text-lg">▸</span>
           </button>
         ))}
       </aside>
