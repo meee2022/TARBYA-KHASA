@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -8,6 +8,7 @@ import MatchGame from "../components/MatchGame";
 import CategoryIcon from "../components/CategoryIcon";
 import { speak, stopSpeak, questionToSpeech, isSpeechSupported, speakHighlighted, wordIndexFromChar } from "../speech";
 import ReaderToolbar, { useReaderPrefs, TINTS, EASY_FONT } from "../components/ReaderToolbar";
+import FocusLine from "../components/FocusLine";
 
 const BRAND = { border: "#8A1538", bg: "#FAEEF1", tag: "#8A1538" };
 
@@ -24,8 +25,10 @@ export default function Play() {
   const [result, setResult] = useState<{ score: number; total: number } | null>(null);
   const [saved, setSaved] = useState(false);
   const [readAloud, setReadAloud] = useState(false);
+  const [autoRead, setAutoRead] = useState(() => localStorage.getItem("auto_read") === "1");
   const [readerOpen, setReaderOpen] = useState(false);
   const [hlWord, setHlWord] = useState(-1);
+  const lastRead = useRef<number>(-1);
   const { prefs, set: setPrefs } = useReaderPrefs();
 
   const cat = useMemo(() => (activity ? byKey(activity.category) : null), [activity]);
@@ -35,15 +38,15 @@ export default function Play() {
     if (cat) setReadAloud(cat.ui.speak);
   }, [cat]);
 
-  // قراءة السؤال وخياراته تلقائياً عند ظهوره
+  // قراءة السؤال تلقائياً عند ظهوره — فقط إذا فعّل المستخدم القراءة التلقائية، ومرة واحدة لكل سؤال
   useEffect(() => {
-    if (!readAloud || !activity || result) return;
-    if (activity.gameType === "match") return;
+    if (!autoRead || !activity || result || activity.gameType === "match") return;
+    if (lastRead.current === qi) return;
+    lastRead.current = qi;
     const q = activity.questions[qi];
     if (q) speak(questionToSpeech(q.prompt, q.options));
-    return () => stopSpeak();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [qi, readAloud, activity, result]);
+  }, [qi, autoRead, activity, result]);
 
   // قراءة النتيجة صوتياً عند الانتهاء
   useEffect(() => {
@@ -140,6 +143,27 @@ export default function Play() {
           {readAloud ? "🔊 القراءة مفعّلة" : "🔇 تفعيل القراءة"}
         </button>
       )}
+      {isSpeechSupported() && (
+        <button
+          onClick={() => {
+            const nx = !autoRead;
+            setAutoRead(nx);
+            localStorage.setItem("auto_read", nx ? "1" : "0");
+            if (nx && activity.gameType !== "match") {
+              lastRead.current = qi;
+              speak(questionToSpeech(q.prompt, q.options));
+            } else {
+              stopSpeak();
+            }
+          }}
+          className={`text-sm px-3 py-1.5 rounded-lg font-bold transition ${
+            autoRead ? "bg-brand text-white" : "bg-white text-brand border border-brand/30"
+          }`}
+          title="قراءة السؤال تلقائياً عند ظهوره"
+        >
+          {autoRead ? "🔁 تلقائي: مُفعّل" : "🔁 تلقائي: متوقّف"}
+        </button>
+      )}
       <button
         onClick={() => setReaderOpen((v) => !v)}
         className={`text-sm px-3 py-1.5 rounded-lg font-bold transition ${
@@ -192,6 +216,7 @@ export default function Play() {
 
   return (
     <div className="max-w-2xl mx-auto">
+      {prefs.ruler && <FocusLine />}
       {Header}
       {readerOpen && <ReaderToolbar prefs={prefs} set={setPrefs} />}
       <div className="rounded-2xl border border-slate-200 p-6" style={{ background: rTint || undefined, backgroundColor: rTint ? rTint : undefined }}>

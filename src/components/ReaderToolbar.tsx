@@ -7,9 +7,10 @@ export interface ReaderPrefs {
   tint: "none" | "sepia" | "mint"; // خلفية مريحة
   focus: boolean; // وضع التركيز
   easyFont: boolean; // خط ميسّر للقراءة
+  ruler: boolean; // مسطرة القراءة (خط التركيز)
 }
 
-const DEFAULTS: ReaderPrefs = { scale: 1, gap: false, dys: false, tint: "none", focus: false, easyFont: false };
+const DEFAULTS: ReaderPrefs = { scale: 1, gap: false, dys: false, tint: "none", focus: false, easyFont: false, ruler: false };
 
 // مكدّس الخط الميسّر: لاتيني (OpenDyslexic) + عربي واضح (Noto Naskh)
 export const EASY_FONT = '"OpenDyslexic", "Noto Naskh Arabic", "Tajawal", sans-serif';
@@ -72,6 +73,7 @@ export default function ReaderToolbar({
       <Btn active={prefs.dys} onClick={() => set({ dys: !prefs.dys })} title="تباعد الحروف">حـ ـر ـف</Btn>
       <Btn active={prefs.easyFont} onClick={() => set({ easyFont: !prefs.easyFont })} title="خط ميسّر للقراءة">🔤 خط ميسّر</Btn>
       <Btn active={prefs.focus} onClick={() => set({ focus: !prefs.focus })} title="وضع التركيز">🎯 تركيز</Btn>
+      <Btn active={prefs.ruler} onClick={() => set({ ruler: !prefs.ruler })} title="مسطرة القراءة (خط التركيز)">📏 مسطرة</Btn>
 
       {/* خلفية مريحة */}
       <div className="flex items-center gap-1">
