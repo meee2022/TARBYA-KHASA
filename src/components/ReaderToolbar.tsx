@@ -6,9 +6,13 @@ export interface ReaderPrefs {
   dys: boolean; // تباعد الحروف (عسر القراءة)
   tint: "none" | "sepia" | "mint"; // خلفية مريحة
   focus: boolean; // وضع التركيز
+  easyFont: boolean; // خط ميسّر للقراءة
 }
 
-const DEFAULTS: ReaderPrefs = { scale: 1, gap: false, dys: false, tint: "none", focus: false };
+const DEFAULTS: ReaderPrefs = { scale: 1, gap: false, dys: false, tint: "none", focus: false, easyFont: false };
+
+// مكدّس الخط الميسّر: لاتيني (OpenDyslexic) + عربي واضح (Noto Naskh)
+export const EASY_FONT = '"OpenDyslexic", "Noto Naskh Arabic", "Tajawal", sans-serif';
 
 export function loadReaderPrefs(): ReaderPrefs {
   try {
@@ -66,6 +70,7 @@ export default function ReaderToolbar({
 
       <Btn active={prefs.gap} onClick={() => set({ gap: !prefs.gap })} title="تباعد الأسطر">↕ الأسطر</Btn>
       <Btn active={prefs.dys} onClick={() => set({ dys: !prefs.dys })} title="تباعد الحروف">حـ ـر ـف</Btn>
+      <Btn active={prefs.easyFont} onClick={() => set({ easyFont: !prefs.easyFont })} title="خط ميسّر للقراءة">🔤 خط ميسّر</Btn>
       <Btn active={prefs.focus} onClick={() => set({ focus: !prefs.focus })} title="وضع التركيز">🎯 تركيز</Btn>
 
       {/* خلفية مريحة */}

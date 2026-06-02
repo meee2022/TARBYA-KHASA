@@ -5,6 +5,8 @@ import { ConvexProvider } from "convex/react";
 import App from "./App";
 import { convex } from "./convexClient";
 import { ToastProvider } from "./Toast";
+import "@fontsource/opendyslexic/400.css";
+import "@fontsource/opendyslexic/700.css";
 import "./index.css";
 
 // تطبيق الوضع المحفوظ قبل العرض لتفادي الوميض

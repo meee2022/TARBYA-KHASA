@@ -7,7 +7,7 @@ import { hasConvex } from "../convexClient";
 import MatchGame from "../components/MatchGame";
 import CategoryIcon from "../components/CategoryIcon";
 import { speak, stopSpeak, questionToSpeech, isSpeechSupported, speakHighlighted, wordIndexFromChar } from "../speech";
-import ReaderToolbar, { useReaderPrefs, TINTS } from "../components/ReaderToolbar";
+import ReaderToolbar, { useReaderPrefs, TINTS, EASY_FONT } from "../components/ReaderToolbar";
 
 const BRAND = { border: "#8A1538", bg: "#FAEEF1", tag: "#8A1538" };
 
@@ -186,6 +186,7 @@ export default function Play() {
     lineHeight: prefs.gap ? 2.2 : 1.7,
     letterSpacing: prefs.dys ? "0.07em" : "normal",
     wordSpacing: prefs.dys ? "0.2em" : "normal",
+    fontFamily: prefs.easyFont ? EASY_FONT : undefined,
   };
   const qWords = q.prompt.split(" ");
 
