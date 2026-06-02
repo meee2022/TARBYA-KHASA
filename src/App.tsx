@@ -24,7 +24,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <div className="h-1 bg-brand" />
-      <header className="bg-white border-b border-slate-200 shadow-soft sticky top-0 z-20">
+      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/70 shadow-soft sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-5">
           <NavLink to="/" className="flex items-center gap-2.5 shrink-0">
             <Logo size={40} />

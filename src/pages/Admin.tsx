@@ -115,9 +115,9 @@ function Overview() {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="stagger grid grid-cols-2 md:grid-cols-4 gap-3">
         {cards.map((c) => (
-          <div key={c.label} className="bg-white rounded-2xl border border-slate-200 p-4">
+          <div key={c.label} className="bg-white rounded-2xl border border-slate-200 shadow-soft p-4">
             <div className="text-2xl">{c.icon}</div>
             <div className="text-2xl font-extrabold text-slate-800 mt-1">{c.value}</div>
             <div className="text-xs text-slate-400">{c.label}</div>
@@ -125,13 +125,15 @@ function Overview() {
         ))}
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-5">
-        <div className="font-bold text-slate-700 mb-3">متوسط النجاح حسب الفئة</div>
-        <BarChart data={perCat} />
-      </div>
+      {/* Bento: الرسم البياني (أوسع) + أعلى الطلاب */}
+      <div className="grid md:grid-cols-3 gap-3">
+        <div className="md:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-soft p-5">
+          <div className="font-bold text-slate-700 mb-3">متوسط النجاح حسب الفئة</div>
+          <BarChart data={perCat} />
+        </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-5">
-        <div className="font-bold text-slate-700 mb-3">أعلى الطلاب أداءً</div>
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-soft p-5">
+          <div className="font-bold text-slate-700 mb-3">أعلى الطلاب أداءً</div>
         <div className="space-y-2">
           {(summary ?? [])
             .filter((r: any) => r.sessions > 0)
@@ -150,6 +152,7 @@ function Overview() {
           {(summary ?? []).filter((r: any) => r.sessions > 0).length === 0 && (
             <div className="text-sm text-slate-400">لا توجد جلسات بعد.</div>
           )}
+        </div>
         </div>
       </div>
     </div>

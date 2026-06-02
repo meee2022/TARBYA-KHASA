@@ -10,11 +10,12 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <section
-        className="rounded-3xl p-10 text-center text-white shadow-card relative overflow-hidden"
+        className="rounded-3xl p-10 text-center text-white shadow-card relative overflow-hidden reveal"
         style={{ background: `linear-gradient(135deg, ${primary} 0%, #5a0e24 100%)` }}
       >
-        <div className="absolute -left-10 -top-10 w-44 h-44 rounded-full bg-white/10" />
-        <div className="absolute -right-8 -bottom-12 w-52 h-52 rounded-full bg-white/5" />
+        <div className="aurora-blob absolute -left-16 -top-16 w-64 h-64 rounded-full bg-white/10 blur-2xl" />
+        <div className="aurora-blob delay absolute -right-10 -bottom-20 w-72 h-72 rounded-full bg-white/10 blur-2xl" />
+        <div className="aurora-blob absolute right-1/3 top-1/4 w-40 h-40 rounded-full bg-rose-300/10 blur-2xl" />
         <div className="relative">
           <h1 className="text-2xl md:text-3xl font-extrabold mb-3">{site.heroTitle}</h1>
           <p className="text-white/85 max-w-2xl mx-auto leading-relaxed">{site.heroSubtitle}</p>
@@ -32,7 +33,7 @@ export default function Home() {
       {site.showCategories && (
         <section>
           <h2 className="font-bold text-slate-800 mb-4 text-lg">الفئات المدعومة</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="stagger grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
             {CATEGORIES.map((c) => (
               <Link
                 key={c.key}
@@ -49,7 +50,7 @@ export default function Home() {
         </section>
       )}
 
-      <section className="grid md:grid-cols-3 gap-4">
+      <section className="stagger grid md:grid-cols-3 gap-4">
         {site.steps.map((s, i) => (
           <div key={i} className="bg-white rounded-2xl border border-slate-200 shadow-soft p-5">
             <div className="w-8 h-8 rounded-full text-white grid place-items-center font-bold mb-2" style={{ background: primary }}>

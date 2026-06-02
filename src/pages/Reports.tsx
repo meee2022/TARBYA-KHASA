@@ -48,7 +48,22 @@ export default function Reports() {
         </button>
       </div>
 
-      {!summary && <div className="text-slate-400">…</div>}
+      {!summary && (
+        <div className="grid md:grid-cols-2 gap-3">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="bg-white border border-slate-200 rounded-2xl shadow-soft p-5">
+              <div className="flex items-center gap-3">
+                <div className="skeleton w-11 h-11 rounded-2xl" />
+                <div className="flex-1 space-y-2">
+                  <div className="skeleton h-3.5 w-1/2" />
+                  <div className="skeleton h-3 w-1/3" />
+                </div>
+              </div>
+              <div className="skeleton h-2.5 w-full mt-4" />
+            </div>
+          ))}
+        </div>
+      )}
       {summary && active.length === 0 && (
         <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center text-slate-400">
           لا توجد بيانات بعد — أضِف طلاباً ونفّذ أنشطة أولاً.
@@ -73,7 +88,7 @@ export default function Reports() {
       )}
 
       {/* بطاقات الطلاب */}
-      <div className="grid md:grid-cols-2 gap-3">
+      <div className="stagger grid md:grid-cols-2 gap-3">
         {summary?.map((r: any) => {
           const c = byKey(r.category);
           const open = openId === r.studentId;
