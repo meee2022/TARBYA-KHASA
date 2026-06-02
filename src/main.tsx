@@ -6,6 +6,11 @@ import App from "./App";
 import { convex } from "./convexClient";
 import "./index.css";
 
+// تطبيق الوضع المحفوظ قبل العرض لتفادي الوميض
+if (localStorage.getItem("theme") === "dark") {
+  document.documentElement.classList.add("dark");
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     {convex ? (

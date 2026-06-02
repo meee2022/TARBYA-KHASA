@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { hasConvex } from "./convexClient";
 import { useSite } from "./useSite";
@@ -20,6 +21,15 @@ const tabs = [
 
 export default function App() {
   const site = useSite();
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    const next = !root.classList.contains("dark");
+    root.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+    setDark(next);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -50,6 +60,14 @@ export default function App() {
                 {t.label}
               </NavLink>
             ))}
+            <button
+              onClick={toggleTheme}
+              className="px-2.5 py-1.5 rounded-lg text-grey-dark hover:bg-brand-light hover:text-brand transition"
+              title={dark ? "الوضع النهاري" : "الوضع الليلي"}
+              aria-label="تبديل الوضع الليلي"
+            >
+              {dark ? "☀️" : "🌙"}
+            </button>
           </nav>
         </div>
       </header>
