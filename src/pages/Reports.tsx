@@ -40,12 +40,20 @@ export default function Reports() {
             <p className="text-sm text-grey">متابعة تطوّر الطلاب عبر الأنشطة</p>
           </div>
         </div>
-        <button
-          onClick={() => window.print()}
-          className="px-4 py-2.5 rounded-xl bg-brand text-white font-bold text-sm shadow-soft hover:bg-brand-dark transition"
-        >
-          🖨️ تصدير / طباعة PDF
-        </button>
+        <div className="flex items-center gap-2">
+          <Link
+            to="/report-class"
+            className="px-4 py-2.5 rounded-xl bg-brand-light text-brand font-bold text-sm hover:bg-brand hover:text-white transition"
+          >
+            📋 تقرير الفصل
+          </Link>
+          <button
+            onClick={() => window.print()}
+            className="px-4 py-2.5 rounded-xl bg-brand text-white font-bold text-sm shadow-soft hover:bg-brand-dark transition"
+          >
+            🖨️ طباعة PDF
+          </button>
+        </div>
       </div>
 
       {!summary && (

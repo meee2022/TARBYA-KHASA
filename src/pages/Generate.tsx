@@ -7,6 +7,7 @@ import { hasConvex } from "../convexClient";
 import { extractText } from "../extractText";
 import CategoryIcon from "../components/CategoryIcon";
 import { formatDate } from "../format";
+import PageHeader from "../components/PageHeader";
 
 const GAME_TYPES = [
   { key: "mcq", label: "اختيار من متعدد" },
@@ -63,7 +64,9 @@ export default function Generate() {
   };
 
   return (
-    <div className="grid md:grid-cols-[1fr_280px] gap-5">
+    <div>
+      <PageHeader icon="✨" title="توليد نشاط جديد" subtitle="حوّل مادة تدريبية إلى نشاط تفاعلي مناسب للفئة" />
+      <div className="grid md:grid-cols-[1fr_280px] gap-5">
       <div className="space-y-4">
         <div className="bg-white rounded-2xl border border-slate-200 shadow-card p-6 space-y-5">
           <div>
@@ -176,6 +179,7 @@ export default function Generate() {
           </button>
         ))}
       </aside>
+      </div>
     </div>
   );
 }

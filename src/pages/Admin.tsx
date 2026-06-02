@@ -7,7 +7,9 @@ import { hasConvex } from "../convexClient";
 import { useSite, SITE_DEFAULTS, SiteContent } from "../useSite";
 import BarChart from "../components/BarChart";
 import CategoryIcon from "../components/CategoryIcon";
+import EmptyState from "../components/EmptyState";
 import { formatDate } from "../format";
+import { useToast } from "../Toast";
 
 type Tab = "overview" | "students" | "activities" | "content" | "settings";
 
@@ -164,6 +166,7 @@ function StudentsAdmin() {
   const students = useQuery(api.students.list, {});
   const add = useMutation(api.students.add);
   const remove = useMutation(api.students.remove);
+  const toast = useToast();
   const [name, setName] = useState("");
   const [category, setCategory] = useState("autism");
   const [grade, setGrade] = useState("");
@@ -183,7 +186,7 @@ function StudentsAdmin() {
           <input value={grade} onChange={(e) => setGrade(e.target.value)} className="inp" placeholder="اختياري" />
         </Field>
         <button
-          onClick={async () => { if (name.trim()) { await add({ name: name.trim(), category, grade: grade.trim() || undefined }); setName(""); setGrade(""); } }}
+          onClick={async () => { if (name.trim()) { await add({ name: name.trim(), category, grade: grade.trim() || undefined }); setName(""); setGrade(""); toast("تمت إضافة الطالب"); } }}
           className="py-2.5 rounded-xl bg-brand text-white font-bold h-fit"
         >
           إضافة طالب
@@ -201,7 +204,7 @@ function StudentsAdmin() {
                 <div className="text-xs text-slate-400">{c.label}{s.grade ? ` · ${s.grade}` : ""}</div>
               </div>
               <button
-                onClick={() => { if (confirm(`هل تريد حذف الطالب «${s.name}»؟`)) remove({ id: s._id }); }}
+                onClick={() => { if (confirm(`هل تريد حذف الطالب «${s.name}»؟`)) { remove({ id: s._id }); toast("تم حذف الطالب", "info"); } }}
                 className="mr-auto text-sm text-red-500 hover:text-red-700"
               >
                 حذف
@@ -209,8 +212,8 @@ function StudentsAdmin() {
             </div>
           );
         })}
-        {students?.length === 0 && <div className="text-slate-400">لا يوجد طلاب.</div>}
       </div>
+      {students?.length === 0 && <EmptyState icon="👨‍🎓" title="لا يوجد طلاب بعد" hint="أضف أول طالب من النموذج بالأعلى." />}
     </div>
   );
 }
@@ -220,16 +223,43 @@ function ActivitiesAdmin() {
   const activities = useQuery(api.activities.list, {});
   const remove = useMutation(api.activities.remove);
   const rename = useMutation(api.activities.updateTitle);
+  const duplicate = useMutation(api.activities.duplicate);
+  const toast = useToast();
   const [editing, setEditing] = useState<string | null>(null);
   const [title, setTitle] = useState("");
+  const [preview, setPreview] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  const filtered = (activities ?? []).filter(
+    (a: any) => (filter === "all" || a.category === filter) && a.title.includes(search.trim())
+  );
 
   return (
-    <div className="space-y-2">
-      {activities?.length === 0 && <div className="text-slate-400">لا توجد أنشطة. ولّدي نشاطاً أولاً.</div>}
-      {activities?.map((a: any) => {
+    <div className="space-y-3">
+      {/* شريط البحث والفلترة */}
+      <div className="flex gap-2 flex-wrap">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="🔍 ابحث باسم النشاط…"
+          className="inp flex-1 min-w-[160px]"
+        />
+        <select value={filter} onChange={(e) => setFilter(e.target.value)} className="inp w-auto">
+          <option value="all">كل الفئات</option>
+          {CATEGORIES.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
+        </select>
+      </div>
+
+      {activities && filtered.length === 0 && (
+        <EmptyState icon="🎮" title="لا توجد أنشطة مطابقة" hint="ولّد نشاطاً جديداً أو غيّر معايير البحث." />
+      )}
+
+      {filtered.map((a: any) => {
         const c = byKey(a.category);
+        const isPreview = preview === a._id;
         return (
-          <div key={a._id} className="bg-white border border-slate-200 rounded-xl p-4">
+          <div key={a._id} className="bg-white border border-slate-200 shadow-soft rounded-2xl p-4">
             <div className="flex items-center gap-3">
               <span className="w-10 h-10 rounded-xl bg-brand-light text-brand grid place-items-center shrink-0"><CategoryIcon k={a.category} size={20} /></span>
               {editing === a._id ? (
@@ -240,16 +270,35 @@ function ActivitiesAdmin() {
                   <div className="text-xs text-slate-400">{c.label} · {a.questions.length} أسئلة{a.difficulty ? ` · ${DIFF_LABEL[a.difficulty] ?? ""}` : ""} · {formatDate(a._creationTime)}</div>
                 </div>
               )}
-              <div className="flex gap-2 text-sm">
+              <div className="flex gap-2 text-sm shrink-0">
                 {editing === a._id ? (
-                  <button onClick={async () => { await rename({ id: a._id, title }); setEditing(null); }} className="text-emerald-600 font-bold">حفظ</button>
+                  <button onClick={async () => { await rename({ id: a._id, title }); setEditing(null); toast("تم حفظ الاسم"); }} className="text-emerald-600 font-bold">حفظ</button>
                 ) : (
                   <button onClick={() => { setEditing(a._id); setTitle(a.title); }} className="text-slate-500 hover:text-slate-700">تعديل</button>
                 )}
+                <button onClick={() => setPreview(isPreview ? null : a._id)} className="text-slate-500 hover:text-slate-700">{isPreview ? "إخفاء" : "معاينة"}</button>
                 <Link to={`/play/${a._id}`} className="text-blue-600 hover:text-blue-800">تشغيل</Link>
-                <button onClick={() => { if (confirm(`هل تريد حذف النشاط «${a.title}»؟`)) remove({ id: a._id }); }} className="text-red-500 hover:text-red-700">حذف</button>
+                <button onClick={async () => { await duplicate({ id: a._id }); toast("تم تكرار النشاط"); }} className="text-brand hover:text-brand-dark">تكرار</button>
+                <button onClick={() => { if (confirm(`هل تريد حذف النشاط «${a.title}»؟`)) { remove({ id: a._id }); toast("تم حذف النشاط", "info"); } }} className="text-red-500 hover:text-red-700">حذف</button>
               </div>
             </div>
+
+            {isPreview && (
+              <div className="mt-3 border-t border-slate-100 pt-3 space-y-2">
+                {a.questions.map((q: any, i: number) => (
+                  <div key={i} className="text-sm bg-slate-50 rounded-lg p-2.5">
+                    <div className="font-bold text-slate-700">{i + 1}. {q.prompt}</div>
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      {q.options.map((o: string, j: number) => (
+                        <span key={j} className={`text-xs px-2 py-0.5 rounded-md ${j === q.answerIndex ? "bg-emerald-100 text-emerald-700 font-bold" : "bg-white border border-slate-200 text-slate-500"}`}>
+                          {o}{j === q.answerIndex ? " ✓" : ""}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         );
       })}
@@ -261,8 +310,8 @@ function ActivitiesAdmin() {
 function ContentEditor() {
   const site = useSite();
   const save = useMutation(api.site.update);
+  const toast = useToast();
   const [form, setForm] = useState<SiteContent>(site);
-  const [savedMsg, setSavedMsg] = useState(false);
 
   // مزامنة النموذج مع المحتوى المحفوظ عند تحميله أو تغيّره
   useEffect(() => {
@@ -275,8 +324,7 @@ function ContentEditor() {
   const submit = async () => {
     const { _id, ...rest } = form;
     await save(rest as any);
-    setSavedMsg(true);
-    setTimeout(() => setSavedMsg(false), 2000);
+    toast("تم حفظ تغييرات المحتوى");
   };
 
   return (
@@ -321,7 +369,6 @@ function ContentEditor() {
 
       <div className="flex items-center gap-3">
         <button onClick={submit} className="px-6 py-2.5 rounded-xl bg-brand text-white font-bold">حفظ التغييرات</button>
-        {savedMsg && <span className="text-emerald-600 text-sm">✅ تم الحفظ — التغييرات ظاهرة في الموقع</span>}
       </div>
     </div>
   );

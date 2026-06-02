@@ -9,6 +9,7 @@ import Generate from "./pages/Generate";
 import Play from "./pages/Play";
 import Reports from "./pages/Reports";
 import StudentReport from "./pages/StudentReport";
+import ClassReport from "./pages/ClassReport";
 import Admin from "./pages/Admin";
 
 const tabs = [
@@ -22,6 +23,7 @@ const tabs = [
 export default function App() {
   const site = useSite();
   const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleTheme = () => {
     const root = document.documentElement;
@@ -43,7 +45,8 @@ export default function App() {
               <div className="text-[11px] text-grey -mt-0.5">منصّة الأنشطة التفاعلية</div>
             </div>
           </NavLink>
-          <nav className="flex gap-1 flex-wrap">
+          {/* تنقّل سطح المكتب */}
+          <nav className="hidden md:flex gap-1 flex-wrap items-center">
             {tabs.map((t) => (
               <NavLink
                 key={t.to}
@@ -69,7 +72,46 @@ export default function App() {
               {dark ? "☀️" : "🌙"}
             </button>
           </nav>
+
+          {/* أدوات الجوّال */}
+          <div className="md:hidden flex items-center gap-1 mr-auto">
+            <button
+              onClick={toggleTheme}
+              className="w-10 h-10 rounded-lg text-grey-dark hover:bg-brand-light hover:text-brand transition text-lg"
+              aria-label="تبديل الوضع الليلي"
+            >
+              {dark ? "☀️" : "🌙"}
+            </button>
+            <button
+              onClick={() => setMobileOpen((o) => !o)}
+              className="w-10 h-10 rounded-lg text-slate-700 hover:bg-brand-light hover:text-brand transition text-xl"
+              aria-label="القائمة"
+            >
+              {mobileOpen ? "✕" : "☰"}
+            </button>
+          </div>
         </div>
+
+        {/* قائمة الجوّال المنسدلة */}
+        {mobileOpen && (
+          <nav className="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-2 flex flex-col gap-1">
+            {tabs.map((t) => (
+              <NavLink
+                key={t.to}
+                to={t.to}
+                end={t.end}
+                onClick={() => setMobileOpen(false)}
+                className={({ isActive }) =>
+                  `px-3.5 py-2.5 rounded-lg text-sm font-bold transition ${
+                    isActive ? "bg-brand text-white" : "text-grey-dark hover:bg-brand-light hover:text-brand"
+                  }`
+                }
+              >
+                {t.label}
+              </NavLink>
+            ))}
+          </nav>
+        )}
       </header>
 
       {!hasConvex && (
@@ -89,6 +131,7 @@ export default function App() {
           <Route path="/play/:id" element={<Play />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/report/:id" element={<StudentReport />} />
+          <Route path="/report-class" element={<ClassReport />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>

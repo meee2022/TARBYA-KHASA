@@ -182,3 +182,13 @@ export const updateTitle = mutation({
     await ctx.db.patch(args.id, { title: args.title });
   },
 });
+
+export const duplicate = mutation({
+  args: { id: v.id("activities") },
+  handler: async (ctx, args) => {
+    const a = await ctx.db.get(args.id);
+    if (!a) throw new Error("النشاط غير موجود");
+    const { _id, _creationTime, ...rest } = a;
+    return await ctx.db.insert("activities", { ...rest, title: `${a.title} (نسخة)` });
+  },
+});

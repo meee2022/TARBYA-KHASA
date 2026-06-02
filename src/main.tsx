@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ConvexProvider } from "convex/react";
 import App from "./App";
 import { convex } from "./convexClient";
+import { ToastProvider } from "./Toast";
 import "./index.css";
 
 // تطبيق الوضع المحفوظ قبل العرض لتفادي الوميض
@@ -15,14 +16,18 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     {convex ? (
       <ConvexProvider client={convex}>
+        <ToastProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ToastProvider>
+      </ConvexProvider>
+    ) : (
+      <ToastProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </ConvexProvider>
-    ) : (
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      </ToastProvider>
     )}
   </React.StrictMode>
 );

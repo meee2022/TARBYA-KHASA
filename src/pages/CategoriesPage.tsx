@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CATEGORIES, CategoryKey, Category } from "../categories";
 import CategoryIcon from "../components/CategoryIcon";
+import PageHeader from "../components/PageHeader";
 
 // مؤشرات تكيّف الواجهة المستخرجة من إعدادات الفئة
 function adaptationPills(cat: Category) {
@@ -19,7 +20,9 @@ export default function CategoriesPage() {
   const pills = adaptationPills(cat);
 
   return (
-    <div className="grid md:grid-cols-[250px_1fr] gap-6">
+    <div>
+      <PageHeader icon="🧩" title="فئات الإعاقة" subtitle="خصائص كل فئة ومتطلبات تصميم النشاط المناسب" />
+      <div className="grid md:grid-cols-[250px_1fr] gap-6">
       {/* القائمة الجانبية */}
       <div className="flex flex-col gap-2">
         <h2 className="text-sm font-bold text-grey px-1 mb-1">فئات الإعاقة</h2>
@@ -125,6 +128,7 @@ export default function CategoriesPage() {
           إنشاء نشاط لهذه الفئة
           <span>↗</span>
         </Link>
+      </div>
       </div>
     </div>
   );
