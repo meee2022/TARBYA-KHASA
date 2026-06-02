@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: "Tajawal", system-ui, sans-serif;
+  background: #f6f7fb;
+  color: #1c1c28;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@layer components {
+  .inp {
+    @apply w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-300;
+  }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  60% { transform: scale(1.04); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop { animation: pop 0.25s ease-out; }
+
+@media print {
+  header, footer, nav { display: none !important; }
+  body { background: #fff; }
+  main { max-width: 100% !important; padding: 0 !important; }
+  .print\:hidden { display: none !important; }
+}

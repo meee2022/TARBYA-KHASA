@@ -1,0 +1,116 @@
+
+<style>
+.cat-btn { cursor:pointer; padding:10px 14px; border-radius:8px; border:0.5px solid var(--color-border-secondary); background:var(--color-background-secondary); color:var(--color-text-primary); font-size:13px; font-weight:500; transition:all .2s; text-align:right; }
+.cat-btn:hover { background:var(--color-background-tertiary); }
+.cat-btn.active { border-width:1.5px; }
+.tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:500; margin:3px 3px 3px 0; }
+.tip-card { background:var(--color-background-secondary); border-radius:8px; border:0.5px solid var(--color-border-tertiary); padding:12px 14px; margin-bottom:8px; font-size:13px; color:var(--color-text-primary); }
+.tip-card strong { font-size:12px; color:var(--color-text-secondary); display:block; margin-bottom:4px; }
+</style>
+
+<h2 class="sr-only">خريطة تصميم الأنشطة حسب فئة الإعاقة</h2>
+
+<div style="display:grid;grid-template-columns:200px 1fr;gap:16px;padding:1rem 0;">
+
+<div style="display:flex;flex-direction:column;gap:8px;" id="cat-list">
+  <div class="cat-btn active" style="border-color:#534AB7;color:#3C3489;" onclick="show('autism')" id="btn-autism">اضطراب طيف التوحد</div>
+  <div class="cat-btn" onclick="show('intellectual')" id="btn-intellectual">الإعاقة الذهنية</div>
+  <div class="cat-btn" onclick="show('learning')" id="btn-learning">صعوبات التعلم</div>
+  <div class="cat-btn" onclick="show('hearing')" id="btn-hearing">الإعاقة السمعية</div>
+  <div class="cat-btn" onclick="show('visual')" id="btn-visual">الإعاقة البصرية</div>
+  <div class="cat-btn" onclick="show('motor')" id="btn-motor">الإعاقة الحركية</div>
+</div>
+
+<div id="detail-panel">
+</div>
+</div>
+
+<script>
+const colors = {
+  autism:       { border:'#534AB7', bg:'#EEEDFE', text:'#3C3489', tag:'#AFA9EC' },
+  intellectual: { border:'#0F6E56', bg:'#E1F5EE', text:'#085041', tag:'#5DCAA5' },
+  learning:     { border:'#854F0B', bg:'#FAEEDA', text:'#633806', tag:'#EF9F27' },
+  hearing:      { border:'#185FA5', bg:'#E6F1FB', text:'#0C447C', tag:'#85B7EB' },
+  visual:       { border:'#993C1D', bg:'#FAECE7', text:'#712B13', tag:'#F0997B' },
+  motor:        { border:'#3B6D11', bg:'#EAF3DE', text:'#27500A', tag:'#97C459' }
+};
+
+const data = {
+  autism: {
+    label: 'اضطراب طيف التوحد',
+    chars: ['يحتاج روتيناً ثابتاً', 'حساسية حسية عالية', 'قوة بصرية ممتازة', 'صعوبة في التعليمات الطويلة'],
+    activity: ['أنشطة بخطوة واحدة واضحة', 'تعليمات مصورة بدون نص كثير', 'ألوان هادئة وغير صاخبة', 'تعزيز فوري بعد كل إجابة'],
+    avoid: ['أصوات مفاجئة أو مؤثرات', 'تعليمات شفهية طويلة', 'ألوان ومؤثرات بصرية مزدحمة'],
+    prompt: 'صممي نشاطاً تفاعلياً لطالب توحد: خطوة واحدة، صورة واضحة، تعزيز فوري، ألوان هادئة'
+  },
+  intellectual: {
+    label: 'الإعاقة الذهنية',
+    chars: ['مدى انتباه محدود', 'يحتاج تكراراً وتدريباً مستمراً', 'يستجيب جيداً للتعزيز', 'يفضل المحتوى الملموس'],
+    activity: ['جمل قصيرة جداً وبسيطة', 'صور كبيرة وواضحة', 'أسئلة اختيار من 2 فقط', 'شهادة تحفيزية ملونة وكبيرة'],
+    avoid: ['نصوص طويلة', 'أكثر من فكرة في نفس الوقت', 'أسئلة مفتوحة النهاية'],
+    prompt: 'صممي نشاطاً للإعاقة الذهنية: جمل قصيرة، صور كبيرة، اختيار من اثنين، شهادة تحفيزية ملونة'
+  },
+  learning: {
+    label: 'صعوبات التعلم',
+    chars: ['ذكاء طبيعي مع صعوبة بالقراءة/الكتابة', 'يحتاج وقتاً أطول', 'استجابة جيدة للصوت والحركة', 'ثقة بالنفس منخفضة أحياناً'],
+    activity: ['خط كبير وواضح وبسيط', 'تعليمات صوتية مع النص', 'وقت غير محدد للإجابة', 'تعزيز على المحاولة لا الصح فقط'],
+    avoid: ['ضغط الوقت', 'كتابة يدوية أو إملاء', 'مقارنة بالآخرين'],
+    prompt: 'صممي نشاطاً لصعوبات التعلم: خط كبير، تعليمات صوتية، وقت مرن، تعزيز على المحاولة'
+  },
+  hearing: {
+    label: 'الإعاقة السمعية',
+    chars: ['يعتمد على البصر بشكل كامل', 'قوة تمييز بصري عالية', 'قد يحتاج لغة الإشارة', 'يستجيب للمحتوى المرئي بقوة'],
+    activity: ['محتوى بصري 100%', 'تعليمات مكتوبة واضحة', 'فيديو بترجمة أو لغة إشارة', 'تعزيز بصري: نجوم، ألوان، حركة'],
+    avoid: ['أي محتوى صوتي فقط', 'تعليمات شفهية بدون نص', 'مؤثرات صوتية كتعزيز وحيد'],
+    prompt: 'صممي نشاطاً للإعاقة السمعية: محتوى بصري كامل، تعليمات مكتوبة، تعزيز بصري بالنجوم والألوان'
+  },
+  visual: {
+    label: 'الإعاقة البصرية',
+    chars: ['يعتمد على السمع واللمس', 'يحتاج خطاً كبيراً جداً', 'يستجيب للمحتوى الصوتي', 'قد يستخدم برامج قراءة الشاشة'],
+    activity: ['خط لا يقل عن 20px', 'تباين ألوان عالي جداً', 'وصف صوتي للصور', 'أزرار كبيرة سهلة الضغط'],
+    avoid: ['صور بدون نص بديل', 'ألوان متقاربة في الدرجة', 'عناصر صغيرة أو رفيعة'],
+    prompt: 'صممي نشاطاً للإعاقة البصرية: خط كبير، تباين عالي، وصف صوتي، أزرار كبيرة واضحة'
+  },
+  motor: {
+    label: 'الإعاقة الحركية',
+    chars: ['صعوبة في الكتابة أو الكيبورد', 'قد يستخدم أدوات مساعدة', 'سرعة أداء أبطأ', 'يحتاج تفاعلاً بسيطاً'],
+    activity: ['أزرار كبيرة جداً للضغط', 'اختيار بدلاً من الكتابة', 'وقت كافٍ بدون ضغط', 'لا سحب أو إفلات معقد'],
+    avoid: ['تمارين تتطلب دقة حركية', 'ضغط الوقت', 'إجابات تكتب يدوياً'],
+    prompt: 'صممي نشاطاً للإعاقة الحركية: أزرار كبيرة، اختيار بدون كتابة، وقت مرن، تفاعل بسيط'
+  }
+};
+
+function show(key) {
+  const d = data[key];
+  const c = colors[key];
+  Object.keys(data).forEach(k => {
+    const btn = document.getElementById('btn-'+k);
+    btn.classList.remove('active');
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  });
+  const activeBtn = document.getElementById('btn-'+key);
+  activeBtn.classList.add('active');
+  activeBtn.style.borderColor = c.border;
+  activeBtn.style.color = c.text;
+
+  document.getElementById('detail-panel').innerHTML = `
+    <div style="border-right:3px solid ${c.border};padding-right:12px;margin-bottom:14px;">
+      <div style="font-size:15px;font-weight:500;color:${c.text};margin-bottom:6px;">${d.label}</div>
+      <div>${d.chars.map(x=>`<span class="tag" style="background:${c.bg};color:${c.text};">${x}</span>`).join('')}</div>
+    </div>
+    <div class="tip-card">
+      <strong>ما يجب مراعاته في النشاط</strong>
+      ${d.activity.map(x=>`<div style="margin-bottom:5px;padding-right:10px;border-right:2px solid ${c.tag};">${x}</div>`).join('')}
+    </div>
+    <div class="tip-card" style="border-color:var(--color-border-secondary);">
+      <strong>ما يجب تجنبه</strong>
+      ${d.avoid.map(x=>`<div style="margin-bottom:5px;color:var(--color-text-secondary);">— ${x}</div>`).join('')}
+    </div>
+    <button onclick="sendPrompt('${d.prompt}')" style="margin-top:8px;width:100%;padding:10px;border-radius:8px;border:0.5px solid ${c.border};background:${c.bg};color:${c.text};font-size:13px;cursor:pointer;font-weight:500;">
+      صممي نشاطاً لهذه الفئة ↗
+    </button>
+  `;
+}
+show('autism');
+</script>
