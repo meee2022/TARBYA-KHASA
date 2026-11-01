@@ -1,0 +1,7 @@
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
+import { router } from 'expo-router';
+import { Lesson, transitionLesson } from '../../../../packages/domain';
+import { Screen, Txt, Card, Button, Field, colors } from '../components/ui';
+import { useStore } from '../components/store';
+export default function Review() { const { data, saveLesson } = useStore(); const [notes, setNotes] = useState<Record<string, string>>({}); const items = data.lessons.filter(l => l.status === 'review'); async function act(l: Lesson, status: 'approved' | 'draft') { try { await saveLesson(transitionLesson(l, status, data.learners, notes[l.id] ?? '')); } catch (e) { Alert.alert('راجع البيانات', (e as Error).message); } } return <Screen title="نظرة ثانية تصنع فرقًا" subtitle="محاكاة محلية للمراجعة، وليست اعتمادًا رسميًا.">{!items.length && <Card><Txt>لا توجد تحضيرات تنتظر المراجعة.</Txt></Card>}{items.map(l => <Card key={l.id}><Txt bold style={{ fontSize: 23, marginBottom: 10 }}>{l.title}</Txt><Txt style={{ color: colors.muted, marginBottom: 20 }}>{l.objective}</Txt><Button secondary title="عرض التحضير كاملًا" onPress={() => router.push(`/lesson/${l.id}`)} /><Field label="تعليق المراجع" multiline value={notes[l.id] ?? ''} onChangeText={v => setNotes(n => ({ ...n, [l.id]: v }))} /><Button title="جاهز للتدريس" icon="checkmark" onPress={() => act(l, 'approved')} /><Button secondary title="إرجاع مع ملاحظة" onPress={() => act(l, 'draft')} /></Card>)}</Screen>; }

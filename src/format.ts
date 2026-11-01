@@ -1,7 +1,7 @@
 // تنسيق التاريخ بالعربية من توقيت Convex (_creationTime بالميلي ثانية)
 export function formatDate(ms: number): string {
   try {
-    return new Intl.DateTimeFormat("ar-EG", {
+    return new Intl.DateTimeFormat("ar-EG-u-nu-latn", {
       year: "numeric",
       month: "short",
       day: "numeric",

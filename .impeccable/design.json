@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T15:19:18.272672+00:00",
+  "title": "Design System: تربية خاصة",
+  "extensions": {
+    "colorMeta": {
+      "wine": {
+        "role": "primary",
+        "displayName": "Incumbent burgundy"
+      },
+      "sage": {
+        "role": "secondary",
+        "displayName": "Quiet sage"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Warm ivory"
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Web page heading",
+        "purpose": "Top-level workspace heading."
+      },
+      "native-heading": {
+        "displayName": "Native screen heading",
+        "purpose": "Expo screen title inside scroll content."
+      }
+    },
+    "shadows": [
+      {
+        "name": "toast",
+        "value": "0 8px 36px #27392322",
+        "purpose": "Web toast only."
+      },
+      {
+        "name": "segmented-active",
+        "value": "0 2px 4px #30332208",
+        "purpose": "Selected segmented-control item."
+      }
+    ],
+    "motion": [
+      {
+        "name": "web-controls",
+        "value": "background .15s, transform .15s",
+        "purpose": "Shared web buttons; hover translateY(-1px)."
+      },
+      {
+        "name": "phone-sidebar",
+        "value": "transform .2s",
+        "purpose": "Off-canvas web menu."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation:none;transition:none;scroll-behavior:auto",
+        "purpose": "Workspace prefers-reduced-motion override; hover transform removed."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1550px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "1200px"
+      },
+      {
+        "name": "single-main-column",
+        "value": "1020px"
+      },
+      {
+        "name": "phone",
+        "value": "760px"
+      }
+    ],
+    "verification": {
+      "sourceDerived": true,
+      "approvedComp": false,
+      "standingUserWorkflowPreference": null,
+      "finishDisposition": "recapture",
+      "desktopScreenshot": "No saved file available",
+      "phoneScreenshot": "Predates final grid and contrast fixes",
+      "nativeDeviceScreenshot": "Missing",
+      "recapture": "Stopped after browser current-URL verification failure; no further UI capture authorized in this turn",
+      "nativeTypecheck": "Reported passed by parent",
+      "androidJavaScriptBundle": "Reported passed by parent",
+      "apk": "Still building when documentation was written",
+      "visualApproval": false
+    },
+    "provenance": {
+      "illustration": "public/images/animals.png",
+      "sidecar": "public/images/animals.png.json"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Web action; native equivalent uses platform controls.",
+      "html": "<button class=\"ds-primary\" dir=\"rtl\">حفظ التحضير</button>",
+      "css": ".ds-primary{font-family:Tajawal,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 17px;border-radius:8px;border:1px solid transparent;font-size:13px;font-weight:700;line-height:1.4;transition:background .15s,transform .15s;cursor:pointer;background:#801b3b;color:#fff;border-color:transparent}.ds-primary:hover{background:#63152e;transform:translateY(-1px)}.ds-primary:focus-visible{outline:3px solid #a5647a;outline-offset:4px}.ds-primary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}.ds-primary:hover{transform:none}}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Web action; native equivalent uses platform controls.",
+      "html": "<button class=\"ds-secondary\" dir=\"rtl\">حفظ التحضير</button>",
+      "css": ".ds-secondary{font-family:Tajawal,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 17px;border-radius:8px;border:1px solid transparent;font-size:13px;font-weight:700;line-height:1.4;transition:background .15s,transform .15s;cursor:pointer;background:#fff;color:#505b4d;border-color:#e0e3d9}.ds-secondary:hover{background:#f1f4ed;transform:translateY(-1px)}.ds-secondary:focus-visible{outline:3px solid #a5647a;outline-offset:4px}.ds-secondary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}.ds-secondary:hover{transform:none}}"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "description": "Labeled RTL web text entry.",
+      "html": "<label class=\"ds-field\" dir=\"rtl\">عنوان الدرس<input placeholder=\"اكتب عنوانًا واضحًا\" /></label>",
+      "css": ".ds-field{font-family:Tajawal,sans-serif;display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#596451}.ds-field input{font-family:Tajawal,sans-serif;width:100%;border:1px solid #dfe4d7;border-radius:8px;padding:11px 13px;background:#fff;color:#374532;font-size:14px;font-weight:400;min-width:0}.ds-field input:focus-visible{outline:3px solid #a5647a;outline-offset:4px}.ds-field input::placeholder{color:#65715d;font-size:12px}"
+    },
+    {
+      "name": "Navigation item",
+      "kind": "nav",
+      "description": "Active web sidebar item.",
+      "html": "<nav dir=\"rtl\"><a class=\"ds-nav\" href=\"#\" aria-current=\"page\">التحضير والدروس</a></nav>",
+      "css": ".ds-nav{font-family:Tajawal,sans-serif;display:flex;gap:11px;padding:13px 14px;border-radius:10px;font-size:14px;background:#f6e9ee;color:#801b3b;font-weight:700;text-decoration:none}.ds-nav:hover{background:#f8f3f5}.ds-nav:focus-visible{outline:3px solid #a5647a;outline-offset:4px}"
+    },
+    {
+      "name": "Approved status",
+      "kind": "chip",
+      "description": "Noninteractive factual lesson status.",
+      "html": "<span class=\"ds-status\" dir=\"rtl\"><i></i>جاهز للتدريس</span>",
+      "css": ".ds-status{font-family:Tajawal,sans-serif;display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 8px;white-space:nowrap;border-radius:5px;line-height:1.6;background:#eef4e8;color:#587545}.ds-status i{height:4px;width:4px;border-radius:100%;background:currentColor}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Quiet white bordered content surface.",
+      "html": "<section class=\"ds-panel\" dir=\"rtl\"><h2>تحضيراتي الأخيرة</h2></section>",
+      "css": ".ds-panel{font-family:Tajawal,sans-serif;background:#fff;border:1px solid #e8e9e2;border-radius:13px;color:#292d2b}.ds-panel h2{margin:0;padding:23px 24px 15px;font-size:18px;font-weight:700;line-height:1.5}"
+    },
+    {
+      "name": "Subject filter",
+      "kind": "button",
+      "description": "Selected resource filter with text and pressed state.",
+      "html": "<button class=\"ds-filter\" dir=\"rtl\" aria-pressed=\"true\">اللغة العربية</button>",
+      "css": ".ds-filter{font-family:Tajawal,sans-serif;background:#efe3e8;border:1px solid #e6ced7;border-radius:7px;font-size:12px;padding:9px 15px;color:#801b3b;cursor:pointer}.ds-filter:focus-visible{outline:3px solid #a5647a;outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Quiet editorial school workspace",
+    "overview": "This descriptive label comes from PRODUCT.md's existing direction, not a newly approved metaphor. Burgundy anchors an Arabic teaching workspace on warm ivory, with sage and muted sand organizing supporting information. Spacious bordered cards, Tajawal and calm botanical lesson imagery provide the current visual character. The أثر reference informs craft and organization without supplying its brand.\n\nThis is a source-derived record of the new React workspace and separate React Native/Expo application. It does not restyle or supersede the preserved legacy Convex application. Web and native share an identity but currently have distinct literal color and shape values; the native-prefixed tokens preserve that difference. Native numeric dimensions are React Native logical units, although the portable frontmatter serializes them as px.",
+    "keyCharacteristics": [
+      "Arabic RTL reading order and right-aligned native text.",
+      "Burgundy actions, quiet green support surfaces and white bordered cards.",
+      "Teacher preparation separated from calm student interaction.",
+      "Device-local demo status stated in the interface."
+    ],
+    "rules": [
+      {
+        "name": "The Identity Rule",
+        "body": "Preserve the incumbent burgundy identity and use the appropriate platform's actual tokens. Status is expressed with a text label as well as a tinted background; color alone does not name a lesson's state.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "**Do** preserve Arabic RTL text, functional reading order and the existing burgundy identity.",
+      "**Do** use the platform-specific values documented here instead of pretending web and native tokens are identical.",
+      "**Do** keep status text, selected-state cues and keyboard-visible focus alongside color.",
+      "**Do** verify desktop, phone and native-device layouts after final changes before describing them as approved."
+    ],
+    "donts": [
+      "**Don't** copy the inspiration project's branding or replace the existing application framework.",
+      "**Don't** treat generated illustrations or fictional profiles as real student evidence.",
+      "**Don't** promote decorative eyebrow/kicker treatments into reusable design rules; they remain implementation defects under the documenter craft floor.",
+      "**Don't** interpret successful typechecking or bundling as a visual, accessibility or native-device test."
+    ]
+  }
+}

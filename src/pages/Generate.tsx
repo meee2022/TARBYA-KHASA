@@ -71,7 +71,7 @@ export default function Generate() {
         <div className="bg-white rounded-2xl border border-slate-200 shadow-card p-6 space-y-5">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-6 h-6 rounded-full bg-brand text-white grid place-items-center text-xs font-bold">١</span>
+              <span className="w-6 h-6 rounded-full bg-brand text-white grid place-items-center text-xs font-bold">1</span>
               <label className="font-bold text-slate-800">اختيار الفئة</label>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -118,7 +118,7 @@ export default function Generate() {
           <div>
             <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
               <label className="font-bold text-slate-800 flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-brand text-white grid place-items-center text-xs font-bold">٢</span>
+                <span className="w-6 h-6 rounded-full bg-brand text-white grid place-items-center text-xs font-bold">2</span>
                 المادة التدريبية
               </label>
               <label className="text-sm px-3 py-1.5 rounded-lg bg-brand-light hover:bg-brand-light cursor-pointer font-bold text-brand">

@@ -1,0 +1,11 @@
+import { mkdir } from 'node:fs/promises';
+import { seedWorkspace } from '../packages/domain/index.ts';
+import { deckFromLesson } from '../packages/domain/presentations.ts';
+import { buildPowerPoint } from '../packages/presentation/export.ts';
+const lesson = seedWorkspace().lessons.find(l => l.language === 'ar');
+const deck = deckFromLesson(lesson, 'calm');
+deck.title = 'عرض تجريبي — ' + lesson.title;
+deck.reviewed = true;
+await mkdir('artifacts/presentations', {recursive:true});
+await buildPowerPoint(deck).writeFile({fileName:'artifacts/presentations/sample-lesson.pptx'});
+console.log(`Created ${deck.slides.length} editable slides. Synthetic demonstration content; visual render not verified.`);
