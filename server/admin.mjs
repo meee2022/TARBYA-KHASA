@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { randomBytes, scryptSync, timingSafeEqual, createHash } from 'node:crypto';
 import { defaultSite, validateSite } from '../packages/domain/site.ts';
 import { latinDigits, latinizeContent } from '../packages/domain/numbers.ts';
+import { validUsername } from '../convex/adminRules.ts';
 
 const COOKIE='tarbya_admin';
 // Shared pack media. Allowlist with magic-byte checks: a declared type or extension proves nothing.
@@ -19,7 +20,7 @@ export function createAdminService({file=resolve('.local-data/admin.json'),now=(
   const audit=(next,actor,action)=>({...next,audit:[{id:randomBytes(8).toString('hex'),actor,action,date:new Date(now()).toISOString()},...next.audit].slice(0,300)});
   const getSession=req=>{const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(COOKIE+'='))?.slice(COOKIE.length+1);const session=token&&sessions.get(tokenHash(token));if(!session||session.expires<now())return null;const user=state.users.find(u=>u.id===session.userId&&u.active);return user?{user,token}:null;};
   const publicUser=u=>({id:u.id,username:u.username,name:latinDigits(u.name),active:u.active});
-  const credentials=(body)=>{if(!body||typeof body.username!=='string'||!/^[a-zA-Z0-9_.-]{3,40}$/.test(body.username)||typeof body.password!=='string'||body.password.length<12||body.password.length>128||typeof body.name!=='string'||!body.name.trim()||body.name.length>80)throw new Error('اكتب اسم دخول إنجليزيًا من 3 إلى 40 حرفًا، واسمًا ظاهرًا، وكلمة مرور من 12 إلى 128 حرفًا.');return {username:body.username.toLowerCase(),name:body.name.trim(),password:body.password};};
+  const credentials=(body)=>{if(!body||typeof body.username!=='string'||!validUsername(body.username)||typeof body.password!=='string'||body.password.length<12||body.password.length>128||typeof body.name!=='string'||!body.name.trim()||body.name.length>80)throw new Error('اكتب إيميلًا صحيحًا أو اسم دخول إنجليزيًا من 3 إلى 40 حرفًا، واسمًا ظاهرًا، وكلمة مرور من 12 إلى 128 حرفًا.');return {username:body.username.toLowerCase(),name:body.name.trim(),password:body.password};};
   const login=(user,res)=>{for(const [k,s] of sessions)if(s.expires<now())sessions.delete(k);const token=randomBytes(32).toString('hex');sessions.set(tokenHash(token),{userId:user.id,expires:now()+8*3600000});res.setHeader('Set-Cookie',`${COOKIE}=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800`);};
   const handler=async(req,res,next)=>{
     const path=req.url?.split('?')[0];if(!path?.startsWith('/api/admin/')&&!path?.startsWith('/api/media/')&&path!=='/api/site')return next?.();

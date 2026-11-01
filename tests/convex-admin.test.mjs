@@ -14,6 +14,12 @@ test('admin credentials follow the same rules as the local server', () => {
   assert.equal(validPasswordLength('x'.repeat(12)), true);
 });
 
+test('an email works as the login name, and only a well-formed one', () => {
+  const good = { username: 'Head.Teacher+1@Example.com', name: 'اسم', password: 'x'.repeat(12) };
+  assert.equal(readCredentials(good).username, 'head.teacher+1@example.com');
+  for (const username of ['a@b', '@example.com', 'a@@example.com', 'a b@example.com', 'a@example..com', 'a<b>@example.com', `${'x'.repeat(80)}@example.com`]) assert.throws(() => readCredentials({ ...good, username }), undefined, username);
+});
+
 test('uploads must match their declared type by content, not by label', () => {
   assert.equal(mediaProblem('image/jpeg', 100, jpeg), null);
   assert.match(mediaProblem('image/jpeg', 100, new TextEncoder().encode('<html><script>x')), /لا يطابق/);

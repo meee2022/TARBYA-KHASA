@@ -47,7 +47,7 @@ export const login = action({
   args: { username: v.string(), password: v.string() },
   handler: async (ctx, { username: raw, password }): Promise<SessionResult> => {
     const denied = fail(401, "بيانات الدخول غير صحيحة.");
-    if (raw.length > 40 || password.length > 128) throw denied;
+    if (raw.length > 80 || password.length > 128) throw denied;
     const username = raw.toLowerCase(); const key = "login:" + username;
     // ponytail: attempts are per username because Convex hides the client IP; add a global cap if bots appear.
     if (!await ctx.runMutation(internal.admin.attempt, { key })) throw fail(429, "محاولات كثيرة. حاول بعد 15 دقيقة.");

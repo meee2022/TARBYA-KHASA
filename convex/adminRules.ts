@@ -7,11 +7,14 @@ export const MAX_ADMINS = 20;
 export const MAX_SITE_BYTES = 900 * 1024;
 export const MEDIA_LIMIT = 30 * 1024 * 1024;
 
+/** A plain login name or an email address. The email is only a login name: nothing is ever sent to it. */
+export const validUsername = (value: unknown) => typeof value === 'string' && value.length <= 80 && (/^[a-zA-Z0-9_.-]{3,40}$/.test(value) || /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(value));
+
 export type Credentials = { username: string; name: string; password: string };
 export function readCredentials(body: { username?: unknown; name?: unknown; password?: unknown }): Credentials {
   const { username, name, password } = body;
-  if (typeof username !== 'string' || !/^[a-zA-Z0-9_.-]{3,40}$/.test(username) || typeof password !== 'string' || password.length < 12 || password.length > 128 || typeof name !== 'string' || !name.trim() || name.length > 80)
-    throw new Error('اكتب اسم دخول إنجليزيًا من 3 إلى 40 حرفًا، واسمًا ظاهرًا، وكلمة مرور من 12 إلى 128 حرفًا.');
+  if (typeof username !== 'string' || !validUsername(username) || typeof password !== 'string' || password.length < 12 || password.length > 128 || typeof name !== 'string' || !name.trim() || name.length > 80)
+    throw new Error('اكتب إيميلًا صحيحًا أو اسم دخول إنجليزيًا من 3 إلى 40 حرفًا، واسمًا ظاهرًا، وكلمة مرور من 12 إلى 128 حرفًا.');
   return { username: username.toLowerCase(), name: name.trim(), password };
 }
 export const validPasswordLength = (password: unknown) => typeof password === 'string' && password.length >= 12 && password.length <= 128;
