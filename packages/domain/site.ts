@@ -15,7 +15,7 @@ export const defaultSite: SiteConfig = {
 };
 export function validateSite(input: unknown): SiteConfig {
   if (!input || typeof input !== 'object') throw new Error('إعدادات غير صالحة.');
-  const v = input as SiteConfig; const clean = structuredClone(defaultSite);
+  const v = input as SiteConfig; const clean: SiteConfig = JSON.parse(JSON.stringify(defaultSite));
   for (const [key,max] of Object.entries({brandName:60,tagline:100,welcome:100,description:350,featureTitle:100,featureDescription:300,featuredLessonId:100,footer:160,announcement:500,maintenanceMessage:300})) {
     const text = v[key as keyof SiteConfig];
     if(typeof text!=='string'||text.length>max)throw new Error(`راجع طول الحقل ${key}.`);

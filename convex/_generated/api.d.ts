@@ -8,11 +8,9 @@
  * @module
  */
 
-import type * as activities from "../activities.js";
-import type * as seed from "../seed.js";
-import type * as sessions from "../sessions.js";
-import type * as site from "../site.js";
-import type * as students from "../students.js";
+import type * as admin from "../admin.js";
+import type * as adminAuth from "../adminAuth.js";
+import type * as adminRules from "../adminRules.js";
 
 import type {
   ApiFromModules,
@@ -21,11 +19,9 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  activities: typeof activities;
-  seed: typeof seed;
-  sessions: typeof sessions;
-  site: typeof site;
-  students: typeof students;
+  admin: typeof admin;
+  adminAuth: typeof adminAuth;
+  adminRules: typeof adminRules;
 }>;
 
 /**

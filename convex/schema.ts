@@ -3,6 +3,14 @@ import { v } from "convex/values";
 
 // نموذج البيانات الأساسي للمنصة
 export default defineSchema({
+  // Platform settings and admin accounts for the live site.
+  platformSite: defineTable({ json: v.string(), revision: v.number() }),
+  adminUsers: defineTable({ username: v.string(), name: v.string(), hash: v.string(), salt: v.string(), active: v.boolean() }).index("by_username", ["username"]),
+  adminSessions: defineTable({ tokenHash: v.string(), userId: v.id("adminUsers"), expires: v.number() }).index("by_token", ["tokenHash"]).index("by_user", ["userId"]),
+  adminAudit: defineTable({ actor: v.string(), action: v.string(), date: v.string() }),
+  loginAttempts: defineTable({ key: v.string(), at: v.number() }).index("by_key", ["key"]),
+
+  // Tables below belong to the retired first version. Kept so existing rows stay valid; no function reads them.
   // الطلاب
   students: defineTable({
     name: v.string(),

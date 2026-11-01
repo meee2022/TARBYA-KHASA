@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { uid } from '../../packages/domain';
+import { mediaPath } from '../../packages/domain/catalog';
+import { uploadShared, usesConvex } from './adminApi';
 
 // Teacher media stays in this browser (IndexedDB). Shared-pack media goes to the admin server.
 const open = () => new Promise<IDBDatabase>((resolve, reject) => {
@@ -17,7 +19,7 @@ async function run<T>(mode: IDBTransactionMode, action: (store: IDBObjectStore) 
     tx.onabort = tx.onerror = () => { db.close(); reject(tx.error ?? request.error); };
   });
 }
-export const isShared = (id?: string) => !!id && (id.startsWith('/api/media/') || id.startsWith('/images/'));
+export const isShared = (id?: string) => !!id && (mediaPath.test(id) || id.startsWith('/images/'));
 export async function mediaUrl(id: string) {
   if (isShared(id)) return id;
   const blob = await run<Blob | undefined>('readonly', s => s.get(id));
@@ -35,6 +37,7 @@ export function useMediaUrl(id?: string) {
 }
 export async function deleteMedia(id?: string) { if (id && !isShared(id)) await run('readwrite', s => s.delete(id)); }
 export async function storeMedia(blob: Blob, shared: boolean) {
+  if (shared && usesConvex) return uploadShared(blob);
   if (shared) {
     const response = await fetch('/api/admin/media', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': blob.type.split(';')[0] }, body: blob });
     const payload = await response.json().catch(() => ({}));

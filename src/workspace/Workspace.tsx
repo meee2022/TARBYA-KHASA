@@ -1,6 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { Link, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, CalendarDays, Check, CheckCircle2, ChevronLeft, ClipboardCheck, ClipboardList, FileText, HeartHandshake, Home, Images, LayoutGrid, Library as LibraryIcon, Menu, ShieldCheck, Plus, Search, Settings2, Sprout, Target, Users, X, Download } from 'lucide-react';
+import { ArrowLeft, BookOpen, CalendarDays, Check, CheckCircle2, ChevronLeft, ClipboardCheck, ClipboardList, FileText, HeartHandshake, Home, Images, LayoutGrid, Library as LibraryIcon, Menu, ShieldCheck, Plus, Search, Settings2, Target, Users, X, Download } from 'lucide-react';
 import { countOf, dateLabel, Lesson, seedWorkspace, statusLabels, uid } from '../../packages/domain';
 import { checkIep, day, goalProgress, issuesLabel, today, withPlanning } from '../../packages/domain/planning';
 import { PlanEditor, Plans } from './planning';
@@ -20,7 +20,7 @@ import { art } from '../../packages/domain/catalog';
 import { useAllPacks } from './store';
 import { PresentationStudio } from './PresentationStudio';
 const navigation = [{ to: '/', text: 'مساحتي', icon: Home }, { to: '/learners', text: 'الطلاب والأهداف', icon: Users }, { to: '/iep', text: 'الخطط الفردية', icon: ClipboardList }, { to: '/plans', text: 'التحضير الأسبوعي', icon: CalendarDays }, { to: '/lessons', text: 'الدروس والحصص', icon: BookOpen }, { to: '/packs', text: 'المحتوى والأوراق', icon: Images }, { to: '/games', text: 'الألعاب والوصول', icon: LayoutGrid }, { to: '/tools', text: 'أدوات دعم الطالب', icon: HeartHandshake }, { to: '/presentations', text: 'العروض والذكاء الاصطناعي', icon: FileText }, { to: '/library', text: 'مكتبة الدروس', icon: LibraryIcon }, { to: '/progress', text: 'متابعة التقدم', icon: Target }, { to: '/review', text: 'مراجعة التحضير', icon: ClipboardCheck }];
-export function Brand() { const {site}=useSiteConfig(); return <div className="brand-lockup"><div className="brand-emblem"><Sprout size={26} strokeWidth={1.5} /></div><div><strong>{site.brandName}</strong><span>{site.tagline}</span></div></div>; }
+export function Brand() { const {site}=useSiteConfig(); return <div className="brand-lockup"><img className="brand-logo" src="/logo.svg" alt="" /><div><strong>{site.brandName}</strong><span>{site.tagline}</span></div></div>; }
 export function Badge({ status }: { status: Lesson['status'] }) { return <span className={`status ${status}`}><i />{statusLabels[status]}</span>; }
 export function PageHeading({ title, description, children, banner }: { eyebrow?: string; title: string; description?: string; children?: React.ReactNode; banner?: string }) {
   if (banner) return <section className="page-banner" style={{ '--art': `url(${art(banner)})` } as React.CSSProperties}><div className="page-banner-copy"><h1>{title}</h1>{description && <p>{description}</p>}{children && <div className="heading-actions">{children}</div>}</div></section>;

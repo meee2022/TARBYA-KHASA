@@ -100,7 +100,7 @@ export const defaultCatalog: Catalog = {
 
 const text = (v: unknown, max: number, name: string) => { if (typeof v !== 'string' || !v.trim() || v.length > max) throw new Error(`راجع الحقل: ${name}.`); return v.trim(); };
 const opt = (v: unknown, max: number) => { if (v === undefined || v === '') return undefined; if (typeof v !== 'string' || v.length > max) throw new Error('راجع حقول الحزمة.'); return v.trim() || undefined; };
-export const mediaPath = /^(\/api\/media\/[a-f\d]{32}|\/images\/content\/[a-z\d-]+\.webp)$/;
+export const mediaPath = /^(\/api\/media\/[a-f\d]{32}|\/images\/content\/[a-z\d-]+\.webp|https:\/\/[a-z\d-]+\.convex\.cloud\/api\/storage\/[a-f\d-]{36}|http:\/\/127\.0\.0\.1:\d+\/api\/storage\/[a-f\d-]{36})$/;
 const media = (v: unknown) => { if (v === undefined || v === '') return undefined; if (typeof v !== 'string' || !mediaPath.test(v)) throw new Error('وسائط الحزم المشتركة يجب أن تُرفع من لوحة الإدارة.'); return v; };
 const list = <T,>(v: unknown, max: number, name: string, fn: (x: Record<string, unknown>) => T): T[] => { if (!Array.isArray(v) || v.length > max) throw new Error(`راجع قائمة: ${name}.`); return v.map(x => { if (!x || typeof x !== 'object') throw new Error(`راجع قائمة: ${name}.`); return fn(x as Record<string, unknown>); }); };
 const unique = <T extends { id: string }>(rows: T[], name: string) => { if (new Set(rows.map(r => r.id)).size !== rows.length) throw new Error(`يوجد عنصر مكرر في: ${name}.`); return rows; };
