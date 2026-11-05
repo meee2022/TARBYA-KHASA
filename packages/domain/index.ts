@@ -16,18 +16,42 @@ export interface Preferences { largeText: boolean; highContrast: boolean; sound:
 /** Per-learner boards for the student tools. Lists hold catalog ids. */
 export interface LearnerSupports { schedule?: string[]; first?: string; then?: string; tokenGoal?: number; reward?: string; communication?: string[]; favourite?: string; }
 export interface Goal { id: string; text: string; subject: Subject; target: number; opportunities: number; baseline: string; support?: Support; sessions?: number; approvedAt?: string; steps?: string[]; }
-export interface Learner { id: string; name: string; grade: string; initials: string; color: string; strengths: string; needs: string; preferences: Preferences; goals: Goal[]; supports?: LearnerSupports; avatarId?: string; }
+export interface Learner { id: string; name: string; grade: string; initials: string; color: string; strengths: string; needs: string; preferences: Preferences; goals: Goal[]; supports?: LearnerSupports; avatarId?: string; family?: FamilyLink; behaviour?: BehaviourNote[]; }
 export interface Question { id: string; prompt: string; options: string[]; answer: number; target?: string; }
 export interface Lesson { id: string; title: string; subject: Subject; grade: string; duration: number; learnerIds: string[]; goalIds: string[]; objective: string; warmup: string; teaching: string; practice: string; closing: string; adaptations: string; source: string; sourceText: string; language: 'ar' | 'en'; status: Status; reviewNote: string; questions: Question[]; updatedAt: string; packId?: string; }
 export interface Trial { questionId: string; selected: number | null; correct: boolean; support: Support; }
-export interface Observation { id: string; lessonId: string; learnerId: string; goalId: string; date: string; correct: number; total: number; independent: number; support: Support; note: string; responses?: Trial[]; unobserved?: number; }
+/** Baseline before teaching, intervention while teaching, maintenance probes after the goal was approved. */
+export type Phase = 'baseline' | 'intervention' | 'maintenance';
+export const phaseLabels: Record<Phase, string> = { baseline: 'خط الأساس', intervention: 'أثناء التدريس', maintenance: 'قياس الاحتفاظ' };
+/** Where, with whom and with what the skill was shown. A goal that only works on one screen with one adult is not generalized. */
+export interface ObservationContext { setting?: string; person?: string; material?: string; }
+export type ObservationSource = 'session' | 'practice' | 'manual' | 'home';
+export interface Observation { id: string; lessonId: string; learnerId: string; goalId: string; date: string; correct: number; total: number; independent: number; support: Support; note: string; responses?: Trial[]; unobserved?: number; phase?: Phase; context?: ObservationContext; source?: ObservationSource; }
+/** A behaviour note in the ABC shape: what came before, what happened, what followed. Describes a moment, never the child. */
+export interface BehaviourNote { id: string; date: string; antecedent: string; behaviour: string; consequence: string; setting?: string; }
+/** The weekly letter's home task and note, kept so the next letter starts from the last one. */
+export interface FamilyLink { home: string; note: string; updatedAt: string; }
 export function summarizeTrials(trials: Trial[]) {
   const observed = trials.filter(t => t.support !== 'not-observed');
   // The session carries the most intensive help that was actually used.
   const support: Support = observed.length ? supportOrder[Math.max(...observed.map(t => supportOrder.indexOf(t.support)))] : 'not-observed';
   return { total: observed.length, correct: observed.filter(t => t.correct).length, independent: observed.filter(t => t.correct && t.support === 'independent').length, unobserved: trials.length - observed.length, support };
 }
-export interface PracticeRecord { id: string; gameId: string; title?: string; learnerId: string; date: string; attempts: PracticeAttempt[]; access: AccessSettings; }
+/** `access` holds only what changes the meaning of a score (choices, level, text alternative), not the whole profile: sync space is limited. */
+export interface PracticeRecord { id: string; gameId: string; title?: string; learnerId: string; date: string; attempts: PracticeAttempt[]; access?: Partial<AccessSettings>; goalId?: string; observationId?: string; }
+export const practiceAccess = (a: AccessSettings): Partial<AccessSettings> => ({ choices: a.choices, level: a.level, textAlternative: a.textAlternative, instant: a.instant, scan: a.scan });
+/** A saved game becomes evidence on the goal the teacher chose before playing: first tries only, the teacher's prompt level per answer, hints counted as help. */
+export function observationFromPractice(p: PracticeRecord, goalId: string, extra: Partial<Pick<Observation, 'note' | 'phase' | 'context' | 'date'>> = {}): Observation {
+  const first = p.attempts.filter(a => !a.repeat);
+  const responses: Trial[] = first.map(a => ({ questionId: a.roundId, selected: null, correct: a.correct, support: a.support ?? (a.hintUsed || (a.choices ?? p.access?.choices ?? 2) === 1 ? 'verbal' : 'independent') }));
+  const sum = summarizeTrials(responses);
+  return { id: uid(), lessonId: 'practice', learnerId: p.learnerId, goalId, date: p.date, ...sum, responses, note: extra.note ?? `من نشاط «${p.title ?? p.gameId}»`, phase: extra.phase ?? 'intervention', context: extra.context ?? { material: 'الشاشة' }, source: 'practice', ...(extra.date ? { date: extra.date } : {}) };
+}
+/** One try at home, reported by the family through the teacher. Never counts as independent beyond what the family said. */
+export function homeObservation(learnerId: string, goalId: string, result: 'yes' | 'help' | 'no', note = ''): Observation {
+  const correct = result === 'no' ? 0 : 1; const independent = result === 'yes' ? 1 : 0;
+  return { id: uid(), lessonId: 'home', learnerId, goalId, date: new Date().toISOString(), correct, total: 1, independent, support: result === 'help' ? 'verbal' : 'independent', note: note || 'جرّبته الأسرة في البيت', phase: 'intervention', context: { setting: 'البيت', person: 'الأسرة' }, source: 'home' };
+}
 export interface Workspace { version: 1; learners: Learner[]; lessons: Lesson[]; observations: Observation[]; practiceSessions?: PracticeRecord[]; packs?: ContentPack[]; plans?: WeeklyPlan[]; ieps?: Iep[]; }
 export const defaults: Preferences = { largeText: false, highContrast: false, sound: true, reducedMotion: true, choices: 3, response: 'touch', understands: ['picture', 'text'], responds: ['touch'], targetSize: 'normal', hand: 'any', steady: false, instant: false };
 /** Arabic counting: one and two have their own forms. */

@@ -24,7 +24,8 @@ export function templateBlocker(template: TemplateId, pack: ContentPack): string
   return pictured >= 2 ? null : 'أضف صورًا لعنصرين على الأقل.';
 }
 
-export const wordLetters = (text: string) => { const letters = Array.from(text.trim()); return letters.length <= 10 && !letters.includes(' ') ? letters : []; };
+/** Each base letter keeps its own marks (بَ stays one piece), so a diacritic never becomes a separate tile. */
+export const wordLetters = (text: string): string[] => { const letters: string[] = text.trim().match(/\P{M}\p{M}*/gu) ?? []; return letters.length <= 10 && !letters.includes(' ') ? letters : []; };
 
 const word = (i: PackItem, p: ContentPack): Tile => ({ id: i.id, label: i.text, lang: p.language, audioId: i.audioId, signId: i.signId, description: i.description });
 const full = (i: PackItem, p: ContentPack): Tile => ({ ...word(i, p), emoji: i.emoji, imageId: i.imageId });

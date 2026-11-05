@@ -1,3 +1,4 @@
+import type { Support } from './index.ts';
 export type GameKind = 'match' | 'classify' | 'sequence' | 'braille';
 export type SymbolName = 'fish' | 'bird' | 'leaf' | 'book' | 'cup' | 'water' | 'hand' | 'soap' | 'towel' | 'help' | 'pause' | 'repeat' | 'yes' | 'no';
 export interface Tile { id: string; label: string; symbol?: SymbolName; description?: string; emoji?: string; imageId?: string; audioId?: string; signId?: string; hideLabel?: boolean; lang?: 'ar' | 'en'; }
@@ -43,7 +44,7 @@ export const communicationTiles: Tile[] = [
   { id: 'yes', label: 'نعم', symbol: 'yes' },
   { id: 'no', label: 'لا', symbol: 'no' },
 ];
-export interface AccessSettings { large: boolean; contrast: boolean; textAlternative: boolean; speech: boolean; choices: 1 | 2 | 3 | 4; scan: boolean; scanSeconds: number; target?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; dwell?: boolean; scanSpeak?: boolean; calm?: boolean; shortInstructions?: boolean; easyFont?: boolean; spacing?: boolean; tint?: ReadingTint; ruler?: boolean; readAlong?: boolean; sign?: boolean; vibrate?: boolean; focusOne?: boolean; highlight?: 'none' | 'yellow' | 'red'; describe?: boolean; rounds?: number; workMinutes?: number; moveBreak?: boolean; tokens?: boolean; quiet?: boolean; story?: string; level?: 'photo' | 'symbol' | 'word'; model?: boolean; repeatMissed?: boolean; switches?: 1 | 2; }
+export interface AccessSettings { large: boolean; contrast: boolean; textAlternative: boolean; speech: boolean; choices: 1 | 2 | 3 | 4; scan: boolean; scanSeconds: number; target?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; dwell?: boolean; scanSpeak?: boolean; calm?: boolean; shortInstructions?: boolean; easyFont?: boolean; spacing?: boolean; tint?: ReadingTint; ruler?: boolean; readAlong?: boolean; sign?: boolean; vibrate?: boolean; focusOne?: boolean; highlight?: 'none' | 'yellow' | 'red'; describe?: boolean; rounds?: number; workMinutes?: number; moveBreak?: boolean; tokens?: boolean; quiet?: boolean; story?: string; level?: 'photo' | 'symbol' | 'word'; model?: boolean; repeatMissed?: boolean; switches?: 1 | 2; fade?: boolean; }
 /** Quiet sensory mode: sound, motion and vibration off in one switch. The teacher's other choices come back when it is turned off. */
 export function withQuiet(a: AccessSettings): AccessSettings { return a.quiet ? { ...a, speech: false, calm: true, vibrate: false } : a; }
 /** A soft paper colour behind what the student reads, for learners who find white glare tiring. */
@@ -94,8 +95,15 @@ export function gameOptions(round: GameRound, count: 1 | 2 | 3 | 4): Tile[] {
   return rotate(round.options.filter(o => o.id === round.answerId || distractors.includes(o)));
 }
 /** `repeat` marks a second try at a missed item at the end of the round: practice, kept out of the summary. */
-export interface PracticeAttempt { roundId: string; selected: string; correct: boolean; hintUsed: boolean; repeat?: boolean; }
-export function practiceSummary(all: PracticeAttempt[]) { const attempts = all.filter(a => !a.repeat); return { total: attempts.length, correct: attempts.filter(a => a.correct).length, independent: attempts.filter(a => a.correct && !a.hintUsed).length, assisted: attempts.filter(a => a.hintUsed).length }; }
+export interface PracticeAttempt { roundId: string; selected: string; correct: boolean; hintUsed: boolean; repeat?: boolean; support?: Support; choices?: number; }
+export function practiceSummary(all: PracticeAttempt[]) { const attempts = all.filter(a => !a.repeat); return { total: attempts.length, correct: attempts.filter(a => a.correct).length, independent: attempts.filter(a => a.correct && !a.hintUsed && (a.support ?? 'independent') === 'independent').length, assisted: attempts.filter(a => a.hintUsed || (a.support && a.support !== 'independent')).length }; }
+/** Error correction by fading: after a wrong first try the same task comes straight back with one option fewer, down to a single option. */
+export function fadedChoices(choices: 1 | 2 | 3 | 4, attempts: PracticeAttempt[], roundId: string): 1 | 2 | 3 | 4 {
+  const tries = attempts.filter(a => a.roundId === roundId || a.roundId.startsWith(`${roundId}~fade`)).length;
+  return Math.max(1, choices - tries) as 1 | 2 | 3 | 4;
+}
+/** Three wrong first tries in a row: the activity is above today's level, so a break is suggested before the next task. */
+export function needsBreak(attempts: PracticeAttempt[], run = 3) { const first = attempts.filter(a => !a.repeat); return first.length >= run && first.slice(-run).every(a => !a.correct); }
 /** Starts a session from the learner's saved profile; the teacher can still adjust it before starting. */
 export function accessFromPreferences(p: { largeText: boolean; highContrast: boolean; sound: boolean; reducedMotion: boolean; choices: 1 | 2 | 3 | 4; access?: AccessSettings; responds?: string[]; targetSize?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; scan?: boolean; scanSpeak?: boolean; scanSeconds?: number; shortInstructions?: boolean; understands?: string[] }): AccessSettings {
   return withQuiet({ ...defaultAccess, ...p.access, large: p.largeText, contrast: p.highContrast, speech: p.sound, choices: p.choices, calm: p.reducedMotion, target: p.targetSize ?? 'normal', hand: p.hand ?? 'any', steady: !!p.steady, instant: !!p.instant, scan: !!p.scan || !!p.responds?.includes('switch'), scanSpeak: !!p.scanSpeak, dwell: !!p.responds?.includes('dwell'), scanSeconds: p.scanSeconds ?? p.access?.scanSeconds ?? defaultAccess.scanSeconds, shortInstructions: !!p.shortInstructions, sign: !!p.understands?.includes('sign'), vibrate: p.access?.vibrate ?? !p.sound });

@@ -123,3 +123,33 @@ test('speech: the board gets the lesson words once each, and listen-and-repeat b
   assert.ok(words.every(w => !w.hideLabel && w.label));
   assert.ok(words.length <= 12);
 });
+
+test('a wrong first try fades to fewer options, three misses in a row suggest a break', async () => {
+  const { fadedChoices, needsBreak } = await import('../packages/domain/games.ts');
+  const miss = (roundId, extra = {}) => ({ roundId, selected: 'x', correct: false, hintUsed: false, ...extra });
+  assert.equal(fadedChoices(3, [miss('r1')], 'r1'), 2);
+  assert.equal(fadedChoices(3, [miss('r1'), miss('r1~fade1', { repeat: true })], 'r1'), 1);
+  assert.equal(fadedChoices(2, [miss('r1'), miss('r1~fade1', { repeat: true }), miss('r1~fade2', { repeat: true })], 'r1'), 1, 'never below one option');
+  assert.equal(needsBreak([miss('a'), miss('b')]), false);
+  assert.equal(needsBreak([miss('a'), miss('b'), miss('c')]), true);
+  assert.equal(needsBreak([miss('a'), { roundId: 'b', selected: 'b', correct: true, hintUsed: false }, miss('c'), miss('d')]), false, 'a correct answer resets the run');
+  assert.equal(needsBreak([miss('a'), miss('a~fade1', { repeat: true }), miss('b'), miss('c')]), true, 'practice repeats do not count');
+});
+
+test('a saved game becomes an observation on the chosen goal: first tries only, teacher prompt levels, hints as help', async () => {
+  const { observationFromPractice, homeObservation } = await import('../packages/domain/index.ts');
+  const rec = { id: 'p1', gameId: 'choose-picture', title: 'أين الصورة؟', learnerId: 'demo-1', date: '2026-11-06T08:00:00.000Z', access: { choices: 2 }, attempts: [
+    { roundId: 'r1', selected: 'a', correct: true, hintUsed: false },
+    { roundId: 'r2', selected: 'b', correct: true, hintUsed: true },
+    { roundId: 'r3', selected: 'c', correct: true, hintUsed: false, support: 'gesture' },
+    { roundId: 'r4', selected: 'd', correct: false, hintUsed: false },
+    { roundId: 'r4~fade1', selected: 'd', correct: true, hintUsed: false, repeat: true },
+    { roundId: 'r5', selected: 'e', correct: true, hintUsed: false, choices: 1 },
+  ] };
+  const o = observationFromPractice(rec, 'g1', { context: { setting: 'الفصل', person: 'معلم الفصل' } });
+  assert.deepEqual([o.total, o.correct, o.independent, o.support, o.phase, o.source, o.lessonId], [5, 4, 1, 'verbal', 'intervention', 'practice', 'practice']);
+  assert.equal(o.context.setting, 'الفصل');
+  assert.equal(o.responses.length, 5, 'the faded repeat is practice, not evidence');
+  const h = homeObservation('demo-1', 'g1', 'help');
+  assert.deepEqual([h.correct, h.independent, h.total, h.support, h.context.setting, h.source], [1, 0, 1, 'verbal', 'البيت', 'home']);
+});

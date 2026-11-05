@@ -225,3 +225,23 @@ test('family week: plain words, only this learner and this week, and words from 
   assert.ok(week.goals.every(g => Object.values(familyStatus).includes(g.status)));
   assert.equal(familyWeek({ ...w, observations: [old] }, learner.id, defaultCatalog.packs, now).empty, true);
 });
+
+test('goal progress separates baseline and maintenance, reports generalization and due probes', async () => {
+  const { goalProgress } = await import('../packages/domain/planning.ts');
+  const goal = { id: 'g', text: 'x', subject: 's', target: 4, opportunities: 5, baseline: '' };
+  const obs = (date, correct, extra = {}) => ({ id: date, lessonId: 'l', learnerId: 'a', goalId: 'g', date: `${date}T09:00:00.000Z`, correct, independent: correct, total: 5, support: 'independent', note: '', ...extra });
+  const rows = [obs('2026-10-01', 5, { phase: 'baseline' }), obs('2026-10-10', 4, { context: { setting: 'الفصل' } }), obs('2026-10-12', 4, { context: { setting: 'الفصل' } })];
+  const p = goalProgress(goal, rows, '2026-10-13');
+  assert.equal(p.status, 'met', 'a perfect baseline does not count toward the criterion');
+  assert.equal(p.baseline.length, 1); assert.equal(p.teaching.length, 2);
+  assert.equal(p.generalized, false, 'one setting only');
+  assert.equal(goalProgress(goal, [...rows, obs('2026-10-14', 5, { context: { setting: 'البيت' } })], '2026-10-15').generalized, true);
+  const approved = { ...goal, approvedAt: '2026-10-13' };
+  assert.equal(goalProgress(approved, rows, '2026-10-20').probeDue, undefined, 'nothing due in the first two weeks');
+  assert.equal(goalProgress(approved, rows, '2026-10-28').probeDue, '2026-10-27');
+  const probed = [...rows, obs('2026-10-28', 2, { phase: 'maintenance' })];
+  const q = goalProgress(approved, probed, '2026-10-29');
+  assert.equal(q.probeDue, undefined); assert.equal(q.held, false, 'the probe fell under the criterion');
+  assert.equal(q.status, 'approved', 'a maintenance probe never changes the goal status');
+  assert.equal(goalProgress(approved, probed, '2026-11-25').probeDue, '2026-11-24', 'the six-week probe comes due on its own');
+});

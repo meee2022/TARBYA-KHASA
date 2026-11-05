@@ -455,3 +455,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .sync-saved { color: #2f5a3c; }
 .sync-conflict, .sync-error { color: #8a1538; }
 .account-password summary { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 8px; }
+/* Teacher's prompt-level row under a linked-goal answer: small, quiet, out of the pupil's way. */
+.support-rate { margin-top: 10px; padding: 10px 14px; border-radius: 16px; background: #0000001f; }
+.support-rate .button { min-height: 40px; padding-inline: 14px; font-size: 14px; }
+.focus-one .support-rate { background: transparent; }

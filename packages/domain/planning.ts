@@ -1,4 +1,4 @@
-import { countOf, describeAdaptation, responseLabels, supportLabels, supportOrder, understandingLabels, uid, type Goal, type Learner, type Observation, type Support, type Workspace } from './index.ts';
+import { countOf, describeAdaptation, responseLabels, supportLabels, supportOrder, understandingLabels, uid, type Goal, type Learner, type Observation, type Phase, type Support, type Workspace } from './index.ts';
 import { defaultCatalog, type Catalog, type PlanPatternSession } from './catalog.ts';
 import { templateBlocker, type ContentPack, type TemplateId } from './packs.ts';
 
@@ -98,17 +98,28 @@ export function draftErrors(d: GoalDraft) {
 export type GoalStatus = 'not-evaluated' | 'training' | 'met' | 'approved' | 'review';
 export const goalStatusLabels: Record<GoalStatus, string> = { 'not-evaluated': 'لم يُقيَّم', training: 'قيد التدريب', met: 'البيانات تشير لتحقق المعيار', approved: 'اعتمده المعلم', review: 'يحتاج مراجعة' };
 /** What the records say. Reaching the criterion is only ever a suggestion: approval is the teacher's click. */
-export function goalProgress(goal: Goal, observations: Observation[]) {
+export const phaseOf = (o: Observation): Phase => o.phase ?? 'intervention';
+/** Maintenance probes after approval: two and six weeks later, each due until a maintenance record lands on or after it. */
+export const probeOffsets = [14, 42];
+export function goalProgress(goal: Goal, observations: Observation[], now = today()) {
   const rows = observations.filter(o => o.goalId === goal.id && o.total > 0).sort((a, b) => a.date.localeCompare(b.date));
   const limit = goal.support ? supportOrder.indexOf(goal.support) : 0;
   const counted = (o: Observation) => { const rank = supportOrder.indexOf(o.support); return limit > 0 && rank >= 0 && rank <= limit ? o.correct : o.independent; };
-  const scores = rows.map(o => counted(o) / o.total); const need = goal.target / goal.opportunities; const window = goal.sessions ?? 2;
-  const met = rows.length >= window && scores.slice(-window).every(s => s >= need);
+  const score = (o: Observation) => counted(o) / o.total; const need = goal.target / goal.opportunities; const window = goal.sessions ?? 2;
+  // Only teaching sessions decide the criterion. Baseline shows where we started; maintenance shows whether it held.
+  const teaching = rows.filter(o => phaseOf(o) === 'intervention'); const baseline = rows.filter(o => phaseOf(o) === 'baseline'); const maintenance = rows.filter(o => phaseOf(o) === 'maintenance');
+  const scores = teaching.map(score);
+  const met = teaching.length >= window && scores.slice(-window).every(s => s >= need);
   const mean = (x: number[]) => x.reduce((a, b) => a + b, 0) / x.length;
   // ponytail: first-two vs last-two is a coarse trend check, use a real slope once schools collect longer series.
-  const flat = rows.length >= 4 && mean(scores.slice(-2)) <= mean(scores.slice(0, 2));
+  const flat = teaching.length >= 4 && mean(scores.slice(-2)) <= mean(scores.slice(0, 2));
   const status: GoalStatus = goal.approvedAt ? 'approved' : !rows.length ? 'not-evaluated' : met ? 'met' : flat ? 'review' : 'training';
-  return { status, rows, need, last: rows[rows.length - 1] };
+  // Generalization: the criterion was reached in at least two different settings, or with two different people.
+  const strong = teaching.filter(o => score(o) >= need); const settings = new Set(strong.map(o => o.context?.setting).filter(Boolean)); const people = new Set(strong.map(o => o.context?.person).filter(Boolean));
+  const generalized = settings.size >= 2 || people.size >= 2;
+  const held = maintenance.length ? maintenance.every(o => score(o) >= need) : undefined;
+  const probeDue = goal.approvedAt ? probeOffsets.map(n => day(goal.approvedAt!, n)).find(due => due <= now && !maintenance.some(o => o.date.slice(0, 10) >= due)) : undefined;
+  return { status, rows, need, last: rows[rows.length - 1], teaching, baseline, maintenance, generalized, contexts: settings.size + people.size, held, probeDue };
 }
 
 // Consistency checks. Advice only: nothing is ever corrected silently.
@@ -211,7 +222,9 @@ function demoIep(learner: Learner, catalog: Catalog): Iep {
 }
 function demoObservations(w: Workspace): Observation[] {
   const goal = w.learners.find(l => l.id === 'demo-1')?.goals[0]; if (!goal) return [];
-  return ([[1, 0], [2, 1], [3, 2], [4, 4], [4, 4]] as const).map(([correct, independent], n) => ({ id: `demo-obs-${n}`, lessonId: 'animals', learnerId: 'demo-1', goalId: goal.id, date: `${day(today(), (n - 5) * 3)}T09:00:00.000Z`, correct, independent, total: 5, support: (independent === correct ? 'independent' : 'verbal') as Support, note: 'سجل خيالي لعرض التقرير.' }));
+  const settings = ['غرفة المصادر', 'غرفة المصادر', 'غرفة المصادر', 'الفصل', 'غرفة المصادر'];
+  const base: Observation = { id: 'demo-obs-base', lessonId: 'manual', learnerId: 'demo-1', goalId: goal.id, date: `${day(today(), -18)}T09:00:00.000Z`, correct: 1, independent: 0, total: 5, support: 'verbal', note: 'قياس قبل البدء: سجل خيالي.', phase: 'baseline', context: { setting: 'غرفة المصادر', person: 'معلم التربية الخاصة', material: 'بطاقات' }, source: 'manual' };
+  return [base, ...([[1, 0], [2, 1], [3, 2], [4, 4], [4, 4]] as const).map(([correct, independent], n): Observation => ({ id: `demo-obs-${n}`, lessonId: 'animals', learnerId: 'demo-1', goalId: goal.id, date: `${day(today(), (n - 5) * 3)}T09:00:00.000Z`, correct, independent, total: 5, support: (independent === correct ? 'independent' : 'verbal') as Support, note: 'سجل خيالي لعرض التقرير.', phase: 'intervention', context: { setting: settings[n], person: n === 3 ? 'معلم الفصل' : 'معلم التربية الخاصة', material: 'الشاشة' }, source: 'session' }))];
 }
 /** Older saved workspaces gain the new sections. Demo records appear only beside the fictional learners. */
 export function withPlanning(w: Workspace, catalog: Catalog = defaultCatalog): Workspace {

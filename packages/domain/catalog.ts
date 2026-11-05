@@ -10,7 +10,7 @@ export interface ProfilePreset { id: string; label: string; description: string;
 export interface PlanPatternStage { teacher: string; student: string; }
 export interface PlanPatternSession { objective: string; activity: TemplateId; warmup: PlanPatternStage; content: PlanPatternStage; closing: PlanPatternStage; }
 export interface GoalBankEntry { id: string; subject: string; behaviour: string; condition: string; }
-export const planningLists = { strategies: 'إستراتيجيات التدريس', teachingAids: 'الوسائل والترتيبات', assessmentTools: 'أدوات التقييم', classroomAccommodations: 'تسهيلات البيئة الصفية', assessmentAccommodations: 'تسهيلات التقييم', curriculumAccommodations: 'تسهيلات المنهاج', supportLevels: 'مستويات الدعم', curriculumTypes: 'أنواع المنهاج', performanceDomains: 'مجالات الأداء', reviewReasons: 'أسباب مراجعة الخطة', reviewParties: 'أطراف مراجعة الخطة' } as const;
+export const planningLists = { settings: 'أماكن الملاحظة', people: 'من كان مع الطالب', materials: 'وسيلة الملاحظة', strategies: 'إستراتيجيات التدريس', teachingAids: 'الوسائل والترتيبات', assessmentTools: 'أدوات التقييم', classroomAccommodations: 'تسهيلات البيئة الصفية', assessmentAccommodations: 'تسهيلات التقييم', curriculumAccommodations: 'تسهيلات المنهاج', supportLevels: 'مستويات الدعم', curriculumTypes: 'أنواع المنهاج', performanceDomains: 'مجالات الأداء', reviewReasons: 'أسباب مراجعة الخطة', reviewParties: 'أطراف مراجعة الخطة' } as const;
 export type PlanningList = keyof typeof planningLists;
 export interface Catalog extends Record<PlanningList, string[]> {
   academicYear: string; planPattern: PlanPatternSession[]; goalBank: GoalBankEntry[];
@@ -80,6 +80,9 @@ export const defaultCatalog: Catalog = {
   rules: symbols('rule', [['listen', 'أنتبه للمعلمة', '👂'], ['hand', 'أرفع يدي', '✋'], ['sit', 'أجلس في مكاني', '🪑'], ['kind', 'أتعامل بلطف', '🤝'], ['tidy', 'أرتّب أدواتي', '🧹']]),
   values: symbols('v', [['thanks', 'الشكر', '🙏'], ['honesty', 'الصدق', '💎'], ['help', 'التعاون', '🤝'], ['respect', 'الاحترام', '🌟'], ['patience', 'الصبر', '🌱']]),
   academicYear: '2026-2027',
+  settings: ['غرفة المصادر', 'الفصل', 'الساحة', 'المقصف', 'البيت'],
+  people: ['معلم التربية الخاصة', 'معلم الفصل', 'مساعد المعلم', 'الأسرة', 'زميل'],
+  materials: ['الشاشة', 'بطاقات', 'محسوسات', 'كتاب', 'الموقف الحقيقي'],
   strategies: ['التعلم متعدد الحواس', 'النمذجة ثم التدريب الموجّه', 'تحليل المهارة', 'التعلم باللعب', 'التدريب المباشر', 'التكرار والمراجعة', 'التلقين التدريجي', 'التكنولوجيا المساعدة'],
   teachingAids: ['بطاقات مصوّرة A4', 'نشاط المنصة على الآيباد', 'مجسمات ووسائل يدوية', 'أوراق عمل من الحزمة', 'فيديو تعليمي قصير', 'لوحة التواصل بالصور', 'الجدول المصوّر', 'مؤقت مرئي'],
   assessmentTools: ['ملاحظة المعلم', 'أسئلة شفوية أو بالإشارة', 'ورقة عمل', 'نشاط على المنصة', 'أداء عملي', 'قائمة تحليل المهارة'],

@@ -56,6 +56,7 @@ test('match boards follow the choice count, and word building accepts only singl
   assert.equal(buildRounds(animals, 'match', 4)[0].board.length, 4);
   assert.deepEqual(buildRounds(animals, 'match', 3).flatMap(r => r.board.map(t => t.id)), animals.items.map(i => i.id), 'no item is dropped');
   assert.deepEqual(wordLetters('باب'), ['ب', 'ا', 'ب']);
+  assert.deepEqual(wordLetters('بَيْت'), ['بَ', 'يْ', 'ت'], 'a diacritic stays on its letter');
   assert.deepEqual(wordLetters('two words'), []);
 });
 test('pack questions are valid lesson questions with a varied answer position', () => {

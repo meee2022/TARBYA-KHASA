@@ -82,3 +82,21 @@
   .goal-cards { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .today-list a:hover { transform: none; } }
+/* Measurement phases on the goal chart, and the records table. */
+.chart-phase { stroke: var(--line); stroke-width: 2; stroke-dasharray: 4 4; }
+.phase-baseline .chart-own, .phase-baseline .chart-help { opacity: .55; }
+.phase-maintenance .chart-own { fill: var(--green); }
+.key-baseline { background: var(--chart-own); opacity: .55; }
+.key-maintenance { background: var(--green); }
+.goal-chart figcaption i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+.phase-tag { display: inline-block; margin-inline-start: 8px; padding: 2px 9px; border-radius: 8px; font-size: 12px; background: var(--chip); color: var(--chip-ink); }
+.phase-tag.phase-baseline { background: var(--sand); }
+.phase-tag.phase-maintenance { background: var(--sage); color: var(--sage-ink); }
+.probe-due { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.context-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px 14px; margin: 0; }
+.context-row legend { padding: 0 6px; font-size: 13px; color: var(--muted); }
+.resume-note { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.home-feedback { margin-block: 18px; }
+.goal-pick { display: grid; gap: 6px; }
+.goal-pick > span { display: inline-flex; align-items: center; gap: 6px; }
+.save-context { margin-block: 14px; text-align: start; }

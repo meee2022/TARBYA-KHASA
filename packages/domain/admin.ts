@@ -23,7 +23,7 @@ export function validateBackup(input:unknown):Workspace {
       for(const q of l.questions)if(!textFields(q,['id','prompt'])||!strings(q.options)||q.options.length<2||!Number.isInteger(q.answer)||q.answer<0||q.answer>=q.options.length)throw new Error();
     }
     for(const o of w.observations)if(!textFields(o,['id','lessonId','learnerId','goalId','date','support','note'])||![o.correct,o.total,o.independent].every(Number.isFinite)||!['independent','visual','gesture','verbal','model','partial','physical','not-observed'].includes(o.support))throw new Error();
-    if(w.practiceSessions!==undefined){if(!Array.isArray(w.practiceSessions))throw new Error();for(const p of w.practiceSessions)if(!textFields(p,['id','gameId','learnerId','date'])||!Array.isArray(p.attempts)||!validAccess(p.access)||!p.attempts.every(a=>textFields(a,['roundId','selected'])&&typeof a.correct==='boolean'&&typeof a.hintUsed==='boolean'))throw new Error();}
+    if(w.practiceSessions!==undefined){if(!Array.isArray(w.practiceSessions))throw new Error();for(const p of w.practiceSessions)if(!textFields(p,['id','gameId','learnerId','date'])||!Array.isArray(p.attempts)||(p.access!==undefined&&(!p.access||typeof p.access!=='object'))||!p.attempts.every(a=>textFields(a,['roundId','selected'])&&typeof a.correct==='boolean'&&typeof a.hintUsed==='boolean'))throw new Error();}
     if(w.packs!==undefined&&(!Array.isArray(w.packs)||!w.packs.every(p=>textFields(p,['id','title','subject','language'])&&Array.isArray(p.items)&&p.items.every(i=>textFields(i,['id','text'])))))throw new Error();
     if(w.plans!==undefined&&(!Array.isArray(w.plans)||!w.plans.every(validPlan)))throw new Error();
     if(w.ieps!==undefined&&(!Array.isArray(w.ieps)||!w.ieps.every(validIep)))throw new Error();
