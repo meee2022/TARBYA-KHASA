@@ -9,6 +9,7 @@ import { exportWorkspace, useWorkspace } from './store';
 import { LessonEditor, LessonDetail, Review } from './lessons';
 import { Learners, LearnerProfile, Progress } from './learners';
 import FamilyReport from './family';
+import './packs.css';
 import Privacy from './privacy';
 import Session from './Session';
 import { GamesLibrary, GameRoute } from './Games';
@@ -59,10 +60,25 @@ function Dashboard() {
   const pending = data.lessons.filter(l => l.status === 'review').length;
   return <><section className="home-hero" style={{ '--art': `url(${site.heroImage})` } as React.CSSProperties}><div className="home-hero-copy"><h1>{site.welcome}</h1><p>{site.description}</p><div className="heading-actions"><Link className="button primary" to="/lessons/new"><Plus size={18} />تحضير درس جديد</Link>{featured && <Link className="button secondary" to={`/lessons/${featured.id}`}>{site.featureTitle}<ArrowLeft size={17} /></Link>}</div></div></section>
     <nav className="home-tiles" aria-label="أقسام المنصة">{tiles.map((t, n) => <Link key={t.to} to={t.to} className={`home-tile tone-${t.tone} rise-in`} style={{ animationDelay: `${n * 50}ms` }}><img src={art(t.image)} alt="" /><div><h2>{t.title}</h2><p>{t.text}</p></div><span className="tile-go" aria-hidden="true"><ArrowLeft size={18} /></span></Link>)}</nav>
+    <StartHere />
     <TodayPanel />
     <div className="home-columns"><section className="panel"><div className="section-heading"><h2>دروسي</h2><Link className="text-link" to="/lessons">كل الدروس<ArrowLeft size={15} /></Link></div><div className="lesson-list">{data.lessons.slice(0, 4).map((lesson, i) => <LessonRow key={lesson.id} lesson={lesson} index={i} />)}</div></section>
       <aside className="home-aside"><section className="panel learners-panel"><div className="section-heading"><h2>طلابي</h2><Link className="text-link" to="/learners">الكل<ArrowLeft size={15} /></Link></div>{data.learners.slice(0, 4).map(s => <Link key={s.id} to={`/learners/${s.id}`} className="learner-mini"><Avatar learner={s} /><div><strong>{s.name.split(' ·')[0]}</strong><span>الصف {s.grade} · {countOf(s.goals.length, 'هدف', 'هدفان', 'أهداف')}</span></div><ChevronLeft size={16} /></Link>)}<p className="demo-note">ملفات خيالية لاستكشاف التجربة</p></section>
         {pending > 0 && <Link to="/review" className="home-note"><ClipboardCheck size={20} /><span><strong>{pending} بانتظار المراجعة</strong><small>نظرة ثانية قبل التدريس</small></span><ChevronLeft size={16} /></Link>}</aside></div></>;
+}
+/** First steps for a new teacher, ticked from her own data (demo learners do not count). Hidden once done or dismissed. */
+function StartHere() {
+  const { data } = useWorkspace(); const real = data.learners.filter(l => !/^demo-/.test(l.id)); const ids = new Set(real.map(l => l.id));
+  const [hidden, setHidden] = useState(() => { try { return localStorage.getItem('tarbya.start.hidden') === '1'; } catch { return false; } });
+  const steps = [
+    { done: real.length > 0, to: '/learners', title: 'أضف ملف طالب', hint: 'بالأحرف الأولى أو اسم مستعار، بعد موافقة ولي الأمر' },
+    { done: real.some(l => l.goals.length > 0), to: '/learners', title: 'حدّد كيف يتعلّم، وأضف هدفًا', hint: 'كيف يفهم؟ كيف يجيب؟ ماذا يحتاج على الشاشة؟' },
+    { done: (data.practiceSessions ?? []).some(p => ids.has(p.learnerId)), to: '/games', title: 'جرّب نشاطًا معه', hint: 'يتكيّف النشاط وحده مع ملفه، واحفظ السجل في آخره' },
+    { done: (data.plans ?? []).length > 0, to: '/plans', title: 'حضّر أسبوعك', hint: 'خمس جلسات من حزمة واحدة، وتصدير Word' },
+  ];
+  const left = steps.filter(s => !s.done).length;
+  if (hidden || !left) return null;
+  return <section className="panel start-here"><div className="section-heading"><h2>ابدأ من هنا</h2><span className="start-count">{steps.length - left} من {steps.length}</span></div><ol>{steps.map(s => <li key={s.title} className={s.done ? 'is-done' : ''}><Link to={s.to}>{s.done ? <CheckCircle2 size={22} aria-hidden="true" /> : <span className="start-dot" aria-hidden="true" />}<span><strong>{s.title}</strong><small>{s.done ? 'تم' : s.hint}</small></span></Link></li>)}</ol><button className="text-link" onClick={() => { setHidden(true); try { localStorage.setItem('tarbya.start.hidden', '1'); } catch { /* the list just shows again next time */ } }}>إخفاء هذه القائمة</button></section>;
 }
 /** The next thing to do, not a wall of numbers. */
 function TodayPanel() {
