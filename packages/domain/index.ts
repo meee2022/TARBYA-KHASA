@@ -16,7 +16,7 @@ export interface Preferences { largeText: boolean; highContrast: boolean; sound:
 /** Per-learner boards for the student tools. Lists hold catalog ids. */
 export interface LearnerSupports { schedule?: string[]; first?: string; then?: string; tokenGoal?: number; reward?: string; communication?: string[]; favourite?: string; }
 export interface Goal { id: string; text: string; subject: Subject; target: number; opportunities: number; baseline: string; support?: Support; sessions?: number; approvedAt?: string; steps?: string[]; }
-export interface Learner { id: string; name: string; grade: string; initials: string; color: string; strengths: string; needs: string; preferences: Preferences; goals: Goal[]; supports?: LearnerSupports; avatarId?: string; family?: FamilyLink; behaviour?: BehaviourNote[]; }
+export interface Learner { id: string; name: string; grade: string; initials: string; color: string; strengths: string; needs: string; preferences: Preferences; goals: Goal[]; supports?: LearnerSupports; avatarId?: string; family?: FamilyLink; behaviour?: BehaviourNote[]; consentAt?: string; }
 export interface Question { id: string; prompt: string; options: string[]; answer: number; target?: string; }
 export interface Lesson { id: string; title: string; subject: Subject; grade: string; duration: number; learnerIds: string[]; goalIds: string[]; objective: string; warmup: string; teaching: string; practice: string; closing: string; adaptations: string; source: string; sourceText: string; language: 'ar' | 'en'; status: Status; reviewNote: string; questions: Question[]; updatedAt: string; packId?: string; }
 export interface Trial { questionId: string; selected: number | null; correct: boolean; support: Support; }

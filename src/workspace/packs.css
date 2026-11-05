@@ -459,3 +459,6 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .support-rate { margin-top: 10px; padding: 10px 14px; border-radius: 16px; background: #0000001f; }
 .support-rate .button { min-height: 40px; padding-inline: 14px; font-size: 14px; }
 .focus-one .support-rate { background: transparent; }
+.consent-row { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.6; }
+.consent-row input { width: 20px; height: 20px; margin-top: 3px; flex: none; }
+.reward-taken { min-height: 40px; }
