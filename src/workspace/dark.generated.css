@@ -445,9 +445,6 @@ html:where([data-theme='dark']) .breadcrumb>span:where(:not(.play-room, .play-ro
 html:where([data-theme='dark']) .breadcrumb strong:where(:not(.play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #cbcfc8
 }
-html:where([data-theme='dark']) .eyebrow:where(:not(.play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #bbc1b6
-}
 html:where([data-theme='dark']) .feature-lesson:where(:not(.play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #252e1b
 }
@@ -679,12 +676,6 @@ html:where([data-theme='dark']) .button.secondary:hover:where(:not(.play-room, .
 }
 html:where([data-theme='dark']) .studio label:where(:not(.play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #d7ced0
-}
-html:where([data-theme='dark']) .studio input:where(:not(.play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::placeholder {
-    color: #c3bbbd
-}
-html:where([data-theme='dark']) .studio textarea:where(:not(.play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::placeholder {
-    color: #c3bbbd
 }
 html:where([data-theme='dark']) .alert:where(:not(.play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2b1c17;

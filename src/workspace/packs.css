@@ -65,7 +65,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .item-fields label { font-size: 12px; }
 .item-media { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .item-media .button { min-height: 40px; padding: 7px 12px; font-size: 12px; cursor: pointer; }
-.item-media .icon-button { width: 36px; height: 36px; }
+.item-media .icon-button { width: 44px; height: 44px; }
 .is-recording { background: #fbe9ee !important; color: var(--brand-color, #801b3b) !important; border-color: var(--brand-color, #801b3b) !important; }
 .item-order { grid-column: 3; grid-row: 1 / span 2; display: flex; flex-direction: column; gap: 6px; }
 .emoji-input { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Tajawal, sans-serif; }
@@ -462,3 +462,24 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .consent-row { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.6; }
 .consent-row input { width: 20px; height: 20px; margin-top: 3px; flex: none; }
 .reward-taken { min-height: 40px; }
+/* Teacher workflow: autosave status, profile tabs, ABC notes, confirm dialog, error fallback. */
+.autosave { white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; font-size: 13px; color: var(--muted); background: var(--sage); }
+.autosave.is-saving { background: var(--sand); }
+.pref-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 10px; padding: 6px; border-radius: 16px; background: var(--canvas); }
+.pref-tabs button { flex: 1 1 auto; min-height: 40px; padding: 0 12px; border: 0; border-radius: 12px; background: transparent; color: var(--muted); font-weight: 500; transition: background-color .15s, color .15s; }
+.pref-tabs button:hover { color: var(--ink); }
+.pref-tabs button.active { background: var(--paper); color: var(--ink); box-shadow: var(--shadow-1); }
+.abc-list { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 10px; }
+.abc-list li { position: relative; display: grid; gap: 4px; padding: 12px 14px; padding-inline-end: 56px; border-radius: 14px; background: var(--canvas); font-size: 14px; }
+.abc-list li strong { font-size: 12px; color: var(--muted); }
+.abc-list li .icon-button { position: absolute; inset-inline-end: 6px; top: 6px; }
+.abc-form { margin-top: 10px; }
+.confirm-backdrop { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 16px; background: #1b0a1180; backdrop-filter: blur(2px); }
+.confirm-dialog { max-width: 440px; width: 100%; padding: 24px; animation: rise-in .22s var(--ease) both; }
+.confirm-dialog p { font-size: 16px; line-height: 1.7; margin-bottom: 18px; }
+.confirm-dialog .heading-actions { justify-content: flex-end; }
+.button.danger { background: #8c2a2a; color: #fff7ea; border: 0; }
+.button.danger:hover { background: #a33232; }
+.error-fallback { display: grid; gap: 14px; justify-items: start; max-width: 620px; margin: 40px auto; }
+.error-fallback small { color: var(--muted); font-family: ui-monospace, monospace; }
+@media (prefers-reduced-motion: reduce) { .confirm-dialog { animation: none; } }
