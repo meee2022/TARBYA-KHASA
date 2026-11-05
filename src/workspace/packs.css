@@ -483,3 +483,23 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .error-fallback { display: grid; gap: 14px; justify-items: start; max-width: 620px; margin: 40px auto; }
 .error-fallback small { color: var(--muted); font-family: ui-monospace, monospace; }
 @media (prefers-reduced-motion: reduce) { .confirm-dialog { animation: none; } }
+/* Paper: the trial sheet and the certificate. Both print on white and stay in daylight colours on screen. */
+.data-sheet { display: grid; gap: 22px; align-content: start; }
+.data-sheet .sheet-head div { display: grid; gap: 4px; }
+.data-goal h2 { font-size: 17px; margin-bottom: 4px; }
+.trial-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+.trial-table th, .trial-table td { border: 1px solid #333; height: 38px; text-align: center; font-size: 13px; }
+.trial-table th[scope=row] { width: 88px; background: #f1ece5; }
+.data-steps { margin: 10px 0 0; padding-inline-start: 20px; font-size: 14px; display: grid; gap: 6px; }
+.data-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; margin-top: auto; padding-top: 14px; border-top: 1px dashed #999; }
+.certificate { min-height: 0; padding: 24px; }
+.certificate-frame { border: 6px double #b98a3e; border-radius: 18px; padding: 44px 36px; text-align: center; display: grid; gap: 10px; justify-items: center; background: #fffdfa; }
+.certificate-frame img { width: 110px; }
+.certificate-brand { font-size: 14px; letter-spacing: .04em; color: #63152e; }
+.certificate h2 { font-family: 'El Messiri', 'Readex Pro', sans-serif; font-size: 2.2rem; color: #4a0e24; margin: 0; }
+.certificate-to { color: #6e5f62; margin: 0; }
+.certificate-name { font-family: 'El Messiri', sans-serif; font-size: 2.6rem; color: #801b3b; margin: 0; }
+.certificate-text { font-size: 1.1rem; max-width: 520px; margin: 0; line-height: 1.8; }
+.certificate-date { color: #6e5f62; margin-top: 6px; }
+.certificate-sign { display: flex; gap: 40px; margin-top: 28px; font-size: 14px; color: #2c1f22; }
+@media print { .certificate-frame { break-inside: avoid; } .data-goal { break-inside: avoid; } }

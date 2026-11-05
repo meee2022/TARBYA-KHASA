@@ -24,6 +24,14 @@ export function templateBlocker(template: TemplateId, pack: ContentPack): string
   return pictured >= 2 ? null : 'أضف صورًا لعنصرين على الأقل.';
 }
 
+/** Letters that never connect to the letter after them. */
+const noJoinAfter = /[\u0627\u0623\u0625\u0622\u062F\u0630\u0631\u0632\u0648\u0624\u0629\u0649\u0621]/;
+/** The shape each letter takes inside this word (initial, medial, final), drawn with joiners, so a tile looks the way the letter looks in the word. */
+export function letterForms(text: string): string[] {
+  const letters = wordLetters(text); if (!/\p{Script=Arabic}/u.test(text)) return letters;
+  const ZWJ = '\u200D';
+  return letters.map((l, i) => { const joinsPrev = i > 0 && !noJoinAfter.test(letters[i - 1][0]); const joinsNext = i < letters.length - 1 && !noJoinAfter.test(l[0]); return (joinsPrev ? ZWJ : '') + l + (joinsNext ? ZWJ : ''); });
+}
 /** Each base letter keeps its own marks (بَ stays one piece), so a diacritic never becomes a separate tile. */
 export const wordLetters = (text: string): string[] => { const letters: string[] = text.trim().match(/\P{M}\p{M}*/gu) ?? []; return letters.length <= 10 && !letters.includes(' ') ? letters : []; };
 

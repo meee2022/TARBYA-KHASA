@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, Star } from 'lucide-react';
 import { art } from '../../packages/domain/catalog';
-import { wordLetters } from '../../packages/domain/packs';
+import { letterForms, wordLetters } from '../../packages/domain/packs';
 import { arrange, boardAttempt, puzzleOrder, type GameRound, type PracticeAttempt, type Tile } from '../../packages/domain/games';
 import { TileFace, TilePicture } from './accessibility';
 
@@ -53,7 +53,7 @@ export function PuzzleBoard({ round, hinted, speakTile, onDone, say }: BoardProp
   </div>;
 }
 export function BuildBoard({ round, hinted, speakTile, onDone, say }: BoardProps) {
-  const tile = round.board![0]; const letters = useMemo(() => wordLetters(tile.label), [tile.label]);
+  const tile = round.board![0]; const letters = useMemo(() => wordLetters(tile.label), [tile.label]); const forms = useMemo(() => letterForms(tile.label), [tile.label]);
   const shuffled = useMemo(() => arrange(letters.map((letter, i) => ({ letter, i })), round.id), [letters, round.id]);
   const [used, setUsed] = useState<number[]>([]); const [mistake, setMistake] = useState(false);
   const press = (entry: { letter: string; i: number }) => {
@@ -61,7 +61,7 @@ export function BuildBoard({ round, hinted, speakTile, onDone, say }: BoardProps
     const next = [...used, entry.i]; setUsed(next);
     if (next.length === letters.length) { speakTile(tile); onDone([{ roundId: round.id, selected: tile.id, correct: !mistake, hintUsed: hinted }], `ركّبت كلمة ${tile.label}.`); }
   };
-  return <div className="build-board"><TilePicture tile={tile} /><p className="build-word" dir="auto" lang={tile.lang} aria-live="polite">{letters.slice(0, used.length).join('')}<span className="build-left" aria-label={`باقي ${letters.length - used.length} حروف`}>{'•'.repeat(letters.length - used.length)}</span></p><div className="build-letters" dir={tile.lang === 'en' ? 'ltr' : 'rtl'} role="group" aria-label="الحروف">{shuffled.map(entry => <button data-scan key={entry.i} disabled={used.includes(entry.i)} lang={tile.lang} onClick={() => press(entry)}>{entry.letter}</button>)}</div></div>;
+  return <div className="build-board"><TilePicture tile={tile} /><p className="build-word" dir="auto" lang={tile.lang} aria-live="polite">{letters.slice(0, used.length).join('')}<span className="build-left" aria-label={`باقي ${letters.length - used.length} حروف`}>{'•'.repeat(letters.length - used.length)}</span></p><div className="build-letters" dir={tile.lang === 'en' ? 'ltr' : 'rtl'} role="group" aria-label="الحروف">{shuffled.map(entry => <button data-scan key={entry.i} disabled={used.includes(entry.i)} lang={tile.lang} aria-label={entry.letter} onClick={() => press(entry)}>{forms[entry.i]}</button>)}</div></div>;
 }
 /** Answers sit on the grid edges; the robot's cell is the selection. Arrows work with touch, keyboard and switch scanning. */
 export function RobotBoard({ options, disabled, onSelect }: { options: Tile[]; disabled: boolean; onSelect: (tile: Tile) => void }) {

@@ -154,3 +154,12 @@ test('shared media needs a session, checks real content, and is served safely', 
     assert.ok(validateCatalog({ packs: [{ ...animals, items: [{ id: 'a', text: 'x', imageId: url }] }] }));
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('letter tiles take the shape they have inside the word', async () => {
+  const { letterForms } = await import('../packages/domain/packs.ts');
+  const ZWJ = '\u200D';
+  assert.deepEqual(letterForms('بيت'), ['ب' + ZWJ, ZWJ + 'ي' + ZWJ, ZWJ + 'ت'], 'initial, medial, final');
+  assert.deepEqual(letterForms('باب'), ['ب' + ZWJ, ZWJ + 'ا', 'ب'], 'alef never joins the letter after it');
+  assert.deepEqual(letterForms('bird'), ['b', 'i', 'r', 'd'], 'latin words are untouched');
+  assert.deepEqual(letterForms('وَرْد'), ['وَ', 'رْ', 'د'], 'non-joining letters stay isolated, marks included');
+});
