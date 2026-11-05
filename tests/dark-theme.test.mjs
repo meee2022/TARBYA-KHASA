@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { build, night, OUTPUT } from '../scripts/dark-theme.mjs';
 
 test('the generated night stylesheet matches the current stylesheets', () => {
-  assert.equal(readFileSync(OUTPUT, 'utf8'), build(), 'run `npm run theme:dark` after changing colors in a workspace stylesheet');
+  assert.equal(readFileSync(OUTPUT, 'utf8').replace(/\r\n/g, '\n'), build(), 'run `npm run theme:dark` after changing colors in a workspace stylesheet');
 });
 
 test('night colors: dark text lightens, light surfaces darken, brand fills and images stay', () => {
