@@ -90,6 +90,7 @@ const seededPacks: Record<string, string> = { animals: 'pack-animals', letters: 
 export function migrateWorkspace(w: Workspace): Workspace { return { ...w, packs: w.packs ?? [], learners: w.learners.map(l => l.avatarId || !/^demo-[1-6]$/.test(l.id) ? l : { ...l, avatarId: `avatar${l.id.slice(5)}` }), lessons: w.lessons.map(l => l.packId || !seededPacks[l.id] ? l : { ...l, packId: seededPacks[l.id] }) }; }
 /** Plain-language summary of how an activity changes for this learner. */
 export function describeAdaptation(p: Preferences): string[] {
+  if (p.access?.quiet) p = { ...p, sound: false, reducedMotion: true, access: { ...p.access, vibrate: false } };
   const out = [p.choices === 1 ? 'خيار واحد: تعلّم بلا خطأ' : p.choices === 2 ? 'خياران' : `${p.choices} خيارات`];
   if (p.targetSize === 'large') out.push('أزرار كبيرة');
   if (p.targetSize === 'xl') out.push('أزرار كبيرة جدًا');
@@ -104,6 +105,23 @@ export function describeAdaptation(p: Preferences): string[] {
   if (p.responds?.includes('dwell')) out.push('اختيار بالتثبيت');
   if (p.response === 'point') out.push('يشير والمعلم يسجّل');
   if (p.shortInstructions) out.push('تعليمة قصيرة');
+  const r = p.access;
+  if (r?.readAlong && p.sound) out.push('اقرأ معي بتظليل الكلمة');
+  if (r?.easyFont) out.push('خط ميسّر للقراءة');
+  if (r?.spacing) out.push('تباعد أوسع للأسطر والكلمات');
+  if (r?.tint && r.tint !== 'none') out.push('خلفية مريحة للنص');
+  if (r?.ruler) out.push('مسطرة القراءة');
+  if (r?.focusOne) out.push('عنصر واحد بخلفية سادة');
+  if (r?.highlight === 'yellow') out.push('تمييز الهدف بالأصفر على أسود');
+  if (r?.highlight === 'red') out.push('تمييز الهدف بالأحمر على أسود');
+  if (r?.describe && p.sound) out.push('وصف الصورة صوتيًا عند التركيز');
+  if (r?.quiet) out.push('وضع حسي هادئ: بلا صوت ولا حركة ولا اهتزاز');
+  if (r?.rounds) out.push(`${r.rounds} أسئلة في الجولة`);
+  if (r?.workMinutes) out.push(`مؤقت عمل ${r.workMinutes} دقائق ثم استراحة`);
+  if (r?.moveBreak) out.push('استراحة حركية مصوّرة');
+  if (r?.tokens) out.push('نجمة بعد كل إجابة صحيحة');
+  if (p.understands?.includes('sign')) out.push('فيديو الإشارة ظاهر تلقائيًا');
+  if (r?.vibrate ?? !p.sound) out.push('اهتزاز خفيف عند الإجابة');
   return out;
 }
 /** Combinations a teacher probably did not intend. Advice only: nothing is changed automatically. */
@@ -113,6 +131,8 @@ export function adaptationConflicts(p: Preferences): string[] {
   if (!p.sound && u.length === 1 && u[0] === 'audio') out.push('الصوت متوقف، بينما الصوت هو الطريقة الوحيدة المحددة لفهم التعليمات.');
   if (u.includes('sign') && !u.includes('picture') && !u.includes('text')) out.push('تحتاج لغة الإشارة إلى فيديو لكل عنصر. أضف صورة أو نصًا كبديل عندما لا يتوفر الفيديو.');
   if (p.responds?.includes('switch') && !p.scan) out.push('اخترت الإجابة بمفتاح واحد دون تفعيل المسح التلقائي.');
+  if (p.access?.describe && !p.sound) out.push('وصف الصورة صوتيًا يحتاج الصوت، والصوت متوقف لهذا الطالب.');
+  if (p.access?.readAlong && !p.sound) out.push('«اقرأ معي» يحتاج الصوت، والصوت متوقف لهذا الطالب.');
   if (p.response === 'point' && p.instant) out.push('الاختيار المباشر يسجّل الضغطة فورًا، بينما الطالب يشير والمعلم يضغط: تأكد أن هذا ما تريد.');
   return out;
 }

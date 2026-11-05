@@ -111,7 +111,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .hand-left .game-options, .hand-left .student-options { margin-left: 0; margin-right: auto; }
 .hand-right .game-task-actions { justify-content: flex-end; direction: ltr; }
 .hand-left .game-task-actions { justify-content: flex-start; direction: ltr; }
-.sign-video { margin: 12px auto; max-width: 420px; }
+.sign-video { width: 100%; margin: 12px auto; max-width: 420px; }
 .sign-video video { display: block; width: 100%; margin-top: 10px; border-radius: 14px; }
 
 /* Boards */
@@ -331,3 +331,63 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
   .trace-word { color: #ddd; -webkit-text-stroke: 0; }
   .tile-emoji { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* Reading supports chosen in the learner profile. Arabic never gets letter-spacing: it breaks the joined letters. */
+.reading-easy, .reading-easy :is(h1, h2, p, button, .tile-label, .reading-text) { font-family: 'OpenDyslexic', 'Noto Naskh Arabic', 'Readex Pro', sans-serif !important; }
+.reading-spaced :is(h1, h2, p, .tile-label) { line-height: 2.1 !important; word-spacing: .3em; }
+.reading-spaced [lang=en] { letter-spacing: .08em; }
+.reading-tint-sepia { --reading-paper: #fbf3e3; }
+.reading-tint-mint { --reading-paper: #e3f2e9; }
+:is(.reading-tint-sepia, .reading-tint-mint) .reading-text { background: var(--reading-paper); color: #2b2118 !important; padding: .3em .8em; border-radius: 18px; box-shadow: 0 1px 2px #0000001f, 0 10px 26px #00000029; }
+.read-word { background: #fde68a; color: #1c1c28; border-radius: 8px; box-shadow: 0 0 0 .12em #fde68a; transition: background-color .15s ease; }
+.reading-ruler { position: fixed; inset: 0; z-index: 30; pointer-events: none; --band: 46px; --edge: #d9b25c; --dim: #120d0c94;
+  background: linear-gradient(to bottom, var(--dim) calc(var(--ruler-y) - var(--band)), var(--edge) calc(var(--ruler-y) - var(--band)), var(--edge) calc(var(--ruler-y) - var(--band) + 3px), transparent calc(var(--ruler-y) - var(--band) + 3px), transparent calc(var(--ruler-y) + var(--band) - 3px), var(--edge) calc(var(--ruler-y) + var(--band) - 3px), var(--edge) calc(var(--ruler-y) + var(--band)), var(--dim) calc(var(--ruler-y) + var(--band))); }
+.sign-video-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.sign-video.is-big { max-width: min(100%, 860px); }
+
+/* Vision: one clear thing on a plain background. The teacher corner and the answer buttons stay. */
+.play-room.focus-one { background: #232a1c; --frame: none; }
+.focus-one .play-dots, .focus-one .complete-art { visibility: hidden; }
+.focus-one .tile-picture { filter: none !important; }
+.focus-one .target-tile .tile-picture { width: min(100%, 320px); height: auto; max-height: 300px; }
+/* Highlight colour for a learner who responds to one strong colour: yellow or red on black. */
+.play-room:is(.highlight-yellow, .highlight-red) { background: #000; --frame: none; --hl: #ffd400; --learning-ink: #fff; }
+.play-room.highlight-red { --hl: #ff4d3d; }
+:is(.highlight-yellow, .highlight-red) .reading-text { color: var(--hl) !important; }
+:is(.highlight-yellow, .highlight-red) :is(.target-tile, .card-stage, .door-open) { background: #000 !important; box-shadow: 0 0 0 6px var(--hl) !important; }
+:is(.highlight-yellow, .highlight-red) :is(.game-options, .student-options) > button { background: #000 !important; color: #fff !important; box-shadow: inset 0 0 0 3px #fff !important; }
+:is(.highlight-yellow, .highlight-red) :is(.game-options, .student-options) > button:is(.selected, .is-answer, [aria-pressed=true]) { color: var(--hl) !important; box-shadow: inset 0 0 0 8px var(--hl) !important; }
+:is(.highlight-yellow, .highlight-red) .tile-label { color: inherit !important; }
+/* Short screens, including 200% zoom on a laptop: the action row joins the page instead of covering it. */
+@media (max-height: 640px) {
+  .access-room.play-room :is(.game-task-actions, .communication-toggle) { position: static; }
+  .play-room .game-task { min-height: 0; }
+}
+
+/* Attention: a work bar that empties and then offers a break, and a star after each correct answer. */
+.work-timer { height: 12px; border-radius: 999px; background: #ffffff26; overflow: hidden; margin-bottom: 14px; }
+.work-timer span { display: block; height: 100%; border-radius: inherit; background: var(--brass-light, #e2c27a); transition: width 1s linear; }
+.play-tokens { gap: 6px; align-items: center; color: #fff7e866; }
+.play-tokens .earned { color: var(--brass-light, #e2c27a); }
+.play-tokens strong { color: #fff7e8; font-size: 15px; margin-inline-start: 8px; }
+.move-break { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 22px 34px; border-radius: 24px; background: var(--cream, #fff7e8); color: var(--wine-deep, #5b1430); box-shadow: 0 2px 4px #1b1f111f, 0 12px 30px #1b1f1140; }
+.move-break .tile-emoji { font-size: 5rem; line-height: 1; }
+.move-break .symbol-art { width: 160px; height: 160px; object-fit: contain; }
+.move-break strong { font-size: 1.5rem; }
+
+/* Autism: social stories, a warning before a change, and a quiet sensory mode. */
+.social-story { max-width: 760px; margin: 0 auto; display: grid; gap: 20px; text-align: center; }
+.story-title { color: var(--learning-muted); font-size: 15px; }
+.story-page { display: grid; justify-items: center; gap: 18px; padding: 30px 26px; border-radius: 24px; background: var(--cream, #fff7e8); color: var(--wine-night, #2b0f19); box-shadow: 0 2px 4px #1b1f111f, 0 14px 34px #1b1f1140; }
+.story-page .tile-emoji { font-size: 6rem; line-height: 1; }
+.story-page .symbol-art { width: 220px; height: 220px; object-fit: contain; }
+.play-room .story-page h1 { color: inherit; font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.7; }
+.story-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.story-actions .button { min-height: 56px; min-width: 150px; font-size: 17px; }
+.transition-warning { display: grid; justify-items: center; gap: 12px; margin: 18px auto; max-width: 520px; padding: 20px 24px; border-radius: 22px; background: var(--cream, #fff7e8); color: var(--wine-deep, #5b1430); }
+.transition-warning .symbol-art, .transition-warning .tile-emoji { width: 120px; height: 120px; font-size: 4rem; object-fit: contain; }
+.transition-warning strong { font-size: 1.4rem; }
+.transition-warning .work-timer { width: 100%; margin: 0; background: #5b14301f; }
+.play-room.sensory-quiet { background: #59604d; --frame: none; }
+.sensory-quiet .tile-picture { filter: none !important; }
+.sensory-quiet .visual-feedback { box-shadow: none; }

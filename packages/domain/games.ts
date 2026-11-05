@@ -43,7 +43,18 @@ export const communicationTiles: Tile[] = [
   { id: 'yes', label: 'نعم', symbol: 'yes' },
   { id: 'no', label: 'لا', symbol: 'no' },
 ];
-export interface AccessSettings { large: boolean; contrast: boolean; textAlternative: boolean; speech: boolean; choices: 1 | 2 | 3 | 4; scan: boolean; scanSeconds: number; target?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; dwell?: boolean; scanSpeak?: boolean; calm?: boolean; shortInstructions?: boolean; }
+export interface AccessSettings { large: boolean; contrast: boolean; textAlternative: boolean; speech: boolean; choices: 1 | 2 | 3 | 4; scan: boolean; scanSeconds: number; target?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; dwell?: boolean; scanSpeak?: boolean; calm?: boolean; shortInstructions?: boolean; easyFont?: boolean; spacing?: boolean; tint?: ReadingTint; ruler?: boolean; readAlong?: boolean; sign?: boolean; vibrate?: boolean; focusOne?: boolean; highlight?: 'none' | 'yellow' | 'red'; describe?: boolean; rounds?: number; workMinutes?: number; moveBreak?: boolean; tokens?: boolean; quiet?: boolean; story?: string; }
+/** Quiet sensory mode: sound, motion and vibration off in one switch. The teacher's other choices come back when it is turned off. */
+export function withQuiet(a: AccessSettings): AccessSettings { return a.quiet ? { ...a, speech: false, calm: true, vibrate: false } : a; }
+/** A soft paper colour behind what the student reads, for learners who find white glare tiring. */
+/** Exactly n rounds: a shorter round for a short attention span, or a repeat of the same items when the pack has fewer. */
+export function fitRounds<T extends { id: string }>(rounds: T[], n?: number): T[] {
+  if (!n || !rounds.length) return rounds;
+  return Array.from({ length: n }, (_, i) => i < rounds.length ? rounds[i] : { ...rounds[i % rounds.length], id: `${rounds[i % rounds.length].id}~${Math.floor(i / rounds.length)}` });
+}
+export type ReadingTint = 'none' | 'sepia' | 'mint';
+/** Words to speak and highlight one at a time, each with its own voice language, so a mixed Arabic and English line reads correctly. */
+export function readingWords(text: string): { text: string; lang: 'ar' | 'en' }[] { return text.split(/\s+/).filter(Boolean).map(w => ({ text: w, lang: /[A-Za-z]/.test(w) && !/\p{Script=Arabic}/u.test(w) ? 'en' : 'ar' })); }
 export const defaultAccess: AccessSettings = { large: false, contrast: false, textAlternative: false, speech: true, choices: 3, scan: false, scanSeconds: 4 };
 export function gameOptions(round: GameRound, count: 1 | 2 | 3 | 4): Tile[] {
   // Stable across re-renders, varied across tasks: position must not reveal the answer.
@@ -55,7 +66,7 @@ export function gameOptions(round: GameRound, count: 1 | 2 | 3 | 4): Tile[] {
 export interface PracticeAttempt { roundId: string; selected: string; correct: boolean; hintUsed: boolean; }
 export function practiceSummary(attempts: PracticeAttempt[]) { return { total: attempts.length, correct: attempts.filter(a => a.correct).length, independent: attempts.filter(a => a.correct && !a.hintUsed).length, assisted: attempts.filter(a => a.hintUsed).length }; }
 /** Starts a session from the learner's saved profile; the teacher can still adjust it before starting. */
-export function accessFromPreferences(p: { largeText: boolean; highContrast: boolean; sound: boolean; reducedMotion: boolean; choices: 1 | 2 | 3 | 4; access?: AccessSettings; responds?: string[]; targetSize?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; scan?: boolean; scanSpeak?: boolean; scanSeconds?: number; shortInstructions?: boolean }): AccessSettings {
-  return { ...defaultAccess, ...p.access, large: p.largeText, contrast: p.highContrast, speech: p.sound, choices: p.choices, calm: p.reducedMotion, target: p.targetSize ?? 'normal', hand: p.hand ?? 'any', steady: !!p.steady, instant: !!p.instant, scan: !!p.scan || !!p.responds?.includes('switch'), scanSpeak: !!p.scanSpeak, dwell: !!p.responds?.includes('dwell'), scanSeconds: p.scanSeconds ?? p.access?.scanSeconds ?? defaultAccess.scanSeconds, shortInstructions: !!p.shortInstructions };
+export function accessFromPreferences(p: { largeText: boolean; highContrast: boolean; sound: boolean; reducedMotion: boolean; choices: 1 | 2 | 3 | 4; access?: AccessSettings; responds?: string[]; targetSize?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; scan?: boolean; scanSpeak?: boolean; scanSeconds?: number; shortInstructions?: boolean; understands?: string[] }): AccessSettings {
+  return withQuiet({ ...defaultAccess, ...p.access, large: p.largeText, contrast: p.highContrast, speech: p.sound, choices: p.choices, calm: p.reducedMotion, target: p.targetSize ?? 'normal', hand: p.hand ?? 'any', steady: !!p.steady, instant: !!p.instant, scan: !!p.scan || !!p.responds?.includes('switch'), scanSpeak: !!p.scanSpeak, dwell: !!p.responds?.includes('dwell'), scanSeconds: p.scanSeconds ?? p.access?.scanSeconds ?? defaultAccess.scanSeconds, shortInstructions: !!p.shortInstructions, sign: !!p.understands?.includes('sign'), vibrate: p.access?.vibrate ?? !p.sound });
 }
 export function nextScanIndex(current: number, count: number) { return count > 0 ? (current + 1) % count : -1; }

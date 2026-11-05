@@ -1,8 +1,8 @@
-import { CSSProperties, PointerEvent as ReactPointerEvent, RefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { MessageCircle, Video } from 'lucide-react';
+import { CSSProperties, Fragment, PointerEvent as ReactPointerEvent, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { Maximize2, MessageCircle, Minimize2, Video, Volume2 } from 'lucide-react';
 export function SymbolArt({ entry }: { entry: { emoji: string; imageId?: string } }) { return entry.imageId ? <img className="symbol-art" src={entry.imageId} alt="" /> : <span className="tile-emoji" aria-hidden="true">{entry.emoji}</span>; }
-import { AccessSettings, nextScanIndex, Tile } from '../../packages/domain/games';
-import type { SymbolEntry } from '../../packages/domain/catalog';
+import { AccessSettings, nextScanIndex, readingWords, Tile } from '../../packages/domain/games';
+import type { SocialStory, SymbolEntry } from '../../packages/domain/catalog';
 import { playMedia, stopMedia, useMediaUrl } from './media';
 
 /** Picture of a pack item: uploaded image first, then emoji. Decorative: the owner sets the accessible name. */
@@ -11,16 +11,36 @@ export function TilePicture({ tile, className = '' }: { tile: Pick<Tile, 'emoji'
   if (url) return <img className={`tile-picture ${className}`} src={url} alt="" />;
   return tile.emoji ? <span className={`tile-emoji ${className}`} aria-hidden="true">{tile.emoji}</span> : null;
 }
-/** Picture and/or word. Without a visible word, the accessible name still carries it for screen readers. */
+/** Picture and/or word. A picture without a visible word is named by its description, so a screen reader user meets the picture, not its answer. */
 export function TileFace({ tile, textAlternative = false }: { tile: Tile; textAlternative?: boolean }) {
   const label = textAlternative && tile.hideLabel && tile.description ? tile.description : tile.label;
-  return <><TilePicture tile={tile} />{tile.hideLabel && !textAlternative ? <span className="visually-hidden">{label}</span> : <span className="tile-label" dir="auto" lang={tile.lang}>{label}</span>}</>;
+  return <><TilePicture tile={tile} />{tile.hideLabel && !textAlternative ? <span className="visually-hidden">{tile.description || label}</span> : <span className="tile-label" dir="auto" lang={tile.lang}>{label}</span>}</>;
 }
-export function SignVideo({ id }: { id?: string }) {
-  const url = useMediaUrl(id); const [open, setOpen] = useState(false);
+/** Opens by itself for a learner who understands through sign, and can be enlarged. */
+export function SignVideo({ id, auto = false }: { id?: string; auto?: boolean }) {
+  const url = useMediaUrl(id); const [open, setOpen] = useState(auto); const [big, setBig] = useState(false);
   if (!url) return null;
-  return <div className="sign-video"><button type="button" data-scan className="button secondary" onClick={() => setOpen(o => !o)} aria-expanded={open}><Video size={18} />{open ? 'إخفاء الإشارة' : 'شاهد بالإشارة'}</button>{open && <video src={url} controls muted loop autoPlay playsInline />}</div>;
+  return <div className={`sign-video ${big ? 'is-big' : ''}`}><div className="sign-video-actions"><button type="button" data-scan className="button secondary" onClick={() => setOpen(o => !o)} aria-expanded={open}><Video size={18} />{open ? 'إخفاء الإشارة' : 'شاهد بالإشارة'}</button>{open && <button type="button" data-scan className="button secondary" aria-pressed={big} onClick={() => setBig(b => !b)}>{big ? <Minimize2 size={18} /> : <Maximize2 size={18} />}{big ? 'تصغير الفيديو' : 'تكبير الفيديو'}</button>}</div>{open && <video src={url} controls muted loop autoPlay playsInline />}</div>;
 }
+/** A social story, one page at a time: one picture, one literal sentence, and the same buttons in the same place on every page. */
+export function SocialStoryView({ story, sound, onDone, doneLabel = 'أنا مستعد' }: { story: SocialStory; sound: boolean; onDone: () => void; doneLabel?: string }) {
+  const [page, setPage] = useState(0); const { speak } = useSpeech(); const heading = useRef<HTMLHeadingElement>(null);
+  const p = story.pages[page]; const last = page === story.pages.length - 1;
+  useEffect(() => { heading.current?.focus(); if (sound && p) speak(p.label); }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (!p) return null;
+  return <section className="social-story rise-in" aria-label={`قصة: ${story.title}`}><p className="story-title">{story.title} · {page + 1} من {story.pages.length}</p>
+    <div className="story-page"><SymbolArt entry={p} /><h1 ref={heading} tabIndex={-1}>{p.label}</h1></div>
+    <div className="story-actions"><button data-scan className="button secondary" disabled={!page} onClick={() => setPage(n => n - 1)}>السابق</button>{sound && <button data-scan className="button secondary" onClick={() => speak(p.label)}><Volume2 size={20} />استمع</button>}<button data-scan className="button primary" onClick={() => last ? onDone() : setPage(n => n + 1)}>{last ? doneLabel : 'التالي'}</button></div></section>;
+}
+/** A bar that empties during work time, then asks for a break. It never ends a task or costs anything. */
+export function WorkTimer({ minutes, running, onEnd }: { minutes: number; running: boolean; onEnd: () => void }) {
+  const total = minutes * 60; const [left, setLeft] = useState(total); const end = useRef(onEnd); end.current = onEnd;
+  useEffect(() => { if (!running) return; const t = window.setInterval(() => setLeft(l => l - 1), 1000); return () => clearInterval(t); }, [running]);
+  useEffect(() => { if (left <= 0) { setLeft(total); end.current(); } }, [left, total]);
+  return <div className="work-timer" role="img" aria-label={`وقت العمل: باقي ${Math.ceil(left / 60)} دقيقة`}><span style={{ width: `${left / total * 100}%` }} /></div>;
+}
+/** A short pulse after an answer, for learners who do not hear the feedback. Silently does nothing where unsupported, such as iPhone Safari. */
+export function buzz(on: boolean | undefined, correct: boolean) { if (on) navigator.vibrate?.(correct ? 60 : [30, 90, 30]); }
 const voice = (lang: 'ar' | 'en') => lang === 'en' ? 'en-GB' : 'ar-QA';
 export function useSpeech() {
   const [error, setError] = useState('');
@@ -42,7 +62,20 @@ export function useSpeech() {
   const speak = useCallback((text: string, lang: 'ar' | 'en' = 'ar') => say({ text, lang }), [say]);
   /** The teacher's recording wins over the synthetic voice; a failed recording falls back to it. */
   const sayTile = useCallback((tile: Pick<Tile, 'label' | 'audioId' | 'lang'>) => { if (tile.audioId) { window.speechSynthesis?.cancel(); playMedia(tile.audioId).catch(() => speak(tile.label, tile.lang)); } else speak(tile.label, tile.lang); }, [speak]);
-  return { say, speak, sayTile, error, stop };
+  /** Reads one word at a time so the shown word can be highlighted: many Arabic voices never report word boundaries. */
+  const readAlong = useCallback((text: string, onWord: (index: number) => void) => {
+    if (!('speechSynthesis' in window)) { setError('الصوت غير متاح هنا. جميع التعليمات ظاهرة كتابةً.'); return; }
+    window.speechSynthesis.cancel(); stopMedia(); setError('');
+    const words = readingWords(text);
+    words.forEach((word, i) => {
+      const speech = new SpeechSynthesisUtterance(word.text); speech.lang = voice(word.lang); speech.rate = .7;
+      speech.onstart = () => onWord(i);
+      speech.onerror = () => onWord(-1);
+      if (i === words.length - 1) speech.onend = () => onWord(-1);
+      window.speechSynthesis.speak(speech);
+    });
+  }, []);
+  return { say, speak, sayTile, readAlong, error, stop };
 }
 export function useSwitchScan(root: RefObject<HTMLElement>, enabled: boolean, seconds: number, stepKey: string, stop: () => void, announce?: (text: string) => void) {
   const spoken = useRef(announce); spoken.current = announce;
@@ -98,7 +131,22 @@ export function steadyTap(enabled: boolean | undefined) {
     last = e.timeStamp;
   };
 }
-export function accessClass(a: AccessSettings) { return ['access-room', a.large && 'learning-large', a.contrast && 'learning-contrast', a.target && a.target !== 'normal' && `target-${a.target}`, a.hand && a.hand !== 'any' && `hand-${a.hand}`, a.calm && 'calm-room'].filter(Boolean).join(' '); }
+export function accessClass(a: AccessSettings) { return ['access-room', a.large && 'learning-large', a.contrast && 'learning-contrast', a.target && a.target !== 'normal' && `target-${a.target}`, a.hand && a.hand !== 'any' && `hand-${a.hand}`, a.calm && 'calm-room', a.easyFont && 'reading-easy', a.spacing && 'reading-spaced', a.tint && a.tint !== 'none' && `reading-tint-${a.tint}`, a.focusOne && 'focus-one', a.highlight && a.highlight !== 'none' && `highlight-${a.highlight}`, a.quiet && 'sensory-quiet'].filter(Boolean).join(' '); }
+/** Text the student reads, split into words so «اقرأ معي» can light up the word being spoken. */
+export function ReadingText({ text, word }: { text: string; word: number }) {
+  return <>{readingWords(text).map((w, i) => <Fragment key={i}>{i ? ' ' : ''}<span lang={w.lang} className={i === word ? 'read-word' : undefined}>{w.text}</span></Fragment>)}</>;
+}
+/** Dims everything above and below one band. Follows the pointer, and the focused button for keyboard and switch users. */
+export function ReadingRuler() {
+  const [y, setY] = useState(() => window.innerHeight / 3);
+  useEffect(() => {
+    const move = (e: PointerEvent) => setY(e.clientY);
+    const focus = (e: FocusEvent) => { const r = (e.target as Element).getBoundingClientRect?.(); if (r) setY(r.top + r.height / 2); };
+    window.addEventListener('pointermove', move); document.addEventListener('focusin', focus);
+    return () => { window.removeEventListener('pointermove', move); document.removeEventListener('focusin', focus); };
+  }, []);
+  return <div className="reading-ruler" aria-hidden="true" style={{ '--ruler-y': `${y}px` } as CSSProperties} />;
+}
 /** A deliberate hold, so a student's stray tap cannot open teacher controls. Keyboard and assistive clicks open directly. */
 export function HoldButton({ onOpen, children, className = '', style }: { onOpen: () => void; children: React.ReactNode; className?: string; style?: CSSProperties }) {
   const timer = useRef(0);

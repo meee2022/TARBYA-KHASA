@@ -4,12 +4,12 @@ import { ArrowLeft, CalendarCheck, Check, CircleDot, Hand, HeartHandshake, Lock,
 import { art } from '../../packages/domain/catalog';
 import { LearnerSupports } from '../../packages/domain';
 import { accessFromPreferences, defaultAccess } from '../../packages/domain/games';
-import type { SymbolEntry } from '../../packages/domain/catalog';
+import type { SocialStory, SymbolEntry } from '../../packages/domain/catalog';
 import { numberLocale } from '../../packages/domain/numbers';
 import { useWorkspace } from './store';
 import { useSiteConfig } from './site';
 import { Brand, Empty, PageHeading } from './Workspace';
-import { accessClass, CommunicationBoard, HoldButton, steadyTap, SymbolArt, useDwell, useSpeech, useSwitchScan } from './accessibility';
+import { accessClass, CommunicationBoard, HoldButton, SocialStoryView, steadyTap, SymbolArt, useDwell, useSpeech, useSwitchScan, WorkTimer } from './accessibility';
 import './games.css';
 import './packs.css';
 
@@ -19,6 +19,7 @@ const tools = [
   { id: 'tokens', title: 'لوحة التعزيز', text: 'يجمع الطالب رموزًا نحو ما اختاره، ولا تُسحب الرموز أبدًا.' },
   { id: 'communication', title: 'لوحة التواصل', text: 'رموز يختارها المعلم لكل طالب، تُنطق وتُعرض كبيرة.' },
   { id: 'calm', title: 'ركن الهدوء', text: 'تنفس مرئي وعدّ بصري وما يحبه الطالب، عند الحاجة إلى التنظيم.' },
+  { id: 'stories', title: 'القصص الاجتماعية', text: 'صفحات مصوّرة قصيرة بلغة حرفية، تُقرأ قبل نشاط جديد أو موقف متوقع.' },
   { id: 'routine', title: 'روتين الصباح', text: 'اليوم والتاريخ والطقس وقوانين الصف وقيمة الأسبوع، بضغطات قليلة.' },
 ] as const;
 
@@ -32,7 +33,7 @@ export function ToolsHub() {
   return <><PageHeading banner="banner-tools" title="أدوات دعم الطالب" description="جهّزها لكل طالب مرة واحدة، ثم افتحها بملء الشاشة وقت الحاجة. أدوات تعليمية وليست علاجًا." />
     <div className="toolbar"><label>الطالب<select value={learnerId} onChange={e => setLearnerId(e.target.value)}>{data.learners.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}</select></label></div>
     {!learner ? <Empty title="أضف ملف طالب أولًا" description="تُحفظ الأدوات داخل ملف كل طالب." /> : <>
-      <div className="tool-grid">{tools.map(({ id, title, text }, n) => <Link key={id} className="tool-card rise-in" style={{ animationDelay: `${n * 40}ms` }} to={`/support/${id}?learner=${learnerId}`}><img src={art(`tool-${id}`)} alt="" /><h2>{title}</h2><p>{text}</p><strong>افتح للطالب<ArrowLeft size={16} /></strong></Link>)}</div>
+      <div className="tool-grid">{tools.map(({ id, title, text }, n) => <Link key={id} className="tool-card rise-in" style={{ animationDelay: `${n * 40}ms` }} to={`/support/${id}?learner=${learnerId}`}><img src={art(id === 'stories' ? 'book' : `tool-${id}`)} alt="" /><h2>{title}</h2><p>{text}</p><strong>افتح للطالب<ArrowLeft size={16} /></strong></Link>)}</div>
       <section className="panel profile-section spaced-panel"><div className="section-heading"><h2>تجهيز الأدوات لهذا الطالب</h2><HeartHandshake size={20} /></div>
         <h3 className="tool-heading">جدول اليوم</h3><SymbolPicker entries={activities} selected={draft.schedule ?? []} onToggle={(id, on) => toggle('schedule', id, on)} />
         <div className="form-grid tool-form"><label>أولاً<select value={draft.first ?? ''} onChange={e => setDraft(d => ({ ...d, first: e.target.value }))}><option value="">اختر نشاطًا</option>{activities.map(a => <option key={a.id} value={a.id}>{a.label}</option>)}</select></label><label>ثم<select value={draft.then ?? ''} onChange={e => setDraft(d => ({ ...d, then: e.target.value }))}><option value="">اختر نشاطًا</option>{[...rewards, ...activities].map(a => <option key={a.id} value={a.id}>{a.label}</option>)}</select></label><label>أعمل من أجل<select value={draft.reward ?? ''} onChange={e => setDraft(d => ({ ...d, reward: e.target.value }))}><option value="">يختار الطالب</option>{rewards.map(a => <option key={a.id} value={a.id}>{a.label}</option>)}</select></label><label>عدد الرموز<select value={draft.tokenGoal ?? 3} onChange={e => setDraft(d => ({ ...d, tokenGoal: Number(e.target.value) }))}>{[1, 2, 3, 4, 5, 6, 8, 10].map(n => <option key={n} value={n}>{n}</option>)}</select></label><label>ما يحبه في ركن الهدوء<select value={draft.favourite ?? ''} onChange={e => setDraft(d => ({ ...d, favourite: e.target.value }))}><option value="">بدون</option>{rewards.map(a => <option key={a.id} value={a.id}>{a.label}</option>)}</select></label></div>
@@ -63,15 +64,17 @@ export function StudentTool() {
       {tool === 'tokens' && <Tokens goal={s.tokenGoal ?? 3} rewards={c.rewards} preset={s.reward} talk={talk} />}
       {tool === 'communication' && <CommunicationBoard tiles={s.communication ? c.communication.filter(t => s.communication!.includes(t.id)) : c.communication} sound={access.speech} onBreak={() => undefined} onRepeat={() => undefined} />}
       {tool === 'calm' && <Calm favourite={c.rewards.find(r => r.id === s.favourite)} still={!!access.calm} />}
+      {tool === 'stories' && <Stories stories={c.stories} sound={access.speech} />}
       {tool === 'routine' && <Routine weather={c.weather} rules={c.rules} values={c.values} talk={talk} />}
     </main>
   </div>;
 }
 function Tile({ entry, className = '' }: { entry: SymbolEntry; className?: string }) { return <div className={`big-symbol ${className}`}><SymbolArt entry={entry} /><strong>{entry.label}</strong></div>; }
 function Schedule({ items, talk }: { items: SymbolEntry[]; talk: (t: string) => void }) {
-  const [done, setDone] = useState(0);
+  const [done, setDone] = useState(0); const [warning, setWarning] = useState(false); const next = items[done + 1];
+  const advance = () => { const n = done + 1; setDone(n); setWarning(false); talk(n < items.length ? `انتهينا. الآن ${items[n].label}` : 'انتهينا من جدول اليوم. أحسنت'); };
   if (!items.length) return <Empty title="الجدول فارغ" description="جهّزه من صفحة أدوات دعم الطالب." />;
-  return <><h1 className="tool-title">{done < items.length ? `الآن: ${items[done].label}` : 'انتهينا'}</h1><ol className="schedule-strip">{items.map((item, n) => <li key={item.id} className={n < done ? 'is-done' : n === done ? 'is-now' : ''} aria-current={n === done ? 'step' : undefined}><SymbolArt entry={item} /><strong>{item.label}</strong><small>{n < done ? 'انتهى' : n === done ? 'الآن' : n === done + 1 ? 'التالي' : ''}</small></li>)}</ol><div className="tool-actions">{done < items.length ? <button data-scan className="button primary tool-big" onClick={() => { const next = done + 1; setDone(next); talk(next < items.length ? `انتهينا. الآن ${items[next].label}` : 'انتهينا من جدول اليوم. أحسنت'); }}><Check size={26} />انتهيت من هذه الخطوة</button> : <button data-scan className="button secondary tool-big" onClick={() => setDone(0)}><RotateCcw size={24} />من جديد</button>}</div></>;
+  return <><h1 className="tool-title">{done < items.length ? `الآن: ${items[done].label}` : 'انتهينا'}</h1><ol className="schedule-strip">{items.map((item, n) => <li key={item.id} className={n < done ? 'is-done' : n === done ? 'is-now' : ''} aria-current={n === done ? 'step' : undefined}><SymbolArt entry={item} /><strong>{item.label}</strong><small>{n < done ? 'انتهى' : n === done ? 'الآن' : n === done + 1 ? 'التالي' : ''}</small></li>)}</ol>{warning && next && <div className="transition-warning" role="status"><SymbolArt entry={next} /><strong>بعد دقيقة ننتقل إلى: {next.label}</strong><WorkTimer minutes={1} running onEnd={advance} /></div>}<div className="tool-actions">{next && !warning && <button data-scan className="button secondary tool-big" onClick={() => { setWarning(true); talk(`بعد دقيقة ننتقل إلى ${next.label}`); }}><Timer size={24} />نبّه: بعد دقيقة</button>}{done < items.length ? <button data-scan className="button primary tool-big" onClick={advance}><Check size={26} />انتهيت من هذه الخطوة</button> : <button data-scan className="button secondary tool-big" onClick={() => setDone(0)}><RotateCcw size={24} />من جديد</button>}</div></>;
 }
 function FirstThen({ first, then, talk }: { first?: SymbolEntry; then?: SymbolEntry; talk: (t: string) => void }) {
   const [finished, setFinished] = useState(false);
@@ -100,4 +103,10 @@ function Routine({ weather, rules, values, talk }: { weather: SymbolEntry[]; rul
     {step === 2 && <><h1 className="tool-title">قوانين صفنا</h1><div className="big-choices">{rules.map(r => <button data-scan key={r.id} onClick={() => talk(r.label)}><SymbolArt entry={r} />{r.label}</button>)}</div></>}
     {step === 3 && value && <><h1 className="tool-title">قيمة الأسبوع</h1><Tile entry={value} /></>}
     <div className="tool-actions">{step > 0 && <button data-scan className="button secondary tool-big" onClick={() => setStep(s => s - 1)}>السابق</button>}{step < steps.length - 1 && <button data-scan className="button primary tool-big" onClick={() => setStep(s => s + 1)}>التالي</button>}</div></>;
+}
+function Stories({ stories, sound }: { stories: SocialStory[]; sound: boolean }) {
+  const [open, setOpen] = useState<SocialStory>(); const ready = stories.filter(s => s.pages.length);
+  if (open) return <SocialStoryView story={open} sound={sound} doneLabel="انتهت القصة" onDone={() => setOpen(undefined)} />;
+  if (!ready.length) return <Empty title="لا توجد قصص" description="أضف قصة اجتماعية من لوحة الإدارة." />;
+  return <><h1 className="tool-title">اختر قصة</h1><div className="big-choices">{ready.map(s => <button data-scan key={s.id} onClick={() => setOpen(s)}><SymbolArt entry={s.pages[0]} /><span>{s.title}</span></button>)}</div></>;
 }

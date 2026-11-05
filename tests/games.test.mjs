@@ -42,3 +42,47 @@ test('switch scanning wraps and tolerates changing or empty targets', () => {
   assert.equal(nextScanIndex(5, 2), 0);
   assert.equal(nextScanIndex(0, 0), -1);
 });
+
+test('read-along splits mixed Arabic and English into words with their own voice', async () => {
+  const { readingWords, accessFromPreferences } = await import('../packages/domain/games.ts');
+  assert.deepEqual(readingWords('  اختر صورة  cat الآن '), [{ text: 'اختر', lang: 'ar' }, { text: 'صورة', lang: 'ar' }, { text: 'cat', lang: 'en' }, { text: 'الآن', lang: 'ar' }]);
+  assert.deepEqual(readingWords(''), []);
+  // Reading supports saved on the learner reach the activity.
+  const a = accessFromPreferences({ largeText: false, highContrast: false, sound: true, reducedMotion: false, choices: 2, access: { large: false, contrast: false, textAlternative: false, speech: true, choices: 3, scan: false, scanSeconds: 4, readAlong: true, easyFont: true, tint: 'sepia', ruler: true, spacing: true } });
+  assert.deepEqual([a.readAlong, a.easyFont, a.tint, a.ruler, a.spacing, a.choices], [true, true, 'sepia', true, true, 2]);
+});
+
+test('hearing: sign learners get the video open, and vibration defaults on only when sound is off', async () => {
+  const { accessFromPreferences } = await import('../packages/domain/games.ts');
+  const base = { largeText: false, highContrast: false, reducedMotion: false, choices: 3 };
+  assert.equal(accessFromPreferences({ ...base, sound: true, understands: ['sign', 'picture'] }).sign, true);
+  assert.equal(accessFromPreferences({ ...base, sound: true, understands: ['picture'] }).sign, false);
+  assert.equal(accessFromPreferences({ ...base, sound: false }).vibrate, true);
+  assert.equal(accessFromPreferences({ ...base, sound: true }).vibrate, false);
+  // The teacher's choice wins over the default, both ways.
+  const access = { large: false, contrast: false, textAlternative: false, speech: true, choices: 3, scan: false, scanSeconds: 4 };
+  assert.equal(accessFromPreferences({ ...base, sound: false, access: { ...access, vibrate: false } }).vibrate, false);
+  assert.equal(accessFromPreferences({ ...base, sound: true, access: { ...access, vibrate: true } }).vibrate, true);
+});
+
+test('attention: a round can be shortened or lengthened to an exact number of tasks with unique ids', async () => {
+  const { fitRounds } = await import('../packages/domain/games.ts');
+  const rounds = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+  assert.deepEqual(fitRounds(rounds, undefined), rounds);
+  assert.deepEqual(fitRounds(rounds, 2).map(r => r.id), ['a', 'b']);
+  const long = fitRounds(rounds, 7).map(r => r.id);
+  assert.deepEqual(long, ['a', 'b', 'c', 'a~1', 'b~1', 'c~1', 'a~2']);
+  assert.equal(new Set(long).size, 7);
+  assert.deepEqual(fitRounds([], 5), []);
+});
+
+test('quiet sensory mode turns sound, motion and vibration off together, and only while it is on', async () => {
+  const { accessFromPreferences, withQuiet } = await import('../packages/domain/games.ts');
+  const base = { largeText: false, highContrast: false, reducedMotion: false, choices: 3, sound: true };
+  const access = { large: false, contrast: false, textAlternative: false, speech: true, choices: 3, scan: false, scanSeconds: 4, vibrate: true };
+  const q = accessFromPreferences({ ...base, access: { ...access, quiet: true } });
+  assert.deepEqual([q.speech, q.calm, q.vibrate], [false, true, false]);
+  const off = accessFromPreferences({ ...base, access: { ...access, quiet: false } });
+  assert.deepEqual([off.speech, off.calm, off.vibrate], [true, false, true]);
+  assert.equal(withQuiet(access), access);
+});

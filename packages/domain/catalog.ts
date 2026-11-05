@@ -2,6 +2,8 @@ import type { ContentPack, TemplateId, TemplateInfo } from './packs.ts';
 import type { Preferences, Support } from './index.ts';
 
 export interface SymbolEntry { id: string; label: string; emoji: string; imageId?: string; }
+/** A short pictured story read before a new activity or an expected situation. Each page is one picture and one literal sentence. */
+export interface SocialStory { id: string; title: string; pages: SymbolEntry[]; }
 export interface AvatarEntry { id: string; imageId: string; }
 export interface SupportEntry { id: Support; label: string; enabled: boolean; }
 export interface ProfilePreset { id: string; label: string; description: string; settings: Partial<Preferences>; }
@@ -13,9 +15,9 @@ export type PlanningList = keyof typeof planningLists;
 export interface Catalog extends Record<PlanningList, string[]> {
   academicYear: string; planPattern: PlanPatternSession[]; goalBank: GoalBankEntry[];
   subjects: string[]; grades: string[]; support: SupportEntry[]; templates: TemplateInfo[]; packs: ContentPack[]; presets: ProfilePreset[];
-  avatars: AvatarEntry[]; communication: SymbolEntry[]; activities: SymbolEntry[]; rewards: SymbolEntry[]; rules: SymbolEntry[]; values: SymbolEntry[]; weather: SymbolEntry[];
+  avatars: AvatarEntry[]; communication: SymbolEntry[]; activities: SymbolEntry[]; rewards: SymbolEntry[]; rules: SymbolEntry[]; values: SymbolEntry[]; weather: SymbolEntry[]; movement: SymbolEntry[]; stories: SocialStory[];
 }
-export const symbolLists = { communication: 'لوحة التواصل', activities: 'أنشطة الجدول المصوّر', rewards: 'خيارات التعزيز', rules: 'قوانين الصف', values: 'قيم الأسبوع', weather: 'حالات الطقس' } as const;
+export const symbolLists = { communication: 'لوحة التواصل', activities: 'أنشطة الجدول المصوّر', rewards: 'خيارات التعزيز', rules: 'قوانين الصف', values: 'قيم الأسبوع', weather: 'حالات الطقس', movement: 'الاستراحات الحركية' } as const;
 export type SymbolList = keyof typeof symbolLists;
 
 export const art = (name: string) => `/images/content/${name}.webp`;
@@ -66,6 +68,13 @@ export const defaultCatalog: Catalog = {
   avatars: [1, 2, 3, 4, 5, 6].map(n => ({ id: `avatar${n}`, imageId: art(`avatar${n}`) })),
   communication: symbols('c', [['help', 'أحتاج مساعدة', '🙋'], ['break', 'أحتاج استراحة', '⏸️'], ['repeat', 'أعد التعليمات', '🔁'], ['done', 'انتهيت', '✅'], ['yes', 'نعم', '👍'], ['no', 'لا', '✋'], ['water', 'أريد ماء', '💧'], ['toilet', 'دورة المياه', '🚻'], ['hurt', 'أشعر بألم', '🤕'], ['happy', 'أنا سعيد', '😊'], ['sad', 'أنا حزين', '😢'], ['loud', 'الصوت عالٍ', '🔇']]),
   activities: symbols('a', [['circle', 'الروتين الصباحي', '🌤️'], ['read', 'نقرأ', '📖'], ['write', 'نكتب', '✏️'], ['math', 'نعدّ', '🔢'], ['game', 'نلعب نشاطًا', '🎮'], ['video', 'نشاهد', '🎬'], ['hands', 'نشاط يدوي', '✂️'], ['move', 'نتحرك', '🤸'], ['snack', 'نأكل', '🍎'], ['wash', 'نغسل أيدينا', '🧼'], ['break', 'استراحة', '🛋️'], ['home', 'نعود إلى البيت', '🏠']]),
+  stories: [
+    { id: 'line', title: 'نقف في الطابور', pages: [{ id: 'p1', label: 'عندما ينتهي الدرس نخرج من الفصل.', emoji: '🚪' }, { id: 'p2', label: 'نقف واحدًا خلف الآخر.', emoji: '🧍' }, { id: 'p3', label: 'أترك مسافة صغيرة بيني وبين صديقي.', emoji: '↔️' }, { id: 'p4', label: 'نمشي عندما تمشي المعلمة.', emoji: '🚶' }, { id: 'p5', label: 'إذا احتجت مساعدة أرفع يدي.', emoji: '✋' }] },
+    { id: 'change', title: 'نغيّر النشاط', pages: [{ id: 'p1', label: 'أحيانًا ينتهي نشاط ويبدأ نشاط آخر.', emoji: '🔁' }, { id: 'p2', label: 'المعلمة تخبرني قبل التغيير بدقيقة.', emoji: '⏳' }, { id: 'p3', label: 'أنظر إلى الجدول لأعرف ما التالي.', emoji: '🗓️' }, { id: 'p4', label: 'إذا شعرت بالضيق أطلب استراحة.', emoji: '⏸️' }] },
+    { id: 'visitor', title: 'زائر في الفصل', pages: [{ id: 'p1', label: 'اليوم يأتي شخص جديد إلى الفصل.', emoji: '🧑' }, { id: 'p2', label: 'الزائر يجلس ويشاهد.', emoji: '🪑' }, { id: 'p3', label: 'أكمل عملي كالعادة.', emoji: '✏️' }, { id: 'p4', label: 'يمكنني أن أقول مرحبًا أو أن ألوّح بيدي.', emoji: '👋' }] },
+  ],
+  // Seated and standing options: the teacher keeps only what each learner's body allows.
+  movement: [{ id: 'stretch', label: 'قف ومدّ يديك إلى الأعلى', emoji: '🙆' }, { id: 'shoulders', label: 'حرّك كتفيك إلى الأعلى ثم إلى الأسفل', emoji: '🤷' }, { id: 'breathe', label: 'تنفّس ببطء ثلاث مرات', emoji: '🌬️' }, { id: 'clap', label: 'صفّق خمس مرات', emoji: '👏' }, { id: 'march', label: 'امشِ في مكانك عشر خطوات', emoji: '🚶' }],
   rewards: symbols('r', [['tablet', 'وقت على الجهاز', '📱'], ['song', 'أغنية مفضلة', '🎵'], ['color', 'تلوين', '🎨'], ['walk', 'جولة قصيرة', '🚶'], ['puzzle', 'لعبة تركيب', '🧩'], ['book', 'قصة', '📚'], ['star', 'ملصق نجمة', '⭐']]),
   rules: symbols('rule', [['listen', 'أنتبه للمعلمة', '👂'], ['hand', 'أرفع يدي', '✋'], ['sit', 'أجلس في مكاني', '🪑'], ['kind', 'أتعامل بلطف', '🤝'], ['tidy', 'أرتّب أدواتي', '🧹']]),
   values: symbols('v', [['thanks', 'الشكر', '🙏'], ['honesty', 'الصدق', '💎'], ['help', 'التعاون', '🤝'], ['respect', 'الاحترام', '🌟'], ['patience', 'الصبر', '🌱']]),
@@ -126,5 +135,5 @@ export function validateCatalog(input: unknown): Catalog {
   })), 'الحزم');
   const presets = unique(list(v.presets ?? d.presets, 30, 'الملفات الجاهزة', r => { const base = d.presets.find(p => p.id === r.id); if (!base) throw new Error('ملف جاهز غير معروف.'); return { ...base, label: text(r.label, 60, 'الملف الجاهز'), description: text(r.description, 200, 'الملف الجاهز') }; }), 'الملفات الجاهزة');
   const avatars = unique(list(v.avatars ?? d.avatars, 60, 'الصور الرمزية', r => ({ id: text(r.id, 64, 'الصورة'), imageId: media(r.imageId)! })), 'الصور الرمزية');
-  return { ...planning, academicYear, planPattern, goalBank, avatars, subjects: strings(v.subjects ?? d.subjects, 'المواد'), grades: strings(v.grades ?? d.grades, 'الصفوف'), support, templates, packs, presets, communication: symbolsOf(v.communication ?? d.communication, symbolLists.communication), activities: symbolsOf(v.activities ?? d.activities, symbolLists.activities), rewards: symbolsOf(v.rewards ?? d.rewards, symbolLists.rewards), rules: symbolsOf(v.rules ?? d.rules, symbolLists.rules), values: symbolsOf(v.values ?? d.values, symbolLists.values), weather: symbolsOf(v.weather ?? d.weather, symbolLists.weather) };
+  return { ...planning, academicYear, planPattern, goalBank, avatars, subjects: strings(v.subjects ?? d.subjects, 'المواد'), grades: strings(v.grades ?? d.grades, 'الصفوف'), support, templates, packs, presets, communication: symbolsOf(v.communication ?? d.communication, symbolLists.communication), activities: symbolsOf(v.activities ?? d.activities, symbolLists.activities), rewards: symbolsOf(v.rewards ?? d.rewards, symbolLists.rewards), rules: symbolsOf(v.rules ?? d.rules, symbolLists.rules), values: symbolsOf(v.values ?? d.values, symbolLists.values), weather: symbolsOf(v.weather ?? d.weather, symbolLists.weather), movement: symbolsOf(v.movement ?? d.movement, symbolLists.movement), stories: unique(list(v.stories ?? d.stories, 40, 'القصص الاجتماعية', r => ({ id: text(r.id, 64, 'القصص الاجتماعية'), title: text(r.title, 80, 'عنوان القصة'), pages: symbolsOf(r.pages, 'صفحات القصة').slice(0, 12) })), 'القصص الاجتماعية') };
 }
