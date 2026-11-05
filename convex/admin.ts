@@ -3,14 +3,14 @@ import { internalMutation, internalQuery, mutation, query, type MutationCtx, typ
 import type { Id } from "./_generated/dataModel";
 import { defaultSite, validateSite } from "../packages/domain/site.ts";
 import { latinizeContent, latinDigits } from "../packages/domain/numbers.ts";
-import { ATTEMPT_WINDOW_MS, MAX_ADMINS, MAX_ATTEMPTS, MAX_SITE_BYTES, SESSION_MS } from "./adminRules.ts";
+import { ATTEMPT_WINDOW_MS, MAX_ADMINS, MAX_ATTEMPTS, MAX_SITE_BYTES, MAX_TEACHERS, SESSION_MS } from "./adminRules.ts";
 
 const fail = (status: number, message: string) => new ConvexError({ status, message });
 const EXPIRED = "انتهت جلسة الإدارة. سجّل الدخول مجددًا.";
 type Admin = { _id: Id<"adminUsers">; username: string; name: string; active: boolean };
 const publicUser = (u: Admin) => ({ id: u._id, username: u.username, name: latinDigits(u.name), active: u.active });
 
-async function sha256(text: string) {
+export async function sha256(text: string) {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
@@ -20,12 +20,12 @@ async function userFromHash(ctx: QueryCtx, tokenHash: string) {
   const user = await ctx.db.get(session.userId);
   return user?.active ? user : null;
 }
-async function requireUser(ctx: QueryCtx, token: string) {
+export async function requireUser(ctx: QueryCtx, token: string) {
   const user = await userFromHash(ctx, await sha256(token));
   if (!user) throw fail(401, EXPIRED);
   return user;
 }
-async function audit(ctx: MutationCtx, actor: string, action: string) {
+export async function audit(ctx: MutationCtx, actor: string, action: string) {
   await ctx.db.insert("adminAudit", { actor, action, date: new Date().toISOString() });
   for (const old of (await ctx.db.query("adminAudit").order("desc").take(320)).slice(300)) await ctx.db.delete(old._id);
 }
@@ -53,9 +53,9 @@ export const state = query({
     return {
       json: site?.json ?? JSON.stringify(defaultSite),
       users: (await ctx.db.query("adminUsers").take(MAX_ADMINS + 1)).map(publicUser),
+      teachers: (await ctx.db.query("teachers").take(MAX_TEACHERS)).map((t) => ({ id: t._id, username: t.username, name: latinDigits(t.name), active: t.active })),
       audit: entries.map((a) => ({ id: a._id, actor: a.actor, action: a.action, date: a.date })),
-      // The AI helper runs on the local project server only, so it is never configured here.
-      aiConfigured: false,
+      aiConfigured: Boolean(process.env.ANTHROPIC_API_KEY),
     };
   },
 });

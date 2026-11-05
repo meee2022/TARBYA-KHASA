@@ -9,6 +9,11 @@ export default defineSchema({
   adminSessions: defineTable({ tokenHash: v.string(), userId: v.id("adminUsers"), expires: v.number() }).index("by_token", ["tokenHash"]).index("by_user", ["userId"]),
   adminAudit: defineTable({ actor: v.string(), action: v.string(), date: v.string() }),
   loginAttempts: defineTable({ key: v.string(), at: v.number() }).index("by_key", ["key"]),
+  // Teacher accounts, created by an admin. Each teacher's workspace (her learners, goals, lessons) is one JSON document only she can read.
+  teachers: defineTable({ username: v.string(), name: v.string(), hash: v.string(), salt: v.string(), active: v.boolean() }).index("by_username", ["username"]),
+  teacherSessions: defineTable({ tokenHash: v.string(), teacherId: v.id("teachers"), expires: v.number() }).index("by_token", ["tokenHash"]).index("by_teacher", ["teacherId"]),
+  teacherWorkspaces: defineTable({ teacherId: v.id("teachers"), json: v.string(), revision: v.number(), updatedAt: v.string() }).index("by_teacher", ["teacherId"]),
+  aiUsage: defineTable({ teacherId: v.id("teachers"), at: v.number() }).index("by_teacher", ["teacherId"]),
 
   // Tables below belong to the retired first version. Kept so existing rows stay valid; no function reads them.
   // الطلاب

@@ -1,12 +1,19 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
+import { accountsAvailable, login, logout, me, pull, push, SyncError, type Teacher } from './teacherApi';
 import { assertWorkspace, migrateWorkspace, seedWorkspace, Workspace, Lesson, Learner, Observation, PracticeRecord } from '../../packages/domain';
 import type { ContentPack } from '../../packages/domain/packs';
 import { useSiteConfig } from './site';
 import { latinizeContent } from '../../packages/domain/numbers';
 import { withPlanning, type Iep, type WeeklyPlan } from '../../packages/domain/planning';
 const KEY = 'tarbya.workspace.v1';
+// Which server revision this device last matched, and a fingerprint of the data at that moment. Lets a reload tell its own unsent edits from edits made elsewhere.
+const MARK = 'tarbya.sync.mark';
+const fingerprint = (json: string) => { let h = 5381; for (let i = 0; i < json.length; i++) h = (h * 33 + json.charCodeAt(i)) >>> 0; return `${json.length}:${h}`; };
+const readMark = (): { rev: number; sig: string } | null => { try { return JSON.parse(localStorage.getItem(MARK) ?? 'null'); } catch { return null; } };
+const writeMark = (rev: number, json: string) => { try { localStorage.setItem(MARK, JSON.stringify({ rev, sig: fingerprint(json) })); } catch { /* the next reload asks which copy to keep */ } };
+export type SyncState = 'off' | 'saving' | 'saved' | 'conflict' | 'error';
 const ready = (w: Workspace): Workspace => ({ ...w, plans: w.plans ?? [], ieps: w.ieps ?? [] });
-type Store = { data: Workspace; error: string; replaceData: (data: Workspace) => boolean; saveLesson: (lesson: Lesson) => void; saveLearner: (learner: Learner) => void; record: (value: Observation) => void; savePractice: (value: PracticeRecord) => boolean; savePack: (pack: ContentPack) => void; savePlan: (plan: WeeklyPlan) => void; removePlan: (id: string) => void; saveIep: (iep: Iep) => void; removePack: (id: string) => void; notify: (text: string) => void; notice: string; };
+type Store = { account: Teacher | null; sync: SyncState; syncMessage: string; signIn: (username: string, password: string) => Promise<void>; signOut: () => Promise<void>; reloadFromAccount: () => Promise<void>; data: Workspace; error: string; replaceData: (data: Workspace) => boolean; saveLesson: (lesson: Lesson) => void; saveLearner: (learner: Learner) => void; record: (value: Observation) => void; savePractice: (value: PracticeRecord) => boolean; savePack: (pack: ContentPack) => void; savePlan: (plan: WeeklyPlan) => void; removePlan: (id: string) => void; saveIep: (iep: Iep) => void; removePack: (id: string) => void; notify: (text: string) => void; notice: string; };
 const Context = createContext<Store>(null!);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState('');
@@ -38,7 +45,45 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     try { const clean=ready(latinizeContent(next)); localStorage.setItem(KEY,JSON.stringify(clean));setData(clean);setError('');return true; }
     catch { setError('تعذّر الحفظ على هذا الجهاز. لم تُستبدل البيانات.');return false; }
   };
-  return <Context.Provider value={{ data, error, replaceData, saveLesson, saveLearner, record, savePractice, savePack, removePack, savePlan, removePlan, saveIep, notify: setNotice, notice }}>{children}</Context.Provider>;
+  // Teacher account: the server copy is the reference, this browser keeps a working copy and sends changes 1.5 s after the last edit.
+  const [account, setAccount] = useState<Teacher | null>(null); const [sync, setSync] = useState<SyncState>('off'); const [syncMessage, setSyncMessage] = useState('');
+  const revision = useRef(0); const sent = useRef(''); const held = useRef(false);
+  const adopt = (json: string, rev: number) => { const parsed: unknown = JSON.parse(json); if (!assertWorkspace(parsed)) throw new SyncError('نسخة الحساب غير صالحة.', 400); const clean = ready(migrateWorkspace(latinizeContent(parsed))); const text = JSON.stringify(clean); try { localStorage.setItem(KEY, text); } catch { /* still shown */ } sent.current = text; revision.current = rev; writeMark(rev, text); setData(clean); };
+  const reconcile = useCallback(async (local: Workspace) => {
+    const server = await pull(); const localJson = JSON.stringify(local); const mark = readMark(); revision.current = server.revision;
+    held.current = false; setSyncMessage('');
+    if (!server.json) { sent.current = ''; setSync('saving'); return; } // An empty account takes this device's data on the next save.
+    const localChanged = fingerprint(localJson) !== mark?.sig; const serverChanged = server.revision !== mark?.rev;
+    if (server.json === localJson || !localChanged) { adopt(server.json, server.revision); setSync('saved'); return; }
+    if (!serverChanged) { sent.current = ''; setSync('saving'); return; }
+    // Both sides changed, or this device never synced: only the teacher can say which copy is right.
+    if (window.confirm('في حسابك نسخة محفوظة تختلف عن بيانات هذا الجهاز.\n\nموافق: افتح نسخة الحساب (تُستبدل بيانات هذا الجهاز).\nإلغاء: احتفظ ببيانات هذا الجهاز وارفعها إلى الحساب.')) { adopt(server.json, server.revision); setSync('saved'); }
+    else { sent.current = ''; setSync('saving'); }
+  }, []);
+  useEffect(() => {
+    if (!accountsAvailable) return;
+    me().then(t => { if (!t) return; setAccount(t); return reconcile(data); }).catch((e: SyncError) => { setSync('error'); setSyncMessage(e.message); });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!account || held.current) return;
+    const json = JSON.stringify(data); if (json === sent.current) return;
+    setSync('saving');
+    const timer = window.setTimeout(async () => {
+      try { revision.current = await push(json, revision.current); sent.current = json; writeMark(revision.current, json); setSync('saved'); setSyncMessage(''); }
+      catch (e) { const err = e as SyncError; setSyncMessage(err.message); if (err.status === 409) { held.current = true; setSync('conflict'); } else if (err.status === 401) { setAccount(null); setSync('off'); } else setSync('error'); }
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [data, account]);
+  const signIn = async (username: string, password: string) => { const t = await login(username, password); setAccount(t); await reconcile(data); };
+  const signOut = async () => {
+    if (sync === 'saving' || sync === 'error' || sync === 'conflict') { if (!window.confirm('بعض التعديلات لم تصل إلى حسابك بعد. هل تخرج وتفقدها؟')) return; }
+    await logout(); setAccount(null); setSync('off'); setSyncMessage(''); held.current = false; sent.current = '';
+    // Shared school devices: the teacher's pupils do not stay behind in this browser.
+    try { localStorage.removeItem(KEY); localStorage.removeItem(MARK); } catch { /* nothing stored */ }
+    setData(withPlanning(seedWorkspace()));
+  };
+  const reloadFromAccount = () => reconcile(data).catch((e: SyncError) => { setSync('error'); setSyncMessage(e.message); });
+  return <Context.Provider value={{ account, sync, syncMessage, signIn, signOut, reloadFromAccount, data, error, replaceData, saveLesson, saveLearner, record, savePractice, savePack, removePack, savePlan, removePlan, saveIep, notify: setNotice, notice }}>{children}</Context.Provider>;
 }
 export const useWorkspace = () => useContext(Context);
 /** Teacher packs first, then the shared library the admin controls. */

@@ -97,3 +97,55 @@ export const registerMedia = action({
     return { url };
   },
 });
+
+// Teacher accounts. An admin creates them; there is no open sign-up, so pupil data only enters through accounts the school knows.
+type TeacherResult = { token: string; teacher: { username: string; name: string } | null };
+const startTeacherSession = async (ctx: ActionCtx, teacherId: Id<"teachers">): Promise<TeacherResult> => {
+  const token = randomBytes(32).toString("hex");
+  const teacher: TeacherResult["teacher"] = await ctx.runMutation(internal.teacher.createSession, { teacherId, tokenHash: hashOf(token) });
+  return { token, teacher };
+};
+export const teacherLogin = action({
+  args: { username: v.string(), password: v.string() },
+  handler: async (ctx, { username: raw, password }): Promise<TeacherResult> => {
+    const denied = fail(401, "بيانات الدخول غير صحيحة.");
+    if (raw.length > 80 || password.length > 128) throw denied;
+    const username = raw.trim().toLowerCase(); const key = "teacher:" + username;
+    if (!await ctx.runMutation(internal.admin.attempt, { key })) throw fail(429, "محاولات كثيرة. حاول بعد 15 دقيقة.");
+    const teacher: Doc<"teachers"> | null = await ctx.runQuery(internal.teacher.teacherByUsername, { username });
+    const ok = verify(password, teacher ?? DUMMY);
+    if (!teacher || !teacher.active || !ok) throw denied;
+    await ctx.runMutation(internal.admin.clearAttempts, { key });
+    return startTeacherSession(ctx, teacher._id);
+  },
+});
+export const createTeacher = action({
+  args: { token: v.string(), username: v.string(), name: v.string(), password: v.string() },
+  handler: async (ctx, { token, ...body }): Promise<{ teacher: { id: string; username: string; name: string; active: boolean } }> => {
+    const actor = await requireUser(ctx, token);
+    const c = credentials(body);
+    return { teacher: await ctx.runMutation(internal.teacher.createTeacher, { actor: actor.username, username: c.username, name: c.name, ...hashPassword(c.password) }) };
+  },
+});
+export const resetTeacherPassword = action({
+  args: { token: v.string(), id: v.string(), password: v.string() },
+  handler: async (ctx, { token, id, password }): Promise<{ ok: true }> => {
+    const actor = await requireUser(ctx, token);
+    if (!validPasswordLength(password)) throw fail(400, "استخدم كلمة مرور من 12 إلى 128 حرفًا.");
+    const teacherId = id as Id<"teachers">;
+    await ctx.runMutation(internal.teacher.setPassword, { teacherId, ...hashPassword(password), actor: actor.username });
+    return { ok: true };
+  },
+});
+export const teacherChangePassword = action({
+  args: { token: v.string(), current: v.string(), password: v.string() },
+  handler: async (ctx, { token, current, password }): Promise<{ token: string }> => {
+    const teacher: Doc<"teachers"> | null = await ctx.runQuery(internal.teacher.teacherForToken, { tokenHash: hashOf(token) });
+    if (!teacher) throw fail(401, "انتهت جلستك. سجّل الدخول مجددًا.");
+    if (current.length > 128 || !verify(current, teacher)) throw fail(400, "كلمة المرور الحالية غير صحيحة.");
+    if (!validPasswordLength(password)) throw fail(400, "استخدم كلمة مرور من 12 إلى 128 حرفًا.");
+    const next = randomBytes(32).toString("hex");
+    await ctx.runMutation(internal.teacher.setPassword, { teacherId: teacher._id, ...hashPassword(password), tokenHash: hashOf(next) });
+    return { token: next };
+  },
+});

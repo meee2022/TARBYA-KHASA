@@ -27,6 +27,10 @@ async function route(path: string, body: Body) {
     case 'settings': return { site: site(await client.mutation(api.admin.saveSettings, { token: token(), json: JSON.stringify(body) })) };
     case 'users/create': return client.action(api.adminAuth.createUser, { token: token(), username: body.username, name: body.name, password: body.password });
     case 'users/toggle': { await client.mutation(api.admin.toggleUser, { token: token(), id: body.id }); return { ok: true }; }
+    case 'teachers/create': return client.action(api.adminAuth.createTeacher, { token: token(), username: body.username, name: body.name, password: body.password });
+    case 'teachers/toggle': { await client.mutation(api.teacher.toggleTeacher, { token: token(), id: body.id }); return { ok: true }; }
+    case 'teachers/password': return client.action(api.adminAuth.resetTeacherPassword, { token: token(), id: body.id, password: body.password });
+    case 'teachers/remove': { await client.mutation(api.teacher.removeTeacher, { token: token(), id: body.id }); return { ok: true }; }
     case 'password': { const r = await client.action(api.adminAuth.changePassword, { token: token(), current: body.current, password: body.password }); remember(r.token); return { ok: true }; }
     default: throw new ApiError('الإجراء غير موجود.', 404);
   }

@@ -1,0 +1,29 @@
+import { ConvexError } from 'convex/values';
+import { api } from '../../convex/_generated/api';
+import { convex } from '../convexClient';
+
+/** Teacher accounts live on Convex only; without it the workspace stays on this device. */
+export const accountsAvailable = !!convex;
+export type Teacher = { username: string; name: string };
+
+// ponytail: sessionStorage ends the session with the tab, which suits shared school devices; a stolen tab still has it for 12 hours at most.
+const KEY = 'tarbya.teacher.session';
+export const teacherToken = () => { try { return sessionStorage.getItem(KEY) ?? ''; } catch { return ''; } };
+const keep = (token: string) => { try { if (token) sessionStorage.setItem(KEY, token); else sessionStorage.removeItem(KEY); } catch { /* the session then ends with this page */ } };
+
+export class SyncError extends Error { constructor(message: string, public status: number) { super(message); } }
+async function call<T>(run: () => Promise<T>): Promise<T> {
+  try { return await run(); }
+  catch (e) {
+    if (e instanceof ConvexError && e.data && typeof e.data === 'object') throw new SyncError(String(e.data.message), Number(e.data.status));
+    throw new SyncError('تعذّر الاتصال بالخادم. تبقى تعديلاتك على هذا الجهاز حتى يعود الاتصال.', 0);
+  }
+}
+export const me = () => teacherToken() ? call(() => convex!.query(api.teacher.me, { token: teacherToken() })) : Promise.resolve(null);
+export async function login(username: string, password: string) { const r = await call(() => convex!.action(api.adminAuth.teacherLogin, { username, password })); keep(r.token); return r.teacher; }
+export async function logout() { const token = teacherToken(); keep(''); if (token) await call(() => convex!.mutation(api.teacher.logout, { token })).catch(() => undefined); }
+export const pull = () => call(() => convex!.query(api.teacher.workspace, { token: teacherToken() }));
+export const push = (json: string, revision: number) => call(() => convex!.mutation(api.teacher.saveWorkspace, { token: teacherToken(), json, revision }));
+export async function changePassword(current: string, password: string) { const r = await call(() => convex!.action(api.adminAuth.teacherChangePassword, { token: teacherToken(), current, password })); keep(r.token); }
+export const aiReady = () => call(() => convex!.query(api.teacher.aiReady, {}));
+export const generateDraft = async (request: unknown) => JSON.parse(await call(() => convex!.action(api.author.generate, { token: teacherToken(), request })));

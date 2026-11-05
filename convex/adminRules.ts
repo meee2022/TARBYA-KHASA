@@ -6,6 +6,11 @@ export const MAX_ATTEMPTS = 5;
 export const MAX_ADMINS = 20;
 export const MAX_SITE_BYTES = 900 * 1024;
 export const MEDIA_LIMIT = 30 * 1024 * 1024;
+export const TEACHER_SESSION_MS = 12 * 3600000;
+export const MAX_TEACHERS = 500;
+// Convex documents stop at 1 MiB; teacher pictures and recordings stay in the browser and are not part of this.
+export const MAX_WORKSPACE_BYTES = 900 * 1024;
+export const AI_DAILY_LIMIT = 30;
 
 /** A plain login name or an email address. The email is only a login name: nothing is ever sent to it. */
 export const validUsername = (value: unknown) => typeof value === 'string' && value.length <= 80 && (/^[a-zA-Z0-9_.-]{3,40}$/.test(value) || /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(value));

@@ -21,6 +21,15 @@
         "--strictPort"
       ],
       "port": 4174
+    },
+    {
+      "name": "web-local-convex",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set VITE_CONVEX_URL=http://127.0.0.1:3210&& npx vite --port 5199 --strictPort"
+      ],
+      "port": 5199
     }
   ]
 }
