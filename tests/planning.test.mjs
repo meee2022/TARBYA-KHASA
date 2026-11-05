@@ -208,3 +208,20 @@ test('a renamed performance domain still reaches Word, and emoji survive', () =>
   assert.ok(xml.includes('مجال قديم'));
   assert.equal(escapeXml('a😀b'), 'a😀b');
 });
+
+test('family week: plain words, only this learner and this week, and words from the lesson pack', async () => {
+  const { familyWeek, familyStatus } = await import('../packages/domain/planning.ts');
+  const { seedWorkspace } = await import('../packages/domain/index.ts');
+  const { defaultCatalog } = await import('../packages/domain/catalog.ts');
+  const w = seedWorkspace(); const learner = w.learners[0]; const lesson = w.lessons.find(l => l.packId === 'pack-animals' && l.learnerIds.includes(learner.id));
+  const now = new Date('2026-11-06T10:00:00Z');
+  const recent = { id: 'o1', lessonId: lesson.id, learnerId: learner.id, goalId: learner.goals[0].id, date: '2026-11-04T09:00:00Z', correct: 3, total: 5, independent: 2, support: 'verbal', note: '' };
+  const old = { ...recent, id: 'o2', date: '2026-10-01T09:00:00Z' };
+  const other = { ...recent, id: 'o3', learnerId: 'someone-else' };
+  const week = familyWeek({ ...w, observations: [recent, old, other], practiceSessions: [{ id: 'p1', gameId: 'g', title: 'ما اسم الصورة؟', learnerId: learner.id, date: '2026-11-05T09:00:00Z', attempts: [], access: {} }] }, learner.id, defaultCatalog.packs, now);
+  assert.deepEqual(week.lessons, [lesson.title]);
+  assert.deepEqual(week.activities, [{ title: 'ما اسم الصورة؟', times: 1 }]);
+  assert.ok(week.words.includes('whale'));
+  assert.ok(week.goals.every(g => Object.values(familyStatus).includes(g.status)));
+  assert.equal(familyWeek({ ...w, observations: [old] }, learner.id, defaultCatalog.packs, now).empty, true);
+});

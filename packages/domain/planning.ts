@@ -219,3 +219,17 @@ export function withPlanning(w: Workspace, catalog: Catalog = defaultCatalog): W
   const hasDemo = w.learners.some(l => l.id === 'demo-1');
   return { ...w, plans: w.plans ?? (hasDemo ? [demoPlan(w.learners)] : []), ieps: w.ieps ?? (hasDemo ? [demoIep(w.learners.find(l => l.id === 'demo-1')!, catalog)] : []), observations: hasDemo && !w.observations.length && !w.plans ? demoObservations(w) : w.observations };
 }
+
+/** Goal progress in words a family can read: no scores, no comparison with other children. */
+export const familyStatus: Record<GoalStatus, string> = { 'not-evaluated': 'بدأنا العمل عليه', training: 'نتدرّب عليه', met: 'نرى تقدمًا واضحًا', approved: 'تحقق، ونبني عليه', review: 'نجرّب طريقة أخرى' };
+/** A week for the family: what was practised, how each goal is going, and words to repeat at home. */
+export function familyWeek(w: Workspace, learnerId: string, packs: ContentPack[], now = new Date()) {
+  const from = new Date(now.getTime() - 7 * 864e5).toISOString(); const learner = w.learners.find(l => l.id === learnerId);
+  const mine = w.observations.filter(o => o.learnerId === learnerId);
+  const seen = mine.filter(o => o.date >= from); const practice = (w.practiceSessions ?? []).filter(p => p.learnerId === learnerId && p.date >= from);
+  const lessons = [...new Set(seen.map(o => o.lessonId))].map(id => w.lessons.find(l => l.id === id)).filter((l): l is NonNullable<typeof l> => !!l);
+  const activities = [...practice.reduce((m, p) => m.set(p.title ?? p.gameId, (m.get(p.title ?? p.gameId) ?? 0) + 1), new Map<string, number>())].map(([title, times]) => ({ title, times }));
+  const words = [...new Set(lessons.flatMap(l => packs.find(p => p.id === l.packId)?.items.map(i => i.text) ?? []))].slice(0, 12);
+  const goals = (learner?.goals ?? []).map(g => ({ text: g.text, status: familyStatus[goalProgress(g, mine).status] }));
+  return { from, lessons: lessons.map(l => l.title), activities, words, goals, empty: !seen.length && !practice.length };
+}

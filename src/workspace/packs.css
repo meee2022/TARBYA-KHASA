@@ -415,3 +415,23 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 /* The button the switch is on grows and gets a thick ring, so it is clear from across the room. */
 .access-room button[data-scanning=true] { position: relative; z-index: 3; transform: scale(1.08); outline: 6px solid #164fca !important; outline-offset: 4px; box-shadow: 0 0 0 12px #fff, 0 12px 30px #0006 !important; transition: transform .15s ease; }
 .calm-room button[data-scanning=true] { transform: none; }
+
+/* Weekly letter to the family: warm, plain and printable on one page. */
+.family-letter { display: grid; gap: 18px; line-height: 1.9; }
+.family-letter header { text-align: center; border-bottom: 3px solid #d9b25c; padding-bottom: 14px; }
+.family-letter h2 { margin: 6px 0; font-size: 26px; color: var(--wine-deep, #5b1430); }
+.family-letter h3 { margin: 0 0 8px; font-size: 17px; color: var(--wine-deep, #5b1430); }
+.family-date { color: #6b5d50; font-size: 13px; }
+.family-letter ul { margin: 0; padding-inline-start: 22px; }
+.family-goals li { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; border-bottom: 1px dashed #e2d6c6; }
+.family-goals strong { flex: none; color: #2f5a3c; }
+.family-words { display: flex; flex-wrap: wrap; gap: 8px; }
+.family-words span { padding: 4px 14px; border-radius: 999px; background: #f3ead8; }
+.family-letter textarea { width: 100%; border: 1px solid #d8ccbb; border-radius: 12px; padding: 10px 12px; font: inherit; resize: vertical; }
+.family-letter footer { font-size: 12px; color: #6b5d50; text-align: center; border-top: 1px solid #e2d6c6; padding-top: 10px; }
+.family-empty { color: #6b5d50; }
+@media print { .family-letter textarea { border: 0; padding: 0; resize: none; } .family-letter textarea:placeholder-shown { display: none; } }
+
+.privacy-page { display: grid; gap: 22px; max-width: 820px; line-height: 2; }
+.privacy-page h2 { font-size: 19px; margin-bottom: 4px; }
+.privacy-page ul { padding-inline-start: 22px; }
