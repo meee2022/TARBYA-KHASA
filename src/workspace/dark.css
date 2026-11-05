@@ -1,0 +1,78 @@
+/* Night mode for the teacher's workspace. The same walnut-and-burgundy world, lit low.
+   Screen only: printed sheets stay on white paper. Play rooms keep their own felt surfaces,
+   because the learner's materials are tuned per child, not per teacher. */
+/* ds-allow-hardcode:start — this file defines the night token values; body sits outside .studio so it repeats canvas and ink. */
+@media screen {
+  :root[data-theme='dark'] { color-scheme: dark; }
+  :root[data-theme='dark'] body { background: #171113; color: #efe4de; }
+  :root[data-theme='dark'] .studio {
+    --wine: var(--brand-color, #801b3b);
+    --wine-dark: #9c3354;
+    --wine-text: #f0a6b8;
+    --brass: #c99b4f;
+    --brass-light: #e6c88d;
+    --olive: #4c5730;
+    --ink: #f1e7e1;
+    --muted: #b8a9a4;
+    --line: #3a2e31;
+    --canvas: #171113;
+    --paper: #221a1d;
+    --cream: #2a2023;
+    --sage: #1f261d;
+    --sand: #2b2219;
+    --rose: #321e26;
+    --sky: #1c2528;
+    --green: #8fbf9c;
+    --note: #2d2416;
+    --note-ink: #e8cf9a;
+    --chip: #2e2527;
+    --chip-ink: #e2d6c6;
+    --sage-ink: #bcd0a8;
+    --tray: #261e20;
+    --tray-2: #2a2124;
+    --shadow-1: 0 1px 2px #00000040, 0 2px 6px #00000033;
+    --shadow-2: 0 1px 2px #00000047, 0 8px 22px #00000052;
+    --shadow-3: 0 2px 6px #00000052, 0 22px 48px #00000066;
+  }
+  /* Learner-facing rooms and paper previews keep the daylight palette (same list as ISLANDS in scripts/dark-theme.mjs). */
+  :root[data-theme='dark'] .studio :is(.play-room, .sheet-page, .slide-preview, .sample-slide, .deck-presenter, .print-questions) {
+    color-scheme: light;
+    --wine-dark: #63152e;
+    --wine-text: var(--wine);
+    --brass: #b98a3e;
+    --brass-light: #e2c07f;
+    --ink: #2c1f22;
+    --muted: #6e5f62;
+    --line: #e8e0d7;
+    --canvas: #f1ece5;
+    --paper: #fffdfa;
+    --cream: #f7efe0;
+    --sage: #e5eadb;
+    --sand: #f3e7d3;
+    --rose: #f3e2e4;
+    --sky: #dfe6e8;
+    --green: #3e5a48;
+    --note: #fbf1dc;
+    --note-ink: #5c4414;
+    --chip: #efe7dc;
+    --chip-ink: #4f4336;
+    --sage-ink: #3f4d33;
+    --tray: #fbf7f0;
+    --tray-2: #f7f1e8;
+    --shadow-1: 0 1px 2px #3a1a1212, 0 2px 6px #3a1a120d;
+    --shadow-2: 0 1px 2px #3a1a1214, 0 8px 22px #3a1a1214;
+    --shadow-3: 0 2px 6px #3a1a121c, 0 22px 48px #3a1a1224;
+  }
+}
+
+/* The wordmark is drawn in its background color: on the page it takes the light brand tint, on burgundy bars it stays cream. */
+@media screen { :root[data-theme='dark'] .studio .brand-wordmark:not(.sidebar *, .admin-header *, .play-room *) { background: var(--wine-text); } }
+
+/* Theme picker in Settings: three pressable choices, the active one filled. */
+.theme-options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.theme-options button { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--ink); font-weight: 500; transition: transform .18s var(--ease), box-shadow .18s var(--ease), background-color .18s var(--ease), border-color .18s var(--ease); }
+.theme-options button:hover { transform: translateY(-1px); box-shadow: var(--shadow-1); border-color: var(--brass); }
+.theme-options button.active { border-color: var(--wine); background: var(--wine); color: var(--paper); box-shadow: var(--shadow-2); }
+:root[data-theme='dark'] .theme-options button.active { color: #fff7ea; } /* ds-allow-hardcode */
+@media (prefers-reduced-motion: reduce) { .theme-options button { transition: none; } .theme-options button:hover { transform: none; } }
+/* ds-allow-hardcode:end */

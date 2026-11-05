@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "convex": "convex dev",
     "dev:all": "npm-run-all --parallel dev convex",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "theme:dark": "node scripts/dark-theme.mjs"
   },
   "dependencies": {
     "@fontsource/el-messiri": "^5.3.0",
