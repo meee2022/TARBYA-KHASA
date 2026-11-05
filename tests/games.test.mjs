@@ -86,3 +86,40 @@ test('quiet sensory mode turns sound, motion and vibration off together, and onl
   assert.deepEqual([off.speech, off.calm, off.vibrate], [true, false, true]);
   assert.equal(withQuiet(access), access);
 });
+
+test('cognitive: three levels of the same item, missed items repeated once, repeats kept out of the summary', async () => {
+  const { tileAtLevel, roundAtLevel, missedRounds, practiceSummary } = await import('../packages/domain/games.ts');
+  const word = { id: 'w', label: 'whale', emoji: '🐋', imageId: '/images/content/whale.webp' };
+  const picture = { ...word, hideLabel: true };
+  assert.deepEqual([tileAtLevel(word, 'photo').imageId, tileAtLevel(word, 'symbol').imageId, tileAtLevel(word, 'symbol').emoji], [word.imageId, undefined, '🐋']);
+  assert.deepEqual([tileAtLevel(word, 'word').imageId, tileAtLevel(word, 'word').emoji], [undefined, undefined]);
+  assert.equal(tileAtLevel(picture, 'word'), picture, 'a picture that is the answer stays a picture');
+  const round = { id: 'r', prompt: 'x', target: picture, options: [word], answerId: 'w', hint: '' };
+  assert.equal(roundAtLevel(round, 'photo'), round);
+  assert.equal(roundAtLevel(round, 'word').options[0].emoji, undefined);
+  const attempts = [{ roundId: 'a', selected: 'x', correct: false, hintUsed: false }, { roundId: 'b', selected: 'y', correct: true, hintUsed: false }, { roundId: 'a~again', selected: 'a', correct: true, hintUsed: false, repeat: true }];
+  assert.deepEqual(missedRounds([{ id: 'a' }, { id: 'b' }], attempts).map(r => r.id), ['a']);
+  assert.deepEqual(practiceSummary(attempts), { total: 2, correct: 1, independent: 1, assisted: 0 });
+});
+
+test('short instructions are three words or fewer for every activity', async () => {
+  const { shortPrompts } = await import('../packages/domain/packs.ts');
+  for (const [id, text] of Object.entries(shortPrompts)) assert.ok(text.split(/\s+/).length <= 3, `${id}: ${text}`);
+});
+
+test('speech: the board gets the lesson words once each, and listen-and-repeat builds one round per item', async () => {
+  const { lessonWords } = await import('../packages/domain/games.ts');
+  const { playablePack } = await import('../packages/domain/packs.ts');
+  const { defaultCatalog } = await import('../packages/domain/catalog.ts');
+  const pack = defaultCatalog.packs[0];
+  const info = defaultCatalog.templates.find(t => t.id === 'repeat');
+  assert.ok(info, 'the activity is in the catalog');
+  const game = playablePack(pack, info, 3);
+  assert.equal(game.rounds.length, pack.items.length);
+  assert.ok(game.rounds.every(r => r.target && !r.target.hideLabel && r.options.length === 0));
+  const choose = playablePack(pack, defaultCatalog.templates.find(t => t.id === 'choose-word'), 3);
+  const words = lessonWords(choose.rounds);
+  assert.equal(new Set(words.map(w => w.id)).size, words.length);
+  assert.ok(words.every(w => !w.hideLabel && w.label));
+  assert.ok(words.length <= 12);
+});

@@ -2,17 +2,11 @@ import { useMemo, useState } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, Star } from 'lucide-react';
 import { art } from '../../packages/domain/catalog';
 import { wordLetters } from '../../packages/domain/packs';
-import type { GameRound, PracticeAttempt, Tile } from '../../packages/domain/games';
+import { arrange, boardAttempt, puzzleOrder, type GameRound, type PracticeAttempt, type Tile } from '../../packages/domain/games';
 import { TileFace, TilePicture } from './accessibility';
 
-/** Stable shuffle: order is fixed for a round, so it does not jump on re-render, and differs between rounds. */
-function arrange<T>(items: T[], seed: string) {
-  const out = [...items]; let n = [...seed].reduce((sum, c) => sum * 31 + c.codePointAt(0)! >>> 0, 7);
-  for (let i = out.length - 1; i > 0; i--) { n = (n * 1103515245 + 12345) >>> 0; const j = n % (i + 1); [out[i], out[j]] = [out[j], out[i]]; }
-  return out;
-}
 export type BoardProps = { round: GameRound; hinted: boolean; speakTile: (tile: Tile) => void; onDone: (attempts: PracticeAttempt[], message: string) => void; say: (text: string) => void };
-const attempt = (round: GameRound, tile: Tile, wrong: Set<string>, hinted: boolean): PracticeAttempt => ({ roundId: `${round.id}-${tile.id}`, selected: tile.id, correct: !wrong.has(tile.id), hintUsed: hinted });
+const attempt = boardAttempt;
 
 export function MatchBoard({ round, hinted, speakTile, onDone, say }: BoardProps) {
   const tiles = round.board!; const pictures = useMemo(() => arrange(tiles, round.id), [tiles, round.id]);
@@ -44,7 +38,7 @@ export function MemoryBoard({ round, hinted, speakTile, onDone, say }: BoardProp
   return <div className="board-grid memory-grid" role="group" aria-label="بطاقات الذاكرة">{cards.map(({ key, tile }, n) => { const shown = open.includes(key) || found.includes(tile.id); return <button data-scan key={key} className={`board-tile memory-card ${shown ? 'open' : ''} ${found.includes(tile.id) ? 'solved' : ''}`} disabled={found.includes(tile.id) || open.includes(key)} aria-label={shown ? tile.label : `بطاقة ${n + 1} مغلقة`} onClick={() => press(key, tile)}>{shown ? <TileFace tile={{ ...tile, hideLabel: false }} /> : <Star className="memory-back" size={44} aria-hidden="true" />}</button>; })}</div>;
 }
 export function PuzzleBoard({ round, hinted, speakTile, onDone, say }: BoardProps) {
-  const tile = round.board![0]; const count = 4; const pieces = useMemo(() => { const order = Array.from({ length: count }, (_, i) => i); const mixed = arrange(order, round.id); return mixed.every((p, i) => p === i) ? [1, 0, 3, 2] : mixed; }, [round.id]);
+  const tile = round.board![0]; const count = 4; const pieces = useMemo(() => puzzleOrder(round.id, count), [round.id]);
   const [piece, setPiece] = useState<number | null>(null); const [placed, setPlaced] = useState<number[]>([]); const [mistake, setMistake] = useState(false);
   const place = (slot: number) => {
     if (piece === null) { say('اختر قطعة أولًا.'); return; }

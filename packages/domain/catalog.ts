@@ -39,6 +39,7 @@ export const defaultCatalog: Catalog = {
     ['choose-word', 'ما اسم الصورة؟', 'تظهر صورة ويختار الطالب اسمها.', 'ربط الصورة بالكلمة', 'sage'],
     ['choose-picture', 'أين الصورة؟', 'تظهر كلمة ويختار الطالب صورتها.', 'تمييز مدلول الكلمة', 'rose'],
     ['listen', 'أسمع وأختار', 'يستمع الطالب ثم يختار الصورة. لا يناسب من لا يعتمد على السمع.', 'الفهم السمعي', 'sand'],
+    ['repeat', 'أسمع وأكرر', 'يسمع الطالب الكلمة بصوت المعلم ويكررها، والمعلم يسجّل المحاولة بالضغط. لا تقييم آلي للنطق.', 'النطق والتقليد', 'rose'],
     ['door', 'خلف الباب', 'يفتح الطالب بابًا ويكتشف ما خلفه، ثم يختار اسمه.', 'التشويق والتسمية', 'sand'],
     ['match', 'طابق بالنقر', 'يضغط الكلمة ثم صورتها، دون أي سحب.', 'المطابقة', 'sage'],
     ['memory', 'بطاقات الذاكرة', 'يبحث عن كل بطاقتين متشابهتين، بدءًا من زوجين.', 'الانتباه والذاكرة', 'blue'],
@@ -48,7 +49,7 @@ export const defaultCatalog: Catalog = {
     ['sequence', 'خطوتي التالية', 'يرتّب خطوات المهارة خطوة واحدة في كل مرة.', 'التسلسل والاستقلالية', 'blue'],
     ['robot', 'وجّه الروبوت', 'يحرّك الروبوت بالأسهم الكبيرة أو بمفتاح واحد نحو الإجابة.', 'التآزر والتوجيه', 'rose'],
     ['braille', 'اكتشف خلية برايل', 'يكوّن خمسة أحرف عربية بالنقاط الست، مع وصف مواضعها.', 'التعرّف إلى رموز برايل', 'rose'],
-  ] as [TemplateId, string, string, string, string][]).map(([id, title, description, skill, color]) => ({ id, title, description, skill, color, enabled: true, imageId: art(`tpl-${id}`) })),
+  ] as [TemplateId, string, string, string, string][]).map(([id, title, description, skill, color]) => ({ id, title, description, skill, color, enabled: true, imageId: art(id === 'repeat' ? 'tpl-listen' : `tpl-${id}`) })),
   packs: [
     { id: 'pack-animals', title: 'الحيوانات البرية', subject: 'اللغة الإنجليزية', language: 'en', ordered: false, updatedAt: stamp, items: [item('a1', 'whale', '🐋', 'whale', { description: 'حيوان ضخم يعيش في البحر' }), item('a2', 'giraffe', '🦒', 'giraffe', { description: 'حيوان له رقبة طويلة' }), item('a3', 'hippo', '🦛', 'hippo', { description: 'حيوان ضخم يحب الماء' }), item('a4', 'cheetah', '🐆', 'cheetah', { description: 'حيوان سريع جدًا' }), item('a5', 'crocodile', '🐊', 'crocodile', { description: 'حيوان له فك طويل وأسنان' }), item('a6', 'elephant', '🐘', 'elephant', { description: 'حيوان له خرطوم' }), item('a7', 'bird', '🐦', 'bird', { description: 'حيوان له جناحان' })] },
     { id: 'pack-words-ar', title: 'كلمات من حولي', subject: 'اللغة العربية', language: 'ar', ordered: false, updatedAt: stamp, items: [item('w1', 'باب', '🚪', 'door'), item('w2', 'بيت', '🏠', 'house'), item('w3', 'قلم', '✏️', 'pencil'), item('w4', 'كتاب', '📖', 'book'), item('w5', 'شمس', '☀️', 'sun'), item('w6', 'ماء', '💧', 'drop')] },

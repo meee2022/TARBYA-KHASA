@@ -391,3 +391,27 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .play-room.sensory-quiet { background: #59604d; --frame: none; }
 .sensory-quiet .tile-picture { filter: none !important; }
 .sensory-quiet .visual-feedback { box-shadow: none; }
+
+/* Cognitive: modelling the first task before the student tries it. */
+.model-note { display: inline-block; align-self: center; padding: 6px 16px; border-radius: 999px; background: var(--cream, #fff7e8); color: var(--wine-deep, #5b1430); font-weight: 600; }
+.game-options > button.is-model { outline: 5px solid var(--brass-light, #e2c27a); outline-offset: 4px; animation: model-pulse 1.4s ease-in-out 2; }
+@keyframes model-pulse { 50% { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .game-options > button.is-model { animation: none; } }
+
+/* Speech and language: the lesson's own words on the board, and the teacher's row for listen-and-repeat. */
+.communication-words-title { margin: 18px 0 10px; font-size: 16px; color: var(--learning-ink); }
+.communication-tiles .tile-picture { width: 64px; height: 64px; object-fit: contain; }
+.teacher-rate { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; padding: 10px 14px; border-radius: 999px; background: #00000026; }
+.teacher-rate > span { color: var(--learning-muted); font-size: 14px; }
+.point-note { display: inline-flex; align-self: center; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: var(--cream, #fff7e8); color: var(--wine-deep, #5b1430); font-size: 15px; }
+
+/* Motor: for one hand, the answer column reaches the screen edge on that side, so the hand never crosses the screen. */
+.access-room.hand-right { padding-right: 0; }
+.access-room.hand-left { padding-left: 0; }
+.hand-right :is(.learning-topbar, .session-header, .play-bar, .game-task > h1, .game-task-actions, .communication-board, .communication-toggle) { padding-right: 16px; }
+.hand-left :is(.learning-topbar, .session-header, .play-bar, .game-task > h1, .game-task-actions, .communication-board, .communication-toggle) { padding-left: 16px; }
+.hand-right :is(.game-options, .student-options) > button { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.hand-left :is(.game-options, .student-options) > button { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+/* The button the switch is on grows and gets a thick ring, so it is clear from across the room. */
+.access-room button[data-scanning=true] { position: relative; z-index: 3; transform: scale(1.08); outline: 6px solid #164fca !important; outline-offset: 4px; box-shadow: 0 0 0 12px #fff, 0 12px 30px #0006 !important; transition: transform .15s ease; }
+.calm-room button[data-scanning=true] { transform: none; }

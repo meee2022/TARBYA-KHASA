@@ -77,7 +77,8 @@ export function useSpeech() {
   }, []);
   return { say, speak, sayTile, readAlong, error, stop };
 }
-export function useSwitchScan(root: RefObject<HTMLElement>, enabled: boolean, seconds: number, stepKey: string, stop: () => void, announce?: (text: string) => void) {
+/** One switch: the highlight moves by itself and Space or Enter selects. Two switches: Space moves, Enter selects, nothing moves by itself. */
+export function useSwitchScan(root: RefObject<HTMLElement>, enabled: boolean, seconds: number, stepKey: string, stop: () => void, announce?: (text: string) => void, two = false) {
   const spoken = useRef(announce); spoken.current = announce;
   const halt = useRef(stop); halt.current = stop;
   useEffect(() => {
@@ -93,16 +94,16 @@ export function useSwitchScan(root: RefObject<HTMLElement>, enabled: boolean, se
       if (active && !window.speechSynthesis?.speaking) spoken.current?.(active.getAttribute('aria-label') || active.textContent || '');
     };
     advance();
-    const timer = window.setInterval(advance, Math.max(2, seconds) * 1000);
+    const timer = two ? 0 : window.setInterval(advance, Math.max(2, seconds) * 1000);
     // On document: pressing a button can disable it and drop focus out of the room, and the next press must still count.
     const onKey = (e: KeyboardEvent) => {
       if ((e.target as HTMLElement)?.closest?.('dialog')) return;
       if (e.key === 'Escape') { e.preventDefault(); halt.current(); return; }
-      if ((e.key === ' ' || e.key === 'Enter') && !['INPUT', 'SELECT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) { e.preventDefault(); if (!e.repeat) active?.click(); }
+      if ((e.key === ' ' || e.key === 'Enter') && !['INPUT', 'SELECT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) { e.preventDefault(); if (e.repeat) return; if (two && e.key === ' ') advance(); else active?.click(); }
     };
     document.addEventListener('keydown', onKey);
     return () => { clearInterval(timer); clear(); document.removeEventListener('keydown', onKey); };
-  }, [root, enabled, seconds, stepKey]);
+  }, [root, enabled, seconds, stepKey, two]);
 }
 /** Selects a button after the pointer rests on it: for head pointers, eye gaze or limited hand strength. */
 export function useDwell(root: RefObject<HTMLElement>, enabled: boolean, ms = 1500) {
@@ -154,10 +155,10 @@ export function HoldButton({ onOpen, children, className = '', style }: { onOpen
   const cancel = () => clearTimeout(timer.current);
   return <button type="button" style={style} className={`hold-button ${className}`} title="اضغط مطولًا" onPointerDown={start} onPointerUp={cancel} onPointerLeave={cancel} onContextMenu={e => e.preventDefault()} onClick={e => { if (e.detail === 0) onOpen(); }}>{children}</button>;
 }
-export function CommunicationBoard({ tiles, sound, onBreak, onRepeat, onRequest, collapsible, startOpen }: { tiles: SymbolEntry[]; sound: boolean; onBreak: () => void; onRepeat: () => void; onRequest?: (label: string) => void; collapsible?: boolean; startOpen?: boolean }) {
-  const [message, setMessage] = useState(''); const { speak, error } = useSpeech(); const [open, setOpen] = useState(!collapsible || !!startOpen);
-  if (!tiles.length) return null;
+export function CommunicationBoard({ tiles, words, sound, onBreak, onRepeat, onRequest, collapsible, startOpen }: { tiles: SymbolEntry[]; words?: Tile[]; sound: boolean; onBreak: () => void; onRepeat: () => void; onRequest?: (label: string) => void; collapsible?: boolean; startOpen?: boolean }) {
+  const [message, setMessage] = useState(''); const { speak, sayTile, error } = useSpeech(); const [open, setOpen] = useState(!collapsible || !!startOpen);
+  if (!tiles.length && !words?.length) return null;
   // Closed by default during a task so it never competes with it, one press away; learners who rely on it start open.
   if (!open) return <div className="communication-toggle"><button data-scan className="button secondary" aria-expanded="false" onClick={() => setOpen(true)}><MessageCircle size={20} />أعبّر بطريقتي</button></div>;
-  return <section className="communication-board" aria-label="لوحة التواصل"><div className="communication-heading"><h2>أعبّر بطريقتي</h2><p>اضغط الرسالة، أو أشر إليها ليختارها المعلّم.</p>{collapsible && <button data-scan className="button secondary" aria-expanded="true" onClick={() => setOpen(false)}>إخفاء</button>}</div><div className="communication-tiles">{tiles.map(tile => <button data-scan key={tile.id} onClick={() => { setMessage(tile.label); onRequest?.(tile.label); if (tile.id === 'repeat') { onRepeat(); return; } if (tile.id === 'break') onBreak(); if (sound) speak(tile.label); }}><SymbolArt entry={tile} /><span>{tile.label}</span></button>)}</div><p className="communication-message" role="status" aria-live="polite">{message || 'رسالتك ستظهر هنا.'}{error && `. ${error}`}</p></section>;
+  return <section className="communication-board" aria-label="لوحة التواصل"><div className="communication-heading"><h2>أعبّر بطريقتي</h2><p>اضغط الرسالة، أو أشر إليها ليختارها المعلّم.</p>{collapsible && <button data-scan className="button secondary" aria-expanded="true" onClick={() => setOpen(false)}>إخفاء</button>}</div><div className="communication-tiles">{tiles.map(tile => <button data-scan key={tile.id} onClick={() => { setMessage(tile.label); onRequest?.(tile.label); if (tile.id === 'repeat') { onRepeat(); return; } if (tile.id === 'break') onBreak(); if (sound) speak(tile.label); }}><SymbolArt entry={tile} /><span>{tile.label}</span></button>)}</div>{!!words?.length && <><h3 className="communication-words-title">كلمات الدرس</h3><div className="communication-tiles">{words.map(w => <button data-scan key={w.id} onClick={() => { setMessage(w.label); onRequest?.(w.label); if (sound) sayTile(w); }}><TilePicture tile={w} /><span dir="auto" lang={w.lang}>{w.label}</span></button>)}</div></>}<p className="communication-message" role="status" aria-live="polite">{message || 'رسالتك ستظهر هنا.'}{error && `. ${error}`}</p></section>;
 }

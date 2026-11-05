@@ -22,7 +22,7 @@ export default function Session() {
   const tap = useMemo(() => steadyTap(access?.steady), [access?.steady]);
   const live = started && !finished && !paused;
   // Stays on during a break: returning from it must be reachable the same way the student answers.
-  useSwitchScan(root, started && !finished && !!access?.scan, access?.scanSeconds ?? 4, `${index}-${selected}-${paused}`, () => undefined, access?.scanSpeak ? speak : undefined);
+  useSwitchScan(root, started && !finished && !!access?.scan, access?.scanSeconds ?? 4, `${index}-${selected}-${paused}`, () => undefined, access?.scanSpeak ? speak : undefined, access?.switches === 2);
   useDwell(root, started && !finished && !!access?.dwell);
   useEffect(() => stop, [stop]);
   if (!lesson || lesson.status !== 'approved' || !lesson.questions.length || !learner || !access) return <div className="session-shell"><Empty title="الجلسة غير جاهزة" description="اختر درسًا معتمدًا يحتوي أسئلة وملف طالب." /><Link to="/lessons">العودة للدروس</Link></div>;
@@ -55,7 +55,7 @@ export default function Session() {
         {error && <p role="status" className="info-note">{error}</p>}
         {target && <div className="target-tile"><TilePicture tile={target} /><span className="visually-hidden">{target.description ?? 'صورة السؤال'}</span></div>}{target?.signId && <SignVideo id={target.signId} auto={access.sign} />}
         <div className="student-options" dir={lesson.language === 'en' ? 'ltr' : 'rtl'}>{options.map(o => { const item = q.target ? undefined : findItem(pack, o.text); return <button data-scan key={o.index} aria-pressed={selected === o.index} className={selected === o.index ? 'selected' : ''} onClick={() => setSelected(o.index)}>{item && <TilePicture tile={item} />}<span lang={lesson.language}>{o.text}</span>{selected === o.index && <Check size={24} aria-hidden="true" />}</button>; })}</div></section>
-      <CommunicationBoard collapsible startOpen={!!learner.supports?.communication || !!prefs.responds?.includes('point')} tiles={tiles} sound={access.speech} onBreak={() => { stop(); setPaused(true); }} onRepeat={() => { if (access.speech) listen(); }} onRequest={setRequest} />
+      <CommunicationBoard collapsible startOpen={!!learner.supports?.communication || !!prefs.responds?.includes('point')} tiles={tiles} words={pack?.items.map(i => ({ id: i.id, label: i.text, emoji: i.emoji, imageId: i.imageId, audioId: i.audioId, lang: lesson.language }))} sound={access.speech} onBreak={() => { stop(); setPaused(true); }} onRepeat={() => { if (access.speech) listen(); }} onRequest={setRequest} />
       <dialog ref={panel} className="teacher-panel" dir="rtl" aria-labelledby="teacher-title"><div className="teacher-panel-head"><h2 id="teacher-title">لوحة المعلم</h2><button className="icon-button" aria-label="إغلاق اللوحة" onClick={() => panel.current?.close()}><X size={20} /></button></div>
         <p className="muted">المحاولة {index + 1} من {lesson.questions.length} · الهدف: {goals.find(g => g.id === goalId)?.text}</p>
         {request && <p className="info-note" role="status">طلب الطالب: {request}</p>}

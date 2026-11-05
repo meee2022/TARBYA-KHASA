@@ -3,8 +3,10 @@ import type { Question } from './index.ts';
 
 export interface PackItem { id: string; text: string; emoji?: string; imageId?: string; audioId?: string; signId?: string; description?: string; group?: string; }
 export interface ContentPack { id: string; title: string; subject: string; language: 'ar' | 'en'; ordered: boolean; items: PackItem[]; updatedAt: string; }
-export type TemplateId = 'cards' | 'choose-word' | 'choose-picture' | 'listen' | 'door' | 'match' | 'memory' | 'puzzle' | 'build' | 'classify' | 'sequence' | 'robot' | 'braille';
+export type TemplateId = 'cards' | 'choose-word' | 'choose-picture' | 'listen' | 'repeat' | 'door' | 'match' | 'memory' | 'puzzle' | 'build' | 'classify' | 'sequence' | 'robot' | 'braille';
 export interface TemplateInfo { id: TemplateId; title: string; description: string; skill: string; color: string; enabled: boolean; imageId?: string; }
+/** Instructions of three words or fewer, for learners who need the shortest instruction. */
+export const shortPrompts: Record<TemplateId, string> = { cards: 'اضغط للتالية', 'choose-word': 'اختر الاسم', 'choose-picture': 'اختر الصورة', listen: 'استمع واختر', repeat: 'استمع وكرّر', door: 'افتح الباب', match: 'طابق الكلمة بصورتها', memory: 'ابحث عن الشبيه', puzzle: 'ركّب الصورة', build: 'ركّب الكلمة', classify: 'اختر المجموعة', sequence: 'ما الخطوة التالية؟', robot: 'حرّك الروبوت', braille: 'كوّن الحرف' };
 export interface PlayableGame { id: string; template: TemplateId; title: string; description: string; skill: string; color: string; language: 'ar' | 'en'; rounds: GameRound[]; }
 
 const hasPicture = (i: PackItem) => !!(i.emoji || i.imageId);
@@ -40,6 +42,8 @@ export function buildRounds(pack: ContentPack, template: TemplateId, choices: nu
     case 'cards': return items.map((i, n) => ({ ...blank, id: rid(n), prompt: 'اضغط لنرى البطاقة التالية', target: full(i, p), hint: clue(i, i.text) }));
     case 'choose-word': return pictured.map((i, n) => ({ id: rid(n), prompt: 'اختر الاسم المناسب للصورة', target: picture(i, p), options: withDistractors(pictured, n, x => word(x, p)), answerId: i.id, hint: clue(i, spell(i)) }));
     case 'choose-picture': return pictured.map((i, n) => ({ id: rid(n), prompt: 'اختر الصورة المناسبة', target: word(i, p), options: withDistractors(pictured, n, x => picture(x, p)), answerId: i.id, hint: clue(i, 'انظر إلى الصور واحدة واحدة.') }));
+    // Listen and repeat: the teacher records the try. Nothing judges the student's pronunciation automatically.
+    case 'repeat': return items.map((i, n) => ({ ...blank, id: rid(n), prompt: 'استمع، ثم كرّر الكلمة', target: full(i, p), answerId: i.id, hint: clue(i, spell(i)) }));
     case 'listen': return pictured.map((i, n) => ({ id: rid(n), prompt: 'استمع، ثم اختر الصورة', listen: word(i, p), options: withDistractors(pictured, n, x => picture(x, p)), answerId: i.id, hint: clue(i, spell(i)) }));
     case 'door': return pictured.map((i, n) => ({ id: rid(n), prompt: 'افتح الباب، ثم اختر الاسم', reveal: true, target: picture(i, p), options: withDistractors(pictured, n, x => word(x, p)), answerId: i.id, hint: clue(i, spell(i)) }));
     case 'robot': return pictured.map((i, n) => ({ id: rid(n), prompt: 'حرّك الروبوت إلى الصورة المناسبة', target: word(i, p), options: withDistractors(pictured, n, x => picture(x, p)), answerId: i.id, hint: clue(i, 'حرّك الروبوت خطوة خطوة.') }));

@@ -51,7 +51,7 @@ export function StudentTool() {
   const learner = data.learners.find(l => l.id === params.get('learner')); const info = tools.find(t => t.id === tool);
   const access = useMemo(() => learner ? accessFromPreferences(learner.preferences) : { ...defaultAccess, target: 'large' as const }, [learner]);
   const root = useRef<HTMLDivElement>(null); const tap = useMemo(() => steadyTap(access.steady), [access.steady]); const [scan, setScan] = useState(access.scan); const speech = useSpeech(); const [step, setStep] = useState(0);
-  useSwitchScan(root, scan, access.scanSeconds, `${tool}-${step}`, () => setScan(false), access.scanSpeak ? speech.speak : undefined);
+  useSwitchScan(root, scan, access.scanSeconds, `${tool}-${step}`, () => setScan(false), access.scanSpeak ? speech.speak : undefined, access.switches === 2);
   useDwell(root, !!access.dwell);
   if (!info) return <div className="learning-room" dir="rtl"><Empty title="الأداة غير موجودة" description="عد إلى أدوات دعم الطالب." /><Link className="button secondary" to="/tools">العودة</Link></div>;
   const c = site.catalog; const s = learner?.supports ?? {}; const lookup = (id?: string) => [...c.activities, ...c.rewards].find(a => a.id === id);

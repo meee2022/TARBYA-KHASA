@@ -101,7 +101,7 @@ export function describeAdaptation(p: Preferences): string[] {
   out.push(p.sound ? 'صوت عند الطلب' : 'بلا صوت');
   if (p.steady) out.push('منع الضغط المكرر');
   if (p.instant) out.push('اختيار مباشر');
-  if (p.scan) out.push('مسح بمفتاح واحد');
+  if (p.scan) out.push(p.access?.switches === 2 ? 'مفتاحان: التالي والاختيار' : 'مسح بمفتاح واحد');
   if (p.responds?.includes('dwell')) out.push('اختيار بالتثبيت');
   if (p.response === 'point') out.push('يشير والمعلم يسجّل');
   if (p.shortInstructions) out.push('تعليمة قصيرة');
@@ -115,6 +115,10 @@ export function describeAdaptation(p: Preferences): string[] {
   if (r?.highlight === 'yellow') out.push('تمييز الهدف بالأصفر على أسود');
   if (r?.highlight === 'red') out.push('تمييز الهدف بالأحمر على أسود');
   if (r?.describe && p.sound) out.push('وصف الصورة صوتيًا عند التركيز');
+  if (r?.level === 'symbol') out.push('المستوى الثاني: رمز وكلمة');
+  if (r?.level === 'word') out.push('المستوى الثالث: كلمة فقط');
+  if (r?.model) out.push('نمذجة السؤال الأول قبل البدء');
+  if (r?.repeatMissed) out.push('إعادة ما أخطأ فيه في آخر الجولة');
   if (r?.quiet) out.push('وضع حسي هادئ: بلا صوت ولا حركة ولا اهتزاز');
   if (r?.rounds) out.push(`${r.rounds} أسئلة في الجولة`);
   if (r?.workMinutes) out.push(`مؤقت عمل ${r.workMinutes} دقائق ثم استراحة`);

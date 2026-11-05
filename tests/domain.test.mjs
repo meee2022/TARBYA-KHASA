@@ -79,3 +79,10 @@ test('social stories are an admin list: defaults for older settings, edits kept,
   assert.deepEqual([out.stories[0].title, out.stories[0].pages.length], ['نزور المكتبة', 12]);
   assert.throws(() => validateCatalog({ ...defaultCatalog, stories: [{ id: 'x', title: '', pages: [] }] }));
 });
+
+test('motor: the preview names one or two switches', async () => {
+  const { describeAdaptation, defaults } = await import('../packages/domain/index.ts');
+  const access = { large: false, contrast: false, textAlternative: false, speech: true, choices: 3, scan: true, scanSeconds: 4 };
+  assert.ok(describeAdaptation({ ...defaults, scan: true, access }).includes('مسح بمفتاح واحد'));
+  assert.ok(describeAdaptation({ ...defaults, scan: true, access: { ...access, switches: 2 } }).includes('مفتاحان: التالي والاختيار'));
+});
