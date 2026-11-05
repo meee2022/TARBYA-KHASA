@@ -17,10 +17,11 @@ export function TileFace({ tile, textAlternative = false }: { tile: Tile; textAl
   return <><TilePicture tile={tile} />{tile.hideLabel && !textAlternative ? <span className="visually-hidden">{tile.description || label}</span> : <span className="tile-label" dir="auto" lang={tile.lang}>{label}</span>}</>;
 }
 /** Opens by itself for a learner who understands through sign, and can be enlarged. */
-export function SignVideo({ id, auto = false }: { id?: string; auto?: boolean }) {
+export function SignVideo({ id, auto = false, calm = false }: { id?: string; auto?: boolean; calm?: boolean }) {
   const url = useMediaUrl(id); const [open, setOpen] = useState(auto); const [big, setBig] = useState(false);
+  const still = calm || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!url) return null;
-  return <div className={`sign-video ${big ? 'is-big' : ''}`}><div className="sign-video-actions"><button type="button" data-scan className="button secondary" onClick={() => setOpen(o => !o)} aria-expanded={open}><Video size={18} />{open ? 'إخفاء الإشارة' : 'شاهد بالإشارة'}</button>{open && <button type="button" data-scan className="button secondary" aria-pressed={big} onClick={() => setBig(b => !b)}>{big ? <Minimize2 size={18} /> : <Maximize2 size={18} />}{big ? 'تصغير الفيديو' : 'تكبير الفيديو'}</button>}</div>{open && <video src={url} controls muted loop autoPlay playsInline />}</div>;
+  return <div className={`sign-video ${big ? 'is-big' : ''}`}><div className="sign-video-actions"><button type="button" data-scan className="button secondary" onClick={() => setOpen(o => !o)} aria-expanded={open}><Video size={18} />{open ? 'إخفاء الإشارة' : 'شاهد بالإشارة'}</button>{open && <button type="button" data-scan className="button secondary" aria-pressed={big} onClick={() => setBig(b => !b)}>{big ? <Minimize2 size={18} /> : <Maximize2 size={18} />}{big ? 'تصغير الفيديو' : 'تكبير الفيديو'}</button>}</div>{open && <video src={url} controls muted loop={!still} autoPlay={!still} playsInline />}{open && still && <small className="info-note">اضغط تشغيل لمشاهدة الإشارة.</small>}</div>;
 }
 /** A social story, one page at a time: one picture, one literal sentence, and the same buttons in the same place on every page. */
 export function SocialStoryView({ story, sound, onDone, doneLabel = 'أنا مستعد' }: { story: SocialStory; sound: boolean; onDone: () => void; doneLabel?: string }) {
