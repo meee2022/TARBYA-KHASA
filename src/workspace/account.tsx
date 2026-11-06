@@ -19,10 +19,10 @@ export function AccountPanel() {
     try { await changePassword(String(f.get('current') ?? ''), String(f.get('password') ?? '')); form.reset(); setDone('تغيّرت كلمة المرور، وخرجت أجهزتك الأخرى.'); } catch (err) { setError((err as Error).message); } finally { setBusy(false); }
   };
   if (!account) return <section className="panel settings-panel account-panel"><h2><LogIn size={20} aria-hidden="true" />حساب المعلم</h2>
-    <p>سجّل الدخول بالحساب الذي أنشأته لك الإدارة، فتُحفظ ملفات طلابك ودروسك في حسابك وتفتحها من أي جهاز. بدون حساب تبقى البيانات على هذا الجهاز فقط.</p>
+    <p>سجّل الدخول بالحساب الذي أنشأته لك الإدارة لحفظ دروسك وملفات طلابك عبر الأجهزة.</p>
     <form className="account-form" onSubmit={submit}><label>اسم الدخول أو الإيميل<input name="username" autoComplete="username" required dir="ltr" maxLength={80} /></label><label>كلمة المرور<input name="password" type="password" autoComplete="current-password" required maxLength={128} /></label><button className="button primary" disabled={busy}><LogIn size={17} />{busy ? 'جارٍ الدخول…' : 'دخول'}</button></form>
     {error && <p className="alert" role="alert">{error}</p>}
-    <p className="info-note">عند أول دخول، إذا اختلفت بيانات هذا الجهاز عن حسابك، ستُسأل أي النسختين تحتفظ بها.</p></section>;
+    <p className="account-local-hint">بدون حساب تبقى البيانات على هذا الجهاز فقط.</p><details className="account-sync-help"><summary>ماذا يحدث عند أول دخول؟</summary><p>إذا اختلفت بيانات هذا الجهاز عن حسابك، ستُسأل أي النسختين تحتفظ بها.</p></details></section>;
   return <section className="panel settings-panel account-panel"><h2><Cloud size={20} aria-hidden="true" />حساب {account.name}</h2>
     <p className={`sync-state sync-${sync}`} role="status" aria-live="polite">{states[sync]}{syncMessage && sync !== 'conflict' && ` · ${syncMessage}`}</p>
     <div className="account-actions">{(sync === 'conflict' || sync === 'error') && <button className="button primary" onClick={() => void reloadFromAccount()}><RefreshCw size={17} />اختر النسخة الصحيحة</button>}<button className="button secondary" onClick={() => void signOut()}><LogOut size={17} />خروج ومسح نسخة هذا الجهاز</button></div>

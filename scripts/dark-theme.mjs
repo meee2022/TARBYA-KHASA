@@ -6,10 +6,10 @@ import postcss from 'postcss';
 
 const dir = new URL('../src/workspace/', import.meta.url);
 // Same order the app loads them in, so a later rule overrides an earlier one here too.
-export const SOURCES = ['planning.css', 'presentations.css', 'games.css', 'packs.css', 'workspace.css', 'theme.css', 'admin.css'];
+export const SOURCES = ['planning.css', 'presentations.css', 'games.css', 'packs.css', 'workspace.css', 'theme.css', 'admin.css', 'refinement.css'];
 export const OUTPUT = new URL('dark.generated.css', dir);
 // Learner-facing rooms and paper stay in daylight colors.
-const ISLANDS = ['.play-room', '.sheet-page', '.slide-preview', '.sample-slide', '.deck-presenter', '.print-questions'];
+const ISLANDS = ['.theme-preview', '.play-room', '.sheet-page', '.slide-preview', '.sample-slide', '.deck-presenter', '.print-questions'];
 // Also skipped: the wordmark, whose background is the logo's ink (drawn through a mask).
 const ISLAND_RE = /brand-wordmark|play-room|learning-room|sheet-|flash-card|slide-preview|sample-slide|deck-presenter|print-questions|high-contrast|highlight-|sensory-quiet|focus-one/;
 const COLOR_RE = /#[0-9a-f]{3,8}\b|rgba?\([^)]*\)|\bwhite\b/gi;

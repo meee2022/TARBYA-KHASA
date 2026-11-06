@@ -7,6 +7,7 @@
 @import '@fontsource/readex-pro/400.css';
 @import '@fontsource/readex-pro/500.css';
 @import '@fontsource/readex-pro/600.css';
+@import '@fontsource/readex-pro/700.css';
 
 .studio {
   --wine: var(--brand-color, #801b3b);

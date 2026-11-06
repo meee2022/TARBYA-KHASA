@@ -44,3 +44,20 @@ test('settings validate without structuredClone, as in the Convex runtime', () =
   try { assert.equal(validateSite(JSON.parse(JSON.stringify(defaultSite))).brandName, defaultSite.brandName); }
   finally { globalThis.structuredClone = saved; }
 });
+
+test('legacy saved site JSON restores missing editor lists without discarding school edits', () => {
+  const legacy = structuredClone(defaultSite);
+  legacy.revision = 7;
+  legacy.brandName = 'منصة المدرسة';
+  legacy.catalog.subjects = ['مادة مخصصة'];
+  delete legacy.catalog.movement;
+  delete legacy.catalog.stories;
+  const restored = validateSite(JSON.parse(JSON.stringify(legacy)));
+  assert.ok(restored.catalog.movement.length > 0);
+  assert.ok(restored.catalog.stories.length > 0);
+  assert.deepEqual(restored.catalog.subjects, ['مادة مخصصة']);
+  assert.equal(restored.brandName, legacy.brandName);
+  assert.equal(restored.revision, 7);
+  // Optional undefined fields added by normalization do not change the persisted pack data.
+  assert.deepEqual(JSON.parse(JSON.stringify(restored.catalog.packs)), JSON.parse(JSON.stringify(legacy.catalog.packs)));
+});

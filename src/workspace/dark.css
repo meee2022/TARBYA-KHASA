@@ -69,11 +69,4 @@
 /* The wordmark is drawn in its background color: on the page it takes the light brand tint, on burgundy bars it stays cream. */
 @media screen { :root[data-theme='dark'] .studio .brand-wordmark:not(.sidebar *, .admin-header *, .play-room *) { background: var(--wine-text); } }
 
-/* Theme picker in Settings: three pressable choices, the active one filled. */
-.theme-options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-.theme-options button { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--ink); font-weight: 500; transition: transform .18s var(--ease), box-shadow .18s var(--ease), background-color .18s var(--ease), border-color .18s var(--ease); }
-.theme-options button:hover { transform: translateY(-1px); box-shadow: var(--shadow-1); border-color: var(--brass); }
-.theme-options button.active { border-color: var(--wine); background: var(--wine); color: var(--paper); box-shadow: var(--shadow-2); }
-:root[data-theme='dark'] .theme-options button.active { color: #fff7ea; } /* ds-allow-hardcode */
-@media (prefers-reduced-motion: reduce) { .theme-options button { transition: none; } .theme-options button:hover { transform: none; } }
 /* ds-allow-hardcode:end */

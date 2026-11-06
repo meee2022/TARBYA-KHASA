@@ -1,96 +1,511 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-31T15:19:18.272672+00:00",
-  "title": "Design System: تربية خاصة",
+  "generatedAt": "2026-11-06",
+  "title": "Design System: تربية خاصة — رف المواد",
   "extensions": {
+    "scope": "React web workspace only. Separate React Native/Expo app unchanged and not reverified by this pass.",
+    "sources": [
+      "src/workspace/Workspace.tsx",
+      "src/workspace/theme.css",
+      "src/workspace/refinement.css",
+      "src/workspace/dark.css",
+      "src/workspace/dark.generated.css",
+      "src/workspace/themeChoice.tsx",
+      "src/workspace/AdminConsole.tsx",
+      "src/workspace/AdminCatalog.tsx",
+      "src/workspace/iep.tsx",
+      "src/workspace/planning.tsx",
+      "src/workspace/learners.tsx",
+      "src/workspace/PresentationStudio.tsx",
+      "scripts/dark-theme.mjs"
+    ],
+    "stylesheetOrder": [
+      "packs.css",
+      "workspace.css",
+      "theme.css",
+      "refinement.css",
+      "dark.css",
+      "dark.generated.css"
+    ],
     "colorMeta": {
       "wine": {
         "role": "primary",
-        "displayName": "Incumbent burgundy"
+        "displayName": "Incumbent burgundy",
+        "source": "--wine: var(--brand-color, #801b3b)"
       },
-      "sage": {
+      "olive": {
         "role": "secondary",
-        "displayName": "Quiet sage"
+        "displayName": "Learner olive"
       },
       "canvas": {
         "role": "neutral",
-        "displayName": "Warm ivory"
+        "displayName": "Warm teaching canvas"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm paper"
+      },
+      "hover-line": {
+        "role": "neutral",
+        "displayName": "Hovered material edge",
+        "purpose": "Repeated card hover border in refinement.css"
+      },
+      "on-wine": {
+        "role": "neutral",
+        "displayName": "Cream on burgundy",
+        "purpose": "Repeated navigation, selected control and learner action text"
+      },
+      "sidebar-muted": {
+        "role": "neutral",
+        "displayName": "Muted sidebar text"
+      },
+      "admin-wordmark": {
+        "role": "neutral",
+        "displayName": "Administration logo tint"
+      },
+      "answer-green": {
+        "role": "secondary",
+        "displayName": "Correct-answer outline"
+      },
+      "preview-paper": {
+        "role": "neutral",
+        "displayName": "preview paper",
+        "purpose": "Local miniature theme-preview illustration; not global appearance tokens."
+      },
+      "preview-line": {
+        "role": "neutral",
+        "displayName": "preview line",
+        "purpose": "Local miniature theme-preview illustration; not global appearance tokens."
+      },
+      "preview-night": {
+        "role": "neutral",
+        "displayName": "preview night",
+        "purpose": "Local miniature theme-preview illustration; not global appearance tokens."
+      },
+      "preview-night-border": {
+        "role": "neutral",
+        "displayName": "preview night border",
+        "purpose": "Local miniature theme-preview illustration; not global appearance tokens."
+      },
+      "preview-night-sidebar": {
+        "role": "neutral",
+        "displayName": "preview night sidebar",
+        "purpose": "Local miniature theme-preview illustration; not global appearance tokens."
+      },
+      "preview-night-line": {
+        "role": "neutral",
+        "displayName": "preview night line",
+        "purpose": "Local miniature theme-preview illustration; not global appearance tokens."
       }
     },
     "typographyMeta": {
-      "headline": {
-        "displayName": "Web page heading",
-        "purpose": "Top-level workspace heading."
+      "display": {
+        "displayName": "Web home heading",
+        "purpose": "Readex Pro 700 home heading, clamp(32px, 2.65vw, 40px); 1.9rem at phone breakpoint."
       },
-      "native-heading": {
-        "displayName": "Native screen heading",
-        "purpose": "Expo screen title inside scroll content."
+      "heading": {
+        "displayName": "Web section heading",
+        "purpose": "Readex Pro 700, typically 28px section headings; editor/profile sections 26px."
+      },
+      "body": {
+        "displayName": "Arabic body",
+        "purpose": "Readex Pro 18px, 1.75 line-height, with Tajawal fallback."
+      },
+      "page-heading": {
+        "displayName": "Page heading",
+        "purpose": "42px web page heading; administration 40px; responsive overrides apply."
+      },
+      "editor-heading": {
+        "displayName": "Editor heading",
+        "purpose": "32px desktop and 28px phone title above the editor."
+      },
+      "control": {
+        "displayName": "Primary control",
+        "purpose": "18px/600 buttons; common form controls and labels use 17px."
       }
     },
     "shadows": [
       {
-        "name": "toast",
-        "value": "0 8px 36px #27392322",
-        "purpose": "Web toast only."
+        "name": "light-surface",
+        "value": "0 2px 3px #5921190c",
+        "purpose": "refinement.css --shadow-1"
       },
       {
-        "name": "segmented-active",
-        "value": "0 2px 4px #30332208",
-        "purpose": "Selected segmented-control item."
+        "name": "light-hover",
+        "value": "0 2px 8px #3a1a120a",
+        "purpose": "refinement.css --shadow-2"
+      },
+      {
+        "name": "light-overlay",
+        "value": "0 8px 24px #3a1a1214",
+        "purpose": "refinement.css --shadow-3"
       }
     ],
     "motion": [
       {
         "name": "web-controls",
-        "value": "background .15s, transform .15s",
-        "purpose": "Shared web buttons; hover translateY(-1px)."
+        "value": "background .2s",
+        "purpose": "Quiet color feedback; refinement removes general button hover transforms."
       },
       {
         "name": "phone-sidebar",
         "value": "transform .2s",
-        "purpose": "Off-canvas web menu."
+        "purpose": "Off-canvas menu."
       },
       {
         "name": "reduced-motion",
         "value": "animation:none;transition:none;scroll-behavior:auto",
-        "purpose": "Workspace prefers-reduced-motion override; hover transform removed."
+        "purpose": "Workspace prefers-reduced-motion override; learner preferences also apply."
       }
     ],
     "breakpoints": [
       {
-        "name": "wide",
-        "value": "1550px"
+        "name": "compact-grids",
+        "value": "1300px"
       },
       {
-        "name": "compact-desktop",
-        "value": "1200px"
-      },
-      {
-        "name": "single-main-column",
-        "value": "1020px"
+        "name": "medium-workspace",
+        "value": "1100px"
       },
       {
         "name": "phone",
         "value": "760px"
+      },
+      {
+        "name": "narrow-resource-list",
+        "value": "480px"
       }
     ],
+    "theme": {
+      "choices": [
+        "system",
+        "light",
+        "dark"
+      ],
+      "source": "src/workspace/themeChoice.tsx",
+      "selector": ":root[data-theme='dark']",
+      "darkTokens": {
+        "canvas": "#171113",
+        "paper": "#221a1d",
+        "ink": "#f1e7e1",
+        "muted": "#b8a9a4",
+        "line": "#3a2e31",
+        "focus": "#e6c88d"
+      },
+      "daylightIslands": [
+        "theme-preview",
+        "play-room",
+        "sheet-page",
+        "slide-preview",
+        "sample-slide",
+        "deck-presenter",
+        "print-questions"
+      ],
+      "print": "Dark mode is screen-only; print remains on white paper.",
+      "componentSamples": "Samples represent light-mode web primitives; inherited CSS tokens stay live, while literal status colors require the application's dark.generated.css transformations.",
+      "themePreviewNote": "Miniature light/dark examples are deliberately exempt from automatic dark recoloring; palette describes the illustrations, not actual global night-mode tokens.",
+      "trialTable": "Sheet trial-table headers: background #f1ece5, ink #2c1f22."
+    },
     "verification": {
       "sourceDerived": true,
-      "approvedComp": false,
-      "standingUserWorkflowPreference": null,
-      "finishDisposition": "recapture",
-      "desktopScreenshot": "No saved file available",
-      "phoneScreenshot": "Predates final grid and contrast fixes",
-      "nativeDeviceScreenshot": "Missing",
-      "recapture": "Stopped after browser current-URL verification failure; no further UI capture authorized in this turn",
-      "nativeTypecheck": "Reported passed by parent",
-      "androidJavaScriptBundle": "Reported passed by parent",
-      "apk": "Still building when documentation was written",
-      "visualApproval": false
+      "approvedDirection": true,
+      "approvedPixelExactComp": false,
+      "compositionFidelity": "Closer composition matching implemented; no pixel-fidelity metric pass claimed.",
+      "date": "2026-11-06",
+      "evidenceDirectory": "artifacts/fidelity-comparison-2026-11-06",
+      "desktopCaptures": 31,
+      "adminCaptures": 8,
+      "mobileChecks": [
+        {
+          "name": "learners",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "profile",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "iep-editor",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "lessons",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "detail",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "packs",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "tools",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "library",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "settings",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        },
+        {
+          "name": "game",
+          "broken": 0,
+          "h": 844,
+          "overflow": false,
+          "w": 390
+        }
+      ],
+      "tests": {
+        "command": "npm test",
+        "result": "81/81 passed after final review/privacy/worksheet refinements",
+        "passed": 81,
+        "failed": 0,
+        "skipped": 0,
+        "log": ".impeccable/review/fidelity/tests-final.log",
+        "evidence": "Final saved test log inspected"
+      },
+      "build": {
+        "command": "npm run build",
+        "result": "Passed after final review/privacy/worksheet refinements",
+        "durationSeconds": 21.57,
+        "log": ".impeccable/review/fidelity/build-final.log",
+        "warnings": "Existing bundle-size/dynamic-import warnings",
+        "evidence": "Final saved build log inspected"
+      },
+      "evidenceScope": "Route/layout checks; not all functional flows manually tested. Some CSS refinements followed the initial capture batch. Compare screenshot timestamps before using as final-state evidence.",
+      "limitations": [
+        "Whole-page mockup fidelity unmeasured",
+        "Detailed learner-access variations not comprehensively verified",
+        "No complete accessibility audit",
+        "Production mutations not tested",
+        "AI generation not verified",
+        "Native application/device not verified"
+      ],
+      "deployment": "No production deployment claimed",
+      "finishDisposition": "Final reviewer issued SHIP for six named fixes; all six resolved. Limited to reviewed fix scope, not pixel-exact fidelity or exhaustive functional verification.",
+      "manualInteractionChecks": [
+        "Draft filter returned one lesson row",
+        "Lesson search returned one lesson row",
+        "Phone navigation menu opened and closed",
+        "Editor step navigation worked"
+      ],
+      "comparisonIndex": {
+        "entries": 39,
+        "manifest": "artifacts/fidelity-comparison-2026-11-06/comparisons.json"
+      }
     },
     "provenance": {
-      "illustration": "public/images/animals.png",
-      "sidecar": "public/images/animals.png.json"
+      "logo": "public/logo.svg",
+      "contentImages": "public/images/content/PROVENANCE.md",
+      "contentImageHistory": "Earlier content provenance records Higgsfield generation on 2026-11-01; v2 and v3 assets have separate 2026-11-06 sidecars. Do not infer a provider/model across batches.",
+      "newApplicationAssetsThisPass": true,
+      "directionMockups": "artifacts/site-concepts-2026-11-06",
+      "mockupInventory": "31 new direction concepts plus eight prior administration concepts",
+      "mockupAuthority": "Approved closer-fidelity direction. Whole-page reproduction remains unmeasured; actual content and functions take precedence.",
+      "productionManifest": "artifacts/site-concepts-2026-11-06/production-assets.json",
+      "productionAssets": [
+        "public/images/content/hero-classroom-v2.webp",
+        "public/images/content/nav-books-v2.webp",
+        "public/images/content/nav-games-v2.webp",
+        "public/images/content/nav-tools-v2.webp",
+        "public/images/content/nav-plans-v2.webp",
+        "public/images/content/banner-lessons-v3.webp",
+        "public/images/content/deck-animals-v3.webp",
+        "public/images/content/lesson-cover-animals-v3.webp",
+        "public/images/content/lesson-cover-letters-v3.webp",
+        "public/images/content/lesson-cover-numbers-v3.webp",
+        "public/images/content/lesson-cover-science-v3.webp",
+        "public/images/content/planning-desk-v3.webp",
+        "public/images/content/tool-calm-v3.webp",
+        "public/images/content/tool-communication-v3.webp",
+        "public/images/content/tool-first-then-v3.webp",
+        "public/images/content/tool-routine-v3.webp",
+        "public/images/content/tool-schedule-v3.webp",
+        "public/images/content/tool-stories-v3.webp",
+        "public/images/content/tool-tokens-v3.webp"
+      ],
+      "productionSidecars": "Each new WebP has a .webp.json sidecar with generation prompt and source; v3 sidecars also record purpose and conversion details.",
+      "newV3AssetCount": 14,
+      "productionManifestScope": "production-assets.json covers the five v2 assets; the fourteen v3 assets use their individual provenance sidecars."
+    },
+    "layout": {
+      "desktopSidebar": "Teacher 288px; administration 304px",
+      "mediumSidebar": "224px at max-width 1100px",
+      "teacherWordmark": "200px",
+      "adminWordmark": "214px",
+      "home": "292px minimum hero, four wide-screen quick entries, lesson rows, Today/review aside, compact onboarding and separate student strip",
+      "pageBanner": "Base 292px; lessons 238px, IEP 276px, games/tools 244px; surface-specific artwork",
+      "settings": "Two vertical panel stacks, one column at max-width 1100px",
+      "iep": "Semantic table and eight-part guide; labeled student cards on phones",
+      "weeklyPlan": "Five-session strip with vertical phone layout",
+      "admin": "RTL CSS grid; four overview status cards; unsaved appearance preview; three account groups; four catalog groups; two-column features; full/half/half/full backups",
+      "mainContainer": "Max 1560px; padding right 24px / left 34px, then 20px at 1100px and 16px on phones",
+      "editors": "290px left step rail in RTL, sticky above 1100px; stacked at 1100px, horizontal phone step navigation",
+      "learnerProfile": "Portrait-led heading, 1.65:1 content/preferences grid; stacked at 1100px",
+      "lessonDetail": "Illustrated 1.7:1 hero and 1.65:1 content/aside; responsive stacking",
+      "library": "Horizontal cards with associated lesson covers",
+      "packs": "Horizontal 40% image/content cards and full-width actions; three/two/one column responsive grid",
+      "privacy": "Two-column grid, 28px padding, 24px/36px gaps; phone one column with 20px padding",
+      "review": "24px card padding; 17px body/labels, 1.8 body line-height; summary emphasis 19px",
+      "worksheetToolbar": "20px padding, 14px radius; 17px labels/selectors and 48px selector minimum height"
+    },
+    "previousImplementationVerification": {
+      "sourceDerived": true,
+      "approvedDirection": true,
+      "approvedPixelExactComp": false,
+      "compositionFidelity": "Unmeasured; no pixel-fidelity metric pass claimed.",
+      "date": "2026-11-06",
+      "finishDisposition": "Fresh finish review confirmed four visual fixes and three stale captures resolved. A subsequent single-fix verdict confirmed that the mobile game communication entry no longer overlaps the next-step action. Ship dispositions are limited to these scored corrections, not whole-page pixel fidelity.",
+      "tests": {
+        "command": "npm test",
+        "result": "81/81 passed",
+        "passed": 81,
+        "failed": 0,
+        "skipped": 0,
+        "log": ".impeccable/review/implementation/tests.txt",
+        "evidence": "Final saved test log inspected"
+      },
+      "build": {
+        "command": "npm run build",
+        "result": "Passed in final saved log",
+        "log": ".impeccable/review/implementation/build.txt",
+        "warnings": "Existing bundle-size and dynamic-import warnings",
+        "durationSeconds": 17.21,
+        "includes": [
+          "Theme-preview dark-recoloring exemption",
+          "Trial-table contrast fix"
+        ]
+      },
+      "mainRouteChecks": {
+        "desktop": 20,
+        "mobile": 12,
+        "result": "Implementing agent reports no recorded fallback or overflow",
+        "evidenceScope": "Reported route checks; older route-checks.json is not relabeled as this run"
+      },
+      "authenticatedAdmin": {
+        "desktopSections": 8,
+        "mode": "Actual authenticated session, read-only review",
+        "productionWritesTested": false
+      },
+      "isolatedAdminFixture": {
+        "mobileSections": [
+          "accounts",
+          "appearance",
+          "catalog",
+          "features"
+        ],
+        "interaction": "Identity live preview and successful save tested only against an isolated local fixture"
+      },
+      "validScreenshots": [
+        ".impeccable/review/implementation/admin-accounts-desktop.jpg",
+        ".impeccable/review/implementation/admin-accounts-mobile.jpg",
+        ".impeccable/review/implementation/admin-appearance-desktop.jpg",
+        ".impeccable/review/implementation/admin-appearance-mobile.jpg",
+        ".impeccable/review/implementation/admin-backups-desktop.jpg",
+        ".impeccable/review/implementation/admin-catalog-desktop.jpg",
+        ".impeccable/review/implementation/admin-catalog-mobile.jpg",
+        ".impeccable/review/implementation/admin-content-desktop.jpg",
+        ".impeccable/review/implementation/admin-features-desktop.jpg",
+        ".impeccable/review/implementation/admin-features-mobile.jpg",
+        ".impeccable/review/implementation/admin-overview-desktop.jpg",
+        ".impeccable/review/implementation/admin-packs-desktop.jpg",
+        ".impeccable/review/implementation/calm-mobile.jpg",
+        ".impeccable/review/implementation/communication-mobile.jpg",
+        ".impeccable/review/implementation/family-desktop.jpg",
+        ".impeccable/review/implementation/first-then-mobile.jpg",
+        ".impeccable/review/implementation/game-mobile.jpg",
+        ".impeccable/review/implementation/games-desktop.jpg",
+        ".impeccable/review/implementation/games-mobile.jpg",
+        ".impeccable/review/implementation/home-desktop.jpg",
+        ".impeccable/review/implementation/home-mobile.jpg",
+        ".impeccable/review/implementation/iep-desktop.jpg",
+        ".impeccable/review/implementation/iep-editor-desktop.jpg",
+        ".impeccable/review/implementation/iep-mobile.jpg",
+        ".impeccable/review/implementation/learner-profile-desktop.jpg",
+        ".impeccable/review/implementation/learners-desktop.jpg",
+        ".impeccable/review/implementation/learners-mobile.jpg",
+        ".impeccable/review/implementation/lesson-detail-desktop.jpg",
+        ".impeccable/review/implementation/lesson-editor-desktop.jpg",
+        ".impeccable/review/implementation/lesson-editor-mobile.jpg",
+        ".impeccable/review/implementation/lessons-desktop.jpg",
+        ".impeccable/review/implementation/library-desktop.jpg",
+        ".impeccable/review/implementation/packs-desktop.jpg",
+        ".impeccable/review/implementation/packs-mobile.jpg",
+        ".impeccable/review/implementation/plan-editor-desktop.jpg",
+        ".impeccable/review/implementation/plans-desktop.jpg",
+        ".impeccable/review/implementation/plans-mobile.jpg",
+        ".impeccable/review/implementation/presentations-desktop.jpg",
+        ".impeccable/review/implementation/presentations-mobile.jpg",
+        ".impeccable/review/implementation/privacy-mobile.jpg",
+        ".impeccable/review/implementation/progress-desktop.jpg",
+        ".impeccable/review/implementation/progress-mobile.jpg",
+        ".impeccable/review/implementation/review-desktop.jpg",
+        ".impeccable/review/implementation/routine-mobile.jpg",
+        ".impeccable/review/implementation/schedule-mobile.jpg",
+        ".impeccable/review/implementation/settings-dark.jpg",
+        ".impeccable/review/implementation/settings-desktop.jpg",
+        ".impeccable/review/implementation/settings-mobile.jpg",
+        ".impeccable/review/implementation/sheet-desktop.jpg",
+        ".impeccable/review/implementation/stories-mobile.jpg",
+        ".impeccable/review/implementation/tokens-mobile.jpg",
+        ".impeccable/review/implementation/tools-desktop.jpg",
+        ".impeccable/review/implementation/tools-mobile.jpg"
+      ],
+      "supersededEvidence": "Earlier .impeccable/review screenshots and ten-route record are not current final-state proof.",
+      "detector": {
+        "report": ".impeccable/review/implementation/detector.json",
+        "status": "Saved advisory color/radius findings reviewed against source; documentation reconciled for repeated values and local preview exceptions. No rerun or measured pass asserted."
+      },
+      "limitations": [
+        "Whole-page mockup fidelity unmeasured",
+        "Detailed learner-access variations not comprehensively verified",
+        "No complete accessibility audit",
+        "Production mutations not tested",
+        "AI generation not verified",
+        "Native application/device not verified"
+      ],
+      "deployment": "No production deployment claimed",
+      "studentMobileChecks": {
+        "routes": 7,
+        "result": "Implementing agent reports no recorded overflow, fallback or broken images",
+        "interactionChecks": [
+          "Communication message changed after selection",
+          "Game choose/select/verify-correct response confirmed"
+        ],
+        "realLearnerDataSaved": false
+      }
     }
   },
   "components": [
@@ -98,82 +513,82 @@
       "name": "Primary button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Web action; native equivalent uses platform controls.",
+      "description": "Burgundy gradient web action with a solid darker hover state.",
       "html": "<button class=\"ds-primary\" dir=\"rtl\">حفظ التحضير</button>",
-      "css": ".ds-primary{font-family:Tajawal,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 17px;border-radius:8px;border:1px solid transparent;font-size:13px;font-weight:700;line-height:1.4;transition:background .15s,transform .15s;cursor:pointer;background:#801b3b;color:#fff;border-color:transparent}.ds-primary:hover{background:#63152e;transform:translateY(-1px)}.ds-primary:focus-visible{outline:3px solid #a5647a;outline-offset:4px}.ds-primary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}.ds-primary:hover{transform:none}}"
+      "css": ".ds-primary{font-family:'Readex Pro','Tajawal',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:10px 22px;border-radius:11px;border:1px solid transparent;font-size:18px;font-weight:600;line-height:1.4;transition:background .2s;cursor:pointer;background:linear-gradient(160deg,var(--wine,#801b3b),var(--wine-dark,#63152e));color:#fff}.ds-primary:hover{background:var(--wine-dark,#63152e)}.ds-primary:focus-visible{outline:3px solid var(--focus,#5e0924);outline-offset:3px;box-shadow:0 0 0 6px var(--paper,#fffbf9)}.ds-primary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
     },
     {
       "name": "Secondary button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Web action; native equivalent uses platform controls.",
-      "html": "<button class=\"ds-secondary\" dir=\"rtl\">حفظ التحضير</button>",
-      "css": ".ds-secondary{font-family:Tajawal,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 17px;border-radius:8px;border:1px solid transparent;font-size:13px;font-weight:700;line-height:1.4;transition:background .15s,transform .15s;cursor:pointer;background:#fff;color:#505b4d;border-color:#e0e3d9}.ds-secondary:hover{background:#f1f4ed;transform:translateY(-1px)}.ds-secondary:focus-visible{outline:3px solid #a5647a;outline-offset:4px}.ds-secondary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}.ds-secondary:hover{transform:none}}"
+      "description": "Paper action with a fine border.",
+      "html": "<button class=\"ds-secondary\" dir=\"rtl\">فتح الدرس</button>",
+      "css": ".ds-secondary{font-family:'Readex Pro','Tajawal',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:10px 22px;border-radius:11px;border:1px solid transparent;font-size:18px;font-weight:600;line-height:1.4;transition:background .2s;cursor:pointer;background:var(--paper,#fffbf9);color:var(--wine-deep,#5e0924);border-color:#b99a87}.ds-secondary:hover{background:#fff}.ds-secondary:focus-visible{outline:3px solid var(--focus,#5e0924);outline-offset:3px;box-shadow:0 0 0 6px var(--paper,#fffbf9)}.ds-secondary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
     },
     {
       "name": "Text field",
       "kind": "input",
-      "description": "Labeled RTL web text entry.",
+      "description": "Labeled RTL entry; email, URL and password entry uses LTR in the application.",
       "html": "<label class=\"ds-field\" dir=\"rtl\">عنوان الدرس<input placeholder=\"اكتب عنوانًا واضحًا\" /></label>",
-      "css": ".ds-field{font-family:Tajawal,sans-serif;display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#596451}.ds-field input{font-family:Tajawal,sans-serif;width:100%;border:1px solid #dfe4d7;border-radius:8px;padding:11px 13px;background:#fff;color:#374532;font-size:14px;font-weight:400;min-width:0}.ds-field input:focus-visible{outline:3px solid #a5647a;outline-offset:4px}.ds-field input::placeholder{color:#65715d;font-size:12px}"
+      "css": ".ds-field{font-family:'Readex Pro','Tajawal',sans-serif;display:flex;flex-direction:column;gap:7px;font-size:17px;font-weight:500;color:var(--ink,#2c1f22)}.ds-field input{font-family:'Readex Pro','Tajawal',sans-serif;min-height:46px;min-width:0;padding:11px 13px;border:1px solid #a39282;border-radius:10px;background:var(--paper,#fffbf9);color:var(--ink,#2c1f22);font-size:17px;font-weight:400}.ds-field input:hover{border-color:#7f6f63}.ds-field input:focus-visible{outline:3px solid var(--focus,#5e0924);outline-offset:3px;box-shadow:0 0 0 6px var(--paper,#fffbf9)}.ds-field input::placeholder{color:var(--muted,#6e5f62);font-size:13px}"
     },
     {
       "name": "Navigation item",
       "kind": "nav",
-      "description": "Active web sidebar item.",
-      "html": "<nav dir=\"rtl\"><a class=\"ds-nav\" href=\"#\" aria-current=\"page\">التحضير والدروس</a></nav>",
-      "css": ".ds-nav{font-family:Tajawal,sans-serif;display:flex;gap:11px;padding:13px 14px;border-radius:10px;font-size:14px;background:#f6e9ee;color:#801b3b;font-weight:700;text-decoration:none}.ds-nav:hover{background:#f8f3f5}.ds-nav:focus-visible{outline:3px solid #a5647a;outline-offset:4px}"
+      "description": "Cream selected item inside the deep burgundy web sidebar.",
+      "html": "<nav class=\"ds-nav-frame\" dir=\"rtl\"><a class=\"ds-nav\" href=\"#lessons\" aria-current=\"page\">الدروس والحصص</a></nav>",
+      "css": ".ds-nav-frame{background:linear-gradient(130deg,#500c24,#690326 58%,#500c24);padding:14px}.ds-nav{font-family:'Readex Pro','Tajawal',sans-serif;display:flex;align-items:center;min-height:46px;padding:8px 12px;border-radius:9px;font-size:20px;line-height:1.45;background:linear-gradient(110deg,#fff9f2,#f6e8d9);color:var(--wine-deep,#5e0924);font-weight:600;text-decoration:none}.ds-nav:hover{background:linear-gradient(110deg,#fff9f2,#f6e8d9)}.ds-nav:focus-visible{outline:3px solid var(--focus,#5e0924);outline-offset:3px;box-shadow:0 0 0 6px var(--paper,#fffbf9)}"
     },
     {
       "name": "Approved status",
       "kind": "chip",
-      "description": "Noninteractive factual lesson status.",
-      "html": "<span class=\"ds-status\" dir=\"rtl\"><i></i>جاهز للتدريس</span>",
-      "css": ".ds-status{font-family:Tajawal,sans-serif;display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 8px;white-space:nowrap;border-radius:5px;line-height:1.6;background:#eef4e8;color:#587545}.ds-status i{height:4px;width:4px;border-radius:100%;background:currentColor}"
+      "description": "Noninteractive factual lesson status; text carries meaning alongside color.",
+      "html": "<span class=\"ds-status\" dir=\"rtl\">جاهز للتدريس</span>",
+      "css": ".ds-status{font-family:'Readex Pro','Tajawal',sans-serif;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:5px 11px;white-space:nowrap;border-radius:7px;line-height:1.6;background:#dfead6;color:#33512c}"
     },
     {
       "name": "Panel",
       "kind": "card",
       "refersTo": "panel",
-      "description": "Quiet white bordered content surface.",
-      "html": "<section class=\"ds-panel\" dir=\"rtl\"><h2>تحضيراتي الأخيرة</h2></section>",
-      "css": ".ds-panel{font-family:Tajawal,sans-serif;background:#fff;border:1px solid #e8e9e2;border-radius:13px;color:#292d2b}.ds-panel h2{margin:0;padding:23px 24px 15px;font-size:18px;font-weight:700;line-height:1.5}"
+      "description": "Warm paper content surface with restrained border and shadow.",
+      "html": "<section class=\"ds-panel\" dir=\"rtl\"><h2>دروسي</h2></section>",
+      "css": ".ds-panel{font-family:'Readex Pro','Tajawal',sans-serif;background:var(--paper,#fffbf9);border:1px solid var(--line,#e4d4cb);border-radius:16px;box-shadow:var(--shadow-1,0 2px 3px #5921190c);color:var(--ink,#2c1f22)}.ds-panel h2{font-family:'Readex Pro','Tajawal',sans-serif;margin:0;padding:20px 22px 14px;font-size:28px;font-weight:700;line-height:1.45;color:var(--wine,#801b3b)}"
     },
     {
       "name": "Subject filter",
       "kind": "button",
-      "description": "Selected resource filter with text and pressed state.",
+      "description": "Selected resource filter with an explicit pressed state.",
       "html": "<button class=\"ds-filter\" dir=\"rtl\" aria-pressed=\"true\">اللغة العربية</button>",
-      "css": ".ds-filter{font-family:Tajawal,sans-serif;background:#efe3e8;border:1px solid #e6ced7;border-radius:7px;font-size:12px;padding:9px 15px;color:#801b3b;cursor:pointer}.ds-filter:focus-visible{outline:3px solid #a5647a;outline-offset:4px}"
+      "css": ".ds-filter{font-family:'Readex Pro','Tajawal',sans-serif;background:var(--wine,#801b3b);color:#fff;border:1px solid var(--line,#e4d4cb);border-radius:10px;font-size:13px;min-height:42px;padding:9px 15px;cursor:pointer}.ds-filter:hover{background:var(--wine-dark,#63152e)}.ds-filter:focus-visible{outline:3px solid var(--focus,#5e0924);outline-offset:3px;box-shadow:0 0 0 6px var(--paper,#fffbf9)}"
     }
   ],
   "narrative": {
-    "northStar": "Quiet editorial school workspace",
-    "overview": "This descriptive label comes from PRODUCT.md's existing direction, not a newly approved metaphor. Burgundy anchors an Arabic teaching workspace on warm ivory, with sage and muted sand organizing supporting information. Spacious bordered cards, Tajawal and calm botanical lesson imagery provide the current visual character. The أثر reference informs craft and organization without supplying its brand.\n\nThis is a source-derived record of the new React workspace and separate React Native/Expo application. It does not restyle or supersede the preserved legacy Convex application. Web and native share an identity but currently have distinct literal color and shape values; the native-prefixed tokens preserve that difference. Native numeric dimensions are React Native logical units, although the portable frontmatter serializes them as px.",
+    "northStar": "Learning materials within reach",
+    "overview": "The existing burgundy school identity, original wordmark and clay learning materials anchor a calm, legible Arabic RTL workspace. Warm paper surfaces support preparation, teaching and observation; quieter olive rooms keep the learner's immediate task central. This records the approved implementation direction and the actual build. Generated concepts supplied the visual target and production imagery; full-page pixel fidelity has not been measured.",
     "keyCharacteristics": [
-      "Arabic RTL reading order and right-aligned native text.",
-      "Burgundy actions, quiet green support surfaces and white bordered cards.",
-      "Teacher preparation separated from calm student interaction.",
-      "Device-local demo status stated in the interface."
+      "Arabic RTL structure with clear Arabic typography and deliberate mixed-direction fields.",
+      "Burgundy identity, warm paper panels and clay imagery grounded in teaching materials.",
+      "Compact teacher navigation and immediate actions; quiet learner surfaces.",
+      "Real catalog content, functional settings and existing access rules."
     ],
     "rules": [
       {
         "name": "The Identity Rule",
-        "body": "Preserve the incumbent burgundy identity and use the appropriate platform's actual tokens. Status is expressed with a text label as well as a tinted background; color alone does not name a lesson's state.",
+        "body": "Preserve the original logo, burgundy identity and catalog imagery. The configurable brand color continues to drive the primary wine token; status also requires readable text.",
         "section": "colors"
       }
     ],
     "dos": [
-      "**Do** preserve Arabic RTL text, functional reading order and the existing burgundy identity.",
-      "**Do** use the platform-specific values documented here instead of pretending web and native tokens are identical.",
-      "**Do** keep status text, selected-state cues and keyboard-visible focus alongside color.",
-      "**Do** verify desktop, phone and native-device layouts after final changes before describing them as approved."
+      "**Do** preserve the original logo, burgundy identity, Arabic RTL structure and real catalog content.",
+      "**Do** keep status text, visible focus and functional selected states alongside color.",
+      "**Do** preserve learner preferences and platform access rules when refining presentation.",
+      "**Do** inspect the final desktop, phone and dark-mode surfaces, and report verification gaps honestly."
     ],
     "donts": [
-      "**Don't** copy the inspiration project's branding or replace the existing application framework.",
-      "**Don't** treat generated illustrations or fictional profiles as real student evidence.",
-      "**Don't** promote decorative eyebrow/kicker treatments into reusable design rules; they remain implementation defects under the documenter craft floor.",
-      "**Don't** interpret successful typechecking or bundling as a visual, accessibility or native-device test."
+      "**Don't** treat unmeasured mockup reproduction as pixel-exact fidelity or fictional profiles as real student evidence.",
+      "**Don't** introduce fake controls or remove existing settings to imitate a mockup.",
+      "**Don't** transfer web values to the separate native app without inspecting its own implementation.",
+      "**Don't** treat successful tests or bundling as complete visual or accessibility verification."
     ]
   }
 }

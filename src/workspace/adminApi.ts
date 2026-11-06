@@ -2,6 +2,7 @@ import { ConvexError } from 'convex/values';
 import { api } from '../../convex/_generated/api';
 import type { Id } from '../../convex/_generated/dataModel';
 import { convex } from '../convexClient';
+import { validateSite } from '../../packages/domain/site';
 
 export const usesConvex = !!convex;
 export class ApiError extends Error { constructor(message: string, public status: number) { super(message); } }
@@ -17,7 +18,8 @@ const remember = (value: string) => { memory = value; keepToken(value); };
 type Body = Record<string, string>;
 async function route(path: string, body: Body) {
   const client = convex!;
-  const site = (json: string) => JSON.parse(json);
+  // Older saved catalogs predate some optional lists. Normalize them before editors read their lengths.
+  const site = (json: string) => validateSite(JSON.parse(json));
   switch (path) {
     case 'session': { const s = await client.query(api.admin.session, token() ? { token: token() } : {}); if (!s.user) remember(''); return s; }
     case 'state': { const { json, ...rest } = await client.query(api.admin.state, { token: token() }); return { ...rest, site: site(json) }; }

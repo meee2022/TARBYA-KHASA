@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { confirmDialog } from './confirm';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowRight, ChevronLeft, FileDown, Plus, Sparkles, Target, Trash2 } from 'lucide-react';
+import { UserRound, CalendarDays, ClipboardList, Layers, Monitor, Users, CheckCircle2, ArrowRight, ChevronLeft, FileDown, Plus, Sparkles, Target, Trash2 } from 'lucide-react';
 import { countOf, dateLabel, uid, type Goal } from '../../packages/domain';
 import { checkIep, createIep, goalProgress, goalStatusLabels, issuesLabel, ltr, newLongGoal, newShortGoal, type Achieved, type Iep, type IepLongGoal, type IepShortGoal } from '../../packages/domain/planning';
 import { iepBody } from '../../packages/domain/docx';
@@ -15,8 +15,10 @@ import './planning.css';
 
 export function IepList() {
   const { data } = useWorkspace(); const { site } = useSiteConfig();
-  return <><PageHeading banner="banner-iep" title="الخطط الفردية" description="ثمانية أقسام كنموذج المدرسة: من الأداء الحالي إلى الأهداف والفريق والمراجعة، ثم ملف Word بخانات توقيع فارغة." />
-    <div className="panel">{data.learners.map(l => { const iep = data.ieps?.find(p => p.learnerId === l.id); const count = iep ? checkIep(iep).length : 0; return <Link className="lesson-row" key={l.id} to={`/iep/${l.id}`}><span className="lesson-symbol sand"><Avatar learner={l} /></span><div className="lesson-row-title"><h3>{l.name}</h3><p>الصف {l.grade}<i />{iep ? countOf(iep.goals.length, 'هدف بعيد المدى', 'هدفان بعيدا المدى', 'أهداف بعيدة المدى') : 'لم تبدأ بعد'}{iep?.nextReview && <><i />المراجعة {dateLabel(iep.nextReview)}</>}<i />العام {ltr(iep?.year ?? site.catalog.academicYear)}</p></div><span className={!iep ? 'plan-state' : count ? 'plan-state warn' : 'plan-state ok'}>{!iep ? 'ابدأ الخطة' : count ? issuesLabel(count) : 'متسقة'}</span><ChevronLeft size={18} /></Link>; })}</div></>;
+  const sections = [{name:'البيانات', icon:UserRound}, {name:'الجدول والخدمات', icon:CalendarDays}, {name:'الأداء الحالي', icon:ClipboardList}, {name:'الأهداف', icon:Target}, {name:'الترتيبات', icon:Layers}, {name:'التكنولوجيا المساندة', icon:Monitor}, {name:'الفريق', icon:Users}, {name:'المراجعة', icon:CheckCircle2}];
+  return <><PageHeading banner="banner-iep" title="الخطط الفردية" description="من الأداء الحالي إلى الأهداف والفريق والمراجعة."><span className="banner-meta">العام الأكاديمي <bdi>{site.catalog.academicYear}</bdi><span>تصدير Word من داخل الخطة</span></span></PageHeading>
+    <div className="iep-directory"><div className="iep-table-wrap"><table className="iep-table"><thead><tr><th scope="col">الطالب</th><th scope="col">الصف</th><th scope="col">الحالة الحالية</th><th scope="col">المراجعة</th></tr></thead><tbody>{data.learners.map(l => { const iep = data.ieps?.find(p => p.learnerId === l.id); const count = iep ? checkIep(iep).length : 0; return <tr key={l.id}><th scope="row"><Link className="iep-student" to={`/iep/${l.id}`}><Avatar learner={l} /><span>{l.name}</span></Link></th><td data-label="الصف">{l.grade}</td><td data-label="الحالة الحالية">{iep ? countOf(iep.goals.length, 'هدف بعيد المدى', 'هدفان بعيدا المدى', 'أهداف بعيدة المدى') : 'لم تبدأ بعد'}</td><td data-label="المراجعة"><Link className="iep-review" to={`/iep/${l.id}`}>{iep?.nextReview && <span>{dateLabel(iep.nextReview)}</span>}<span className={!iep ? 'plan-state' : count ? 'plan-state warn' : 'plan-state ok'}>{!iep ? 'ابدأ الخطة' : count ? issuesLabel(count) : 'متسقة'}</span><ChevronLeft size={16} /></Link></td></tr>; })}</tbody></table>{!data.learners.length && <Empty title="أضف ملف طالب أولًا" description="ستظهر خططه الفردية هنا بعد إضافته من الطلاب والأهداف." />}</div><aside className="panel iep-guide"><h2>ثمانية أقسام لخطة واضحة</h2><ol>{sections.map(({name,icon:Icon})=><li key={name}><Icon size={28} aria-hidden="true" />{name}</li>)}</ol><p>افتح ملف الطالب لإكمال الأقسام وحفظها، ثم صدّر خطة بخانات توقيع فارغة.</p></aside></div></>;
+
 }
 
 function ResultPick({ value, onChange, name }: { value: Achieved; onChange: (v: Achieved) => void; name: string }) {
