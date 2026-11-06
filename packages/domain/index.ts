@@ -18,7 +18,10 @@ export interface LearnerSupports { schedule?: string[]; first?: string; then?: s
 export interface Goal { id: string; text: string; subject: Subject; target: number; opportunities: number; baseline: string; support?: Support; sessions?: number; approvedAt?: string; steps?: string[]; }
 export interface Learner { id: string; name: string; grade: string; initials: string; color: string; strengths: string; needs: string; preferences: Preferences; goals: Goal[]; supports?: LearnerSupports; avatarId?: string; family?: FamilyLink; behaviour?: BehaviourNote[]; consentAt?: string; }
 export interface Question { id: string; prompt: string; options: string[]; answer: number; target?: string; }
-export interface Lesson { id: string; title: string; subject: Subject; grade: string; duration: number; learnerIds: string[]; goalIds: string[]; objective: string; warmup: string; teaching: string; practice: string; closing: string; adaptations: string; source: string; sourceText: string; language: 'ar' | 'en'; status: Status; reviewNote: string; questions: Question[]; updatedAt: string; packId?: string; }
+/** One thing the lesson needs, tied to the stage of the lesson where it is used: a link, a printed card, a device. The teacher ticks it off. */
+export type KitStage = 'warmup' | 'content' | 'closing';
+export interface KitItem { id: string; stage: KitStage; title: string; url?: string; task?: string; done: boolean; }
+export interface Lesson { id: string; title: string; subject: Subject; grade: string; duration: number; learnerIds: string[]; goalIds: string[]; objective: string; warmup: string; teaching: string; practice: string; closing: string; adaptations: string; source: string; sourceText: string; language: 'ar' | 'en'; status: Status; reviewNote: string; questions: Question[]; updatedAt: string; packId?: string; planId?: string; sessionIndex?: number; kit?: KitItem[]; }
 export interface Trial { questionId: string; selected: number | null; correct: boolean; support: Support; }
 /** Baseline before teaching, intervention while teaching, maintenance probes after the goal was approved. */
 export type Phase = 'baseline' | 'intervention' | 'maintenance';

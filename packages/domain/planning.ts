@@ -1,4 +1,4 @@
-import { countOf, describeAdaptation, responseLabels, supportLabels, supportOrder, understandingLabels, uid, type Goal, type Learner, type Observation, type Phase, type Support, type Workspace } from './index.ts';
+import { countOf, describeAdaptation, responseLabels, supportLabels, supportOrder, understandingLabels, uid, type Goal, type KitItem, type Learner, type Lesson, type Observation, type Phase, type Support, type Workspace } from './index.ts';
 import { defaultCatalog, type Catalog, type PlanPatternSession } from './catalog.ts';
 import { templateBlocker, type ContentPack, type TemplateId } from './packs.ts';
 
@@ -6,7 +6,7 @@ export type StageKey = 'warmup' | 'content' | 'closing';
 export const stageLabels: Record<StageKey, string> = { warmup: 'التهيئة', content: 'المحتوى', closing: 'الغلق' };
 export const stageKeys: StageKey[] = ['warmup', 'content', 'closing'];
 export interface PlanStage { teacher: string; student: string; minutes: number; arrangements: string; assessment: string; }
-export interface PlanSession { id: string; date: string; objective: string; warmup: PlanStage; content: PlanStage; closing: PlanStage; activity?: TemplateId; }
+export interface PlanSession { id: string; date: string; objective: string; warmup: PlanStage; content: PlanStage; closing: PlanStage; activity?: TemplateId; lessonId?: string; done?: boolean; }
 export interface LearnerPath { learnerId: string; text: string; }
 export type Achieved = '' | 'done' | 'not';
 export interface WeeklyPlan {
@@ -66,7 +66,30 @@ export function syncPaths(plan: WeeklyPlan, learners: Learner[]): WeeklyPlan { c
 /** Turns one planned session into a runnable lesson with the same goals. */
 export function lessonFromSession(plan: WeeklyPlan, n: number) {
   const s = plan.sessions[n];
-  return { id: uid(), title: `${plan.title} · الجلسة ${n + 1}`, subject: plan.subject, duration: s.warmup.minutes + s.content.minutes + s.closing.minutes, learnerIds: plan.learnerIds, goalIds: plan.goalIds, objective: s.objective, warmup: s.warmup.teacher, teaching: s.content.teacher, practice: s.content.student, closing: s.closing.teacher, adaptations: plan.paths.filter(p => plan.learnerIds.includes(p.learnerId)).map(p => p.text).join('\n'), packId: plan.packId, source: 'من التحضير الأسبوعي' };
+  return { id: uid(), title: `${plan.title} · الجلسة ${n + 1}`, subject: plan.subject, duration: s.warmup.minutes + s.content.minutes + s.closing.minutes, learnerIds: plan.learnerIds, goalIds: plan.goalIds, objective: s.objective, warmup: s.warmup.teacher, teaching: s.content.teacher, practice: s.content.student, closing: s.closing.teacher, adaptations: plan.paths.filter(p => plan.learnerIds.includes(p.learnerId)).map(p => p.text).join('\n'), packId: plan.packId, source: 'من التحضير الأسبوعي', planId: plan.id, sessionIndex: n, kit: kitFromPlan(plan, n) };
+}
+/** The lesson's kit, drawn from the week's bag and the session's arrangements: each item sits in the stage where it is used. */
+export function kitFromPlan(plan: WeeklyPlan, n: number): KitItem[] {
+  const s = plan.sessions[n]; const seen = new Set<string>(); const kit: KitItem[] = [];
+  // One line per thing, in the first stage that needs it: the same cards are not packed three times.
+  const add = (stage: KitItem['stage'], title: string, extra: Partial<KitItem> = {}) => { const key = title.trim(); if (!key || seen.has(key)) return; seen.add(key); kit.push({ id: uid(), stage, title: key, done: false, ...extra }); };
+  for (const key of stageKeys) for (const part of s[key].arrangements.split(/[،,\n]/)) add(key, part);
+  for (const link of plan.bagLinks) if (link.url) add('content', link.title || link.url, { url: link.url, task: 'يُفتح من هنا أثناء المحتوى' });
+  for (const item of plan.bagItems) add('warmup', item.text, { task: 'يُجهَّز قبل الحصة', done: item.done });
+  return kit;
+}
+export const kitProgress = (kit: KitItem[] = []) => ({ done: kit.filter(k => k.done).length, total: kit.length });
+/** Every session planned for one date, from every plan. */
+export const daySessions = (plans: WeeklyPlan[], date: string) => plans.flatMap(plan => plan.sessions.map((session, index) => ({ plan, session, index })).filter(x => x.session.date === date));
+/** The sessions of one week, Sunday to Thursday, from every plan that touches it. */
+export function weekSessions(plans: WeeklyPlan[], weekStart: string) {
+  return Array.from({ length: 5 }, (_, n) => { const date = day(weekStart, n); return { date, sessions: daySessions(plans, date) }; });
+}
+/** The lesson before and after this one in the same weekly plan. */
+export function lessonSiblings(lesson: Lesson, lessons: Lesson[]) {
+  if (!lesson.planId || lesson.sessionIndex === undefined) return { prev: undefined, next: undefined };
+  const at = (n: number) => lessons.find(l => l.planId === lesson.planId && l.sessionIndex === n);
+  return { prev: at(lesson.sessionIndex - 1), next: at(lesson.sessionIndex + 1) };
 }
 
 export function createIep(learnerId: string, catalog: Catalog): Iep {

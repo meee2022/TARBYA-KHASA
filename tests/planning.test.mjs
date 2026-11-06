@@ -245,3 +245,20 @@ test('goal progress separates baseline and maintenance, reports generalization a
   assert.equal(q.status, 'approved', 'a maintenance probe never changes the goal status');
   assert.equal(goalProgress(approved, probed, '2026-11-25').probeDue, '2026-11-24', 'the six-week probe comes due on its own');
 });
+
+test('a session becomes a lesson that remembers its week, carries a kit by stage, and finds its neighbours', async () => {
+  const { daySessions, kitFromPlan, kitProgress, lessonSiblings, weekSessions } = await import('../packages/domain/planning.ts');
+  const plan = createPlan(defaultCatalog, 'العلوم', '2026-03-01');
+  plan.sessions[0].warmup.arrangements = 'بطاقات A4، فيديو'; plan.sessions[0].closing.arrangements = 'الروبوت، فيديو';
+  plan.bagLinks = [{ title: 'Wordwall', url: 'https://wordwall.net/x' }, { title: 'بلا رابط', url: '' }]; plan.bagItems = [{ text: 'آيباد', done: true }, { text: 'بطاقات A4', done: false }];
+  const kit = kitFromPlan(plan, 0);
+  assert.deepEqual(kit.map(k => [k.stage, k.title]), [['warmup', 'بطاقات A4'], ['warmup', 'فيديو'], ['closing', 'الروبوت'], ['content', 'Wordwall'], ['warmup', 'آيباد']], 'arrangements keep their stage, links go to content, bag items to warmup, repeats and empty links drop');
+  assert.equal(kit.find(k => k.title === 'Wordwall').url, 'https://wordwall.net/x'); assert.equal(kit.find(k => k.title === 'آيباد').done, true);
+  assert.deepEqual(kitProgress(kit), { done: 1, total: 5 }, 'the video named twice is packed once'); assert.deepEqual(kitProgress(undefined), { done: 0, total: 0 });
+  const made = [0, 1, 2].map(n => lessonFromSession(plan, n));
+  assert.equal(made[1].planId, plan.id); assert.equal(made[1].sessionIndex, 1); assert.equal(made[1].kit.length, 3, 'the second session has the week bag only: one link and two items');
+  const { prev, next } = lessonSiblings(made[1], made); assert.equal(prev.id, made[0].id); assert.equal(next.id, made[2].id);
+  assert.deepEqual(lessonSiblings({ ...made[0], planId: undefined }, made), { prev: undefined, next: undefined });
+  const week = weekSessions([plan], '2026-03-01');
+  assert.equal(week.length, 5); assert.equal(week[0].date, '2026-03-01'); assert.equal(week[4].sessions[0].index, 4); assert.equal(weekSessions([plan], '2026-03-08')[0].sessions.length, 0); assert.equal(daySessions([plan], '2026-03-03')[0].index, 2, 'a Saturday teacher still finds a session by its date');
+});

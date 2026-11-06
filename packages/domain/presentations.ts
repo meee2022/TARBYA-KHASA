@@ -10,7 +10,7 @@ export interface Slide {
 export interface Deck {
   id: string; title: string; subject: string; grade: string; language: 'ar' | 'en';
   theme: DeckTheme; largeText: boolean; slides: Slide[]; updatedAt: string;
-  origin: 'template' | 'ai'; reviewed: boolean;
+  origin: 'template' | 'ai'; reviewed: boolean; lessonId?: string;
 }
 export interface AuthorRequest {
   task: 'presentation' | 'lesson'; title: string; subject: string; grade: string;
@@ -61,7 +61,7 @@ export function deckFromLesson(input: Lesson, theme: DeckTheme = 'calm'): Deck {
   for (const q of lesson.questions) slides.push({ ...newSlide('choice'), title: q.prompt, options: [...q.options], answer: q.answer, notes: lesson.adaptations });
   slides.push({ ...newSlide('closing'), title: en ? 'What did you learn?' : 'ماذا تعلّمت اليوم؟', body: en ? 'Tell, point, or show an example.' : 'قل أو أشر أو اعرض مثالًا. لكل محاولة قيمة.', notes: lesson.closing });
   if (slides.length > 80) throw new Error('المحتوى يتجاوز 80 شريحة. قسّم المصدر والأسئلة إلى دروس أقصر قبل إنشاء العرض.');
-  return { id: makeId(), title: lesson.title || 'عرض جديد', subject: lesson.subject, grade: lesson.grade, language: lesson.language, theme, largeText: true, slides, updatedAt: new Date().toISOString(), origin: 'template', reviewed: false };
+  return { lessonId: lesson.id, id: makeId(), title: lesson.title || 'عرض جديد', subject: lesson.subject, grade: lesson.grade, language: lesson.language, theme, largeText: true, slides, updatedAt: new Date().toISOString(), origin: 'template', reviewed: false };
 }
 export function validateDeck(deck: Deck): string[] {
   const errors: string[] = [];
