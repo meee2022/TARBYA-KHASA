@@ -25,6 +25,21 @@ html:where([data-theme='dark']) .kit-stage h3:where(:not(.theme-preview, .theme-
 html:where([data-theme='dark']) .week-nav button:not(.text-link):where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--wine-text)
 }
+html:where([data-theme='dark']) .grade-number:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--wine-text)
+}
+html:where([data-theme='dark']) .grade-grid button[aria-pressed="true"] .grade-number:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a
+}
+html:where([data-theme='dark']) .subject-filters button b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--wine-text)
+}
+html:where([data-theme='dark']) .subject-filters button.active b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a
+}
+html:where([data-theme='dark']) .guide-card li a:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--wine-text)
+}
 html:where([data-theme='dark']) .deck-start-form>p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c8d0c2
 }

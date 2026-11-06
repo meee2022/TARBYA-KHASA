@@ -13,6 +13,6 @@ export function SiteProvider({children}:{children:ReactNode}){
 export const useSiteConfig=()=>useContext(Context);
 export function routeAvailable(path:string,site:SiteConfig){
   const first=path.split('/')[1];
-  const module=path.startsWith('/session/')?'lessons':path.startsWith('/learn/')?'games':path.startsWith('/support/')?'tools':({categories:'library',generate:'lessons',play:'games',reports:'progress',report:'progress','report-class':'progress'} as Record<string,string>)[first]??first;
+  const module=path.startsWith('/session/')?'lessons':path.startsWith('/learn/')?'games':path.startsWith('/support/')?'tools':({categories:'library',generate:'lessons',play:'games',reports:'progress',report:'progress','report-class':'progress',forms:'iep',guide:'tools'} as Record<string,string>)[first]??first;
   return !(module in site.modules)||site.modules[module as keyof SiteConfig['modules']];
 }

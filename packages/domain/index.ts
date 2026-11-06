@@ -8,6 +8,7 @@ export const statusLabels: Record<Status, string> = { draft: 'مسودة', revie
 import type { AccessSettings, PracticeAttempt } from './games';
 import type { ContentPack } from './packs';
 import type { Iep, WeeklyPlan } from './planning';
+import type { SpecialForm } from './forms';
 export type Understanding = 'text' | 'picture' | 'audio' | 'sign' | 'model';
 export type ResponseWay = 'touch' | 'point' | 'speech' | 'write' | 'practical' | 'switch' | 'dwell';
 export const understandingLabels: Record<Understanding, string> = { text: 'نص مكتوب', picture: 'صورة أو رمز', audio: 'صوت', sign: 'لغة الإشارة', model: 'نموذج عملي' };
@@ -55,7 +56,7 @@ export function homeObservation(learnerId: string, goalId: string, result: 'yes'
   const correct = result === 'no' ? 0 : 1; const independent = result === 'yes' ? 1 : 0;
   return { id: uid(), lessonId: 'home', learnerId, goalId, date: new Date().toISOString(), correct, total: 1, independent, support: result === 'help' ? 'verbal' : 'independent', note: note || 'جرّبته الأسرة في البيت', phase: 'intervention', context: { setting: 'البيت', person: 'الأسرة' }, source: 'home' };
 }
-export interface Workspace { version: 1; learners: Learner[]; lessons: Lesson[]; observations: Observation[]; practiceSessions?: PracticeRecord[]; packs?: ContentPack[]; plans?: WeeklyPlan[]; ieps?: Iep[]; }
+export interface Workspace { version: 1; learners: Learner[]; lessons: Lesson[]; observations: Observation[]; practiceSessions?: PracticeRecord[]; packs?: ContentPack[]; plans?: WeeklyPlan[]; ieps?: Iep[]; forms?: SpecialForm[]; }
 export const defaults: Preferences = { largeText: false, highContrast: false, sound: true, reducedMotion: true, choices: 3, response: 'touch', understands: ['picture', 'text'], responds: ['touch'], targetSize: 'normal', hand: 'any', steady: false, instant: false };
 /** Arabic counting: one and two have their own forms. */
 export const countOf = (n: number, one: string, two: string, many: string) => n === 1 ? `${one} واحد` : n === 2 ? two : `${n} ${many}`;

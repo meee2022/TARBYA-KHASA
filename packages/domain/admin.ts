@@ -28,6 +28,7 @@ export function validateBackup(input:unknown):Workspace {
     if(w.packs!==undefined&&(!Array.isArray(w.packs)||!w.packs.every(p=>textFields(p,['id','title','subject','language'])&&Array.isArray(p.items)&&p.items.every(i=>textFields(i,['id','text'])))))throw new Error();
     if(w.plans!==undefined&&(!Array.isArray(w.plans)||!w.plans.every(validPlan)))throw new Error();
     if(w.ieps!==undefined&&(!Array.isArray(w.ieps)||!w.ieps.every(validIep)))throw new Error();
+    if(w.forms!==undefined&&(!Array.isArray(w.forms)||!w.forms.every(x=>textFields(x,['id','kind','updatedAt'])&&!!x.values&&typeof x.values==='object'&&Object.values(x.values).every(v=>typeof v==='string'||(Array.isArray(v)&&v.every(i=>typeof i==='string'))))))throw new Error();
     return latinizeContent(structuredClone(w));
   }catch{throw new Error('الملف لا يحتوي على نسخة سليمة من مساحة العمل. لم تتغيّر بياناتك.');}
 }
@@ -38,5 +39,5 @@ function validAccess(value:unknown){if(!value||typeof value!=='object')return fa
 export function withoutLesson(w:Workspace,id:string):Workspace{return {...w,lessons:w.lessons.filter(l=>l.id!==id),observations:w.observations.filter(o=>o.lessonId!==id)};}
 export function withoutLearner(w:Workspace,id:string):Workspace {
   const goals=new Set(w.learners.find(l=>l.id===id)?.goals.map(g=>g.id)??[]);
-  return {...w,learners:w.learners.filter(l=>l.id!==id),observations:w.observations.filter(o=>o.learnerId!==id),practiceSessions:w.practiceSessions?.filter(p=>p.learnerId!==id),ieps:w.ieps?.filter(p=>p.learnerId!==id),plans:w.plans?.map(p=>({...p,learnerIds:p.learnerIds.filter(i=>i!==id),goalIds:p.goalIds.filter(g=>!goals.has(g)),paths:p.paths.filter(x=>x.learnerId!==id)})),lessons:w.lessons.map(l=>l.learnerIds.includes(id)||l.goalIds.some(g=>goals.has(g))?{...l,learnerIds:l.learnerIds.filter(i=>i!==id),goalIds:l.goalIds.filter(g=>!goals.has(g)),status:'draft',updatedAt:new Date().toISOString()}:l)};
+  return {...w,learners:w.learners.filter(l=>l.id!==id),observations:w.observations.filter(o=>o.learnerId!==id),practiceSessions:w.practiceSessions?.filter(p=>p.learnerId!==id),ieps:w.ieps?.filter(p=>p.learnerId!==id),forms:w.forms?.filter(p=>p.learnerId!==id),plans:w.plans?.map(p=>({...p,learnerIds:p.learnerIds.filter(i=>i!==id),goalIds:p.goalIds.filter(g=>!goals.has(g)),paths:p.paths.filter(x=>x.learnerId!==id)})),lessons:w.lessons.map(l=>l.learnerIds.includes(id)||l.goalIds.some(g=>goals.has(g))?{...l,learnerIds:l.learnerIds.filter(i=>i!==id),goalIds:l.goalIds.filter(g=>!goals.has(g)),status:'draft',updatedAt:new Date().toISOString()}:l)};
 }

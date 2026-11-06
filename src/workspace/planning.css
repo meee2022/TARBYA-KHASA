@@ -167,3 +167,39 @@
 .week-empty { font-size: 13px; color: var(--muted); }
 @media (max-width: 760px) { .week-days { grid-template-columns: 1fr 1fr; } .lesson-doors { grid-template-columns: 1fr 1fr; } }
 @media (prefers-reduced-motion: reduce) { .lesson-doors button, .door-list a, .week-session, .kit-meter i { transition: none; } .lesson-doors button:hover, .door-list a:hover, .week-session:hover { transform: none; } }
+
+/* Ministry forms */
+.forms-learner { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.forms-learner select { min-width: 200px; }
+.form-card { text-align: start; cursor: pointer; border: 0; }
+.form-card > svg { color: var(--brass); }
+.form-section > h2 { margin: 0 0 14px; }
+.form-section .form-grid { margin: 0; }
+.form-print { display: none; }
+@media print { .form-print { display: block; } .form-print h3 { margin: 14px 0 6px; } .form-print p { margin: 4px 0; } .editor-panel, .editor-steps, .heading-actions { display: none !important; } }
+
+/* Grade then subject */
+.grade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.grade-grid button { display: grid; gap: 4px; justify-items: start; text-align: start; min-height: 92px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); box-shadow: var(--shadow-1); transition: transform .15s, box-shadow .15s, background-color .15s; }
+.grade-grid button:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.grade-grid button[aria-pressed="true"] { background: var(--wine); border-color: var(--wine); color: #fff; }
+.grade-number { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; background: var(--sand); color: var(--wine-deep); font-weight: 700; font-variant-numeric: tabular-nums; }
+.grade-grid button[aria-pressed="true"] .grade-number { background: #fff; }
+.grade-grid strong { font-size: 16px; }
+.grade-grid small { font-size: 12.5px; color: var(--muted); }
+.grade-grid button[aria-pressed="true"] small { color: #fff; opacity: .85; }
+.subject-filters button b { margin-inline-start: 6px; padding: 1px 7px; border-radius: 9px; background: var(--sand); color: var(--wine-deep); font-size: 11.5px; font-weight: 700; }
+.subject-filters button.active b { background: #fff; }
+/* Support guide */
+.guide-apply { margin-bottom: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.guide-apply .muted { margin: 0; font-size: 14px; }
+.guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.guide-card { display: flex; flex-direction: column; gap: 10px; padding: 22px; }
+.guide-head { display: flex; align-items: center; gap: 10px; }
+.guide-head svg { color: var(--brass); flex: none; }
+.guide-head h2 { margin: 0; font-size: 20px; }
+.guide-card > p { margin: 0; color: var(--muted); line-height: 1.8; font-size: 14.5px; }
+.guide-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; flex: 1; }
+.guide-card li a { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; font-size: 14px; color: var(--wine-deep); }
+.guide-card .button { align-self: start; margin-top: 6px; }
+@media (max-width: 760px) { .grade-grid { grid-template-columns: 1fr 1fr; } }

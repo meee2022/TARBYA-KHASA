@@ -262,3 +262,22 @@ test('a session becomes a lesson that remembers its week, carries a kit by stage
   const week = weekSessions([plan], '2026-03-01');
   assert.equal(week.length, 5); assert.equal(week[0].date, '2026-03-01'); assert.equal(week[4].sessions[0].index, 4); assert.equal(weekSessions([plan], '2026-03-08')[0].sessions.length, 0); assert.equal(daySessions([plan], '2026-03-03')[0].index, 2, 'a Saturday teacher still finds a session by its date');
 });
+
+test('a ministry form fills from the pupil, counts its progress, and exports every section to Word', async () => {
+  const { createForm, formBody, formProgress, formTemplates, formKinds } = await import('../packages/domain/forms.ts');
+  const { validateBackup } = await import('../packages/domain/admin.ts');
+  const learner = seedWorkspace().learners[0];
+  const form = createForm('services', learner);
+  assert.equal(form.values.name, learner.name); assert.equal(form.learnerId, learner.id);
+  const before = formProgress(form); assert.equal(before.done, 2);
+  form.values.type = 'طلب جديد'; form.values.env = ['لجنة خاصة', 'أثاث معدّل']; form.values.reasons = 'نص';
+  assert.equal(formProgress(form).done, 5);
+  const body = formBody(form, '2026-2027');
+  for (const s of formTemplates.services.sections) assert.ok(body.includes(escapeXml(s.title)), s.title);
+  assert.ok(body.includes('☒ لجنة خاصة') && body.includes('☐ إضاءة خاصة'), 'checks print as boxes');
+  const early = createForm('assessment-early'); early.values.gross1 = 'يتقنها بمساعدة';
+  const sheet = formBody(early, '2026-2027'); assert.ok(sheet.includes('الركض والجري') && sheet.includes('يتقنها بمساعدة'), 'scale rows print with their headings');
+  for (const kind of formKinds) { const ids = formTemplates[kind].sections.flatMap(s => s.fields.map(f => f.id)); assert.equal(new Set(ids).size, ids.length, `${kind} field ids are unique`); }
+  const w = { ...seedWorkspace(), forms: [form] }; assert.equal(validateBackup(JSON.parse(JSON.stringify(w))).forms.length, 1);
+  assert.throws(() => validateBackup(JSON.parse(JSON.stringify({ ...w, forms: [{ ...form, values: { x: 5 } }] }))), 'a non-string value is refused');
+});

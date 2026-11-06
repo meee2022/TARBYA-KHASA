@@ -13,24 +13,24 @@ function runs(text: string, c: Cell) {
   // Latin stretches must not carry w:rtl, or Word reorders their punctuation.
   return text.split(/([A-Za-z][A-Za-z0-9 '’.,?!-]*[A-Za-z0-9?!.]|[A-Za-z]|\d+(?:[-/]\d+)+)/).filter(Boolean).map(part => `<w:r>${props(!/^([A-Za-z]|\d+[-/]\d)/.test(part))}<w:t xml:space="preserve">${escapeXml(part)}</w:t></w:r>`).join('');
 }
-const para = (text: string, c: Cell = {}) => `<w:p><w:pPr><w:bidi/><w:spacing w:before="40" w:after="40"/>${c.center ? '<w:jc w:val="center"/>' : ''}</w:pPr>${runs(text, c)}</w:p>`;
+export const para = (text: string, c: Cell = {}) => `<w:p><w:pPr><w:bidi/><w:spacing w:before="40" w:after="40"/>${c.center ? '<w:jc w:val="center"/>' : ''}</w:pPr>${runs(text, c)}</w:p>`;
 function cell(raw: Cell | string, width: number) {
   const c: Cell = typeof raw === 'string' ? { t: raw } : raw;
   const lines = (c.t ?? '').split('\n');
   return `<w:tc><w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${c.span ? `<w:gridSpan w:val="${c.span}"/>` : ''}${c.merge ? `<w:vMerge${c.merge === 'start' ? ' w:val="restart"' : ''}/>` : ''}${c.fill ? `<w:shd w:val="clear" w:color="auto" w:fill="${c.fill}"/>` : ''}<w:vAlign w:val="center"/></w:tcPr>${lines.map(l => para(l, c)).join('')}</w:tc>`;
 }
 /** widths are relative weights, scaled to the landscape page. */
-function table(weights: number[], rows: Row[]) {
+export function table(weights: number[], rows: Row[]) {
   const sum = weights.reduce((a, b) => a + b, 0); const grid = weights.map(w => Math.round(w / sum * WIDTH));
   const border = (n: string) => `<w:${n} w:val="single" w:sz="4" w:space="0" w:color="7F7F7F"/>`;
   const row = (r: Row) => { let col = 0; return `<w:tr><w:trPr><w:cantSplit/></w:trPr>${r.map(raw => { const span = typeof raw === 'string' ? 1 : raw.span ?? 1; const width = grid.slice(col, col + span).reduce((a, b) => a + b, 0); col += span; return cell(raw, width); }).join('')}</w:tr>`; };
   return `<w:tbl><w:tblPr><w:bidiVisual/><w:tblW w:w="${WIDTH}" w:type="dxa"/><w:tblBorders>${['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(border).join('')}</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:left w:w="100" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${grid.map(g => `<w:gridCol w:w="${g}"/>`).join('')}</w:tblGrid>${rows.map(row).join('')}</w:tbl>${para('', { size: 12 })}`;
 }
-const bar = (t: string, span: number): Row => [{ t, span, fill: HEAD, color: 'FFFFFF', bold: true, center: true, size: 26 }];
-const label = (t: string, span?: number): Cell => ({ t, fill: SUB, bold: true, span });
-const check = (on: boolean, text: string) => `${on ? '☒' : '☐'} ${text}`;
+export const bar = (t: string, span: number): Row => [{ t, span, fill: HEAD, color: 'FFFFFF', bold: true, center: true, size: 26 }];
+export const label = (t: string, span?: number): Cell => ({ t, fill: SUB, bold: true, span });
+export const check = (on: boolean, text: string) => `${on ? '☒' : '☐'} ${text}`;
 const result = (r: Achieved) => `${check(r === 'done', 'أنجز')}   ${check(r === 'not', 'لم ينجز')}`;
-const title = (t: string) => para(t, { bold: true, size: 32, center: true });
+export const title = (t: string) => para(t, { bold: true, size: 32, center: true });
 
 const NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
 /** The files of a .docx package. Zipping is left to the caller so this stays pure and testable. */
