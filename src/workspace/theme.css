@@ -546,6 +546,14 @@ a.game-library-card:hover .game-card-visual img { transform: translateY(-4px) sc
 .option-chip:active { transform: translateY(0); box-shadow: none; }
 .option-chip[aria-pressed="true"] { background: var(--brand-color, #801b3b); border-color: var(--brand-color, #801b3b); color: #fff; }
 .option-chip > svg { flex-shrink: 0; }
+.seg { min-width: 0; margin: 0 0 14px; }
+.seg-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.seg .option-chip { min-height: 40px; padding: 6px 12px; font-size: 13.5px; }
+.seg-hint { display: block; margin-top: 6px; font-size: 12.5px; line-height: 1.7; color: var(--muted); }
+.seg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 20px; }
+@media (max-width: 640px) { .seg-grid { grid-template-columns: 1fr; } }
+.check-group .option-chips { margin: 2px 0 6px; }
+.context-row .seg { margin-bottom: 8px; }
 .scan-options { margin-top: 12px; padding: 14px; border-radius: 14px; background: var(--canvas); }
 .scan-options .form-grid { margin: 0 0 10px; }
 .scan-options .info-note { margin: 10px 0 0; }

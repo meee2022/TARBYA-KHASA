@@ -6,6 +6,7 @@ import { observationFromPractice, practiceAccess, uid, type Support } from '../.
 import { accessFromPreferences, AccessSettings, brailleCharacter, fadedChoices, fitRounds, lessonWords, missedRounds, needsBreak, roundAtLevel, withQuiet, brailleLetters, brailleReadingOrder, defaultAccess, GameRound, gameOptions, matchesBraille, PracticeAttempt, practiceSummary, Tile } from '../../packages/domain/games';
 import { ContentPack, PlayableGame, playablePack, shortPrompts, templateBlocker, TemplateInfo } from '../../packages/domain/packs';
 import { useAllPacks, useWorkspace } from './store';
+import { Chip, Seg } from './fields';
 import { Brand, Empty, PageHeading } from './Workspace';
 import { accessClass, buzz, CommunicationBoard, HoldButton, ReadingRuler, ReadingText, SignVideo, SocialStoryView, steadyTap, SymbolArt, TileFace, TilePicture, useDwell, useSpeech, useSwitchScan, WorkTimer } from './accessibility';
 import { BuildBoard, DoorReveal, MatchBoard, MemoryBoard, PuzzleBoard, RobotBoard } from './boards';
@@ -49,6 +50,16 @@ const toggleGroups = [
   ['التعلّم والتحفيز', [['fade', 'بعد الخطأ: خيار أقل'], ['repeatMissed', 'إعادة ما أخطأ فيه'], ['model', 'نمذجة السؤال الأول'], ['tokens', 'نجمة بعد كل إجابة'], ['moveBreak', 'استراحة حركية']]],
 ] as const;
 type ToggleKey = (typeof toggleGroups)[number][1][number][0];
+export const choiceOptions = [[1, 'واحد (بلا خطأ)'], [2, 'اثنان'], [3, 'ثلاثة'], [4, 'أربعة']] as const;
+export const roundOptions = [[0, 'الكل'], ...[3, 4, 5, 6, 7, 8, 9, 10].map(n => [n, String(n)] as const)] as const;
+export const minuteOptions = [[0, 'بلا مؤقت'], [2, '2'], [3, '3'], [5, '5'], [8, '8'], [10, '10']] as const;
+export const targetOptions = [['normal', 'عادي'], ['large', 'كبير'], ['xl', 'كبير جدًا']] as const;
+export const handOptions = [['any', 'كامل الشاشة'], ['right', 'اليد اليمنى'], ['left', 'اليد اليسرى']] as const;
+export const levelOptions = [['photo', 'صورة وكلمة'], ['symbol', 'رمز وكلمة'], ['word', 'كلمة فقط']] as const;
+export const highlightOptions = [['none', 'بلا'], ['yellow', 'أصفر على أسود'], ['red', 'أحمر على أسود']] as const;
+export const tintOptions = [['none', 'كما هي'], ['sepia', 'بيج هادئ'], ['mint', 'أخضر فاتح']] as const;
+export const switchOptions = [[1, 'واحد: التحديد يتحرك وحده'], [2, 'اثنان: التالي والاختيار']] as const;
+export const scanSecondOptions = [[2, '2'], [4, '4'], [6, '6'], [8, '8'], [12, '12']] as const;
 
 function GameSetup({ build, pack, onPlaying }: { build: (choices: number) => PlayableGame; pack?: ContentPack; onPlaying: (on: boolean) => void }) {
   const { data, saveLearner, error: storageError } = useWorkspace(); const { site } = useSiteConfig();
@@ -62,30 +73,29 @@ function GameSetup({ build, pack, onPlaying }: { build: (choices: number) => Pla
     <main className="game-setup"><div className="setup-heading"><h1>{game.title}</h1><p>{game.description}</p></div><div className="game-setup-layout"><section className="panel setup-preferences"><h2>نجهّز النشاط للطالب</h2>
       <label>ملف الطالب<select value={learnerId} onChange={e => { setLearnerId(e.target.value); setGoalId(''); const s = data.learners.find(l => l.id === e.target.value); setAccess(s ? { fade: true, ...accessFromPreferences(s.preferences) } : { ...defaultAccess, target: 'normal', hand: 'any', fade: true }); }}><option value="">تجربة دون ملف طالب</option>{data.learners.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select></label>
       {learnerId && goals.length > 0 && <label className="goal-pick"><span><Target size={16} aria-hidden="true" />الهدف الذي يقيسه النشاط</span><select value={goalId} onChange={e => setGoalId(e.target.value)}><option value="">تدريب فقط، دون ربط بهدف</option>{goals.map(g => <option key={g.id} value={g.id}>{g.subject === pack?.subject ? '' : '(مادة أخرى) '}{g.text}</option>)}</select><small>{goalId ? 'بعد كل إجابة تحدّد مقدار المساعدة، وفي النهاية يُحفظ النشاط كملاحظة على الهدف.' : 'اختر هدفًا ليصبح النشاط دليلًا عليه.'}</small></label>}
-      <div className="form-grid setup-quick"><label>عدد الاختيارات<select value={access.choices} onChange={e => update('choices', Number(e.target.value) as AccessSettings['choices'])}><option value="1">خيار واحد (تعلّم بلا خطأ)</option><option value="2">خياران</option><option value="3">ثلاثة خيارات</option><option value="4">أربعة خيارات</option></select></label>
-        <label>عدد الأسئلة<select value={access.rounds ?? 0} onChange={e => update('rounds', Number(e.target.value) || undefined)}><option value="0">كل عناصر الحزمة</option>{[3, 4, 5, 6, 7, 8, 9, 10].map(n => <option key={n} value={n}>{n} أسئلة</option>)}</select></label></div>
+      <div className="seg-grid setup-quick"><Seg label="عدد الاختيارات" value={access.choices} options={choiceOptions} onChange={v => update('choices', v)} />
+        <Seg label="عدد الأسئلة" value={access.rounds ?? 0} options={roundOptions} onChange={v => update('rounds', v || undefined)} /></div>
       {toggleGroups.map(([title, items]) => { const on = items.filter(([k]) => access[k]).length; return <fieldset className="option-group" key={title}><legend>{title}{on > 0 && <span className="option-count" aria-label={`${on} مفعّلة`}>{on}</span>}</legend>
         <div className="option-chips">{items.map(([key, label]) => <Chip key={key} on={!!access[key]} label={label} onClick={() => update(key as ToggleKey, !access[key])} />)}</div>
-        {title === 'طريقة الاستجابة' && access.scan && <div className="scan-options"><div className="form-grid"><label>عدد المفاتيح<select value={access.switches ?? 1} onChange={e => update('switches', Number(e.target.value) as 1 | 2)}><option value="1">مفتاح واحد: التحديد يتحرك وحده</option><option value="2">مفتاحان: التالي والاختيار</option></select></label>
-          {access.switches !== 2 && <label>مدة التوقّف على الزر<select value={access.scanSeconds} onChange={e => update('scanSeconds', Number(e.target.value))}>{[2, 4, 6, 8, 12].map(n => <option key={n} value={n}>{n} ثوانٍ</option>)}</select></label>}</div>
+        {title === 'طريقة الاستجابة' && access.scan && <div className="scan-options"><Seg label="عدد المفاتيح" value={access.switches ?? 1} options={switchOptions} onChange={v => update('switches', v)} />
+          {access.switches !== 2 && <Seg label="مدة التوقّف على كل زر (ثوانٍ)" value={access.scanSeconds} options={scanSecondOptions} onChange={v => update('scanSeconds', v)} />}
           <div className="option-chips"><Chip on={!!access.scanSpeak} label="قراءة اسم كل زر أثناء التنقّل" onClick={() => update('scanSpeak', !access.scanSpeak)} /></div>
           <p className="info-note">{access.switches === 2 ? 'المسافة تنقل التحديد إلى الزر التالي، وEnter يختاره، وEscape يوقف المسح.' : 'يتنقّل التحديد تلقائيًا. المسافة أو Enter للاختيار، وEscape للإيقاف.'} مفتاح مساعد مهيّأ لإرسال هذه المفاتيح يعمل بالطريقة نفسها.</p></div>}
       </fieldset>; })}
-      <details className="setup-more"><summary><ChevronDown size={18} aria-hidden="true" />إعدادات إضافية<small>الأزرار، الوقت، القصة، الألوان</small></summary><div className="form-grid">
-        <label>حجم الأزرار<select value={access.target} onChange={e => update('target', e.target.value as AccessSettings['target'])}><option value="normal">عادي</option><option value="large">كبير</option><option value="xl">كبير جدًا</option></select></label>
-        <label>جهة الأزرار<select value={access.hand} onChange={e => update('hand', e.target.value as AccessSettings['hand'])}><option value="any">كامل الشاشة</option><option value="right">جهة اليد اليمنى</option><option value="left">جهة اليد اليسرى</option></select></label>
-        <label>وقت العمل قبل الاستراحة<select value={access.workMinutes ?? 0} onChange={e => update('workMinutes', Number(e.target.value) || undefined)}><option value="0">بلا مؤقت</option>{[2, 3, 5, 8, 10].map(n => <option key={n} value={n}>{n} دقائق</option>)}</select></label>
-        <label>مستوى العرض<select value={access.level ?? 'photo'} onChange={e => update('level', e.target.value as AccessSettings['level'])}><option value="photo">صورة حقيقية وكلمة</option><option value="symbol">رمز وكلمة</option><option value="word">كلمة فقط</option></select></label>
-        <label>قصة قبل النشاط<select value={access.story ?? ''} onChange={e => update('story', e.target.value || undefined)}><option value="">بلا قصة</option>{site.catalog.stories.filter(s => s.pages.length).map(s => <option key={s.id} value={s.id}>{s.title}</option>)}</select></label>
-        <label>لون تمييز الهدف<select value={access.highlight ?? 'none'} onChange={e => update('highlight', e.target.value as AccessSettings['highlight'])}><option value="none">بلا</option><option value="yellow">أصفر على أسود</option><option value="red">أحمر على أسود</option></select></label>
-        <label>خلفية النص<select value={access.tint ?? 'none'} onChange={e => update('tint', e.target.value as AccessSettings['tint'])}><option value="none">كما هي</option><option value="sepia">بيج هادئ</option><option value="mint">أخضر فاتح</option></select></label></div></details>
+      <details className="setup-more"><summary><ChevronDown size={18} aria-hidden="true" />إعدادات إضافية<small>الأزرار، الوقت، القصة، الألوان</small></summary><div className="seg-grid">
+        <Seg label="حجم الأزرار" value={access.target ?? 'normal'} options={targetOptions} onChange={v => update('target', v)} />
+        <Seg label="جهة الأزرار" value={access.hand ?? 'any'} options={handOptions} onChange={v => update('hand', v)} />
+        <Seg label="وقت العمل قبل الاستراحة (دقائق)" value={access.workMinutes ?? 0} options={minuteOptions} onChange={v => update('workMinutes', v || undefined)} />
+        <Seg label="مستوى العرض" value={access.level ?? 'photo'} options={levelOptions} onChange={v => update('level', v)} />
+        <Seg label="لون تمييز الهدف" value={access.highlight ?? 'none'} options={highlightOptions} onChange={v => update('highlight', v)} />
+        <Seg label="خلفية النص" value={access.tint ?? 'none'} options={tintOptions} onChange={v => update('tint', v)} />
+        <label>قصة قبل النشاط<select value={access.story ?? ''} onChange={e => update('story', e.target.value || undefined)}><option value="">بلا قصة</option>{site.catalog.stories.filter(s => s.pages.length).map(s => <option key={s.id} value={s.id}>{s.title}</option>)}</select></label></div></details>
       {access.choices === 1 && <p className="info-note">خيار واحد للتعلّم بلا خطأ. يُسجَّل كتدريب بمساعدة، ولا يُحسب استقلالية.</p>}
       {needsHearing && <p className="alert" role="alert">هذا النشاط يقيس الفهم السمعي ويحتاج الصوت. لطالب لا يعتمد على السمع، اختر «أين الصورة؟».</p>}
       {learnerId && <button className="button secondary" onClick={() => { const s = data.learners.find(l => l.id === learnerId)!; saveLearner({ ...s, preferences: { ...s.preferences, access, responds: [...(s.preferences.responds ?? []).filter(r => r !== 'dwell'), ...(access.dwell ? ['dwell' as const] : [])], largeText: access.large, highContrast: access.contrast, sound: access.speech, choices: access.choices, reducedMotion: !!access.calm, targetSize: access.target, hand: access.hand, steady: access.steady, instant: access.instant, scan: access.scan, scanSpeak: access.scanSpeak, scanSeconds: access.scanSeconds } }); setMessage('حُفظت الإعدادات في ملف الطالب.'); }}><Save size={17} />حفظ الإعدادات لهذا الطالب</button>}
       <button className="button primary" disabled={needsHearing || !game.rounds.length} onClick={() => { onPlaying(true); setStarted(Date.now()); }}><Play size={19} />نبدأ النشاط</button><p role="status">{message}</p>{storageError && <p role="alert" className="alert">{storageError}</p>}</section>
       <aside className="setup-guide"><h2>المعلم يعرف</h2><ol><li>{game.rounds.length} مهام قصيرة. {access.workMinutes ? `شريط وقت العمل ${access.workMinutes} دقائق ينتهي باستراحة، ولا يُنهي المهمة.` : 'لا يوجد مؤقّت.'}</li><li>{pack ? `المحتوى: ${pack.title} (${pack.subject}).` : 'تدريب تعريفي مستقل.'}</li><li>الاستراحة واللوحة متاحتان دائمًا ولا تؤثران في النتيجة.</li></ol><p>{goalId ? 'النشاط مرتبط بهدف: المحاولة الأولى لكل مهمة تُحفظ كملاحظة، مع مقدار المساعدة الذي تحدّده.' : 'النتيجة للتدريب، ولا تثبت وحدها تحقق هدف فردي.'}</p>{access.textAlternative && <p>الوصف النصي يغيّر المهارة المقاسة من تمييز بصري إلى فهم وصف.</p>}{game.template === 'braille' && <><div className="braille-mini" aria-hidden="true">⠁ ⠃ ⠙</div><p>النقاط 1–2–3 يسار الخلية و4–5–6 يمينها، ولا تنعكس مع العربية. هذا تدريب بصري ولفظي، ولا يُنشئ نقاطًا بارزة.</p><a href="https://www.perkins.org/wp-content/uploads/2021/07/world-braille-usage-third-edition.pdf#page=182" target="_blank" rel="noreferrer">مرجع الحروف: World Braille Usage، صفحة 166</a></>}</aside></div></main></div>;
 }
-const Chip = ({ on, label, onClick }: { on: boolean; label: string; onClick: () => void }) => <button type="button" className="option-chip" aria-pressed={on} onClick={onClick}>{on && <Check size={15} aria-hidden="true" />}{label}</button>;
 // Extra rounds: `~again` repeats a missed item at the end, `~fadeN` repeats it at once with fewer options. Both are practice.
 const isExtra = (id: string) => /~(again|fade)/.test(id); const baseId = (id: string) => id.split('~fade')[0];
 function GamePlayer({ game, access, learnerId, goalId, onRestart }: { game: PlayableGame; access: AccessSettings; learnerId: string; goalId: string; onRestart: () => void }) {
