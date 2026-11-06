@@ -536,6 +536,27 @@ a.game-library-card:hover .game-card-visual img { transform: translateY(-4px) sc
 .studio .learning-room:not(.play-room) { background: var(--canvas); --learning-ink: var(--ink); --learning-muted: var(--muted); }
 .setup-preferences { border-radius: 24px; }
 .setup-preferences .access-toggle { flex-direction: row-reverse !important; justify-content: flex-end; gap: 12px; min-height: 48px; padding: 8px 0; border-color: var(--line); font-size: 14.5px !important; font-weight: 400; }
+.setup-preferences .setup-quick { margin: 0 0 8px; }
+.option-group { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+.option-group legend { display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+.option-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 7px; border-radius: 11px; background: var(--brand-color, #801b3b); color: #fff; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.option-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.option-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 14px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font-size: 14px; font-weight: 500; line-height: 1.4; text-align: right; cursor: pointer; transition: background-color .15s, border-color .15s, color .15s, transform .15s, box-shadow .15s; }
+.option-chip:hover { border-color: var(--brand-color, #801b3b); transform: translateY(-1px); box-shadow: var(--shadow-1); }
+.option-chip:active { transform: translateY(0); box-shadow: none; }
+.option-chip[aria-pressed="true"] { background: var(--brand-color, #801b3b); border-color: var(--brand-color, #801b3b); color: #fff; }
+.option-chip > svg { flex-shrink: 0; }
+.scan-options { margin-top: 12px; padding: 14px; border-radius: 14px; background: var(--canvas); }
+.scan-options .form-grid { margin: 0 0 10px; }
+.scan-options .info-note { margin: 10px 0 0; }
+.setup-more { margin: 4px 0 18px; padding: 0 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
+.setup-more > summary { display: flex; align-items: center; gap: 10px; min-height: 50px; list-style: none; cursor: pointer; font-size: 15px; font-weight: 700; color: var(--ink); }
+.setup-more > summary::-webkit-details-marker { display: none; }
+.setup-more > summary > svg { flex-shrink: 0; color: var(--muted); transition: transform .2s; }
+.setup-more[open] > summary > svg { transform: rotate(180deg); }
+.setup-more > summary > small { font-weight: 400; font-size: 13px; color: var(--muted); }
+.setup-more .form-grid { margin: 4px 0 18px; }
+@media (prefers-reduced-motion: reduce) { .option-chip, .setup-more > summary > svg { transition: none; } .option-chip:hover { transform: none; } }
 .setup-guide ol { padding: 0; list-style-position: inside; }
 .setup-guide { color: var(--muted); }
 .learning-contrast .button:disabled { background: #fff !important; color: #000 !important; outline: 2px dashed #000; opacity: 1 !important; }
