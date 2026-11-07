@@ -12,14 +12,15 @@ import { downloadWord } from './word';
 
 /** أن + السلوك + الشرط + المعيار + المساعدة */
 export function GoalBuilder({ subject: initial, onAdd, submitLabel = 'إضافة الهدف' }: { subject?: string; onAdd: (goal: Goal) => void; submitLabel?: string }) {
-  const { site } = useSiteConfig(); const { subjects, goalBank, support } = site.catalog;
+  const { site } = useSiteConfig(); const { subjects, goalBank, support, standards } = site.catalog;
   const blank = (s: string): GoalDraft => ({ behaviour: '', condition: '', type: 'of', x: 4, y: 5, sessions: 2, support: 'independent', subject: s, baseline: '' });
   const [d, setD] = useState<GoalDraft>(blank(initial ?? subjects[0] ?? '')); const [steps, setSteps] = useState(''); const [errors, setErrors] = useState<string[]>([]);
   const set = (change: Partial<GoalDraft>) => setD(x => ({ ...x, ...change }));
-  const bank = goalBank.filter(b => b.subject === d.subject);
+  const bank = goalBank.filter(b => b.subject === d.subject); const stds = standards.filter(s => s.subject === d.subject);
   const submit = () => { const found = draftErrors(d); setErrors(found); if (found.length) return; const list = steps.split('\n').map(x => x.trim()).filter(Boolean); onAdd({ ...goalFromDraft(d), ...(list.length ? { steps: list } : {}) }); setD(blank(d.subject)); setSteps(''); };
   return <div className="goal-builder">
     {bank.length > 0 && <div className="bank-row" role="group" aria-label="بنك الأهداف"><small>من بنك الأهداف:</small>{bank.map(b => <button type="button" key={b.id} className="preset-chip" onClick={() => set({ behaviour: b.behaviour, condition: b.condition })}>{b.behaviour}</button>)}</div>}
+    {stds.length > 0 && <div className="bank-row" role="group" aria-label="معايير الوزارة"><small>من معايير الوزارة:</small>{stds.map(st => <button type="button" key={st.id} className="preset-chip" title={`الصف ${st.grade}`} onClick={() => set({ behaviour: st.text })}>{st.code ? `${st.code} · ` : ''}{st.text}</button>)}</div>}
     <div className="form-grid"><label>المادة<select value={d.subject} onChange={e => set({ subject: e.target.value })}>{subjects.map(x => <option key={x}>{x}</option>)}</select></label><label>السلوك الذي نلاحظه<input value={d.behaviour} placeholder="يميّز الطالب الكلمة" onChange={e => set({ behaviour: e.target.value })} /></label><label>الشرط<input value={d.condition} placeholder="عند عرض الصورة وخيارين" onChange={e => set({ condition: e.target.value })} /></label><label>أقصى مساعدة مقبولة<select value={d.support} onChange={e => set({ support: e.target.value as Support })}>{support.filter(x => x.enabled && x.id !== 'not-observed').map(x => <option key={x.id} value={x.id}>{x.label}</option>)}</select></label></div>
     <div className="criterion-row"><label>المعيار<select value={d.type} onChange={e => set({ type: e.target.value as CriterionType })}><option value="of">عدد من محاولات</option><option value="streak">محاولات متتالية</option><option value="percent">نسبة مئوية</option></select></label><label>{d.type === 'percent' ? 'النسبة' : 'النجاح'}<input type="number" min={1} value={d.x} onChange={e => set({ x: e.target.valueAsNumber })} /></label>{d.type === 'of' && <label>من محاولات<input type="number" min={1} value={d.y} onChange={e => set({ y: e.target.valueAsNumber })} /></label>}<label>خلال جلسات<input type="number" min={1} value={d.sessions} onChange={e => set({ sessions: e.target.valueAsNumber })} /></label></div>
     <label>الأداء الحالي<input value={d.baseline} onChange={e => set({ baseline: e.target.value })} /></label>

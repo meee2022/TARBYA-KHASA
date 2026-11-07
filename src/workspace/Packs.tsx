@@ -7,6 +7,8 @@ import { ContentPack, itemsFromText, missingPictures, PackItem } from '../../pac
 import { useAllPacks, useWorkspace } from './store';
 import { useSiteConfig } from './site';
 import { Empty, PageHeading } from './Workspace';
+import { ShareButton } from './shared';
+import { sharedFromPack } from '../../packages/domain/shared';
 import { TilePicture } from './accessibility';
 import { checkVideo, deleteMedia, playMedia, prepareImage, startRecording, storeMedia } from './media';
 import './packs.css';
@@ -29,7 +31,7 @@ export function PackEditorPage() {
   const { id } = useParams(); const { own } = useAllPacks(); const { savePack, removePack, notify } = useWorkspace(); const navigate = useNavigate(); const stored = own.find(p => p.id === id);
   const [pack, setPack] = useState(stored); const removed = useRef(false);
   if (!pack) return <Empty title="الحزمة غير موجودة" description="افتح حزمة من صفحة المحتوى." />;
-  return <><Link className="back-link" to="/packs"><ArrowRight size={16} />كل الحزم</Link><PageHeading title={pack.title || 'حزمة جديدة'} description="كل عنصر: كلمة أو خطوة، وصورة، وصوت، وإشارة اختيارية."><button className="button secondary" onClick={async () => { if (!await confirmDialog(`حذف «${pack.title || 'هذه الحزمة'}» وكل وسائطها من هذا الجهاز؟`, { ok: 'حذف الحزمة' })) return; removed.current = true; pack.items.forEach(forgetMedia); removePack(pack.id); notify('حُذفت الحزمة'); navigate('/packs'); }}><Trash2 size={16} />حذف</button><Link className="button secondary" to={`/packs/${pack.id}/print`}><Printer size={16} />أوراق وبطاقات</Link><span className="local-indicator"><Save size={15} />يُحفظ تلقائيًا</span></PageHeading>
+  return <><Link className="back-link" to="/packs"><ArrowRight size={16} />كل الحزم</Link><PageHeading title={pack.title || 'حزمة جديدة'} description="كل عنصر: كلمة أو خطوة، وصورة، وصوت، وإشارة اختيارية."><button className="button secondary" onClick={async () => { if (!await confirmDialog(`حذف «${pack.title || 'هذه الحزمة'}» وكل وسائطها من هذا الجهاز؟`, { ok: 'حذف الحزمة' })) return; removed.current = true; pack.items.forEach(forgetMedia); removePack(pack.id); notify('حُذفت الحزمة'); navigate('/packs'); }}><Trash2 size={16} />حذف</button>{pack.items.length > 0 && <ShareButton build={() => sharedFromPack(pack)} />}<Link className="button secondary" to={`/packs/${pack.id}/print`}><Printer size={16} />أوراق وبطاقات</Link><span className="local-indicator"><Save size={15} />يُحفظ تلقائيًا</span></PageHeading>
     {/* Saved on every change: an uploaded picture or recording must never be lost by leaving the page. */}
     <PackEditor pack={pack} onChange={next => { if (removed.current) return; const stamped = { ...next, updatedAt: new Date().toISOString() }; setPack(stamped); savePack(stamped); }} shared={false} /></>;
 }

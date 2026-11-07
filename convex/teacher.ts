@@ -15,7 +15,7 @@ async function teacherFromHash(ctx: QueryCtx, tokenHash: string) {
   const teacher = await ctx.db.get(session.teacherId);
   return teacher?.active ? teacher : null;
 }
-async function requireTeacher(ctx: QueryCtx, token: string) {
+export async function requireTeacher(ctx: QueryCtx, token: string) {
   const teacher = await teacherFromHash(ctx, await sha256(token));
   if (!teacher) throw fail(401, EXPIRED);
   return teacher;

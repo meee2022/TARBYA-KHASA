@@ -33,6 +33,8 @@ async function route(path: string, body: Body) {
     case 'teachers/toggle': { await client.mutation(api.teacher.toggleTeacher, { token: token(), id: body.id }); return { ok: true }; }
     case 'teachers/password': return client.action(api.adminAuth.resetTeacherPassword, { token: token(), id: body.id, password: body.password });
     case 'teachers/remove': { await client.mutation(api.teacher.removeTeacher, { token: token(), id: body.id }); return { ok: true }; }
+    case 'shared/list': return { items: await client.query(api.shared.adminList, { token: token() }) };
+    case 'shared/remove': { await client.mutation(api.shared.adminRemove, { token: token(), id: body.id }); return { ok: true }; }
     case 'password': { const r = await client.action(api.adminAuth.changePassword, { token: token(), current: body.current, password: body.password }); remember(r.token); return { ok: true }; }
     default: throw new ApiError('الإجراء غير موجود.', 404);
   }

@@ -3,3 +3,8 @@
 @media(max-width:680px){.admin-header{padding:16px;gap:12px;min-height:80px}.admin-header .brand-lockup strong{font-size:18px}.admin-header .brand-emblem{display:none}.admin-header .button{padding:10px;font-size:13px}.admin-layout{display:block}.admin-nav{padding:12px 16px;border-inline-end:0;border-bottom:1px solid #dfd8d1;position:static;max-height:none}.admin-nav>p,.admin-scope{display:none}.admin-nav nav{display:flex;overflow-x:auto;gap:4px;padding-bottom:4px}.admin-nav nav button{white-space:nowrap;flex-shrink:0;padding:12px;font-size:14px}.admin-nav nav svg{width:16px}.admin-main{padding:28px 16px 64px}.admin-page-heading h1{font-size:27px}.admin-section{padding:20px}.admin-intro{padding:24px}.admin-intro>svg{display:none}.admin-intro h2{font-size:25px}.admin-content-row{flex-wrap:wrap}.admin-content-row>div:first-child{flex-basis:65%}.admin-content-row .button{font-size:13px;padding:10px}.admin-savebar{bottom:8px;padding:14px}.admin-savebar>span{width:100%;font-size:14px}.admin-savebar .button{flex:1;min-width:120px;font-size:13px;padding:12px 8px}.admin-auth{padding-top:32px}.admin-auth-box{padding:26px}.admin-status-list>div{font-size:15px}.admin-header .brand-lockup strong{overflow-wrap:anywhere;max-width:150px}}
 
 .admin-row-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+
+.admin-standard-row .admin-field-wide, .admin-form-grid .admin-field-wide { grid-column: 1 / -1; }
+.admin-paste { margin-top: 18px; padding: 16px 18px; border-radius: 14px; background: var(--admin-tray, #f6f4ef); }
+.admin-paste h3 { margin: 0 0 10px; font-size: 15px; }
+.admin-paste textarea { width: 100%; font-family: inherit; }

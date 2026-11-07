@@ -11,6 +11,7 @@ export const MAX_TEACHERS = 500;
 // Convex documents stop at 1 MiB; teacher pictures and recordings stay in the browser and are not part of this.
 export const MAX_WORKSPACE_BYTES = 900 * 1024;
 export const AI_DAILY_LIMIT = 30;
+export const MAX_SHARED_ITEMS = 3000;
 
 /** A plain login name or an email address. The email is only a login name: nothing is ever sent to it. */
 export const validUsername = (value: unknown) => typeof value === 'string' && value.length <= 80 && (/^[a-zA-Z0-9_.-]{3,40}$/.test(value) || /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(value));

@@ -1,6 +1,7 @@
 import { ConvexError } from 'convex/values';
 import { api } from '../../convex/_generated/api';
 import { convex } from '../convexClient';
+import type { SharedPayload } from '../../packages/domain/shared';
 
 /** Teacher accounts live on Convex only; without it the workspace stays on this device. */
 export const accountsAvailable = !!convex;
@@ -26,4 +27,8 @@ export const pull = () => call(() => convex!.query(api.teacher.workspace, { toke
 export const push = (json: string, revision: number) => call(() => convex!.mutation(api.teacher.saveWorkspace, { token: teacherToken(), json, revision }));
 export async function changePassword(current: string, password: string) { const r = await call(() => convex!.action(api.adminAuth.teacherChangePassword, { token: teacherToken(), current, password })); keep(r.token); }
 export const aiReady = () => call(() => convex!.query(api.teacher.aiReady, {}));
+export const listShared = () => call(() => convex!.query(api.shared.list, { token: teacherToken() }));
+export const getShared = (id: string) => call(() => convex!.query(api.shared.get, { token: teacherToken(), id }));
+export const publishShared = (payload: SharedPayload) => call(() => convex!.mutation(api.shared.publish, { token: teacherToken(), ...payload }));
+export const removeShared = (id: string) => call(() => convex!.mutation(api.shared.remove, { token: teacherToken(), id }));
 export const generateDraft = async (request: unknown) => JSON.parse(await call(() => convex!.action(api.author.generate, { token: teacherToken(), request })));

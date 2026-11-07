@@ -14,6 +14,8 @@ export default defineSchema({
   teacherSessions: defineTable({ tokenHash: v.string(), teacherId: v.id("teachers"), expires: v.number() }).index("by_token", ["tokenHash"]).index("by_teacher", ["teacherId"]),
   teacherWorkspaces: defineTable({ teacherId: v.id("teachers"), json: v.string(), revision: v.number(), updatedAt: v.string() }).index("by_teacher", ["teacherId"]),
   aiUsage: defineTable({ teacherId: v.id("teachers"), at: v.number() }).index("by_teacher", ["teacherId"]),
+  // What teachers publish for each other: a lesson, a deck or a pack as JSON, with no pupil data. Readable by any teacher, removable by its author or an admin.
+  sharedLibrary: defineTable({ teacherId: v.id("teachers"), teacherName: v.string(), kind: v.string(), title: v.string(), subject: v.string(), grade: v.string(), summary: v.string(), json: v.string(), createdAt: v.string() }).index("by_teacher", ["teacherId"]),
 
   // Tables below belong to the retired first version. Kept so existing rows stay valid; no function reads them.
   // الطلاب
