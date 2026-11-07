@@ -1,0 +1,59 @@
+/* ds-allow-hardcode: colors are tokens from theme.css; remaining literals are component metrics, matching theme.css. */
+/* The family's page: one column of the same paper, cream and burgundy as the teacher's rooms, sized for a phone held in one hand. */
+.parent-portal { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; background: var(--canvas); }
+.parent-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: min(100% - 32px, 720px); margin: 0 auto; padding: 18px 0 6px; }
+.parent-top .brand-wordmark { width: 128px; margin: 0; }
+.parent-main { width: min(100% - 32px, 720px); margin: 0 auto; padding: 10px 0 36px; display: grid; gap: 18px; align-content: start; }
+.parent-hero { display: flex; align-items: center; gap: 20px; padding: 26px 28px; border-radius: 28px; background: var(--sand) url('/images/content/banner-learners.webp') left center / cover no-repeat; box-shadow: var(--shadow-3); position: relative; isolation: isolate; overflow: hidden; }
+.parent-hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, transparent, var(--sand) 48%); }
+.parent-hero .avatar { flex: none; width: 76px; height: 76px; font-size: 30px; }
+.parent-hero h1 { margin: 2px 0 6px; font-size: clamp(1.9rem, 5vw, 2.5rem); color: var(--wine-deep); }
+.parent-hero p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+.parent-section { padding: 22px 24px; display: grid; gap: 10px; }
+.parent-section h2 { margin: 0; font-size: 1.25rem; color: var(--wine-deep); }
+.parent-list { margin: 0; padding-inline-start: 22px; line-height: 2; font-size: 15.5px; }
+.parent-goals { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.parent-goals li { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 14px; background: var(--canvas); font-size: 15px; line-height: 1.6; }
+.parent-goals strong { flex: none; padding: 5px 12px; border-radius: 10px; background: var(--sage); color: var(--sage-ink, #3f4d33); font-size: 13px; font-weight: 600; }
+.parent-home { display: grid; gap: 14px; padding: 24px 26px; border-radius: 24px; background: var(--wine-deep); color: #fff7ea; box-shadow: var(--shadow-2); }
+.parent-home h2 { margin: 0 0 6px; font-size: 1.15rem; color: var(--brass-light); }
+.parent-home p { margin: 0; font-size: 16px; line-height: 1.9; }
+.parent-reply label { display: grid; gap: 6px; font-size: 14px; }
+.parent-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.parent-choice { display: grid; justify-items: center; gap: 8px; min-height: 92px; padding: 14px 8px; border: 2px solid var(--line); border-radius: 18px; background: var(--paper); color: var(--ink); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s, background .2s; }
+.parent-choice svg { color: var(--brass); }
+.parent-choice:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.parent-choice:active { transform: translateY(0); }
+.parent-choice.on { border-color: var(--wine); background: var(--rose); box-shadow: var(--shadow-1); }
+.parent-choice.on svg { color: var(--wine); }
+.parent-reply .button { justify-self: start; }
+.parent-thanks { display: flex; align-items: center; gap: 8px; margin: 0; padding: 12px 14px; border-radius: 14px; background: var(--sage); color: var(--sage-ink, #3f4d33); font-weight: 500; }
+.parent-invalid { padding: 40px 28px; text-align: center; display: grid; justify-items: center; gap: 8px; }
+.parent-invalid img { width: 130px; height: 130px; object-fit: contain; filter: drop-shadow(0 12px 12px #3a1a1226); }
+.parent-invalid h1 { margin: 0; font-size: 1.6rem; color: var(--wine-deep); }
+.parent-invalid p { margin: 0; color: var(--muted); max-width: 46ch; line-height: 1.8; }
+.parent-skeleton { display: grid; gap: 18px; }
+.parent-skeleton i { display: block; height: 120px; border-radius: 24px; background: linear-gradient(90deg, var(--paper), var(--sand), var(--paper)); background-size: 200% 100%; animation: parent-shimmer 1.4s linear infinite; }
+.parent-skeleton i:first-child { height: 150px; }
+@keyframes parent-shimmer { to { background-position: -200% 0; } }
+.parent-foot { display: grid; gap: 4px; width: min(100% - 32px, 720px); margin: 0 auto; padding: 18px 0 28px; font-size: 12.5px; color: var(--muted); text-align: center; }
+.parent-foot span:first-child { font-weight: 600; color: var(--wine-deep); }
+/* Teacher side: the link card on the pupil's page. */
+.parent-link-row { display: flex; gap: 8px; margin: 10px 0 12px; }
+.parent-link-row input { flex: 1; min-width: 0; direction: ltr; text-align: left; font-size: 13px; }
+.parent-card small { display: block; margin-top: 10px; }
+.parent-replies-title { margin: 18px 0 8px; font-size: 1.05rem; }
+.parent-replies li { padding-inline-end: 56px; }
+.parent-replies .goal-state { justify-self: start; }
+.parent-replies .goal-state.reply-yes { background: var(--sage); color: var(--sage-ink, #3f4d33); }
+.parent-replies .goal-state.reply-help { background: var(--sand); }
+.parent-replies .goal-state.reply-no { background: var(--rose); color: var(--wine-deep); }
+.parent-replies .goal-card-actions { margin-top: 6px; }
+@media (max-width: 560px) {
+  .parent-hero { flex-direction: column; align-items: flex-start; padding: 22px; background-image: none; }
+  .parent-choices { gap: 8px; }
+  .parent-choice { min-height: 84px; font-size: 13px; }
+  .parent-link-row { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) { .parent-skeleton i { animation: none; } .parent-choice:hover { transform: none; } }
+.reply-flag { display: inline-block; margin-top: 4px; padding: 3px 9px; border-radius: 8px; background: var(--sage); color: var(--sage-ink, #3f4d33); font-size: 12px; font-weight: 600; }

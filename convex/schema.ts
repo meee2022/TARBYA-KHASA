@@ -16,6 +16,9 @@ export default defineSchema({
   aiUsage: defineTable({ teacherId: v.id("teachers"), at: v.number() }).index("by_teacher", ["teacherId"]),
   // What teachers publish for each other: a lesson, a deck or a pack as JSON, with no pupil data. Readable by any teacher, removable by its author or an admin.
   sharedLibrary: defineTable({ teacherId: v.id("teachers"), teacherName: v.string(), kind: v.string(), title: v.string(), subject: v.string(), grade: v.string(), summary: v.string(), json: v.string(), createdAt: v.string() }).index("by_teacher", ["teacherId"]),
+  // The family portal: one link per pupil (teacher + learner id in her workspace), and the family's short answers for the teacher to read.
+  parentLinks: defineTable({ teacherId: v.id("teachers"), learnerId: v.string(), token: v.string(), createdAt: v.string() }).index("by_token", ["token"]).index("by_teacher", ["teacherId"]),
+  parentReplies: defineTable({ teacherId: v.id("teachers"), learnerId: v.string(), choice: v.string(), text: v.string(), at: v.string() }).index("by_teacher", ["teacherId"]),
 
   // Tables below belong to the retired first version. Kept so existing rows stay valid; no function reads them.
   // الطلاب

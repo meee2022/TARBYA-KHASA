@@ -2,6 +2,7 @@ import { ConvexError } from 'convex/values';
 import { api } from '../../convex/_generated/api';
 import { convex } from '../convexClient';
 import type { SharedPayload } from '../../packages/domain/shared';
+import type { ParentChoice } from '../../packages/domain/parent';
 
 /** Teacher accounts live on Convex only; without it the workspace stays on this device. */
 export const accountsAvailable = !!convex;
@@ -32,3 +33,11 @@ export const getShared = (id: string) => call(() => convex!.query(api.shared.get
 export const publishShared = (payload: SharedPayload) => call(() => convex!.mutation(api.shared.publish, { token: teacherToken(), ...payload }));
 export const removeShared = (id: string) => call(() => convex!.mutation(api.shared.remove, { token: teacherToken(), id }));
 export const generateDraft = async (request: unknown) => JSON.parse(await call(() => convex!.action(api.author.generate, { token: teacherToken(), request })));
+// The family portal: links the teacher issued, and the families' short answers. `parentPage` and `parentReply` need no session, only the link.
+export const parentLinks = () => call(() => convex!.query(api.parent.links, { token: teacherToken() }));
+export const issueParentLink = (learnerId: string, parentToken: string) => call(() => convex!.mutation(api.parent.issue, { token: teacherToken(), learnerId, parentToken }));
+export const revokeParentLink = (learnerId: string) => call(() => convex!.mutation(api.parent.revoke, { token: teacherToken(), learnerId }));
+export const parentReplies = () => call(() => convex!.query(api.parent.replies, { token: teacherToken() }));
+export const dismissParentReply = (id: string) => call(() => convex!.mutation(api.parent.dismissReply, { token: teacherToken(), id }));
+export const parentPage = (token: string) => call(() => convex!.query(api.parent.view, { token }));
+export const parentReply = (token: string, choice: ParentChoice, text: string) => call(() => convex!.mutation(api.parent.reply, { token, choice, text }));

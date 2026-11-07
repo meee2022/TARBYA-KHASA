@@ -83,6 +83,8 @@ export const removeTeacher = mutation({
     await endSessions(ctx, teacher._id);
     for (const w of await ctx.db.query("teacherWorkspaces").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(w._id);
     for (const u of await ctx.db.query("aiUsage").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(u._id);
+    for (const l of await ctx.db.query("parentLinks").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(l._id);
+    for (const r of await ctx.db.query("parentReplies").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(r._id);
     await ctx.db.delete(teacher._id);
     await audit(ctx, actor.username, "حذف حساب معلم وبياناته: " + teacher.username);
   },

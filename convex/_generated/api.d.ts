@@ -12,6 +12,7 @@ import type * as admin from "../admin.js";
 import type * as adminAuth from "../adminAuth.js";
 import type * as adminRules from "../adminRules.js";
 import type * as author from "../author.js";
+import type * as parent from "../parent.js";
 import type * as shared from "../shared.js";
 import type * as teacher from "../teacher.js";
 
@@ -26,6 +27,7 @@ declare const fullApi: ApiFromModules<{
   adminAuth: typeof adminAuth;
   adminRules: typeof adminRules;
   author: typeof author;
+  parent: typeof parent;
   shared: typeof shared;
   teacher: typeof teacher;
 }>;
