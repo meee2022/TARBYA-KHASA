@@ -17,13 +17,15 @@ export const MAX_SHARED_ITEMS = 3000;
 export const validUsername = (value: unknown) => typeof value === 'string' && value.length <= 80 && (/^[a-zA-Z0-9_.-]{3,40}$/.test(value) || /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(value));
 
 export type Credentials = { username: string; name: string; password: string };
-export function readCredentials(body: { username?: unknown; name?: unknown; password?: unknown }): Credentials {
+/** Admins control the whole platform and keep the 12-character floor. Teachers get a shorter one: their login is rate-limited and the account is handed over by the admin. */
+export const TEACHER_PASSWORD_MIN = 6;
+export function readCredentials(body: { username?: unknown; name?: unknown; password?: unknown }, minPassword = 12): Credentials {
   const { username, name, password } = body;
-  if (typeof username !== 'string' || !validUsername(username) || typeof password !== 'string' || password.length < 12 || password.length > 128 || typeof name !== 'string' || !name.trim() || name.length > 80)
-    throw new Error('اكتب إيميلًا صحيحًا أو اسم دخول إنجليزيًا من 3 إلى 40 حرفًا، واسمًا ظاهرًا، وكلمة مرور من 12 إلى 128 حرفًا.');
+  if (typeof username !== 'string' || !validUsername(username) || typeof password !== 'string' || password.length < minPassword || password.length > 128 || typeof name !== 'string' || !name.trim() || name.length > 80)
+    throw new Error(`اكتب إيميلًا صحيحًا أو اسم دخول إنجليزيًا من 3 إلى 40 حرفًا، واسمًا ظاهرًا، وكلمة مرور من ${minPassword} إلى 128 حرفًا.`);
   return { username: username.toLowerCase(), name: name.trim(), password };
 }
-export const validPasswordLength = (password: unknown) => typeof password === 'string' && password.length >= 12 && password.length <= 128;
+export const validPasswordLength = (password: unknown, min = 12) => typeof password === 'string' && password.length >= min && password.length <= 128;
 
 const startsWith = (bytes: Uint8Array, ...values: number[]) => values.every((value, n) => bytes[n] === value);
 const ascii = (bytes: Uint8Array, from: number, text: string) => [...text].every((c, n) => bytes[from + n] === c.charCodeAt(0));

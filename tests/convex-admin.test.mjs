@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mediaProblem, MEDIA_LIMIT, readCredentials, validPasswordLength } from '../convex/adminRules.ts';
+import { mediaProblem, MEDIA_LIMIT, readCredentials, TEACHER_PASSWORD_MIN, validPasswordLength } from '../convex/adminRules.ts';
 import { mediaPath } from '../packages/domain/catalog.ts';
 import { defaultSite, validateSite } from '../packages/domain/site.ts';
 
@@ -12,6 +12,13 @@ test('admin credentials follow the same rules as the local server', () => {
   for (const bad of [{ ...good, username: 'ab' }, { ...good, username: 'a b c' }, { ...good, name: ' ' }, { ...good, password: 'short' }, { ...good, password: 'x'.repeat(129) }, { ...good, password: 1 }]) assert.throws(() => readCredentials(bad));
   assert.equal(validPasswordLength('x'.repeat(11)), false);
   assert.equal(validPasswordLength('x'.repeat(12)), true);
+  // Teachers get a shorter floor; admins keep 12.
+  assert.equal(TEACHER_PASSWORD_MIN, 6);
+  assert.equal(readCredentials({ ...good, password: 'abc123' }, TEACHER_PASSWORD_MIN).password, 'abc123');
+  assert.throws(() => readCredentials({ ...good, password: 'abc12' }, TEACHER_PASSWORD_MIN));
+  assert.throws(() => readCredentials({ ...good, password: 'abc123' }));
+  assert.equal(validPasswordLength('abc123', TEACHER_PASSWORD_MIN), true);
+  assert.equal(validPasswordLength('abc12', TEACHER_PASSWORD_MIN), false);
 });
 
 test('an email works as the login name, and only a well-formed one', () => {

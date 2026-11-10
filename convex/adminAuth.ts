@@ -4,7 +4,7 @@ import { ConvexError, v } from "convex/values";
 import { action, type ActionCtx } from "./_generated/server";
 import { internal } from "./_generated/api";
 import type { Doc, Id } from "./_generated/dataModel";
-import { mediaProblem, readCredentials, validPasswordLength, type Credentials } from "./adminRules.ts";
+import { mediaProblem, readCredentials, TEACHER_PASSWORD_MIN, validPasswordLength, type Credentials } from "./adminRules.ts";
 
 // Written out because these actions reference the generated API that also describes them.
 type PublicUser = { id: string; username: string; name: string; active: boolean };
@@ -15,7 +15,7 @@ const hashPassword = (password: string) => { const salt = randomBytes(16).toStri
 const verify = (password: string, user: { salt: string; hash: string }) => timingSafeEqual(scryptSync(password, user.salt, 64), Buffer.from(user.hash, "hex"));
 // Spent on unknown usernames too, so response time does not reveal which accounts exist.
 const DUMMY = { salt: "0".repeat(32), hash: "0".repeat(128) };
-const credentials = (body: Parameters<typeof readCredentials>[0]): Credentials => { try { return readCredentials(body); } catch (e) { throw fail(400, (e as Error).message); } };
+const credentials = (body: Parameters<typeof readCredentials>[0], minPassword?: number): Credentials => { try { return readCredentials(body, minPassword); } catch (e) { throw fail(400, (e as Error).message); } };
 const startSession = async (ctx: ActionCtx, userId: Id<"adminUsers">, action?: string): Promise<SessionResult> => {
   const token = randomBytes(32).toString("hex");
   const user: PublicUser | null = await ctx.runMutation(internal.admin.createSession, { userId, tokenHash: hashOf(token), action });
@@ -123,7 +123,7 @@ export const createTeacher = action({
   args: { token: v.string(), username: v.string(), name: v.string(), password: v.string() },
   handler: async (ctx, { token, ...body }): Promise<{ teacher: { id: string; username: string; name: string; active: boolean } }> => {
     const actor = await requireUser(ctx, token);
-    const c = credentials(body);
+    const c = credentials(body, TEACHER_PASSWORD_MIN);
     return { teacher: await ctx.runMutation(internal.teacher.createTeacher, { actor: actor.username, username: c.username, name: c.name, ...hashPassword(c.password) }) };
   },
 });
@@ -131,7 +131,7 @@ export const resetTeacherPassword = action({
   args: { token: v.string(), id: v.string(), password: v.string() },
   handler: async (ctx, { token, id, password }): Promise<{ ok: true }> => {
     const actor = await requireUser(ctx, token);
-    if (!validPasswordLength(password)) throw fail(400, "استخدم كلمة مرور من 12 إلى 128 حرفًا.");
+    if (!validPasswordLength(password, TEACHER_PASSWORD_MIN)) throw fail(400, `استخدم كلمة مرور من ${TEACHER_PASSWORD_MIN} إلى 128 حرفًا.`);
     const teacherId = id as Id<"teachers">;
     await ctx.runMutation(internal.teacher.setPassword, { teacherId, ...hashPassword(password), actor: actor.username });
     return { ok: true };
@@ -143,7 +143,7 @@ export const teacherChangePassword = action({
     const teacher: Doc<"teachers"> | null = await ctx.runQuery(internal.teacher.teacherForToken, { tokenHash: hashOf(token) });
     if (!teacher) throw fail(401, "انتهت جلستك. سجّل الدخول مجددًا.");
     if (current.length > 128 || !verify(current, teacher)) throw fail(400, "كلمة المرور الحالية غير صحيحة.");
-    if (!validPasswordLength(password)) throw fail(400, "استخدم كلمة مرور من 12 إلى 128 حرفًا.");
+    if (!validPasswordLength(password, TEACHER_PASSWORD_MIN)) throw fail(400, `استخدم كلمة مرور من ${TEACHER_PASSWORD_MIN} إلى 128 حرفًا.`);
     const next = randomBytes(32).toString("hex");
     await ctx.runMutation(internal.teacher.setPassword, { teacherId: teacher._id, ...hashPassword(password), tokenHash: hashOf(next) });
     return { token: next };

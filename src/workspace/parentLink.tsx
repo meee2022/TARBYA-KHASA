@@ -20,10 +20,11 @@ export function useParentPortal(enabled: boolean) {
 
 export function ParentPortalCard({ learner }: { learner: Learner }) {
   const { account, record, notify } = useWorkspace(); const portal = useParentPortal(!!account);
-  const [copied, setCopied] = useState(false); const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState(false); const [busy, setBusy] = useState(false); const [goalId, setGoalId] = useState('');
   const link = portal.links.find(l => l.learnerId === learner.id); const replies = portal.replies.filter(r => r.learnerId === learner.id);
   const url = link ? parentUrl(window.location.origin, link.token) : '';
-  const first = learner.name.split(/\s|·/)[0]; const goal = learner.goals.find(g => !g.approvedAt) ?? learner.goals[0];
+  // The family answers about "the home task", not a named goal, so the teacher picks which goal the note lands on; the first open goal is the default.
+  const first = learner.name.split(/\s|·/)[0]; const goal = learner.goals.find(g => g.id === goalId) ?? learner.goals.find(g => !g.approvedAt) ?? learner.goals[0];
   const run = async (work: () => Promise<unknown>, done: string) => { setBusy(true); try { await work(); await portal.reload(); if (done) notify(done); } catch (e) { notify(e instanceof SyncError ? e.message : 'تعذّر الاتصال بالخادم.'); } finally { setBusy(false); } };
   const issue = () => run(() => issueParentLink(learner.id, parentToken(crypto.getRandomValues(new Uint8Array(24)))), link ? 'أُنشئ رابط جديد، والرابط القديم لم يعد يعمل' : 'أُنشئ رابط ولي الأمر');
   const copy = async () => { try { await navigator.clipboard.writeText(url); setCopied(true); window.setTimeout(() => setCopied(false), 2000); } catch { notify('انسخ الرابط من الحقل يدويًا'); } };
@@ -41,6 +42,7 @@ export function ParentPortalCard({ learner }: { learner: Learner }) {
       </> : <div className="heading-actions"><button type="button" className="button primary" disabled={busy || portal.state === 'loading'} onClick={issue}><Link2 size={16} />أنشئ رابط ولي الأمر</button></div>}
     {replies.length > 0 && <>
       <h3 className="parent-replies-title">ما قالته الأسرة</h3>
+      {learner.goals.length > 1 && <label className="parent-goal-pick">تُسجَّل الملاحظة على هدف<select value={goal?.id ?? ''} onChange={e => setGoalId(e.target.value)}>{learner.goals.map(g => <option key={g.id} value={g.id}>{g.text}</option>)}</select></label>}
       <ul className="abc-list parent-replies">{replies.map(r => <li key={r.id}><strong>{dateLabel(r.at)}</strong><span className={`goal-state reply-${r.choice}`}>{parentChoiceLabels[r.choice]}</span>{r.text && <span>«{r.text}»</span>}<div className="goal-card-actions heading-actions">{goal && <button type="button" className="button secondary" onClick={() => { record(homeObservation(learner.id, goal.id, r.choice, learner.family?.home || r.text)); void run(() => dismissParentReply(r.id), 'سُجّلت ملاحظة من البيت على الهدف'); }}><Check size={16} />سجّلها ملاحظة من البيت</button>}</div><button type="button" className="icon-button" aria-label="إزالة هذا الرد" onClick={() => void run(() => dismissParentReply(r.id), '')}><Trash2 size={15} /></button></li>)}</ul>
     </>}
   </section>;
