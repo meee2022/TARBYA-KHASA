@@ -10,7 +10,7 @@ export interface SiteConfig {
 }
 export const defaultSite: SiteConfig = {
   version:1, revision:0, brandName:'تربية خاصة', tagline:'لكلّ طالب، طريقٌ للتعلّم', welcome:'أهلًا بك، ليومٍ يصنع فرقًا', description:'كل ما تحتاجه لحصة أكثر وضوحًا، وتعلّم أقرب لكل طالب.',
-  featureTitle:'عالم صغير، اكتشافات كبيرة.', featureDescription:'درس الحيوانات، بتجارب تراعي اختلاف طرق التعلّم.', featuredLessonId:'animals', footer:'تعلّم يناسب كلّ طالب', announcement:'', announcementEnabled:false, primaryColor:'#63391f',
+  featureTitle:'عالم صغير، اكتشافات كبيرة.', featureDescription:'درس الحيوانات، بتجارب تراعي اختلاف طرق التعلّم.', featuredLessonId:'animals', footer:'تعلّم يناسب كلّ طالب', announcement:'', announcementEnabled:false, primaryColor:'#5c1523',
   catalog:defaultCatalog, heroImage:art('hero-classroom'), modules:{plans:true,iep:true,lessons:true,learners:true,packs:true,tools:true,presentations:true,games:true,library:true,progress:true,review:true}, aiEnabled:true, aiRequestLimit:15, maintenance:false, maintenanceMessage:'نحدّث المنصة الآن. نعود إليكم قريبًا.',
 };
 export function validateSite(input: unknown): SiteConfig {

@@ -78,7 +78,7 @@ export function build() {
       if (/print/.test(media)) return;
       const sels = rule.selectors.filter(s => !ISLAND_RE.test(s) && !/^(:root|html|body)\b/.test(s) && s !== '.studio');
       // Text sitting on a fill that stays (brand buttons, brass badges) keeps its color.
-      const keepsFill = rule.nodes.some(d => d.type === 'decl' && /^background/.test(d.prop) && (/var\(--(brand|tan|olive|green)/.test(d.value) || (d.value.replace(/url\([^)]*\)/g, '').match(COLOR_RE) && !night(d.value, 'surface'))));
+      const keepsFill = rule.nodes.some(d => d.type === 'decl' && /^background/.test(d.prop) && (/var\(--(brand|gold|olive|green)/.test(d.value) || (d.value.replace(/url\([^)]*\)/g, '').match(COLOR_RE) && !night(d.value, 'surface'))));
       rule.walkDecls(d => {
         const role = !d.prop.startsWith('--') && roleOf(d.prop); if (!role) return;
         const value = role === 'text' ? textAt(d.value, keepsFill) : night(d.value, role);

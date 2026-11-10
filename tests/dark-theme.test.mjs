@@ -10,7 +10,7 @@ test('the generated night stylesheet matches the current stylesheets', () => {
 test('night colors: dark text lightens, light surfaces darken, brand fills and images stay', () => {
   assert.equal(night('#fff', 'surface'), '#1a1a1a');
   assert.ok(parseInt(night('#2e2016', 'text').slice(1, 3), 16) > 200, 'dark ink becomes light');
-  assert.equal(night('#63391f', 'surface'), null, 'brand fill stays');
+  assert.equal(night('#5c1523', 'surface'), null, 'brand fill stays');
   assert.equal(night('#fff7ea', 'text'), null, 'light text stays');
   assert.equal(night("var(--paper) url('/images/white-felt.webp')", 'surface'), null, 'image paths are not colors');
 });

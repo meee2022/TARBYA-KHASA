@@ -1,4 +1,4 @@
-/* Night mode for the teacher's workspace. The same walnut-and-brown world, lit low.
+/* Night mode for the teacher's workspace. The same walnut-and-maroon world, lit low.
    Screen only: printed sheets stay on white paper. Play rooms keep their own felt surfaces,
    because the learner's materials are tuned per child, not per teacher. */
 /* ds-allow-hardcode:start — this file defines the night token values; body sits outside .studio so it repeats canvas and ink. */
@@ -6,12 +6,12 @@
   :root[data-theme='dark'] { color-scheme: dark; }
   :root[data-theme='dark'] body { background: #18110d; color: #efe4de; }
   :root[data-theme='dark'] .studio {
-    --brand: var(--brand-color, #63391f);
-    --brand-dark: #815228;
-    --brand-text: #d9b79c;
-    --focus: #e8c5a3;
-    --tan: #c69a6f;
-    --tan-light: #e8c5a3;
+    --brand: var(--brand-color, #5c1523);
+    --brand-dark: #973b4a;
+    --brand-text: #d0bc91;
+    --focus: #e1c996;
+    --gold: #bea05c;
+    --gold-light: #e1c996;
     --olive: #5d6b37;
     --ink: #f1e7e1;
     --muted: #b8a9a4;
@@ -21,11 +21,11 @@
     --cream: #2c2019;
     --sage: #1f261d;
     --sand: #2b2219;
-    --tint: #361f0e;
+    --tint: #3f151c;
     --sky: #1c2528;
     --green: #8fbf9c;
     --note: #2d2416;
-    --note-ink: #ebccae;
+    --note-ink: #e5d0a3;
     --chip: #2f251f;
     --chip-ink: #e2d6c6;
     --sage-ink: #bcd0a8;
@@ -38,12 +38,12 @@
   /* Learner-facing rooms and paper previews keep the daylight palette (same list as ISLANDS in scripts/dark-theme.mjs). */
   :root[data-theme='dark'] .studio :is(.play-room, .sheet-page, .slide-preview, .sample-slide, .deck-presenter, .print-questions) {
     color-scheme: light;
-    --brand-dark: #4a2913;
+    --brand-dark: #4a0f1b;
     --brand-text: var(--brand);
-    --tan: #a8853a;
-    --tan-light: #dfc48e;
-    --ink: #2e2016;
-    --muted: #706055;
+    --gold: #a8853a;
+    --gold-light: #dfc48e;
+    --ink: #2a1418;
+    --muted: #7a6a58;
     --line: #efe6d8;
     --canvas: #fcf9f2;
     --paper: #ffffff;
@@ -54,7 +54,7 @@
     --sky: #dfe6e8;
     --green: #3e5a48;
     --note: #fbf1dc;
-    --note-ink: #5c432a;
+    --note-ink: #58461e;
     --chip: #efe7dc;
     --chip-ink: #4f4336;
     --sage-ink: #3f4d33;
@@ -66,7 +66,7 @@
   }
 }
 
-/* The wordmark is drawn in its background color: on the page it takes the light brand tint, on brown bars it stays cream. */
+/* The wordmark is drawn in its background color: on the page it takes the light brand tint, on maroon bars it stays cream. */
 @media screen { :root[data-theme='dark'] .studio .brand-wordmark:not(.sidebar *, .admin-header *, .play-room *) { background: var(--brand-text); } }
 
 /* ds-allow-hardcode:end */

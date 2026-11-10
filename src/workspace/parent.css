@@ -1,5 +1,5 @@
 /* ds-allow-hardcode:start colors are tokens from theme.css; remaining literals are component metrics, matching theme.css. */
-/* The family's page: one column of the same paper, cream and brown as the teacher's rooms, sized for a phone held in one hand. */
+/* The family's page: one column of the same paper, cream and maroon as the teacher's rooms, sized for a phone held in one hand. */
 .parent-portal { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; background: var(--canvas); }
 .parent-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: min(100% - 32px, 720px); margin: 0 auto; padding: 18px 0 6px; }
 .parent-top .brand-wordmark { width: 128px; margin: 0; }
@@ -16,12 +16,12 @@
 .parent-goals li { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 14px; background: var(--canvas); font-size: 15px; line-height: 1.6; }
 .parent-goals strong { flex: none; padding: 5px 12px; border-radius: 10px; background: var(--sage); color: var(--sage-ink, #3f4d33); font-size: 13px; font-weight: 600; }
 .parent-home { display: grid; gap: 14px; padding: 24px 26px; border-radius: 24px; background: var(--brand-deep); color: #fff7ea; box-shadow: var(--shadow-2); }
-.parent-home h2 { margin: 0 0 6px; font-size: 1.15rem; color: var(--tan-light); }
+.parent-home h2 { margin: 0 0 6px; font-size: 1.15rem; color: var(--gold-light); }
 .parent-home p { margin: 0; font-size: 16px; line-height: 1.9; }
 .parent-reply label { display: grid; gap: 6px; font-size: 14px; }
 .parent-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .parent-choice { display: grid; justify-items: center; gap: 8px; min-height: 92px; padding: 14px 8px; border: 2px solid var(--line); border-radius: 18px; background: var(--paper); color: var(--ink); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s, background .2s; }
-.parent-choice svg { color: var(--tan); }
+.parent-choice svg { color: var(--gold); }
 .parent-choice:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
 .parent-choice:active { transform: translateY(0); }
 .parent-choice.on { border-color: var(--brand); background: var(--tint); box-shadow: var(--shadow-1); }
