@@ -965,6 +965,27 @@
 }
 @media (prefers-reduced-motion: reduce) { .studio .resource-card:hover, .studio .tool-card:hover, .studio a.panel:hover { transform: none; } }
 
+/* A page without a picture banner opens with the same maroon strip, so every page starts in the identity. */
+.studio .workspace-main > .page-heading { position: relative; isolation: isolate; overflow: hidden; margin: 6px 0 22px; padding: 24px 28px; border-radius: 18px; background: radial-gradient(460px 240px at 100% 0%, #c9a96e38, transparent 70%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c9a96e' stroke-width='1' stroke-opacity='0.16'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3Cpath d='M30 12l18 18-18 18-18-18z'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to left, #3b0a14, #5c1523); background-size: auto, 60px, auto; box-shadow: 0 2px 6px #2a14181a, 0 20px 40px -18px #5c152359; }
+.studio .workspace-main > .page-heading h1 { color: #fff8ea; font-size: 34px; line-height: 1.4; }
+.studio .workspace-main > .page-heading p { color: #ebd9b4; }
+.studio .workspace-main > .page-heading label, .studio .workspace-main > .page-heading .muted { color: #ebd9b4; }
+.studio .workspace-main > .page-heading .button.primary { background: linear-gradient(135deg, #dfc48e, #c9a96e); color: #3b0a14; box-shadow: inset 0 1px 0 #ffffff66, 0 10px 24px #0000004d; }
+.studio .workspace-main > .page-heading .button.primary:hover { background: linear-gradient(135deg, #ead4a4, #d3b47a); }
+.studio .workspace-main > .page-heading .button.primary svg { color: #3b0a14; }
+.studio .workspace-main > .page-heading .button.secondary { background: #ffffff1f; color: #fff8ea; border-color: #ffffff47; box-shadow: none; }
+.studio .workspace-main > .page-heading .button.secondary:hover { background: #ffffff33; }
+.studio .workspace-main > .page-heading .button.secondary svg { color: #dfc48e; }
+.studio .workspace-main > .page-heading a:focus-visible, .studio .workspace-main > .page-heading button:focus-visible { outline-color: #dfc48e; }
+@media (max-width: 760px) {
+  .studio .workspace-main > .page-heading { padding: 18px; }
+  .studio .workspace-main > .page-heading h1 { font-size: 26px; }
+}
+@media print {
+  .studio .workspace-main > .page-heading { background: none; box-shadow: none; padding: 0; }
+  .studio .workspace-main > .page-heading h1 { color: #2a1418; }
+  .studio .workspace-main > .page-heading p { color: #4f4036; }
+}
 /* A tile without a picture: its icon sits in a maroon square beside the title, the text reads in one column, and the action keeps the last line. */
 .studio .tool-card:not(:has(img)) { grid-template-columns: 52px minmax(0, 1fr); gap: 6px 16px; padding: 22px; min-height: 0; align-content: start; align-items: start; text-align: start; }
 .studio .tool-card:not(:has(img)) > svg:first-child { grid-column: 1; grid-row: 1 / span 3; box-sizing: content-box; width: 24px; height: 24px; padding: 14px; border-radius: 16px; background: linear-gradient(135deg, #7a1e30, #4a0f1b); color: #dfc48e; box-shadow: 0 8px 18px -8px #5c152399; }

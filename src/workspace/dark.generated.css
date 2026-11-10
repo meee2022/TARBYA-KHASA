@@ -1374,6 +1374,29 @@ html:where([data-theme='dark']) .studio .kit-meter i:where(:not(.theme-preview, 
 html:where([data-theme='dark']) .studio [role="progressbar"] > i:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: linear-gradient(90deg, #a8853a, #625235)
 }
+html:where([data-theme='dark']) .studio .workspace-main > .page-heading .button.primary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: linear-gradient(135deg, #50442b, #625235);
+    color: #f0cdd4
+}
+html:where([data-theme='dark']) .studio .workspace-main > .page-heading .button.primary:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: linear-gradient(135deg, #463b25, #5b4c31)
+}
+html:where([data-theme='dark']) .studio .workspace-main > .page-heading .button.primary svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: #f0cdd4
+}
+html:where([data-theme='dark']) .studio .workspace-main > .page-heading .button.secondary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a1f;
+    border-color: #38383847
+}
+html:where([data-theme='dark']) .studio .workspace-main > .page-heading .button.secondary:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a33
+}
+html:where([data-theme='dark']) .studio .workspace-main > .page-heading a:focus-visible:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    outline-color: #5d533e
+}
+html:where([data-theme='dark']) .studio .workspace-main > .page-heading button:focus-visible:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    outline-color: #5d533e
+}
 html:where([data-theme='dark']) .studio .tool-card:not(:has(img)) h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--brand-text)
 }
