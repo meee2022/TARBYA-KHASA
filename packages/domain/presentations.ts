@@ -25,7 +25,7 @@ export interface PlanDraft {
 export const slideLabels: Record<SlideKind, string> = { cover: 'الغلاف', concept: 'نتعلّم', choice: 'اختر الإجابة', practice: 'نجرب معًا', break: 'استراحة', closing: 'نراجع' };
 export const deckThemes = {
   calm: { name: 'حديقة هادئة', background: 'F4F6ED', ink: '293E2C', accent: '426849', soft: 'E5EDDC' },
-  wine: { name: 'هوية المنصة', background: 'FBF7F1', ink: '2E2016', accent: '714D35', soft: 'EFE2D0' },
+  wine: { name: 'هوية المنصة', background: 'FBF7F1', ink: '2E2016', accent: '7B4C30', soft: 'EFE2D0' },
   contrast: { name: 'وضوح عالٍ', background: 'FFFFFF', ink: '000000', accent: '000000', soft: 'F0F0F0' },
 } as const;
 const makeId = () => globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;

@@ -454,13 +454,13 @@ html:where([data-theme='dark']) .sync-error:where(:not(.theme-preview, .theme-pr
     color: #ecd5be
 }
 html:where([data-theme='dark']) .trial-table th[scope=row]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #352a1d
+    background: #2e2619
 }
 html:where([data-theme='dark']) .certificate-frame:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #251e14
+    background: #231c13
 }
 html:where([data-theme='dark']) .certificate-brand:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e4d0c3
+    color: #e8cebe
 }
 html:where([data-theme='dark']) .certificate h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #e7d7cd
@@ -469,7 +469,7 @@ html:where([data-theme='dark']) .certificate-to:where(:not(.theme-preview, .them
     color: #d0c7c1
 }
 html:where([data-theme='dark']) .certificate-name:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #dfcabc
+    color: #e3c7b7
 }
 html:where([data-theme='dark']) .certificate-date:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #d0c7c1
@@ -1148,7 +1148,7 @@ html:where([data-theme='dark']) .learner-card-top h2:where(:not(.theme-preview, 
 }
 html:where([data-theme='dark']) .theme-preview:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #292216;
-    border: 1px solid #544738
+    border: 1px solid #514536
 }
 html:where([data-theme='dark']) .theme-preview b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #362f25

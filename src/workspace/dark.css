@@ -6,13 +6,13 @@
   :root[data-theme='dark'] { color-scheme: dark; }
   :root[data-theme='dark'] body { background: #18110d; color: #efe4de; }
   :root[data-theme='dark'] .studio {
-    --brand: var(--brand-color, #714d35);
+    --brand: var(--brand-color, #7b4c30);
     --brand-dark: #815228;
     --brand-text: #d9b79c;
     --focus: #e8c5a3;
     --tan: #c69a6f;
     --tan-light: #e8c5a3;
-    --olive: #4c5730;
+    --olive: #5d6b37;
     --ink: #f1e7e1;
     --muted: #b8a9a4;
     --line: #3c2f26;
@@ -38,19 +38,19 @@
   /* Learner-facing rooms and paper previews keep the daylight palette (same list as ISLANDS in scripts/dark-theme.mjs). */
   :root[data-theme='dark'] .studio :is(.play-room, .sheet-page, .slide-preview, .sample-slide, .deck-presenter, .print-questions) {
     color-scheme: light;
-    --brand-dark: #5a3b28;
+    --brand-dark: #633b23;
     --brand-text: var(--brand);
-    --tan: #a87c5c;
-    --tan-light: #d9bfa6;
+    --tan: #b97a52;
+    --tan-light: #ecd0b3;
     --ink: #2e2016;
     --muted: #706055;
-    --line: #e3d3bf;
-    --canvas: #efe2d2;
-    --paper: #fffaf3;
-    --cream: #f5e7d4;
-    --sage: #e5eadb;
-    --sand: #ecd8be;
-    --tint: #f0dfce;
+    --line: #eadbc8;
+    --canvas: #f5ede1;
+    --paper: #fffcf8;
+    --cream: #f8eddc;
+    --sage: #e8edd9;
+    --sand: #f0dfc8;
+    --tint: #f4e4d0;
     --sky: #dfe6e8;
     --green: #3e5a48;
     --note: #fbf1dc;

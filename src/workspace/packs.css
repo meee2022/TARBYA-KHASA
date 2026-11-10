@@ -28,7 +28,7 @@
 .pack-chips button { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 9px 16px; border-radius: 14px; border: 1px solid #dfe4d7; background: #fff; color: #39453a; font-weight: 700; transition: transform .18s, box-shadow .18s, background .18s; }
 .pack-chips button small { font-weight: 500; color: #6d7867; font-size: 12px; }
 .pack-chips button:hover { transform: translateY(-1px); box-shadow: 0 6px 16px #27392314; }
-.pack-chips button.active { background: var(--brand-color, #714d35); border-color: var(--brand-color, #714d35); color: #fff; }
+.pack-chips button.active { background: var(--brand-color, #7b4c30); border-color: var(--brand-color, #7b4c30); color: #fff; }
 .pack-chips button.active small { color: #ffffffd0; }
 .template-grid { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }
 .game-library-card { transition: transform .2s, box-shadow .2s; box-shadow: 0 1px 2px #2739230a, 0 8px 22px #27392308; border-radius: 18px; }
@@ -66,7 +66,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .item-media { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .item-media .button { min-height: 40px; padding: 7px 12px; font-size: 12px; cursor: pointer; }
 .item-media .icon-button { width: 44px; height: 44px; }
-.is-recording { background: #ffebd4 !important; color: var(--brand-color, #714d35) !important; border-color: var(--brand-color, #714d35) !important; }
+.is-recording { background: #ffebd4 !important; color: var(--brand-color, #7b4c30) !important; border-color: var(--brand-color, #7b4c30) !important; }
 .item-order { grid-column: 3; grid-row: 1 / span 2; display: flex; flex-direction: column; gap: 6px; }
 .emoji-input { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Tajawal, sans-serif; }
 
@@ -119,18 +119,18 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .board-columns > div { display: flex; flex-direction: column; gap: 14px; }
 .board-tile { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 112px; padding: 14px; border: 2px solid var(--learning-border, #bac9ac); background: var(--learning-card, #fff); color: var(--learning-ink, #293b27); border-radius: 16px; font-size: 22px; }
 .board-tile .tile-emoji { font-size: 58px; }
-.board-tile.selected { border-color: var(--brand-color, #714d35); background: var(--learning-selected, #feead3); }
+.board-tile.selected { border-color: var(--brand-color, #7b4c30); background: var(--learning-selected, #feead3); }
 .board-tile.solved { border-color: #3e5a48; background: #edf2e9; opacity: 1; }
 .board-grid { display: grid; gap: 16px; margin: 24px auto; max-width: 760px; }
 .memory-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 .memory-card { flex-direction: column; min-height: 150px; }
-.memory-back { font-size: 54px; font-weight: 800; color: var(--brand-color, #714d35); }
+.memory-back { font-size: 54px; font-weight: 800; color: var(--brand-color, #7b4c30); }
 .memory-card:not(.open) { background: #f6efe8; }
 .puzzle-layout { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: center; margin: 24px 0; }
 .puzzle-frame, .puzzle-pieces { display: grid; grid-template-columns: repeat(2, 130px); gap: 8px; }
 .puzzle-frame button, .puzzle-pieces button { width: 130px; height: 130px; padding: 0; overflow: hidden; border: 2px dashed var(--learning-border, #bac9ac); border-radius: 12px; background: var(--learning-card, #fff); }
 .puzzle-pieces button { border-style: solid; }
-.puzzle-pieces button.selected { border-color: var(--brand-color, #714d35); box-shadow: 0 0 0 3px #714d3533; }
+.puzzle-pieces button.selected { border-color: var(--brand-color, #7b4c30); box-shadow: 0 0 0 3px #7b4c3033; }
 .puzzle-frame button.solved { border: 0; }
 .puzzle-window { display: block; width: 100%; height: 100%; overflow: hidden; }
 .puzzle-window > span { display: grid; place-items: center; width: 260px; height: 260px; }
@@ -138,7 +138,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .puzzle-window .tile-picture { width: 260px; height: 260px; max-height: none; object-fit: cover; border-radius: 0; }
 .build-board { display: flex; flex-direction: column; align-items: center; gap: 18px; margin: 20px 0; }
 .build-board .tile-emoji { font-size: 92px; }
-.build-word { min-height: 72px; font-size: 44px; font-weight: 800; letter-spacing: .03em; color: var(--brand-color, #714d35); }
+.build-word { min-height: 72px; font-size: 44px; font-weight: 800; letter-spacing: .03em; color: var(--brand-color, #7b4c30); }
 .build-letters { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .build-letters button { width: 84px; height: 84px; font-size: 34px; font-weight: 800; border-radius: 16px; border: 2px solid var(--learning-border, #bac9ac); background: var(--learning-card, #fff); color: var(--learning-ink, #293b27); transition: transform .15s; }
 .build-letters button:hover:not(:disabled) { transform: translateY(-2px); }
@@ -147,10 +147,10 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .robot-board { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 34px; margin: 22px 0; }
 .robot-grid { display: grid; grid-template-columns: repeat(3, 118px); grid-auto-rows: 118px; gap: 8px; }
 .robot-cell { position: relative; display: grid; place-items: center; border-radius: 14px; background: #f1f4ec; }
-.robot-cell.here { background: #feead3; box-shadow: inset 0 0 0 3px var(--brand-color, #714d35); }
+.robot-cell.here { background: #feead3; box-shadow: inset 0 0 0 3px var(--brand-color, #7b4c30); }
 .robot-target .tile-emoji { font-size: 58px; }
 .robot-target .tile-picture { width: 96px; height: 96px; object-fit: cover; }
-.robot-self { position: absolute; inset-block-end: 4px; inset-inline-end: 4px; color: var(--brand-color, #714d35); background: #ffffffe0; border-radius: 10px; padding: 2px; transition: transform .2s; }
+.robot-self { position: absolute; inset-block-end: 4px; inset-inline-end: 4px; color: var(--brand-color, #7b4c30); background: #ffffffe0; border-radius: 10px; padding: 2px; transition: transform .2s; }
 .robot-pad { display: grid; grid-template-areas: ". up ." "left . right" ". down ."; grid-template-columns: repeat(3, 88px); grid-auto-rows: 88px; gap: 8px; }
 .robot-pad button { display: grid; place-items: center; border-radius: 18px; border: 2px solid var(--learning-border, #bac9ac); background: var(--learning-card, #fff); color: var(--learning-ink, #293b27); }
 .robot-pad .up { grid-area: up; } .robot-pad .down { grid-area: down; } .robot-pad .left { grid-area: left; } .robot-pad .right { grid-area: right; }
@@ -167,8 +167,8 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .session-progress > div { max-width: 460px; margin: auto; }
 .hold-button { border: 1px solid #d6dbcd; background: #fff; color: #5b6657; }
 .teacher-corner { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
-.teacher-corner.is-waiting { border-color: var(--brand-color, #714d35); color: var(--brand-color, #714d35); }
-.teacher-alert { background: var(--brand-color, #714d35); color: #fff; border-radius: 8px; padding: 2px 7px; font-size: 11px; }
+.teacher-corner.is-waiting { border-color: var(--brand-color, #7b4c30); color: var(--brand-color, #7b4c30); }
+.teacher-alert { background: var(--brand-color, #7b4c30); color: #fff; border-radius: 8px; padding: 2px 7px; font-size: 11px; }
 .teacher-panel { width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow: auto; border: 0; border-radius: 22px; padding: 26px; box-shadow: 0 30px 80px #1b241a40; color: #292d2b; }
 .teacher-panel::backdrop { background: #1b241a66; }
 .teacher-panel > * + * { margin-top: 12px; }
@@ -189,13 +189,13 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .tool-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #2739230f, 0 16px 32px #27392314; }
 .tool-card h2 { font-size: 19px; margin-top: 6px; }
 .tool-card p { font-size: 14px; color: #6d7867; line-height: 1.8; flex: 1; }
-.tool-card strong { display: flex; align-items: center; gap: 7px; color: var(--brand-color, #714d35); font-size: 13px; }
+.tool-card strong { display: flex; align-items: center; gap: 7px; color: var(--brand-color, #7b4c30); font-size: 13px; }
 .tool-heading { font-size: 15px; margin: 20px 0 10px; }
 .tool-form { margin: 18px 0; }
 .symbol-picker { display: flex; flex-wrap: wrap; gap: 8px; }
 .symbol-picker button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 7px 12px; border-radius: 12px; border: 1px solid #dfe4d7; background: #fff; color: #39453a; font-size: 13px; transition: background .15s; }
 .symbol-picker button span { font-size: 19px; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
-.symbol-picker button.active { background: #fbead6; border-color: var(--brand-color, #714d35); color: var(--brand-color, #714d35); font-weight: 700; }
+.symbol-picker button.active { background: #fbead6; border-color: var(--brand-color, #7b4c30); color: var(--brand-color, #7b4c30); font-weight: 700; }
 .tool-footnote { display: flex; gap: 8px; align-items: center; margin-top: 18px; font-size: 13px; color: #6d7867; }
 .tool-stage { max-width: 1120px; margin: 30px auto 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 26px; }
 .student-tool .communication-board { width: 100%; margin: 0; border: 0; padding: 0; }
@@ -210,19 +210,19 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .schedule-strip li { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 160px; min-height: 170px; justify-content: center; padding: 14px; border-radius: 18px; background: var(--learning-card, #fff); border: 2px solid transparent; transition: border-color .2s, opacity .2s; }
 .schedule-strip span { font-size: 58px; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
 .schedule-strip small { min-height: 18px; color: var(--learning-muted, #5c6d54); font-weight: 700; }
-.schedule-strip .is-now { border-color: var(--brand-color, #714d35); background: var(--learning-selected, #feead3); }
+.schedule-strip .is-now { border-color: var(--brand-color, #7b4c30); background: var(--learning-selected, #feead3); }
 .schedule-strip .is-done { opacity: .5; }
 .schedule-strip .is-done strong { text-decoration: line-through; }
 .first-then { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 28px; color: var(--learning-ink, #293b27); }
 .first-then > div { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px; border-radius: 24px; border: 3px solid transparent; }
-.first-then > div.is-now { border-color: var(--brand-color, #714d35); }
+.first-then > div.is-now { border-color: var(--brand-color, #7b4c30); }
 .first-then > div.is-done { opacity: .55; }
 .first-then > div > svg { position: absolute; top: 8px; inset-inline-start: 8px; color: #3e5a48; }
 .first-then h2 { font-size: 26px; }
 .big-choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; width: 100%; }
 .big-choices button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 170px; padding: 14px; border-radius: 20px; border: 2px solid var(--learning-border, #bac9ac); background: var(--learning-card, #fff); color: var(--learning-ink, #293b27); font-size: 20px; font-weight: 700; transition: transform .15s, box-shadow .15s; }
 .big-choices button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #27392317; }
-.big-choices button.active { border-color: var(--brand-color, #714d35); background: var(--learning-selected, #feead3); }
+.big-choices button.active { border-color: var(--brand-color, #7b4c30); background: var(--learning-selected, #feead3); }
 .big-choices span { font-size: 62px; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
 .token-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; color: #bd9e81; }
 .token-row .earned { color: #c89766; animation: rise-in .3s both; }
@@ -237,7 +237,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .visual-timer { width: 130px; height: 130px; display: grid; place-items: center; border-radius: 50%; color: transparent; background: conic-gradient(#7f9c7c var(--left), #e8ece1 0); }
 .routine-steps { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0; }
 .routine-steps li { padding: 9px 16px; border-radius: 10px; background: #e8ece1; font-weight: 700; font-size: 14px; }
-.routine-steps .is-now { background: var(--brand-color, #714d35); color: #fff; }
+.routine-steps .is-now { background: var(--brand-color, #7b4c30); color: #fff; }
 .routine-steps .is-done { background: #d6e3cf; }
 .routine-day { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--learning-ink, #293b27); }
 .routine-day p { font-size: 22px; }
@@ -257,7 +257,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .admin-details summary h2 { display: inline; }
 .admin-pack-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
 .admin-pack-tabs > button:not(.button) { min-height: 44px; padding: 8px 14px; border-radius: 12px; border: 1px solid #dfe4d7; background: #fff; }
-.admin-pack-tabs > button[aria-current=true] { background: #fbead6; border-color: var(--brand-color, #714d35); color: var(--brand-color, #714d35); font-weight: 700; }
+.admin-pack-tabs > button[aria-current=true] { background: #fbead6; border-color: var(--brand-color, #7b4c30); color: var(--brand-color, #7b4c30); font-weight: 700; }
 .danger-link { color: #714723; }
 
 /* Printable sheets */
@@ -489,16 +489,16 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .data-goal h2 { font-size: 17px; margin-bottom: 4px; }
 .trial-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
 .trial-table th, .trial-table td { border: 1px solid #333; height: 38px; text-align: center; font-size: 13px; }
-.trial-table th[scope=row] { width: 88px; background: #efe2d2; }
+.trial-table th[scope=row] { width: 88px; background: #f5ede1; }
 .data-steps { margin: 10px 0 0; padding-inline-start: 20px; font-size: 14px; display: grid; gap: 6px; }
 .data-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; margin-top: auto; padding-top: 14px; border-top: 1px dashed #999; }
 .certificate { min-height: 0; padding: 24px; }
-.certificate-frame { border: 6px double #a87c5c; border-radius: 18px; padding: 44px 36px; text-align: center; display: grid; gap: 10px; justify-items: center; background: #fffaf3; }
+.certificate-frame { border: 6px double #b97a52; border-radius: 18px; padding: 44px 36px; text-align: center; display: grid; gap: 10px; justify-items: center; background: #fffcf8; }
 .certificate-frame img { width: 110px; }
-.certificate-brand { font-size: 14px; letter-spacing: .04em; color: #5a3b28; }
+.certificate-brand { font-size: 14px; letter-spacing: .04em; color: #633b23; }
 .certificate h2 { font-family: 'El Messiri', 'Readex Pro', sans-serif; font-size: 2.2rem; color: #3f2a1e; margin: 0; }
 .certificate-to { color: #706055; margin: 0; }
-.certificate-name { font-family: 'El Messiri', sans-serif; font-size: 2.6rem; color: #714d35; margin: 0; }
+.certificate-name { font-family: 'El Messiri', sans-serif; font-size: 2.6rem; color: #7b4c30; margin: 0; }
 .certificate-text { font-size: 1.1rem; max-width: 520px; margin: 0; line-height: 1.8; }
 .certificate-date { color: #706055; margin-top: 6px; }
 .certificate-sign { display: flex; gap: 40px; margin-top: 28px; font-size: 14px; color: #2e2016; }
