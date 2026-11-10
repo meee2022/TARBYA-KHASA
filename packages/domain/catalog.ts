@@ -14,12 +14,18 @@ export interface GoalBankEntry { id: string; subject: string; behaviour: string;
 export interface StandardEntry { id: string; subject: string; grade: string; code: string; text: string; }
 /** An outside search the lesson page offers with the lesson's title filled in: a video channel, a worksheet site. {q} marks where the words go. */
 export interface LinkSource { id: string; label: string; url: string; kind: 'video' | 'worksheet' | 'site'; }
+/** A ready opening for a lesson. An empty subject or grade means it suits any. The bank belongs to the admin; the teacher picks from it and edits. */
+export interface WarmupEntry { id: string; subject: string; grade: string; title: string; text: string; }
+/** One lesson of a unit, written station by station. Only the title and the objective are required. */
+export interface CurriculumLesson { id: string; title: string; objective: string; warmup?: string; teaching?: string; practice?: string; independent?: string; assessment?: string; closing?: string; }
+/** A unit of one subject in one grade. The teacher opens a lesson from it as an editable draft. */
+export interface UnitEntry { id: string; subject: string; grade: string; title: string; lessons: CurriculumLesson[]; }
 export const linkKindLabels: Record<LinkSource['kind'], string> = { video: 'فيديو', worksheet: 'أوراق عمل', site: 'موقع' };
 export const searchUrl = (source: LinkSource, words: string) => source.url.replace('{q}', encodeURIComponent(words.trim()).replace(/%20/g, '+'));
 export const planningLists = { settings: 'أماكن الملاحظة', people: 'من كان مع الطالب', materials: 'وسيلة الملاحظة', strategies: 'إستراتيجيات التدريس', teachingAids: 'الوسائل والترتيبات', assessmentTools: 'أدوات التقييم', classroomAccommodations: 'تسهيلات البيئة الصفية', assessmentAccommodations: 'تسهيلات التقييم', curriculumAccommodations: 'تسهيلات المنهاج', supportLevels: 'مستويات الدعم', curriculumTypes: 'أنواع المنهاج', performanceDomains: 'مجالات الأداء', reviewReasons: 'أسباب مراجعة الخطة', reviewParties: 'أطراف مراجعة الخطة' } as const;
 export type PlanningList = keyof typeof planningLists;
 export interface Catalog extends Record<PlanningList, string[]> {
-  academicYear: string; planPattern: PlanPatternSession[]; goalBank: GoalBankEntry[]; standards: StandardEntry[]; linkSources: LinkSource[];
+  academicYear: string; planPattern: PlanPatternSession[]; goalBank: GoalBankEntry[]; standards: StandardEntry[]; linkSources: LinkSource[]; warmups: WarmupEntry[]; units: UnitEntry[];
   subjects: string[]; grades: string[]; support: SupportEntry[]; templates: TemplateInfo[]; packs: ContentPack[]; presets: ProfilePreset[];
   avatars: AvatarEntry[]; communication: SymbolEntry[]; activities: SymbolEntry[]; rewards: SymbolEntry[]; rules: SymbolEntry[]; values: SymbolEntry[]; weather: SymbolEntry[]; movement: SymbolEntry[]; stories: SocialStory[];
 }
@@ -91,6 +97,43 @@ export const defaultCatalog: Catalog = {
   academicYear: '2026-2027',
   // Empty until the coordinator sends the ministry's standards; the admin pastes them per subject and grade.
   standards: [],
+  // A first-run sample for one subject and one grade, so the path from grade and subject to a lesson can be tried. It is not curriculum coverage; the admin replaces it.
+  warmups: [
+    { id: 'wu-schedule', subject: '', grade: '', title: 'جدول الحصة المصوّر', text: 'أعرض جدول الحصة بالصور: الآن، التالي، ثم النشاط المحبب. يشير الطالب إلى ما سنبدأ به.' },
+    { id: 'wu-box', subject: '', grade: '', title: 'صندوق المفاجأة', text: 'أُخرج من الصندوق غرضًا مرتبطًا بالدرس. يلمسه الطالب ويسمّيه، أو يختار صورته من بديلين.' },
+    { id: 'wu-move', subject: '', grade: '', title: 'حركة وإيقاع', text: 'ثلاث حركات قصيرة مع العدّ: تصفيق، وقوف، جلوس. ثم نجلس للدرس.' },
+    { id: 'wu-letters', subject: 'اللغة العربية', grade: '', title: 'نشيد الحروف', text: 'نردد نشيد الحروف مع بطاقات كبيرة، وأتوقف عند حرف الدرس ليكمل الطالب صوته أو يشير إليه.' },
+    { id: 'wu-count', subject: 'الرياضيات', grade: '', title: 'نعدّ ما حولنا', text: 'نعدّ أغراضًا حقيقية من الصف حتى خمسة، ويلمس الطالب كل غرض أثناء العدّ.' },
+    { id: 'wu-hello', subject: 'اللغة الإنجليزية', grade: '', title: 'أغنية الترحيب', text: 'نغنّي أغنية الترحيب القصيرة بالإنجليزية، ويلوّح كل طالب عند سماع اسمه.' },
+    { id: 'wu-picture', subject: 'العلوم', grade: '', title: 'ماذا في الصورة؟', text: 'أعرض صورة واحدة من الدرس وأسأل: ماذا ترى؟ يجيب الطالب بكلمة أو إشارة أو باختيار بطاقة.' },
+  ],
+  units: [
+    { id: 'unit-ar1-letters', subject: 'اللغة العربية', grade: 'الأول', title: 'الحروف وأصواتها', lessons: [
+      { id: 'cl-ba', title: 'حرف الباء', objective: 'أن يميّز الطالب صوت الباء في أول الكلمة ويشير إلى صورتها، في 4 من 5 محاولات.',
+        warmup: 'نردد نشيد الحروف، ثم أُخرج من الصندوق ثلاثة أشياء تبدأ بالباء: بطة، باب، برتقالة، وأسمّيها بصوت واضح.',
+        teaching: 'أعرض بطاقة الحرف وأنطق صوته، ثم أنمذج: «بـ… بطة». أكرر مع كل صورة وأترك وقتًا ليكرر الطالب أو يشير.',
+        practice: 'أعرض صورتين، واحدة منهما تبدأ بالباء. يختار الطالب معي، وأقلل التلميح في كل محاولة.',
+        independent: 'يفرز الطالب بطاقات الصور في سلّتين: تبدأ بالباء، ولا تبدأ بالباء.',
+        assessment: 'خمس محاولات بصور جديدة. أسجّل الإجابة ونوع المساعدة في كل محاولة.',
+        closing: 'نراجع الأشياء الثلاثة الأولى، ويختار الطالب ما أحبه منها.' },
+      { id: 'cl-mim', title: 'حرف الميم', objective: 'أن يميّز الطالب صوت الميم في أول الكلمة ويشير إلى صورتها، في 4 من 5 محاولات.',
+        warmup: 'أعرض مرآة صغيرة، وننطق «مممم» ونلاحظ انطباق الشفتين. ثم أسمّي: موز، مفتاح، ماء.',
+        teaching: 'أعرض بطاقة الحرف وأنمذج: «مـ… موز». أقارن بصوت الباء من الدرس السابق بمثال واحد.',
+        practice: 'أعرض صورتين، واحدة تبدأ بالميم. يختار الطالب معي، وأقلل التلميح تدريجيًا.',
+        independent: 'يلصق الطالب صور الكلمات التي تبدأ بالميم على لوحة الحرف.',
+        assessment: 'خمس محاولات بصور جديدة. أسجّل الإجابة ونوع المساعدة في كل محاولة.',
+        closing: 'نقول معًا كلمات الدرس، ويشير الطالب إلى صورته المفضلة.' },
+    ] },
+    { id: 'unit-ar1-words', subject: 'اللغة العربية', grade: 'الأول', title: 'كلمات من حولي', lessons: [
+      { id: 'cl-class', title: 'أشياء في صفي', objective: 'أن يسمّي الطالب أربعة أشياء في الصف أو يشير إليها عند سماع اسمها، في 4 من 5 محاولات.',
+        warmup: 'نتجول في الصف جولة قصيرة، وألمس كل غرض وأسمّيه: كرسي، باب، كتاب، قلم.',
+        teaching: 'أعرض صورة كل غرض بجانب الغرض الحقيقي، وأسمّيه ثم أنتظر أن يكرر الطالب أو يشير.',
+        practice: 'أقول الاسم ويختار الطالب الصورة من بديلين، ثم من ثلاثة عندما يستعد.',
+        independent: 'يطابق الطالب بطاقات الصور مع الأغراض الحقيقية في الصف.',
+        assessment: 'أسمّي خمسة أغراض بترتيب مختلف، وأسجّل الإجابة ونوع المساعدة.',
+        closing: 'يختار الطالب غرضًا واحدًا ويخبرنا باسمه بوسيلته.' },
+    ] },
+  ],
   linkSources: [{ id: 'qatar-edu-youtube', label: 'قناة قطر للتعليم على يوتيوب', url: 'https://www.youtube.com/results?search_query=%D9%82%D9%86%D8%A7%D8%A9+%D9%82%D8%B7%D8%B1+%D9%84%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85+{q}', kind: 'video' }, { id: 'liveworksheets', label: 'أوراق عمل تفاعلية جاهزة', url: 'https://www.liveworksheets.com/worksheets/search?q={q}', kind: 'worksheet' }],
   settings: ['غرفة المصادر', 'الفصل', 'الساحة', 'المقصف', 'البيت'],
   people: ['معلم التربية الخاصة', 'معلم الفصل', 'مساعد المعلم', 'الأسرة', 'زميل'],
@@ -141,6 +184,9 @@ export function validateCatalog(input: unknown): Catalog {
   const planPattern = list(v.planPattern ?? d.planPattern, 10, 'قالب التحضير', r => ({ objective: text(r.objective, 400, 'قالب التحضير'), activity: (d.templates.some(t => t.id === r.activity) ? r.activity : 'cards') as TemplateId, warmup: patternStage(r.warmup), content: patternStage(r.content), closing: patternStage(r.closing) }));
   const goalBank = unique(list(v.goalBank ?? d.goalBank, 300, 'بنك الأهداف', r => ({ id: text(r.id, 64, 'بنك الأهداف'), subject: text(r.subject, 60, 'بنك الأهداف'), behaviour: text(r.behaviour, 200, 'بنك الأهداف'), condition: opt(r.condition, 200) ?? '' })), 'بنك الأهداف');
   const standards = unique(list(v.standards ?? d.standards, 3000, 'معايير الوزارة', r => ({ id: text(r.id, 64, 'معايير الوزارة'), subject: text(r.subject, 60, 'معايير الوزارة'), grade: text(r.grade, 60, 'معايير الوزارة'), code: opt(r.code, 40) ?? '', text: text(r.text, 400, 'نص المعيار') })), 'معايير الوزارة');
+  const station = (r: Record<string, unknown>) => Object.fromEntries((['warmup', 'teaching', 'practice', 'independent', 'assessment', 'closing'] as const).map(k => [k, opt(r[k], 1200)]).filter(([, x]) => x));
+  const warmups = unique(list(v.warmups ?? d.warmups, 300, 'بنك التهيئة', r => ({ id: text(r.id, 64, 'بنك التهيئة'), subject: opt(r.subject, 60) ?? '', grade: opt(r.grade, 60) ?? '', title: text(r.title, 80, 'عنوان التهيئة'), text: text(r.text, 600, 'نص التهيئة') })), 'بنك التهيئة');
+  const units = unique(list(v.units ?? d.units, 400, 'وحدات المنهج', r => ({ id: text(r.id, 64, 'وحدات المنهج'), subject: text(r.subject, 60, 'مادة الوحدة'), grade: text(r.grade, 60, 'صف الوحدة'), title: text(r.title, 120, 'عنوان الوحدة'), lessons: unique(list(r.lessons ?? [], 60, 'دروس الوحدة', l => ({ id: text(l.id, 64, 'دروس الوحدة'), title: text(l.title, 160, 'عنوان الدرس'), objective: text(l.objective, 500, 'هدف الدرس'), ...station(l) }) as CurriculumLesson), 'دروس الوحدة') })), 'وحدات المنهج');
   const linkSources = unique(list(v.linkSources ?? d.linkSources, 20, 'المصادر الخارجية', r => { const url = text(r.url, 300, 'رابط المصدر'); if (!/^https:\/\//.test(url) || !url.includes('{q}')) throw new Error('رابط المصدر يبدأ بـ https ويحتوي {q} مكان كلمة البحث.'); return { id: text(r.id, 64, 'المصادر الخارجية'), label: text(r.label, 80, 'اسم المصدر'), url, kind: (['video', 'worksheet', 'site'].includes(r.kind as string) ? r.kind : 'site') as LinkSource['kind'] }; }), 'المصادر الخارجية');
   const strings = (x: unknown, name: string) => { if (!Array.isArray(x) || !x.length || x.length > 60) throw new Error(`راجع قائمة: ${name}.`); return [...new Set(x.map(s => text(s, 60, name)))]; };
   const symbolsOf = (x: unknown, name: string) => unique(list(x, 60, name, r => ({ id: text(r.id, 64, name), label: text(r.label, 60, name), emoji: text(r.emoji, 24, name), imageId: media(r.imageId) })), name);
@@ -153,5 +199,5 @@ export function validateCatalog(input: unknown): Catalog {
   })), 'الحزم');
   const presets = unique(list(v.presets ?? d.presets, 30, 'الملفات الجاهزة', r => { const base = d.presets.find(p => p.id === r.id); if (!base) throw new Error('ملف جاهز غير معروف.'); return { ...base, label: text(r.label, 60, 'الملف الجاهز'), description: text(r.description, 200, 'الملف الجاهز') }; }), 'الملفات الجاهزة');
   const avatars = unique(list(v.avatars ?? d.avatars, 60, 'الصور الرمزية', r => ({ id: text(r.id, 64, 'الصورة'), imageId: media(r.imageId)! })), 'الصور الرمزية');
-  return { ...planning, academicYear, planPattern, goalBank, standards, linkSources, avatars, subjects: strings(v.subjects ?? d.subjects, 'المواد'), grades: strings(v.grades ?? d.grades, 'الصفوف'), support, templates, packs, presets, communication: symbolsOf(v.communication ?? d.communication, symbolLists.communication), activities: symbolsOf(v.activities ?? d.activities, symbolLists.activities), rewards: symbolsOf(v.rewards ?? d.rewards, symbolLists.rewards), rules: symbolsOf(v.rules ?? d.rules, symbolLists.rules), values: symbolsOf(v.values ?? d.values, symbolLists.values), weather: symbolsOf(v.weather ?? d.weather, symbolLists.weather), movement: symbolsOf(v.movement ?? d.movement, symbolLists.movement), stories: unique(list(v.stories ?? d.stories, 40, 'القصص الاجتماعية', r => ({ id: text(r.id, 64, 'القصص الاجتماعية'), title: text(r.title, 80, 'عنوان القصة'), pages: symbolsOf(r.pages, 'صفحات القصة').slice(0, 12) })), 'القصص الاجتماعية') };
+  return { ...planning, academicYear, planPattern, goalBank, standards, linkSources, warmups, units, avatars, subjects: strings(v.subjects ?? d.subjects, 'المواد'), grades: strings(v.grades ?? d.grades, 'الصفوف'), support, templates, packs, presets, communication: symbolsOf(v.communication ?? d.communication, symbolLists.communication), activities: symbolsOf(v.activities ?? d.activities, symbolLists.activities), rewards: symbolsOf(v.rewards ?? d.rewards, symbolLists.rewards), rules: symbolsOf(v.rules ?? d.rules, symbolLists.rules), values: symbolsOf(v.values ?? d.values, symbolLists.values), weather: symbolsOf(v.weather ?? d.weather, symbolLists.weather), movement: symbolsOf(v.movement ?? d.movement, symbolLists.movement), stories: unique(list(v.stories ?? d.stories, 40, 'القصص الاجتماعية', r => ({ id: text(r.id, 64, 'القصص الاجتماعية'), title: text(r.title, 80, 'عنوان القصة'), pages: symbolsOf(r.pages, 'صفحات القصة').slice(0, 12) })), 'القصص الاجتماعية') };
 }

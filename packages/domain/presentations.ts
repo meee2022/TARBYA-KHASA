@@ -1,11 +1,14 @@
 import { latinizeContent } from './numbers.ts';
 import type { Lesson } from './index';
+import type { StationId } from './journey.ts';
 
 export type SlideKind = 'cover' | 'concept' | 'choice' | 'practice' | 'break' | 'closing';
 export type DeckTheme = 'calm' | 'wine' | 'contrast';
 export interface Slide {
   id: string; kind: SlideKind; title: string; body: string; options: string[];
   answer: number | null; notes: string; image?: string; imageAlt?: string;
+  /** The station of the lesson this slide belongs to; the presenter shows it beside the slide. */
+  station?: StationId;
 }
 export interface Deck {
   id: string; title: string; subject: string; grade: string; language: 'ar' | 'en';
@@ -47,19 +50,20 @@ export function deckFromLesson(input: Lesson, theme: DeckTheme = 'calm'): Deck {
   if (lesson.sourceText.length > 16000) throw new Error('المصدر طويل لعرض واحد. اختصر نص المصدر إلى جزء من الدرس (حتى 16000 حرف) من محرر التحضير ثم حاول مجددًا.');
   const en = lesson.language === 'en';
   const slides: Slide[] = [{ ...newSlide('cover'), title: lesson.title || 'درس جديد', body: `${lesson.subject} · الصف ${lesson.grade}` }];
-  const add = (kind: SlideKind, title: string, content: string, notes = '') => {
-    for (const [i, body] of splitSlideText(content).entries()) slides.push({ ...newSlide(kind), title: title + (i ? ` (${i + 1})` : ''), body, notes });
+  const add = (kind: SlideKind, title: string, content: string, notes = '', station?: StationId) => {
+    for (const [i, body] of splitSlideText(content).entries()) slides.push({ ...newSlide(kind), title: title + (i ? ` (${i + 1})` : ''), body, notes, station });
   };
   add('concept', en ? 'Our goal' : 'ماذا سنتعلّم؟', lesson.objective);
   // Teacher-facing preparation is in notes, never mistaken for student-facing text.
-  slides.push({ ...newSlide('practice'), title: en ? 'Let’s begin' : 'نبدأ معًا', body: en ? 'Look, listen, or point. Take your time.' : 'شاهد أو استمع أو أشر. خذ وقتك.', notes: lesson.warmup });
+  slides.push({ ...newSlide('practice'), title: en ? 'Let’s begin' : 'نبدأ معًا', body: en ? 'Look, listen, or point. Take your time.' : 'شاهد أو استمع أو أشر. خذ وقتك.', notes: lesson.warmup, station: 'warmup' });
   const content = lesson.sourceText.trim();
-  if (content) add('concept', lesson.title, content, lesson.teaching);
-  else slides.push({ ...newSlide('concept'), title: lesson.title, body: en ? 'Add one idea or example here.' : 'اكتب هنا فكرة واحدة أو مثالًا من الدرس.', notes: lesson.teaching });
-  slides.push({ ...newSlide('practice'), title: en ? 'Let’s try' : 'نجرب معًا', body: en ? 'Show what you learned. You can ask for help.' : 'أرني ما تعلّمته. يمكنك طلب المساعدة.', notes: lesson.practice });
+  if (content) add('concept', lesson.title, content, lesson.teaching, 'teaching');
+  else slides.push({ ...newSlide('concept'), title: lesson.title, body: en ? 'Add one idea or example here.' : 'اكتب هنا فكرة واحدة أو مثالًا من الدرس.', notes: lesson.teaching, station: 'teaching' });
+  slides.push({ ...newSlide('practice'), title: en ? 'Let’s try' : 'نجرب معًا', body: en ? 'Show what you learned. You can ask for help.' : 'أرني ما تعلّمته. يمكنك طلب المساعدة.', notes: lesson.practice, station: 'practice' });
+  if (lesson.independent?.trim()) slides.push({ ...newSlide('practice'), title: en ? 'Your turn' : 'دورك الآن', body: en ? 'Try on your own. Ask for help when you need it.' : 'جرّب وحدك. اطلب المساعدة متى احتجتها.', notes: lesson.independent, station: 'independent' });
   slides.push({ ...newSlide('break'), title: en ? 'A little break' : 'نأخذ استراحة', body: en ? 'We continue when you are ready.' : 'نكمل عندما تكون مستعدًا. لا يوجد مؤقّت.' });
-  for (const q of lesson.questions) slides.push({ ...newSlide('choice'), title: q.prompt, options: [...q.options], answer: q.answer, notes: lesson.adaptations });
-  slides.push({ ...newSlide('closing'), title: en ? 'What did you learn?' : 'ماذا تعلّمت اليوم؟', body: en ? 'Tell, point, or show an example.' : 'قل أو أشر أو اعرض مثالًا. لكل محاولة قيمة.', notes: lesson.closing });
+  for (const q of lesson.questions) slides.push({ ...newSlide('choice'), title: q.prompt, options: [...q.options], answer: q.answer, notes: [lesson.assessment, lesson.adaptations].filter(x => x?.trim()).join('\n'), station: 'assessment' });
+  slides.push({ ...newSlide('closing'), title: en ? 'What did you learn?' : 'ماذا تعلّمت اليوم؟', body: en ? 'Tell, point, or show an example.' : 'قل أو أشر أو اعرض مثالًا. لكل محاولة قيمة.', notes: lesson.closing, station: 'closing' });
   if (slides.length > 80) throw new Error('المحتوى يتجاوز 80 شريحة. قسّم المصدر والأسئلة إلى دروس أقصر قبل إنشاء العرض.');
   return { lessonId: lesson.id, id: makeId(), title: lesson.title || 'عرض جديد', subject: lesson.subject, grade: lesson.grade, language: lesson.language, theme, largeText: true, slides, updatedAt: new Date().toISOString(), origin: 'template', reviewed: false };
 }

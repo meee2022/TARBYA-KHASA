@@ -8,3 +8,9 @@
 .admin-paste { margin-top: 18px; padding: 16px 18px; border-radius: 14px; background: var(--admin-tray, #f6f4ef); }
 .admin-paste h3 { margin: 0 0 10px; font-size: 15px; }
 .admin-paste textarea { width: 100%; font-family: inherit; }
+
+.admin-unit, .admin-unit-lesson { border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; margin: 10px 0; background: var(--paper); }
+.admin-unit-lesson { background: var(--canvas); }
+.admin-unit > summary, .admin-unit-lesson > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; padding: 4px 0; }
+.admin-unit > summary span { color: var(--muted); font-size: 13px; }
+.admin-unit[open] > summary, .admin-unit-lesson[open] > summary { margin-bottom: 10px; }

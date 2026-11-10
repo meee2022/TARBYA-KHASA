@@ -498,6 +498,58 @@ html:where([data-theme='dark']) .parent-foot span:first-child:where(:not(.theme-
 html:where([data-theme='dark']) .parent-replies .goal-state.reply-no:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--brand-text)
 }
+html:where([data-theme='dark']) .journey-total:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #62523526;
+    color: #ecdebc
+}
+html:where([data-theme='dark']) .journey-line:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::before {
+    background: linear-gradient(#625235, #62523533)
+}
+html:where([data-theme='dark']) .journey-time:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .journey-card h3:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .journey-kit li:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #62523526;
+    color: #ecdebc
+}
+html:where([data-theme='dark']) .station-field legend:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .station-bank:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #6252351f
+}
+html:where([data-theme='dark']) .station-bank > span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: #ecdebc
+}
+html:where([data-theme='dark']) .station-tiers summary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .curriculum-title strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .station-preview b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .curriculum-warmups li:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #62523517;
+    border: 1px solid #675b4540
+}
+html:where([data-theme='dark']) .curriculum-warmups strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .station-rail:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a;
+    border: 1px solid #4d4333
+}
+html:where([data-theme='dark']) .station-rail li:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: #cfc6bd
+}
+html:where([data-theme='dark']) .station-rail small:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: #e0cea6
+}
 html:where([data-theme='dark']) .studio .rose:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--brand-text)
 }

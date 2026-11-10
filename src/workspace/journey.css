@@ -1,0 +1,102 @@
+/* ds-allow-hardcode:start colors are tokens from theme.css; remaining literals are component metrics and the identity's gold and maroon stops, matching refinement.css. */
+/* The lesson as a walk: a gold line down the page, a maroon stop for each station, and a white card for what happens there. */
+.journey { padding-bottom: 10px; }
+.journey-total { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #c9a96e26; color: #6f5413; font-size: 13.5px; font-weight: 500; white-space: nowrap; }
+.journey-tiers { padding: 0 22px 6px; }
+.journey-line { list-style: none; margin: 0; padding: 14px 22px 16px; display: grid; gap: 14px; position: relative; }
+.journey-line::before { content: ''; position: absolute; inset-block: 34px 44px; inset-inline-start: 43px; width: 2px; border-radius: 2px; background: linear-gradient(#c9a96e, #c9a96e33); }
+.journey-line > li { display: grid; grid-template-columns: 44px 78px minmax(0, 1fr); gap: 14px; align-items: start; position: relative; animation: journey-in .45s var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms); }
+.journey-node { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #7a1e30, #4a0f1b); color: #ebd9b4; font-weight: 700; font-size: 17px; box-shadow: 0 8px 18px -8px #5c152399; position: relative; z-index: 1; }
+.journey-time { display: grid; justify-items: center; align-content: start; gap: 0; padding: 8px 6px; border-radius: 14px; background: var(--sand); color: var(--brand-deep); line-height: 1.3; }
+.journey-time strong { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.journey-time small { font-size: 12px; }
+.journey-time span { margin-top: 4px; font-size: 11px; color: var(--muted); white-space: nowrap; }
+.journey-card { padding: 14px 18px 16px; border-radius: 18px; background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow-1); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.journey-line > li:hover .journey-card { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.journey-card h3 { margin: 0 0 4px; font-size: 1.12rem; color: var(--brand); }
+.journey-card p { margin: 0; line-height: 1.85; font-size: 15.5px; }
+.journey-tier { margin-top: 10px !important; padding: 10px 14px; border-radius: 12px; background: var(--sage); color: var(--olive-deep); }
+.journey-tier b { display: inline-block; margin-inline-end: 8px; padding: 2px 9px; border-radius: 8px; background: var(--olive); color: #fff; font-size: 12.5px; font-weight: 600; }
+.journey-kit { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; }
+.journey-kit li { padding: 4px 11px; border-radius: 999px; background: #c9a96e26; color: #6f5413; font-size: 13px; }
+.journey-kit li.is-done { text-decoration: line-through; opacity: .7; }
+.journey-kit a { display: inline-flex; align-items: center; gap: 5px; color: inherit; }
+@keyframes journey-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* Editor: one fieldset per station. */
+.station-field { margin: 0; padding: 16px 18px 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); display: grid; gap: 10px; min-width: 0; }
+.station-field legend { display: flex; align-items: center; gap: 10px; padding: 0 6px; font-family: 'El Messiri', 'Readex Pro', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--brand-deep); }
+.station-field legend > span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: linear-gradient(135deg, #7a1e30, #4a0f1b); color: #ebd9b4; font-size: 14px; font-family: inherit; }
+.station-field legend small { padding: 2px 9px; border-radius: 8px; background: var(--sand); color: var(--muted); font-size: 12px; font-weight: 400; font-family: 'Readex Pro', sans-serif; }
+.station-field .seg-hint { margin: 0; }
+.station-bank { display: grid; gap: 6px; padding: 10px 12px; border-radius: 12px; background: #c9a96e1f; }
+.station-bank > span { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; color: #6f5413; }
+.station-row { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 12px; align-items: start; }
+.station-minutes input { text-align: center; font-variant-numeric: tabular-nums; }
+.station-minutes small { text-align: center; color: var(--muted); }
+.station-tiers { border-radius: 12px; background: var(--canvas); }
+.station-tiers summary { display: flex; align-items: center; gap: 8px; padding: 10px 14px; cursor: pointer; font-size: 14px; color: var(--brand); list-style: none; border-radius: 12px; }
+.station-tiers summary::-webkit-details-marker { display: none; }
+.station-tiers summary > svg:last-child { margin-inline-start: auto; transition: transform .2s var(--ease); }
+.station-tiers[open] summary > svg:last-child { transform: rotate(180deg); }
+.station-tiers summary b { padding: 1px 8px; border-radius: 8px; background: var(--sage); color: var(--olive-deep); font-size: 12px; }
+.station-tier-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 4px 14px 14px; }
+
+/* Curriculum shelf in the library. */
+.curriculum { display: grid; gap: 20px; }
+.curriculum-unit .section-heading p, .curriculum-warmups .section-heading p { margin: 2px 0 0; font-size: 14px; }
+.curriculum-lessons { list-style: none; margin: 0; padding: 4px 22px 20px; display: grid; gap: 10px; }
+.curriculum-lessons > li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: start; padding: 12px 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); transition: box-shadow .25s var(--ease), transform .25s var(--ease); animation: journey-in .45s var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms); }
+.curriculum-lessons > li:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
+.curriculum-lessons summary { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 14px; align-items: center; cursor: pointer; list-style: none; border-radius: 12px; }
+.curriculum-lessons summary::-webkit-details-marker { display: none; }
+.curriculum-title { display: grid; gap: 2px; }
+.curriculum-title strong { font-size: 1.08rem; color: var(--brand-deep); }
+.curriculum-title small { color: var(--muted); font-size: 13.5px; line-height: 1.6; }
+.curriculum-count { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+.curriculum-count svg { transition: transform .2s var(--ease); }
+.curriculum-lessons details[open] .curriculum-count svg { transform: rotate(180deg); }
+.station-preview { list-style: none; margin: 12px 0 2px; padding: 12px 14px; display: grid; gap: 8px; border-radius: 12px; background: var(--canvas); }
+.station-preview li { display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 10px; font-size: 14px; line-height: 1.7; }
+.station-preview b { color: var(--brand); font-weight: 600; }
+.curriculum-warmups ul { list-style: none; margin: 0; padding: 4px 22px 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.curriculum-warmups li { display: grid; gap: 10px; align-content: space-between; padding: 14px 16px; border-radius: 16px; background: #c9a96e17; border: 1px solid #c9a96e40; }
+.curriculum-warmups strong { color: var(--brand-deep); }
+.curriculum-warmups p { margin: 4px 0 0; font-size: 14px; line-height: 1.75; }
+.curriculum-warmups .button { justify-self: start; }
+
+/* Presenter: a daylight room with the stations beside the slide. */
+.deck-presenter.has-rail { display: grid; grid-template-columns: minmax(0, 1fr) 224px; grid-template-rows: minmax(0, 1fr) auto; align-items: center; justify-items: center; gap: 18px 24px; padding: 24px; background: #f5edd8; }
+.deck-presenter.has-rail::backdrop { background: #f5edd8; }
+.deck-presenter.has-rail .slide-preview { grid-column: 1; grid-row: 1; border-radius: 20px; box-shadow: 0 2px 6px #2a14181a, 0 28px 60px -24px #2a141866; }
+.deck-presenter.has-rail > .presenter-controls { grid-column: 1; grid-row: 2; color: #2a1418; }
+.station-rail { grid-column: 2; grid-row: 1 / span 2; align-self: stretch; width: 100%; list-style: none; margin: 0; padding: 18px 14px; display: grid; gap: 8px; align-content: start; background: #ffffff; border: 1px solid #efe6d8; border-radius: 20px; box-shadow: 0 2px 6px #2a14180f, 0 18px 40px -20px #2a141840; overflow-y: auto; }
+.station-rail li { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; color: #7a6a58; font-size: 14.5px; line-height: 1.4; }
+.station-rail small { min-height: 15px; font-size: 11.5px; color: #a8853a; font-weight: 600; }
+.station-rail .is-now { background: linear-gradient(135deg, #7a1e30, #4a0f1b); color: #fff8ea; box-shadow: 0 10px 22px -10px #5c152399; }
+.station-rail .is-now small { color: #dfc48e; }
+.station-rail .is-done { color: #a59a8f; text-decoration: line-through; }
+.station-rail .is-done small { text-decoration: none; }
+
+@media (max-width: 760px) {
+  .journey-line { padding-inline: 14px; }
+  .journey-line::before { inset-inline-start: 31px; }
+  .journey-line > li { grid-template-columns: 36px minmax(0, 1fr); gap: 10px; }
+  .journey-node { width: 36px; height: 36px; border-radius: 12px; font-size: 15px; }
+  .journey-time { grid-column: 2; grid-template-columns: auto auto 1fr; justify-items: start; align-items: baseline; gap: 6px; padding: 6px 12px; }
+  .journey-time span { margin: 0; justify-self: end; }
+  .journey-card { grid-column: 2; }
+  .station-row { grid-template-columns: 1fr; }
+  .station-tier-grid { grid-template-columns: 1fr; }
+  .curriculum-lessons { padding-inline: 14px; }
+  .curriculum-lessons > li { grid-template-columns: 1fr; }
+  .curriculum-lessons summary { grid-template-columns: 36px minmax(0, 1fr); }
+  .curriculum-count { grid-column: 2; }
+  .station-preview li { grid-template-columns: 1fr; gap: 0; }
+  .deck-presenter.has-rail { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; padding: 12px; gap: 12px; }
+  .station-rail { grid-column: 1; grid-row: 1; grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; padding: 8px 10px; border-radius: 14px; }
+  .deck-presenter.has-rail .slide-preview { grid-row: 2; }
+  .deck-presenter.has-rail > .presenter-controls { grid-row: 3; }
+}
+@media (prefers-reduced-motion: reduce) { .journey-line > li, .curriculum-lessons > li { animation: none; } .journey-line > li:hover .journey-card, .curriculum-lessons > li:hover { transform: none; } }
+@media print { .journey-line > li { animation: none; break-inside: avoid; } .journey-card { box-shadow: none; } }

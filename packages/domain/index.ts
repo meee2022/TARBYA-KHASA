@@ -25,7 +25,9 @@ export interface KitItem { id: string; stage: KitStage; title: string; url?: str
 /** One moment of the live class board: a star, a break, a note. Describes what happened, never the child. */
 export type ClassEventKind = 'start' | 'star' | 'break' | 'note' | 'end';
 export interface ClassEvent { id: string; at: string; kind: ClassEventKind; learnerId?: string; text?: string; }
-export interface Lesson { id: string; title: string; subject: Subject; grade: string; duration: number; learnerIds: string[]; goalIds: string[]; objective: string; warmup: string; teaching: string; practice: string; closing: string; adaptations: string; source: string; sourceText: string; language: 'ar' | 'en'; status: Status; reviewNote: string; questions: Question[]; updatedAt: string; packId?: string; planId?: string; sessionIndex?: number; kit?: KitItem[]; standardIds?: string[]; classLog?: ClassEvent[]; }
+export interface Lesson { id: string; title: string; subject: Subject; grade: string; duration: number; learnerIds: string[]; goalIds: string[]; objective: string; warmup: string; teaching: string; practice: string; closing: string; adaptations: string; source: string; sourceText: string; language: 'ar' | 'en'; status: Status; reviewNote: string; questions: Question[]; updatedAt: string; packId?: string; planId?: string; sessionIndex?: number; kit?: KitItem[]; standardIds?: string[]; classLog?: ClassEvent[];
+  /** Optional stations after guided practice; see journey.ts. Minutes and support tiers per station live in stationPlans. */
+  independent?: string; assessment?: string; stationPlans?: Partial<Record<'warmup' | 'teaching' | 'practice' | 'independent' | 'assessment' | 'closing', { minutes?: number; tiers?: Partial<Record<'full' | 'partial' | 'independent', string>> }>>; }
 export interface Trial { questionId: string; selected: number | null; correct: boolean; support: Support; }
 /** Baseline before teaching, intervention while teaching, maintenance probes after the goal was approved. */
 export type Phase = 'baseline' | 'intervention' | 'maintenance';
