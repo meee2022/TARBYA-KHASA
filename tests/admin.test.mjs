@@ -90,3 +90,12 @@ test('English digits cover saved content, dates and exported PowerPoint without 
   const slides=(await Promise.all(Object.keys(zip.files).filter(p=>/^ppt\/slides\/slide\d+\.xml$/.test(p)).map(p=>zip.file(p).async('string')))).join('');
   assert.ok(slides.includes('123'));assert.ok(slides.includes('456'));assert.ok(!/[٠-٩۰-۹]/.test(slides));
 });
+
+test('teacher self sign-up is open by default, follows the saved switch, and rejects a non-boolean', async () => {
+  const { defaultSite, validateSite } = await import('../packages/domain/site.ts');
+  assert.equal(defaultSite.teacherSignup, true);
+  const saved = structuredClone(defaultSite); delete saved.teacherSignup;
+  assert.equal(validateSite(saved).teacherSignup, true, 'settings saved before the switch keep the default');
+  assert.equal(validateSite({ ...structuredClone(defaultSite), teacherSignup: false }).teacherSignup, false);
+  assert.throws(() => validateSite({ ...structuredClone(defaultSite), teacherSignup: 'yes' }));
+});

@@ -8,6 +8,8 @@ export const MAX_SITE_BYTES = 900 * 1024;
 export const MEDIA_LIMIT = 30 * 1024 * 1024;
 export const TEACHER_SESSION_MS = 12 * 3600000;
 export const MAX_TEACHERS = 500;
+/** New self-made accounts in one 15-minute window, for the whole platform: a browser gives no address to throttle by, and a workshop may sign up together. */
+export const SIGNUP_LIMIT = 40;
 // Convex documents stop at 1 MiB; teacher pictures and recordings stay in the browser and are not part of this.
 export const MAX_WORKSPACE_BYTES = 900 * 1024;
 export const AI_DAILY_LIMIT = 30;
@@ -17,7 +19,7 @@ export const MAX_SHARED_ITEMS = 3000;
 export const validUsername = (value: unknown) => typeof value === 'string' && value.length <= 80 && (/^[a-zA-Z0-9_.-]{3,40}$/.test(value) || /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(value));
 
 export type Credentials = { username: string; name: string; password: string };
-/** Admins control the whole platform and keep the 12-character floor. Teachers get a shorter one: their login is rate-limited and the account is handed over by the admin. */
+/** Admins control the whole platform and keep the 12-character floor. Teachers get a shorter one: their login is rate-limited, and a teacher's account reaches only that teacher's own workspace. */
 export const TEACHER_PASSWORD_MIN = 6;
 export function readCredentials(body: { username?: unknown; name?: unknown; password?: unknown }, minPassword = 12): Credentials {
   const { username, name, password } = body;

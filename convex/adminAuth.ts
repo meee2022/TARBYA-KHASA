@@ -4,7 +4,7 @@ import { ConvexError, v } from "convex/values";
 import { action, type ActionCtx } from "./_generated/server";
 import { internal } from "./_generated/api";
 import type { Doc, Id } from "./_generated/dataModel";
-import { mediaProblem, readCredentials, TEACHER_PASSWORD_MIN, validPasswordLength, type Credentials } from "./adminRules.ts";
+import { mediaProblem, readCredentials, SIGNUP_LIMIT, TEACHER_PASSWORD_MIN, validPasswordLength, type Credentials } from "./adminRules.ts";
 
 // Written out because these actions reference the generated API that also describes them.
 type PublicUser = { id: string; username: string; name: string; active: boolean };
@@ -117,6 +117,18 @@ export const teacherLogin = action({
     if (!teacher || !teacher.active || !ok) throw denied;
     await ctx.runMutation(internal.admin.clearAttempts, { key });
     return startTeacherSession(ctx, teacher._id);
+  },
+});
+/** Open sign-up while the platform is on trial: a teacher creates the account and is signed in. One switch in the site settings closes it, and new accounts are throttled as a whole. */
+export const teacherSignup = action({
+  args: { username: v.string(), name: v.string(), password: v.string() },
+  handler: async (ctx, body): Promise<TeacherResult> => {
+    const open: boolean = await ctx.runQuery(internal.admin.signupOpen, {});
+    if (!open) throw fail(403, "إنشاء الحسابات متوقف الآن. اطلب حسابًا من إدارة المنصة.");
+    const c = credentials(body, TEACHER_PASSWORD_MIN);
+    if (!await ctx.runMutation(internal.admin.attempt, { key: "signup", max: SIGNUP_LIMIT })) throw fail(429, "أُنشئت حسابات كثيرة الآن. حاول بعد 15 دقيقة.");
+    const made: { id: string } = await ctx.runMutation(internal.teacher.createTeacher, { actor: "تسجيل ذاتي", username: c.username, name: c.name, ...hashPassword(c.password) });
+    return startTeacherSession(ctx, made.id as Id<"teachers">);
   },
 });
 export const createTeacher = action({

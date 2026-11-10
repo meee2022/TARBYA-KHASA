@@ -23,6 +23,7 @@ async function call<T>(run: () => Promise<T>): Promise<T> {
 }
 export const me = () => teacherToken() ? call(() => convex!.query(api.teacher.me, { token: teacherToken() })) : Promise.resolve(null);
 export async function login(username: string, password: string) { const r = await call(() => convex!.action(api.adminAuth.teacherLogin, { username, password })); keep(r.token); return r.teacher; }
+export async function signup(username: string, name: string, password: string) { const r = await call(() => convex!.action(api.adminAuth.teacherSignup, { username, name, password })); keep(r.token); return r.teacher; }
 export async function logout() { const token = teacherToken(); keep(''); if (token) await call(() => convex!.mutation(api.teacher.logout, { token })).catch(() => undefined); }
 export const pull = () => call(() => convex!.query(api.teacher.workspace, { token: teacherToken() }));
 export const push = (json: string, revision: number) => call(() => convex!.mutation(api.teacher.saveWorkspace, { token: teacherToken(), json, revision }));

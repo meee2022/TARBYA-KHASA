@@ -107,15 +107,24 @@ export const generateUploadUrl = mutation({
   handler: async (ctx, { token }) => { await requireUser(ctx, token); return ctx.storage.generateUploadUrl(); },
 });
 
+/** Whether teachers may create their own accounts. Settings saved before the switch existed follow the default. */
+export const signupOpen = internalQuery({
+  args: {},
+  handler: async (ctx): Promise<boolean> => {
+    const json = (await ctx.db.query("platformSite").first())?.json;
+    try { const saved = json ? JSON.parse(json).teacherSignup : undefined; return saved === undefined ? defaultSite.teacherSignup : saved === true; } catch { return defaultSite.teacherSignup; }
+  },
+});
+
 // Internal: reachable only from convex/adminAuth.ts, never from a browser.
 export const attempt = internalMutation({
-  args: { key: v.string() },
+  args: { key: v.string(), max: v.optional(v.number()) },
   // Returns instead of throwing, so a refused attempt is still recorded.
-  handler: async (ctx, { key }) => {
+  handler: async (ctx, { key, max = MAX_ATTEMPTS }) => {
     const since = Date.now() - ATTEMPT_WINDOW_MS;
     const rows = await ctx.db.query("loginAttempts").withIndex("by_key", (q) => q.eq("key", key)).collect();
     for (const row of rows) if (row.at <= since) await ctx.db.delete(row._id);
-    if (rows.filter((row) => row.at > since).length >= MAX_ATTEMPTS) return false;
+    if (rows.filter((row) => row.at > since).length >= max) return false;
     await ctx.db.insert("loginAttempts", { key, at: Date.now() });
     return true;
   },

@@ -7,11 +7,13 @@ export interface SiteConfig {
   announcement: string; announcementEnabled: boolean; primaryColor: string;
   modules: Record<keyof typeof moduleLabels,boolean>;
   aiEnabled: boolean; aiRequestLimit: number; maintenance: boolean; maintenanceMessage: string;
+  /** Teachers may create their own accounts. Open while the platform is on trial; the admin closes it with this switch. */
+  teacherSignup: boolean;
 }
 export const defaultSite: SiteConfig = {
   version:1, revision:0, brandName:'تربية خاصة', tagline:'لكلّ طالب، طريقٌ للتعلّم', welcome:'أهلًا بك، ليومٍ يصنع فرقًا', description:'كل ما تحتاجه لحصة أكثر وضوحًا، وتعلّم أقرب لكل طالب.',
   featureTitle:'عالم صغير، اكتشافات كبيرة.', featureDescription:'درس الحيوانات، بتجارب تراعي اختلاف طرق التعلّم.', featuredLessonId:'animals', footer:'تعلّم يناسب كلّ طالب', announcement:'', announcementEnabled:false, primaryColor:'#5c1523',
-  catalog:defaultCatalog, heroImage:art('hero-classroom'), modules:{plans:true,iep:true,lessons:true,learners:true,packs:true,tools:true,presentations:true,games:true,library:true,progress:true,review:true}, aiEnabled:true, aiRequestLimit:15, maintenance:false, maintenanceMessage:'نحدّث المنصة الآن. نعود إليكم قريبًا.',
+  catalog:defaultCatalog, heroImage:art('hero-classroom'), modules:{plans:true,iep:true,lessons:true,learners:true,packs:true,tools:true,presentations:true,games:true,library:true,progress:true,review:true}, aiEnabled:true, aiRequestLimit:15, teacherSignup:true, maintenance:false, maintenanceMessage:'نحدّث المنصة الآن. نعود إليكم قريبًا.',
 };
 export function validateSite(input: unknown): SiteConfig {
   if (!input || typeof input !== 'object') throw new Error('إعدادات غير صالحة.');
@@ -28,6 +30,7 @@ export function validateSite(input: unknown): SiteConfig {
   clean.primaryColor=v.primaryColor;
   for(const k of ['announcementEnabled','aiEnabled','maintenance'] as const){if(typeof v[k]!=='boolean')throw new Error('راجع مفاتيح التشغيل.');clean[k]=v[k];}
   // Sections added after a settings file was saved keep their default instead of failing the whole file.
+  if(v.teacherSignup!==undefined){if(typeof v.teacherSignup!=='boolean')throw new Error('راجع مفاتيح التشغيل.');clean.teacherSignup=v.teacherSignup;}
   for(const k of Object.keys(defaultSite.modules)){const on=(v.modules as Record<string,unknown>)?.[k];if(on===undefined)continue;if(typeof on!=='boolean')throw new Error('راجع الأقسام والألعاب.');(clean.modules as Record<string,boolean>)[k]=on;}
   clean.catalog=validateCatalog(v.catalog);
   if(v.heroImage!==undefined){if(typeof v.heroImage!=='string'||!mediaPath.test(v.heroImage))throw new Error('صورة الرئيسية غير صالحة.');clean.heroImage=v.heroImage;}

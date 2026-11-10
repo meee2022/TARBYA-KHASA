@@ -450,6 +450,7 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 /* Teacher account and sync status. */
 .account-panel h2 { display: flex; align-items: center; gap: 10px; }
 .account-form { display: grid; gap: 12px; max-width: 420px; margin: 14px 0; }
+.account-mode { margin: 6px 0 14px; }
 .account-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
 .sync-state { font-weight: 600; }
 .sync-saved { color: #2f5a3c; }

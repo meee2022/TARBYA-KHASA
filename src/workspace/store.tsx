@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
-import { accountsAvailable, login, logout, me, pull, push, SyncError, type Teacher } from './teacherApi';
+import { accountsAvailable, login, logout, me, pull, push, SyncError, type Teacher, signup } from './teacherApi';
 import { assertWorkspace, migrateWorkspace, seedWorkspace, Workspace, Lesson, Learner, Observation, PracticeRecord } from '../../packages/domain';
 import type { ContentPack } from '../../packages/domain/packs';
 import { useSiteConfig } from './site';
@@ -14,7 +14,7 @@ const readMark = (): { rev: number; sig: string } | null => { try { return JSON.
 const writeMark = (rev: number, json: string) => { try { localStorage.setItem(MARK, JSON.stringify({ rev, sig: fingerprint(json) })); } catch { /* the next reload asks which copy to keep */ } };
 export type SyncState = 'off' | 'saving' | 'saved' | 'conflict' | 'error';
 const ready = (w: Workspace): Workspace => ({ ...w, plans: w.plans ?? [], ieps: w.ieps ?? [] });
-type Store = { account: Teacher | null; sync: SyncState; syncMessage: string; signIn: (username: string, password: string) => Promise<void>; signOut: () => Promise<void>; reloadFromAccount: () => Promise<void>; data: Workspace; error: string; replaceData: (data: Workspace) => boolean; saveLesson: (lesson: Lesson) => void; saveLearner: (learner: Learner) => void; record: (value: Observation) => void; savePractice: (value: PracticeRecord) => boolean; savePack: (pack: ContentPack) => void; savePlan: (plan: WeeklyPlan) => void; removePlan: (id: string) => void; saveIep: (iep: Iep) => void; saveForm: (form: SpecialForm) => void; removeForm: (id: string) => void; removePack: (id: string) => void; notify: (text: string) => void; notice: string; };
+type Store = { account: Teacher | null; sync: SyncState; syncMessage: string; signIn: (username: string, password: string) => Promise<void>; signUp: (username: string, name: string, password: string) => Promise<void>; signOut: () => Promise<void>; reloadFromAccount: () => Promise<void>; data: Workspace; error: string; replaceData: (data: Workspace) => boolean; saveLesson: (lesson: Lesson) => void; saveLearner: (learner: Learner) => void; record: (value: Observation) => void; savePractice: (value: PracticeRecord) => boolean; savePack: (pack: ContentPack) => void; savePlan: (plan: WeeklyPlan) => void; removePlan: (id: string) => void; saveIep: (iep: Iep) => void; saveForm: (form: SpecialForm) => void; removeForm: (id: string) => void; removePack: (id: string) => void; notify: (text: string) => void; notice: string; };
 const Context = createContext<Store>(null!);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState('');
@@ -78,6 +78,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(timer);
   }, [data, account]);
   const signIn = async (username: string, password: string) => { const t = await login(username, password); setAccount(t); await reconcile(data); };
+  const signUp = async (username: string, name: string, password: string) => { const t = await signup(username, name, password); setAccount(t); await reconcile(data); };
   const signOut = async () => {
     if (sync === 'saving' || sync === 'error' || sync === 'conflict') { if (!window.confirm('بعض التعديلات لم تصل إلى حسابك بعد. هل تخرج وتفقدها؟')) return; }
     await logout(); setAccount(null); setSync('off'); setSyncMessage(''); held.current = false; sent.current = '';
@@ -86,7 +87,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     setData(withPlanning(seedWorkspace()));
   };
   const reloadFromAccount = () => reconcile(data).catch((e: SyncError) => { setSync('error'); setSyncMessage(e.message); });
-  return <Context.Provider value={{ account, sync, syncMessage, signIn, signOut, reloadFromAccount, data, error, replaceData, saveLesson, saveLearner, record, savePractice, savePack, removePack, savePlan, removePlan, saveIep, saveForm, removeForm, notify: setNotice, notice }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ account, sync, syncMessage, signIn, signUp, signOut, reloadFromAccount, data, error, replaceData, saveLesson, saveLearner, record, savePractice, savePack, removePack, savePlan, removePlan, saveIep, saveForm, removeForm, notify: setNotice, notice }}>{children}</Context.Provider>;
 }
 export const useWorkspace = () => useContext(Context);
 /** Teacher packs first, then the shared library the admin controls. */
