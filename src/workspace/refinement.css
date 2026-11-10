@@ -1,10 +1,10 @@
 /* Shared finish for teacher and administration surfaces. Content and access rules remain in their owning modules. */
 .studio {
-  --canvas: #f5efeb;
-  --paper: #fffbf9;
-  --line: #e4d4cb;
-  --tan: #9d6f3f;
-  --brand-deep: #4b2804;
+  --canvas: #efe2d2;
+  --paper: #fffaf3;
+  --line: #e3d3bf;
+  --tan: #a87c5c;
+  --brand-deep: #3f2a1e;
   font-size: 18px;
   --shadow-1: 0 2px 3px #5921190c;
   --shadow-2: 0 2px 8px #3a1a120a;
@@ -195,7 +195,7 @@
 .theme-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .theme-options > button { display: flex; flex-direction: column; align-items: stretch; gap: 18px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); }
 .theme-options > button.active { border-color: var(--brand); background: var(--tint); }
-.theme-preview { width: 100%; direction: rtl; display: grid; grid-template-columns: 26% 1fr; height: 100px; background: #f8f5ef; border: 1px solid #e8e0d7; border-radius: 7px; overflow: hidden; }
+.theme-preview { width: 100%; direction: rtl; display: grid; grid-template-columns: 26% 1fr; height: 100px; background: #f8f5ef; border: 1px solid #e3d3bf; border-radius: 7px; overflow: hidden; }
 .theme-preview > i { background: #714d35; }
 .theme-preview > span { display: grid; gap: 8px; padding: 12px 8px; align-content: center; }
 .theme-preview b { height: 9px; border-radius: 2px; background: #ded8cf; }
@@ -928,7 +928,7 @@
   .resource-cover { min-height: 0; }
   .resource-body { padding: 16px 0 16px 16px; }
 }
-.studio .sheet-page .trial-table th { background: #f1ece5; color: #2e2016; }
+.studio .sheet-page .trial-table th { background: #efe2d2; color: #2e2016; }
 
 @media print {
   .workspace-body { margin: 0; }

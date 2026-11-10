@@ -489,11 +489,11 @@ a.game-library-card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px #
 .data-goal h2 { font-size: 17px; margin-bottom: 4px; }
 .trial-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
 .trial-table th, .trial-table td { border: 1px solid #333; height: 38px; text-align: center; font-size: 13px; }
-.trial-table th[scope=row] { width: 88px; background: #f1ece5; }
+.trial-table th[scope=row] { width: 88px; background: #efe2d2; }
 .data-steps { margin: 10px 0 0; padding-inline-start: 20px; font-size: 14px; display: grid; gap: 6px; }
 .data-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; margin-top: auto; padding-top: 14px; border-top: 1px dashed #999; }
 .certificate { min-height: 0; padding: 24px; }
-.certificate-frame { border: 6px double #a87c5c; border-radius: 18px; padding: 44px 36px; text-align: center; display: grid; gap: 10px; justify-items: center; background: #fffdfa; }
+.certificate-frame { border: 6px double #a87c5c; border-radius: 18px; padding: 44px 36px; text-align: center; display: grid; gap: 10px; justify-items: center; background: #fffaf3; }
 .certificate-frame img { width: 110px; }
 .certificate-brand { font-size: 14px; letter-spacing: .04em; color: #5a3b28; }
 .certificate h2 { font-family: 'El Messiri', 'Readex Pro', sans-serif; font-size: 2.2rem; color: #3f2a1e; margin: 0; }

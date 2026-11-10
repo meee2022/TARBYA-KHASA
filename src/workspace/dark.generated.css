@@ -454,10 +454,10 @@ html:where([data-theme='dark']) .sync-error:where(:not(.theme-preview, .theme-pr
     color: #ecd5be
 }
 html:where([data-theme='dark']) .trial-table th[scope=row]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2e2519
+    background: #352a1d
 }
 html:where([data-theme='dark']) .certificate-frame:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #231c13
+    background: #251e14
 }
 html:where([data-theme='dark']) .certificate-brand:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #e4d0c3
@@ -1148,7 +1148,7 @@ html:where([data-theme='dark']) .learner-card-top h2:where(:not(.theme-preview, 
 }
 html:where([data-theme='dark']) .theme-preview:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #292216;
-    border: 1px solid #4f4234
+    border: 1px solid #544738
 }
 html:where([data-theme='dark']) .theme-preview b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #362f25
