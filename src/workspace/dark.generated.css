@@ -1374,5 +1374,32 @@ html:where([data-theme='dark']) .studio .kit-meter i:where(:not(.theme-preview, 
 html:where([data-theme='dark']) .studio [role="progressbar"] > i:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: linear-gradient(90deg, #a8853a, #625235)
 }
+html:where([data-theme='dark']) .studio .tool-card:not(:has(img)) h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .studio .tool-card:not(:has(img)) > strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
+html:where([data-theme='dark']) .studio .tool-card:not(:has(img)) > strong svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: #e0cea6
+}
+html:where([data-theme='dark']) .studio .page-banner .banner-meta:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    border-top-color: #38383833
+}
+html:where([data-theme='dark']) .studio .page-banner .banner-meta > span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    border-inline-start-color: #38383833
+}
+html:where([data-theme='dark']) .studio .iep-table thead th:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    border-bottom: 2px solid #675b45
+}
+html:where([data-theme='dark']) .studio .data-table thead th:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    border-bottom: 2px solid #675b45
+}
+html:where([data-theme='dark']) .studio .iep-table tbody tr:hover > *:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #6252351f
+}
+html:where([data-theme='dark']) .studio .data-table tbody tr:hover > *:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #6252351f
+}
 }
 /* ds-allow-hardcode:end */

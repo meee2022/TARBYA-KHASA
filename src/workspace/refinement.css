@@ -965,6 +965,37 @@
 }
 @media (prefers-reduced-motion: reduce) { .studio .resource-card:hover, .studio .tool-card:hover, .studio a.panel:hover { transform: none; } }
 
+/* A tile without a picture: its icon sits in a maroon square beside the title, the text reads in one column, and the action keeps the last line. */
+.studio .tool-card:not(:has(img)) { grid-template-columns: 52px minmax(0, 1fr); gap: 6px 16px; padding: 22px; min-height: 0; align-content: start; align-items: start; text-align: start; }
+.studio .tool-card:not(:has(img)) > svg:first-child { grid-column: 1; grid-row: 1 / span 3; box-sizing: content-box; width: 24px; height: 24px; padding: 14px; border-radius: 16px; background: linear-gradient(135deg, #7a1e30, #4a0f1b); color: #dfc48e; box-shadow: 0 8px 18px -8px #5c152399; }
+.studio .tool-card:not(:has(img)):not(:has(> svg:first-child)) { grid-template-columns: minmax(0, 1fr); }
+.studio .tool-card:not(:has(img)):not(:has(> svg:first-child)) > * { grid-column: 1; }
+.studio .tool-card:not(:has(img)) h2 { margin: 0; font-size: 1.25rem; line-height: 1.5; color: var(--brand-deep); }
+.studio .tool-card:not(:has(img)) p { margin: 0; font-size: 15px; line-height: 1.8; color: var(--muted); }
+.studio .tool-card:not(:has(img)) > strong { margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 15px; color: var(--brand); }
+.studio .tool-card:not(:has(img)) > strong svg { color: #a8853a; }
+/* A lone last tile takes its own cell instead of stretching across the row. */
+.studio .tool-grid > .tool-card:not(:has(img)):last-child { grid-column: auto; width: auto; justify-self: stretch; }
+.studio .tool-grid:has(> .form-card) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+/* A pack cover keeps one height however many pictures or emoji its items carry. */
+.studio .pack-cover { height: 112px; min-height: 0; align-self: start; }
+.studio .pack-cover .tile-emoji { font-size: 34px; line-height: 1.15; max-height: 88px; max-width: 34%; overflow: hidden; white-space: nowrap; text-overflow: clip; }
+/* Notes that sit on a banner follow its light ink. */
+.studio .page-banner .banner-meta { color: #ebd9b4; border-top-color: #ffffff33; }
+.studio .page-banner .banner-meta > span { border-inline-start-color: #ffffff33; }
+.studio .page-banner .back-link, .studio .page-banner .text-link { color: #ebd9b4; }
+/* Screen tables: a maroon head with gold lettering and a gold rule, striped rows that warm on hover. */
+.studio .iep-table thead th, .studio .data-table thead th { background: linear-gradient(180deg, #5c1523, #4a0f1b); color: #ebd9b4; border: 0; border-bottom: 2px solid #c9a96e; }
+.studio .iep-table thead th:first-child, .studio .data-table thead th:first-child { border-start-start-radius: 14px; }
+.studio .iep-table thead th:last-child, .studio .data-table thead th:last-child { border-start-end-radius: 14px; }
+.studio .iep-table tbody tr:hover > *, .studio .data-table tbody tr:hover > * { background: #c9a96e1f; }
+/* Sign in or new account: two equal halves. */
+.account-mode { display: grid; grid-template-columns: 1fr 1fr; }
+.account-mode button { font-size: 16px; min-height: 46px; }
+@media (max-width: 760px) {
+  .studio .tool-grid:has(> .form-card) { grid-template-columns: 1fr; }
+}
+
 @media print {
   .workspace-body { margin: 0; }
   .workspace-main { padding: 0; }
