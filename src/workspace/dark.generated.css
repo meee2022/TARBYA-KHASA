@@ -5,58 +5,58 @@ html:where([data-theme='dark']) .session-tabs button.active:where(:not(.theme-pr
     color: #fff7ea
 }
 html:where([data-theme='dark']) .stage-card legend:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .goal-state.review:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .today-list svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .lesson-siblings a:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .detail-meta a:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .kit-stage h3:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .week-nav button:not(.text-link):where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .grade-number:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .grade-grid button[aria-pressed="true"] .grade-number:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a
 }
 html:where([data-theme='dark']) .subject-filters button b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .subject-filters button.active b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a
 }
 html:where([data-theme='dark']) .guide-card li a:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .library-tabs b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .library-tabs button[aria-selected="true"] b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a
 }
 html:where([data-theme='dark']) .shared-kind:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .door-subheading:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .class-meter-row span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .class-celebrate strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .deck-start-form>p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c8d0c2
@@ -72,7 +72,7 @@ html:where([data-theme='dark']) .author-mode button:where(:not(.theme-preview, .
 }
 html:where([data-theme='dark']) .author-mode [aria-pressed=true]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a;
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .sample-options span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #232815
@@ -81,7 +81,7 @@ html:where([data-theme='dark']) .deck-start-preview>p:where(:not(.theme-preview,
     color: #c7d0c2
 }
 html:where([data-theme='dark']) .author-section-heading>svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .author-section-heading p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c6cfc0
@@ -101,10 +101,10 @@ html:where([data-theme='dark']) .slide-rail>button:where(:not(.theme-preview, .t
     color: #d1dcca
 }
 html:where([data-theme='dark']) .slide-rail>button.active:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #27151b
+    background: #2b2217
 }
 html:where([data-theme='dark']) .slide-rail>button>span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .slide-rail small:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c5cec0
@@ -131,7 +131,7 @@ html:where([data-theme='dark']) .theme-option:where(:not(.theme-preview, .theme-
     color: #d3e1cc
 }
 html:where([data-theme='dark']) .theme-option[aria-pressed=true]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #27151b
+    background: #2b2217
 }
 html:where([data-theme='dark']) .review-deck:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-top: 1px solid #465136
@@ -145,17 +145,17 @@ html:where([data-theme='dark']) .saved-decks span:where(:not(.theme-preview, .th
     color: #c7d0c0
 }
 html:where([data-theme='dark']) .deck-editor input:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    caret-color: var(--wine-text)
+    caret-color: var(--brand-text)
 }
 html:where([data-theme='dark']) .deck-editor textarea:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    caret-color: var(--wine-text)
+    caret-color: var(--brand-text)
 }
 html:where([data-theme='dark']) .deck-start textarea:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    caret-color: var(--wine-text)
+    caret-color: var(--brand-text)
 }
 html:where([data-theme='dark']) .deck-editor :where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::selection {
-    background: #371e29;
-    color: #eec4d3
+    background: #413323;
+    color: #ebd8cc
 }
 html:where([data-theme='dark']) .access-intro:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #242e1c
@@ -181,15 +181,15 @@ html:where([data-theme='dark']) .game-card-visual:where(:not(.theme-preview, .th
 }
 html:where([data-theme='dark']) .game-sand .game-card-visual:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #322a1b;
-    color: #e1d0b4
+    color: #d7c7b8
 }
 html:where([data-theme='dark']) .game-blue .game-card-visual:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1b2c2e;
     color: #bdd3d7
 }
 html:where([data-theme='dark']) .game-rose .game-card-visual:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2d1821;
-    color: var(--wine-text)
+    background: #32281b;
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .game-skill:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c5cec0
@@ -202,7 +202,7 @@ html:where([data-theme='dark']) .game-card-body>div:where(:not(.theme-preview, .
     color: #c5cbc0
 }
 html:where([data-theme='dark']) .game-card-body strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .access-explainer p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c6cdc0
@@ -220,10 +220,10 @@ html:where([data-theme='dark']) .access-toggle:where(:not(.theme-preview, .theme
     border-bottom: 1px solid #454e34
 }
 html:where([data-theme='dark']) .setup-guide a:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text) !important
+    color: var(--brand-text) !important
 }
 html:where([data-theme='dark']) .braille-mini:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .visual-schedule [aria-current=step]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #31391e;
@@ -233,14 +233,14 @@ html:where([data-theme='dark']) .game-task:where(:not(.theme-preview, .theme-pre
     border: 1px solid #444f35
 }
 html:where([data-theme='dark']) .listen-task:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .target-tile:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #252c17;
     color: #cddfc3
 }
 html:where([data-theme='dark']) .game-options>button.selected:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .braille-cell:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2d2718;
@@ -251,7 +251,7 @@ html:where([data-theme='dark']) .braille-cell button:where(:not(.theme-preview, 
     color: #d9d4cc
 }
 html:where([data-theme='dark']) .unicode-braille:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .communication-board:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-top: 1px solid #465236
@@ -269,7 +269,7 @@ html:where([data-theme='dark']) .tile-picture:where(:not(.theme-preview, .theme-
     background: #1a1a1a
 }
 html:where([data-theme='dark']) .blocked-note:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ead8b6
+    color: #ddccb9
 }
 html:where([data-theme='dark']) .item-row:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-bottom: 1px solid #414a31
@@ -278,12 +278,12 @@ html:where([data-theme='dark']) .item-thumb:where(:not(.theme-preview, .theme-pr
     color: #b8bfb4
 }
 html:where([data-theme='dark']) .is-recording:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2a161c !important;
-    color: var(--wine-text) !important
+    background: #2f2519 !important;
+    color: var(--brand-text) !important
 }
 html:where([data-theme='dark']) .conflict-note:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2e2719;
-    color: #ecddbd
+    color: #e2d0bd
 }
 html:where([data-theme='dark']) .game-options > button.is-answer:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #212b19
@@ -294,29 +294,29 @@ html:where([data-theme='dark']) .visual-feedback.yes:where(:not(.theme-preview, 
 }
 html:where([data-theme='dark']) .visual-feedback.no:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2f2719;
-    color: #ead8b6
+    color: #ddccb9
 }
 html:where([data-theme='dark']) .board-tile.solved:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #212b19
 }
 html:where([data-theme='dark']) .memory-card:not(.open):where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #261a1d
+    background: #2c2217
 }
 html:where([data-theme='dark']) .build-word:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .robot-cell:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #232a18
 }
 html:where([data-theme='dark']) .robot-cell.here:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2b1720
+    background: #30261a
 }
 html:where([data-theme='dark']) .robot-self:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .door-closed:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2f2719;
-    color: #ecddbd
+    color: #e2d0bd
 }
 html:where([data-theme='dark']) .hold-button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border: 1px solid #48503a;
@@ -324,7 +324,7 @@ html:where([data-theme='dark']) .hold-button:where(:not(.theme-preview, .theme-p
     color: #c8cec5
 }
 html:where([data-theme='dark']) .teacher-corner.is-waiting:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .teacher-selected:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #242917
@@ -336,23 +336,20 @@ html:where([data-theme='dark']) .teacher-panel-tools:where(:not(.theme-preview, 
     border-top: 1px solid #414a31
 }
 html:where([data-theme='dark']) .tool-card strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .symbol-picker button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #d1d9d1
 }
 html:where([data-theme='dark']) .symbol-picker button.active:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2b171d;
-    color: var(--wine-text)
+    background: #30261a;
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .first-then > div > svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c7d9ce
 }
-html:where([data-theme='dark']) .token-row:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d0c19e
-}
 html:where([data-theme='dark']) .token-row .earned:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e1ca99
+    color: #d8b693
 }
 html:where([data-theme='dark']) .breath:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #23321d;
@@ -374,7 +371,7 @@ html:where([data-theme='dark']) .admin-chip-list > span:where(:not(.theme-previe
     background: #232a18
 }
 html:where([data-theme='dark']) .admin-chip-list button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #deb8c3
+    color: #e0cdbe
 }
 html:where([data-theme='dark']) .admin-template:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-bottom: 1px solid #414a31
@@ -384,11 +381,11 @@ html:where([data-theme='dark']) .admin-pack-tabs > button:not(.button):where(:no
     background: #1a1a1a
 }
 html:where([data-theme='dark']) .admin-pack-tabs > button[aria-current=true]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2b171d;
-    color: var(--wine-text)
+    background: #30261a;
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .danger-link:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e6b0bb
+    color: #e9cfb8
 }
 html:where([data-theme='dark']) :is(.reading-tint-sepia:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)),
 html:where([data-theme='dark']) .reading-tint-mint) .reading-text:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
@@ -402,13 +399,13 @@ html:where([data-theme='dark']) .work-timer:where(:not(.theme-preview, .theme-pr
     background: #1a1a1a26
 }
 html:where([data-theme='dark']) .family-letter header:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    border-bottom: 3px solid #685d45
+    border-bottom: 3px solid #615140
 }
 html:where([data-theme='dark']) .family-letter h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .family-letter h3:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .family-date:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #d2cac2
@@ -451,10 +448,10 @@ html:where([data-theme='dark']) .sync-saved:where(:not(.theme-preview, .theme-pr
     color: #c5e1cd
 }
 html:where([data-theme='dark']) .sync-conflict:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e9b4c4
+    color: #ecd5be
 }
 html:where([data-theme='dark']) .sync-error:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e9b4c4
+    color: #ecd5be
 }
 html:where([data-theme='dark']) .trial-table th[scope=row]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2e2519
@@ -463,46 +460,46 @@ html:where([data-theme='dark']) .certificate-frame:where(:not(.theme-preview, .t
     background: #231c13
 }
 html:where([data-theme='dark']) .certificate-brand:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ecbfcd
+    color: #e4d0c3
 }
 html:where([data-theme='dark']) .certificate h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #efc8d6
+    color: #e7d7cd
 }
 html:where([data-theme='dark']) .certificate-to:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cbc3c4
+    color: #d0c7c1
 }
 html:where([data-theme='dark']) .certificate-name:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #eab5c6
+    color: #dfcabc
 }
 html:where([data-theme='dark']) .certificate-date:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cbc3c4
+    color: #d0c7c1
 }
 html:where([data-theme='dark']) .certificate-sign:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e3d8da
+    color: #eaddd3
 }
 html:where([data-theme='dark']) .parent-hero h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .parent-section h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .parent-choice.on svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .parent-invalid h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .parent-foot span:first-child:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .parent-replies .goal-state.reply-no:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio .rose:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio .sand:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e3d1b2
+    color: #d7c7b6
 }
 html:where([data-theme='dark']) .studio .blue:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #18242c;
@@ -557,7 +554,7 @@ html:where([data-theme='dark']) .section-heading p:where(:not(.theme-preview, .t
     color: #c5ccc1
 }
 html:where([data-theme='dark']) .text-link:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text) !important
+    color: var(--brand-text) !important
 }
 html:where([data-theme='dark']) .lesson-row p i:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #44493d
@@ -570,7 +567,7 @@ html:where([data-theme='dark']) .lesson-row>svg:where(:not(.theme-preview, .them
 }
 html:where([data-theme='dark']) .panel-bottom-link:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-top: 1px dashed #464b35;
-    color: #c4b0b5 !important
+    color: #c4bcb6 !important
 }
 html:where([data-theme='dark']) .daily-panel .section-heading svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #b9bfb2
@@ -613,16 +610,16 @@ html:where([data-theme='dark']) .empty-state svg:where(:not(.theme-preview, .the
     color: #bac4af
 }
 html:where([data-theme='dark']) .subject-filters button.active:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    border-color: #513640
+    border-color: #534237
 }
 html:where([data-theme='dark']) .cover-0:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c0d1b9
 }
 html:where([data-theme='dark']) .cover-1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d3c7ab
+    color: #ccbba9
 }
 html:where([data-theme='dark']) .cover-2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #caa8b6
+    color: #cabbb0
 }
 html:where([data-theme='dark']) .cover-3:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #b2c6c5
@@ -640,8 +637,8 @@ html:where([data-theme='dark']) .editor-steps>button>span:where(:not(.theme-prev
     border: 1px solid #485136
 }
 html:where([data-theme='dark']) .editor-steps>button.active:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2d1c21;
-    color: var(--wine-text)
+    background: #33281b;
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .editor-tip:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-top: 1px solid #474f35
@@ -677,7 +674,7 @@ html:where([data-theme='dark']) .learner-card-top>svg:where(:not(.theme-preview,
     color: #bac4af
 }
 html:where([data-theme='dark']) .add-goal summary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .preferences-panel>p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #b9c2b2
@@ -700,8 +697,8 @@ html:where([data-theme='dark']) .student-options button:where(:not(.theme-previe
     color: #cbd9c4
 }
 html:where([data-theme='dark']) .student-options button.selected:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2b1720;
-    color: var(--wine-text)
+    background: #2f2519;
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .teacher-session-controls small:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #c5ccc1
@@ -720,11 +717,11 @@ html:where([data-theme='dark']) .feature-art>svg:where(:not(.theme-preview, .the
     color: #c1e0d4
 }
 html:where([data-theme='dark']) .studio :where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::selection {
-    background: #4e422a;
-    color: var(--wine-text)
+    background: #463626;
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .brand-emblem:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text);
+    color: var(--brand-text);
     background: #282116
 }
 html:where([data-theme='dark']) .sidebar .brand-emblem:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
@@ -734,17 +731,17 @@ html:where([data-theme='dark']) .admin-header .brand-emblem:where(:not(.theme-pr
     background: #1a1a1a14
 }
 html:where([data-theme='dark']) .brand-lockup strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .sidebar nav a:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a14
 }
 html:where([data-theme='dark']) .sidebar nav a.active:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text);
+    color: var(--brand-text);
     background: linear-gradient(110deg, #251d14, #30261a)
 }
 html:where([data-theme='dark']) .sidebar nav a.active svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .settings-link:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a14
@@ -756,7 +753,7 @@ html:where([data-theme='dark']) .button.secondary:hover:where(:not(.theme-previe
     background: #1a1a1a
 }
 html:where([data-theme='dark']) .studio label:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d7ced0
+    color: #dcd2cb
 }
 html:where([data-theme='dark']) .alert:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2b1c17;
@@ -766,20 +763,20 @@ html:where([data-theme='dark']) .info-note:where(:not(.theme-preview, .theme-pre
     color: #d4ddcc
 }
 html:where([data-theme='dark']) .home-hero-copy h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .home-hero-copy p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d7ced0
+    color: #dcd2cb
 }
 html:where([data-theme='dark']) .page-banner-copy h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .page-banner-copy p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d7ced0
+    color: #dcd2cb
 }
 html:where([data-theme='dark']) .tile-go:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1ab8;
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .lesson-row:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2c2318
@@ -790,7 +787,7 @@ html:where([data-theme='dark']) .status.approved:where(:not(.theme-preview, .the
 }
 html:where([data-theme='dark']) .status.review:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #3a311f;
-    color: #ecdcbd
+    color: #e3d0bd
 }
 html:where([data-theme='dark']) .status.draft:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #30271c;
@@ -800,10 +797,10 @@ html:where([data-theme='dark']) .learner-mini:hover:where(:not(.theme-preview, .
     background: #2c2318
 }
 html:where([data-theme='dark']) .segmented button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d0c8c9
+    color: #d5ccc5
 }
 html:where([data-theme='dark']) .subject-filters button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d0c8c9
+    color: #d5ccc5
 }
 html:where([data-theme='dark']) tbody tr:nth-child(even) td:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2a2216
@@ -819,7 +816,7 @@ html:where([data-theme='dark']) .goal-criterion:where(:not(.theme-preview, .them
     color: #d4ddcc
 }
 html:where([data-theme='dark']) .preset-chip:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ecdcc0
+    color: #e2d3c5
 }
 html:where([data-theme='dark']) .preset-chip:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #3c3220
@@ -831,17 +828,17 @@ html:where([data-theme='dark']) .editor-steps > button > span:where(:not(.theme-
     border-color: #57493a
 }
 html:where([data-theme='dark']) .editor-section-heading > span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ead8b6
+    color: #ddccb9
 }
 html:where([data-theme='dark']) .plan-stage > span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ead8b6
+    color: #ddccb9
 }
 html:where([data-theme='dark']) .upload-zone:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2a2217;
     border: 1.5px dashed #5c4e3d
 }
 html:where([data-theme='dark']) .selection-card.selected:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #271517
+    background: #2a2117
 }
 html:where([data-theme='dark']) .goal-choice:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2b2317
@@ -853,19 +850,19 @@ html:where([data-theme='dark']) .review-summary:where(:not(.theme-preview, .them
     background: #2b2317
 }
 html:where([data-theme='dark']) .access-promises:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d7ced0
+    color: #dcd2cb
 }
 html:where([data-theme='dark']) .access-promises svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .game-library-card .game-skill:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #d5cec7
 }
 html:where([data-theme='dark']) .game-library-card .game-card-body p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d2cbcc
+    color: #d7cec8
 }
 html:where([data-theme='dark']) .game-library-card .blocked-note:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ecddbd
+    color: #e2d0bd
 }
 html:where([data-theme='dark']) .play-dots i:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a33
@@ -978,63 +975,63 @@ html:where([data-theme='dark']) .admin-nav:where(:not(.theme-preview, .theme-pre
     border-inline-end: 1px solid #4e4637
 }
 html:where([data-theme='dark']) .admin-nav nav button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #d2cccf
+    color: #d5cdc9
 }
 html:where([data-theme='dark']) .admin-nav nav button:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2e281d
 }
 html:where([data-theme='dark']) .admin-nav nav button[aria-current]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #301b21;
-    color: var(--wine-text)
+    background: #352a1d;
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .admin-scope:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cec7c9
+    color: #d2cac5
 }
 html:where([data-theme='dark']) .admin-page-heading p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cac4c7
+    color: #cec7c2
 }
 html:where([data-theme='dark']) .admin-section:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a;
     border: 1px solid #4e4538
 }
 html:where([data-theme='dark']) .admin-section h2>span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #c8c1c4
+    color: #cdc4be
 }
 html:where([data-theme='dark']) .admin-section>p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cec7c9
+    color: #d2cac5
 }
 html:where([data-theme='dark']) .admin-field input:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    border: 1px solid #504447;
+    border: 1px solid #544941;
     background: #1a1a1a;
-    color: #ded9dc
+    color: #e1dbd7
 }
 html:where([data-theme='dark']) .admin-field textarea:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    border: 1px solid #504447;
+    border: 1px solid #544941;
     background: #1a1a1a;
-    color: #ded9dc
+    color: #e1dbd7
 }
 html:where([data-theme='dark']) .admin-field select:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    border: 1px solid #504447;
+    border: 1px solid #544941;
     background: #1a1a1a;
-    color: #ded9dc
+    color: #e1dbd7
 }
 html:where([data-theme='dark']) .admin-field small:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cec6ca
+    color: #d3c9c3
 }
 html:where([data-theme='dark']) .admin-field input:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::placeholder {
-    color: #c6bfc2
+    color: #cac2bd
 }
 html:where([data-theme='dark']) .admin-brand-preview small:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cac4c7
+    color: #cec7c2
 }
 html:where([data-theme='dark']) .admin-toggle:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-bottom: 1px solid #4c4132
 }
 html:where([data-theme='dark']) .admin-toggle small:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ccc6c9
+    color: #d0c9c3
 }
 html:where([data-theme='dark']) .admin-toggle input:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2c2528
+    background: #332a20
 }
 html:where([data-theme='dark']) .admin-toggle input:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)):before {
     background: #1a1a1a
@@ -1050,14 +1047,14 @@ html:where([data-theme='dark']) .admin-content-row:where(:not(.theme-preview, .t
     border-bottom: 1px solid #4d4133
 }
 html:where([data-theme='dark']) .admin-content-row small:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ccc5c8
+    color: #d1c8c2
 }
 html:where([data-theme='dark']) .admin-content-row .icon-button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e8afbe
+    color: #ead0b8
 }
 html:where([data-theme='dark']) .admin-local-banner:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2f271b;
-    color: #d2cbcf
+    color: #d6cec9
 }
 html:where([data-theme='dark']) .admin-success:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1e2b1c;
@@ -1065,7 +1062,7 @@ html:where([data-theme='dark']) .admin-success:where(:not(.theme-preview, .theme
 }
 html:where([data-theme='dark']) .admin-savebar:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a;
-    border: 1px solid #59484f
+    border: 1px solid #614e42
 }
 html:where([data-theme='dark']) .admin-restore-preview:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2a2117
@@ -1074,26 +1071,26 @@ html:where([data-theme='dark']) .admin-audit>div:where(:not(.theme-preview, .the
     border-bottom: 1px solid #4c4132
 }
 html:where([data-theme='dark']) .admin-audit time:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ccc6c9
+    color: #d0c9c3
 }
 html:where([data-theme='dark']) .admin-auth:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #262316
 }
 html:where([data-theme='dark']) .admin-auth-brand>p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #cac4c7
+    color: #cec7c2
 }
 html:where([data-theme='dark']) .admin-auth-box:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a;
     border: 1px solid #504438
 }
 html:where([data-theme='dark']) .admin-auth-box>svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .admin-auth-box>p:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #ccc6c9
+    color: #d0c9c3
 }
 html:where([data-theme='dark']) .admin-local-note:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #c9c2c6
+    color: #cec5bf
 }
 @media (max-width:680px) {
     html:where([data-theme='dark']) .admin-nav:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
@@ -1107,13 +1104,13 @@ html:where([data-theme='dark']) .sidebar-bottom:where(:not(.theme-preview, .them
     border-top: 1px solid #38383845
 }
 html:where([data-theme='dark']) .section-heading h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .page-heading h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .admin-page-heading h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .home-tile:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-color: #5f4f3f
@@ -1125,29 +1122,29 @@ html:where([data-theme='dark']) .learner-card:hover:where(:not(.theme-preview, .
     border-color: #5f4f3f
 }
 html:where([data-theme='dark']) .home-aside .today-panel h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .settings-column h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio.admin-console .admin-nav nav button:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #1a1a1a14
 }
 html:where([data-theme='dark']) .studio.admin-console .admin-nav nav button[aria-current]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text);
-    background: #2d181d
+    color: var(--brand-text);
+    background: #352a1c
 }
 html:where([data-theme='dark']) .studio.admin-console .admin-scope:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-color: #38383824
 }
 html:where([data-theme='dark']) .studio.admin-console .admin-section h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio.admin-console .admin-brand:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-bottom: 1px solid #38383824
 }
 html:where([data-theme='dark']) .learner-card-top h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .theme-preview:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #292216;
@@ -1160,63 +1157,63 @@ html:where([data-theme='dark']) .plan-week-strip li:where(:not(.theme-preview, .
     border-inline-end: 1px solid #5d4f3e
 }
 html:where([data-theme='dark']) .plan-week-strip strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio.admin-console .admin-intro h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .admin-health dd:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .sample-cover h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio .iep-table tbody th:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .iep-student:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .iep-guide h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio .home-hero-copy h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio .page-banner-copy h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio input:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    caret-color: var(--wine-text)
+    caret-color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio select:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    caret-color: var(--wine-text)
+    caret-color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio textarea:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    caret-color: var(--wine-text)
+    caret-color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio .panel h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .sidebar-user .avatar:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border: 1px solid #38383866
 }
 html:where([data-theme='dark']) .header-search svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .local-indicator:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-inline-end: 1px solid #654f43
 }
 html:where([data-theme='dark']) .button.secondary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-color: #665144;
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .home-aside .today-list a:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #2c2118
 }
 html:where([data-theme='dark']) .today-review:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-top: 1px solid #5d4b3e;
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .lesson-row-meta > span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border-inline-start: 1px solid #604c40
@@ -1231,38 +1228,38 @@ html:where([data-theme='dark']) .search-field:where(:not(.theme-preview, .theme-
     border-color: #624b41
 }
 html:where([data-theme='dark']) .iep-review .plan-state:not(.warn):not(.ok):where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .tool-card > strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .game-library-card .game-card-body h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .pack-chooser h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .iep-review .plan-state.warn:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #3d3321;
-    color: #ecd9bf
+    background: #36291d;
+    color: #e8d2ba
 }
 html:where([data-theme='dark']) .pack-chips button:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     border: 1px solid #604d40
 }
 html:where([data-theme='dark']) .studio .deck-start-preview .sample-cover h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio .deck-start-preview .sample-options span:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .editor-steps > button.active:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .review-summary strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 html:where([data-theme='dark']) .lesson-objective strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--wine-text)
+    color: var(--brand-text)
 }
 }
 /* ds-allow-hardcode:end */

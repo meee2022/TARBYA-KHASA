@@ -2,12 +2,12 @@
 name: "تربية خاصة — رف المواد"
 description: "A calm Arabic RTL teaching workspace grounded in real learning materials."
 colors:
-  wine: "#801b3b"
-  wine-dark: "#63152e"
-  wine-deep: "#5e0924"
-  wine-night: "#2e0916"
-  brass: "#a96a17"
-  brass-light: "#e2c07f"
+  brand: "#714d35"
+  brand-dark: "#5a3b28"
+  brand-deep: "#3f2a1e"
+  brand-night: "#1f1611"
+  tan: "#a87c5c"
+  tan-light: "#d9bfa6"
   olive: "#4c5730"
   ink: "#2c1f22"
   muted: "#6e5f62"
@@ -20,7 +20,7 @@ colors:
   rose: "#f3e2e4"
   sky: "#dfe6e8"
   hover-line: "#c7b29d"
-  on-wine: "#fff7ea"
+  on-brand: "#fff7ea"
   sidebar-muted: "#e6cfbd"
   admin-wordmark: "#fff1db"
   answer-green: "#6f8d58"
@@ -50,8 +50,8 @@ rounded:
   grade-badge: "20px"
   preview-line: "2px"
 components:
-  button-primary: { backgroundColor: "{colors.wine}", textColor: "#ffffff", rounded: "{rounded.button}", padding: "10px 22px", typography: "{typography.control}" }
-  button-secondary: { backgroundColor: "{colors.paper}", textColor: "{colors.wine-deep}", rounded: "{rounded.button}", padding: "10px 22px", typography: "{typography.control}" }
+  button-primary: { backgroundColor: "{colors.brand}", textColor: "#ffffff", rounded: "{rounded.button}", padding: "10px 22px", typography: "{typography.control}" }
+  button-secondary: { backgroundColor: "{colors.paper}", textColor: "{colors.brand-deep}", rounded: "{rounded.button}", padding: "10px 22px", typography: "{typography.control}" }
   panel: { backgroundColor: "{colors.paper}", textColor: "{colors.ink}", rounded: "{rounded.card}" }
 ---
 
@@ -61,11 +61,11 @@ components:
 
 **Creative North Star: "Learning materials within reach"**
 
-The existing burgundy school identity, original wordmark and clay learning materials anchor a calm, legible Arabic RTL workspace. Warm paper surfaces support preparation, teaching and observation; quieter olive rooms keep the learner's immediate task central. This records the approved implementation direction and the actual build. Generated concepts supplied the visual target and production imagery; full-page pixel fidelity has not been measured.
+The brown school identity (espresso, saddle brown and tan, with olive as the second colour), original wordmark and clay learning materials anchor a calm, legible Arabic RTL workspace. Warm paper surfaces support preparation, teaching and observation; quieter olive rooms keep the learner's immediate task central. This records the approved implementation direction and the actual build. Generated concepts supplied the visual target and production imagery; full-page pixel fidelity has not been measured.
 
 **Key Characteristics:**
 - Arabic RTL structure with clear Arabic typography and deliberate mixed-direction fields.
-- Burgundy identity, warm paper panels and clay imagery grounded in teaching materials.
+- Brown identity, warm paper panels and clay imagery grounded in teaching materials.
 - Compact teacher navigation and immediate actions; quiet learner surfaces.
 - Real catalog content, functional settings and existing access rules.
 
@@ -75,9 +75,9 @@ Source order in `src/workspace/Workspace.tsx` is `packs.css`, `workspace.css`, `
 
 ## Colors
 
-Burgundy carries the original identity and primary actions; deeper wine frames navigation. Brass marks small edges, focus and selection. Olive belongs to learner rooms. Sage, sand, rose and sky group supporting content without competing with primary actions. Warm paper, muted ink and fine borders make dense teaching information readable.
+Saddle brown carries the identity and primary actions; espresso frames navigation. Tan marks small edges, focus and selection. Olive belongs to learner rooms. Sage, sand, rose and sky group supporting content without competing with primary actions. Warm paper, muted ink and fine borders make dense teaching information readable.
 
-**The Identity Rule.** Preserve the original logo, burgundy identity and catalog imagery. The configurable brand color continues to drive the primary wine token; status also requires readable text.
+**The Identity Rule.** Preserve the original logo, brown identity and catalog imagery. The configurable brand color continues to drive the primary brand token; status also requires readable text.
 
 System, light and dark appearance choices are implemented in `themeChoice.tsx`. Night mode uses dark canvas, paper and readable ink overrides recorded in the sidecar; it is screen-only. Learner rooms, printable sheets and presentation previews retain their own daylight palettes. Miniature light/dark theme previews are exempt from automatic dark recoloring in scripts/dark-theme.mjs, so each example remains consistent in either surrounding theme. Do not infer learner appearance from the teacher's selected theme.
 
@@ -111,9 +111,9 @@ Panels use the card radius, fields use the control radius, buttons use the butto
 
 ## Components
 
-Primary buttons use a restrained 160-degree wine-to-wine-dark gradient, a solid darker hover state and visible keyboard focus. Secondary buttons use paper with a fine border. Both retain functional disabled states and a 48px minimum height; compact contextual actions have their own overrides. Text fields keep explicit labels, a 46px minimum height and a visible focus treatment.
+Primary buttons use a restrained 160-degree brand-to-brand-dark gradient, a solid darker hover state and visible keyboard focus. Secondary buttons use paper with a fine border. Both retain functional disabled states and a 48px minimum height; compact contextual actions have their own overrides. Text fields keep explicit labels, a 46px minimum height and a visible focus treatment.
 
-The sidebar uses a deep burgundy gradient with cream active items and 20px text-plus-icon navigation (16px at the medium breakpoint); administration uses a pale rose selected item. The long presentation link has a 16px fit override. Its original wordmark is 200px wide in the teacher shell and 214px in administration. Panels group real lessons, learners and settings; status labels communicate factual state. Selection controls retain pressed/current states. Theme choices use a keyboard-operable radio group with light/dark thumbnails. Trial-record table headers on paper sheets use dark ink on a light neutral ground. On phones, game actions and the collapsible communication entry stay in normal flow so they do not cover each other. Student rooms use olive grounds and cream targets, with high-contrast and learning settings taking priority over their default palette.
+The sidebar uses a deep espresso felt with cream active items and 20px text-plus-icon navigation (16px at the medium breakpoint); administration uses a pale rose selected item. The long presentation link has a 16px fit override. Its original wordmark is 200px wide in the teacher shell and 214px in administration. Panels group real lessons, learners and settings; status labels communicate factual state. Selection controls retain pressed/current states. Theme choices use a keyboard-operable radio group with light/dark thumbnails. Trial-record table headers on paper sheets use dark ink on a light neutral ground. On phones, game actions and the collapsible communication entry stay in normal flow so they do not cover each other. Student rooms use olive grounds and cream targets, with high-contrast and learning settings taking priority over their default palette.
 
 Clay learning content remains catalog data, replaceable through administration. Earlier illustrations retain their provenance in public/images/content/PROVENANCE.md. The five v2 production assets (classroom hero and four navigation illustrations) remain in use, with their prompts/source paths recorded in artifacts/site-concepts-2026-11-06/production-assets.json. The closer-fidelity pass adds fourteen v3 assets: a lesson banner, four lesson covers, animal deck art, a planning desk and seven learner-tool illustrations. Each WebP has a JSON provenance sidecar. Library covers follow their associated lesson. The original real brand logo remains intact. The default home hero preserves a configured custom hero. Mockup imagery does not authorize fabricated data or simulated controls.
 
@@ -123,7 +123,7 @@ Final verification after the review, privacy and worksheet refinements passed al
 
 ## Do's and Don'ts
 
-- **Do** preserve the original logo, burgundy identity, Arabic RTL structure and real catalog content.
+- **Do** preserve the original logo, brown identity, Arabic RTL structure and real catalog content.
 - **Do** keep status text, visible focus and functional selected states alongside color.
 - **Do** preserve learner preferences and platform access rules when refining presentation.
 - **Do** inspect the final desktop, phone and dark-mode surfaces, and report verification gaps honestly.
