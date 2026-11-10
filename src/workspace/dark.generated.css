@@ -454,22 +454,22 @@ html:where([data-theme='dark']) .sync-error:where(:not(.theme-preview, .theme-pr
     color: #ecd5be
 }
 html:where([data-theme='dark']) .trial-table th[scope=row]:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #2e2619
+    background: #262115
 }
 html:where([data-theme='dark']) .certificate-frame:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    background: #231c13
+    background: #1a1a1a
 }
 html:where([data-theme='dark']) .certificate-brand:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e8cebe
+    color: #eed6c6
 }
 html:where([data-theme='dark']) .certificate h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e7d7cd
+    color: #efd8cc
 }
 html:where([data-theme='dark']) .certificate-to:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #d0c7c1
 }
 html:where([data-theme='dark']) .certificate-name:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: #e3c7b7
+    color: #eacfbd
 }
 html:where([data-theme='dark']) .certificate-date:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: #d0c7c1
@@ -1148,7 +1148,7 @@ html:where([data-theme='dark']) .learner-card-top h2:where(:not(.theme-preview, 
 }
 html:where([data-theme='dark']) .theme-preview:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #292216;
-    border: 1px solid #514536
+    border: 1px solid #4d4333
 }
 html:where([data-theme='dark']) .theme-preview b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #362f25
@@ -1175,12 +1175,6 @@ html:where([data-theme='dark']) .iep-student:where(:not(.theme-preview, .theme-p
     color: var(--brand-text)
 }
 html:where([data-theme='dark']) .iep-guide h2:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--brand-text)
-}
-html:where([data-theme='dark']) .studio .home-hero-copy h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
-    color: var(--brand-text)
-}
-html:where([data-theme='dark']) .studio .page-banner-copy h1:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--brand-text)
 }
 html:where([data-theme='dark']) .studio input:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
@@ -1260,6 +1254,67 @@ html:where([data-theme='dark']) .review-summary strong:where(:not(.theme-preview
 }
 html:where([data-theme='dark']) .lesson-objective strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--brand-text)
+}
+html:where([data-theme='dark']) .studio .page-banner:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::before {
+    background: radial-gradient(560px 300px at 100% 0%, #62523533, transparent 70%), linear-gradient(to left, #2c180c 0%, #3a2012 30%, #4a2913f2 44%, #4a291300 58%)
+}
+html:where([data-theme='dark']) .studio .home-hero:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::before {
+    background: radial-gradient(560px 300px at 100% 0%, #62523533, transparent 70%), linear-gradient(to left, #2c180c 0%, #3a2012 30%, #4a2913f2 44%, #4a291300 58%)
+}
+html:where([data-theme='dark']) .studio .page-banner-copy:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::after {
+    background: linear-gradient(90deg, #a8853a, #50442b)
+}
+html:where([data-theme='dark']) .studio .home-hero-copy:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::after {
+    background: linear-gradient(90deg, #a8853a, #50442b)
+}
+html:where([data-theme='dark']) .studio .page-banner .button.primary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: linear-gradient(135deg, #4a3f28, #625235);
+    color: #f1ddd0
+}
+html:where([data-theme='dark']) .studio .home-hero .button.primary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: linear-gradient(135deg, #4a3f28, #625235);
+    color: #f1ddd0
+}
+html:where([data-theme='dark']) .studio .page-banner .button.primary:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: linear-gradient(135deg, #423823, #5b4c31)
+}
+html:where([data-theme='dark']) .studio .home-hero .button.primary:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: linear-gradient(135deg, #423823, #5b4c31)
+}
+html:where([data-theme='dark']) .studio .page-banner .button.primary svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: #f1ddd0
+}
+html:where([data-theme='dark']) .studio .home-hero .button.primary svg:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: #f1ddd0
+}
+html:where([data-theme='dark']) .studio .page-banner .button.secondary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a1f;
+    border-color: #38383847
+}
+html:where([data-theme='dark']) .studio .home-hero .button.secondary:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a1f;
+    border-color: #38383847
+}
+html:where([data-theme='dark']) .studio .page-banner .button.secondary:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a33
+}
+html:where([data-theme='dark']) .studio .home-hero .button.secondary:hover:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: #1a1a1a33
+}
+html:where([data-theme='dark']) .studio .page-banner a:focus-visible:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    outline-color: #5d533e
+}
+html:where([data-theme='dark']) .studio .page-banner button:focus-visible:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    outline-color: #5d533e
+}
+html:where([data-theme='dark']) .studio .home-hero a:focus-visible:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    outline-color: #5d533e
+}
+html:where([data-theme='dark']) .studio .page-banner.banner-lessons:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::before {
+    background: #50442b59
+}
+html:where([data-theme='dark']) .studio .page-banner.banner-lessons:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    background: radial-gradient(560px 300px at 100% 0%, #62523533, transparent 70%), linear-gradient(to left, #2c180c, #4a2913)
 }
 }
 /* ds-allow-hardcode:end */

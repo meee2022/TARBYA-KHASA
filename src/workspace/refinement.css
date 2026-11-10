@@ -1,10 +1,10 @@
 /* Shared finish for teacher and administration surfaces. Content and access rules remain in their owning modules. */
 .studio {
-  --canvas: #f5ede1;
-  --paper: #fffcf8;
-  --line: #eadbc8;
-  --tan: #b97a52;
-  --brand-deep: #3f2a1e;
+  --canvas: #fcf9f2;
+  --paper: #ffffff;
+  --line: #efe6d8;
+  --tan: #a8853a;
+  --brand-deep: #3a2012;
   font-size: 18px;
   --shadow-1: 0 1px 2px #5a3b2810, 0 3px 10px #5a3b280a;
   --shadow-2: 0 2px 4px #5a3b280d, 0 10px 28px #5a3b2812;
@@ -195,8 +195,8 @@
 .theme-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .theme-options > button { display: flex; flex-direction: column; align-items: stretch; gap: 18px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); }
 .theme-options > button.active { border-color: var(--brand); background: var(--tint); }
-.theme-preview { width: 100%; direction: rtl; display: grid; grid-template-columns: 26% 1fr; height: 100px; background: #f8f5ef; border: 1px solid #eadbc8; border-radius: 7px; overflow: hidden; }
-.theme-preview > i { background: #7b4c30; }
+.theme-preview { width: 100%; direction: rtl; display: grid; grid-template-columns: 26% 1fr; height: 100px; background: #f8f5ef; border: 1px solid #efe6d8; border-radius: 7px; overflow: hidden; }
+.theme-preview > i { background: #63391f; }
 .theme-preview > span { display: grid; gap: 8px; padding: 12px 8px; align-content: center; }
 .theme-preview b { height: 9px; border-radius: 2px; background: #ded8cf; }
 .theme-preview b:last-child { height: 24px; }
@@ -928,7 +928,27 @@
   .resource-cover { min-height: 0; }
   .resource-body { padding: 16px 0 16px 16px; }
 }
-.studio .sheet-page .trial-table th { background: #f5ede1; color: #2e2016; }
+.studio .sheet-page .trial-table th { background: #fcf9f2; color: #2e2016; }
+
+/* Rich identity: the page title sits on a chocolate panel with a gold glow, and the illustration shows through on the far side. */
+.studio .page-banner, .studio .home-hero { background: var(--brand-deep); border: 0; box-shadow: var(--shadow-3); }
+.studio .page-banner::before, .studio .home-hero::before { background: radial-gradient(560px 300px at 100% 0%, #c9a96e33, transparent 70%), linear-gradient(to left, #2c180c 0%, #3a2012 30%, #4a2913f2 44%, #4a291300 58%); }
+.studio .page-banner-copy::after, .studio .home-hero-copy::after { content: ''; order: -1; width: 54px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, #a8853a, #dfc48e); }
+.studio .home-hero-copy h1, .studio .page-banner-copy h1 { color: #fff8ea; }
+.studio .home-hero-copy p, .studio .page-banner-copy p { color: #ecdcc2; }
+.studio .page-banner .button.primary, .studio .home-hero .button.primary { background: linear-gradient(135deg, #e6cd9a, #c9a96e); color: #2c180c; box-shadow: inset 0 1px 0 #ffffff66, 0 10px 24px #0000004d; }
+.studio .page-banner .button.primary:hover, .studio .home-hero .button.primary:hover { background: linear-gradient(135deg, #efd9ab, #d3b47a); }
+.studio .page-banner .button.primary svg, .studio .home-hero .button.primary svg { color: #2c180c; }
+.studio .page-banner .button.secondary, .studio .home-hero .button.secondary { background: #ffffff1f; color: #fff8ea; border-color: #ffffff47; box-shadow: none; }
+.studio .page-banner .button.secondary:hover, .studio .home-hero .button.secondary:hover { background: #ffffff33; }
+.studio .page-banner .button.secondary svg, .studio .home-hero .button.secondary svg { color: #dfc48e; }
+.studio .page-banner label, .studio .page-banner .muted { color: #ecdcc2; }
+.studio .page-banner a:focus-visible, .studio .page-banner button:focus-visible, .studio .home-hero a:focus-visible { outline-color: #dfc48e; }
+.studio .page-banner.banner-lessons::before { background: #dfc48e59; }
+.studio .page-banner.banner-lessons { background: radial-gradient(560px 300px at 100% 0%, #c9a96e33, transparent 70%), linear-gradient(to left, #2c180c, #4a2913); }
+@media (max-width: 760px) {
+  .studio .page-banner::before, .studio .home-hero::before { background: linear-gradient(to bottom, #3a201200 100px, #3a2012 170px); }
+}
 
 @media print {
   .workspace-body { margin: 0; }
