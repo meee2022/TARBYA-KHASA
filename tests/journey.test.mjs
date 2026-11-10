@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createLesson } from '../packages/domain/index.ts';
 import { defaultCatalog, validateCatalog } from '../packages/domain/catalog.ts';
-import { journey, lessonFromCurriculum, unitsFor, warmupsFor } from '../packages/domain/journey.ts';
+import { journey, lessonFromCurriculum, warmupsFor } from '../packages/domain/journey.ts';
 
 test('an older lesson shows its four stations and their minutes add up to the lesson', () => {
   const lesson = { ...createLesson(), duration: 35 };
@@ -30,7 +30,7 @@ test('the warm-up bank offers the subject match before the general ones and hide
 });
 
 test('a curriculum entry becomes an editable draft with all its stations', () => {
-  const unit = unitsFor(defaultCatalog.units, 'اللغة العربية', 'الأول')[0];
+  const unit = defaultCatalog.units.find(u => u.subject === 'اللغة العربية' && u.grade === 'الأول');
   const lesson = lessonFromCurriculum(unit, unit.lessons[0]);
   assert.equal(lesson.status, 'draft'); assert.equal(lesson.grade, 'الأول'); assert.equal(lesson.subject, 'اللغة العربية');
   assert.equal(journey(lesson).length, 6);

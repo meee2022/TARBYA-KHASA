@@ -15,7 +15,6 @@ export const stations: { id: StationId; title: string; hint: string; share: numb
   { id: 'assessment', title: 'التقويم', hint: 'كيف نعرف أن الهدف تحقق؟', share: 12, optional: true },
   { id: 'closing', title: 'غلق الحصة', hint: 'مراجعة واختيار يعبّر عن التعلّم', share: 10 },
 ];
-export const stationIds = stations.map(s => s.id);
 export const tiers: Tier[] = ['full', 'partial', 'independent'];
 export const tierLabels: Record<Tier, string> = { full: 'دعم كامل', partial: 'دعم جزئي', independent: 'باستقلالية' };
 export const tierHints: Record<Tier, string> = { full: 'نموذج كامل وبديلان', partial: 'تلميح ثم محاولة', independent: 'المهمة كما هي' };
@@ -51,7 +50,6 @@ export function warmupsFor(bank: WarmupEntry[], subject: string, grade: string):
   return bank.filter(fits).sort((a, b) => rank(a) - rank(b));
 }
 
-export const unitsFor = (units: UnitEntry[], subject: string, grade: string) => units.filter(u => u.subject === subject && u.grade === grade);
 
 /** A draft lesson from a curriculum entry. The teacher still chooses the pupils, ties the goals and reviews every line before teaching. */
 export function lessonFromCurriculum(unit: UnitEntry, entry: CurriculumLesson): Lesson {
