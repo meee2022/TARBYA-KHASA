@@ -35,6 +35,8 @@
     --shadow-2: 0 1px 2px #00000047, 0 8px 22px #00000052;
     --shadow-3: 0 2px 6px #00000052, 0 22px 48px #00000066;
   }
+  /* The answer chips of a lesson's questions keep their daylight fill, so their text takes daylight ink instead of the night text around them. */
+  :root[data-theme='dark'] .studio .print-questions li > div > span { color: #2a1418; }
   /* Learner-facing rooms and paper previews keep the daylight palette (same list as ISLANDS in scripts/dark-theme.mjs). */
   :root[data-theme='dark'] .studio :is(.play-room, .sheet-page, .slide-preview, .sample-slide, .deck-presenter, .print-questions) {
     color-scheme: light;

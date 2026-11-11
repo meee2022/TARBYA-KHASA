@@ -1010,6 +1010,15 @@
 .studio .iep-table thead th:first-child, .studio .data-table thead th:first-child { border-start-start-radius: 14px; }
 .studio .iep-table thead th:last-child, .studio .data-table thead th:last-child { border-start-end-radius: 14px; }
 .studio .iep-table tbody tr:hover > *, .studio .data-table tbody tr:hover > * { background: #c9a96e1f; }
+/* The weekly plan row on a phone: the picture keeps its own width, the title wraps beside it, and the state badge stays on one line below. */
+.plan-state { white-space: nowrap; }
+@media (max-width: 760px) {
+  .plan-summary > .lesson-row { grid-template-columns: 68px minmax(0, 1fr) 18px; align-items: center; gap: 8px 12px; padding: 16px; }
+  .plan-summary .lesson-symbol { width: 68px; height: 60px; }
+  .plan-summary .lesson-row-title h3 { overflow-wrap: anywhere; }
+  .plan-summary > .lesson-row > .plan-state { grid-column: 2; grid-row: 2; justify-self: start; }
+  .plan-summary > .lesson-row > svg { grid-column: 3; grid-row: 1; }
+}
 /* Sign in or new account: two equal halves. */
 .account-mode { display: grid; grid-template-columns: 1fr 1fr; }
 .account-mode button { font-size: 16px; min-height: 46px; }
