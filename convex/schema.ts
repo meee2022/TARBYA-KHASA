@@ -20,6 +20,13 @@ export default defineSchema({
   parentLinks: defineTable({ teacherId: v.id("teachers"), learnerId: v.string(), token: v.string(), createdAt: v.string() }).index("by_token", ["token"]).index("by_teacher", ["teacherId"]),
   parentReplies: defineTable({ teacherId: v.id("teachers"), learnerId: v.string(), choice: v.string(), text: v.string(), at: v.string() }).index("by_teacher", ["teacherId"]),
 
+  // The specialist portal: one link per pupil, and the recommendations specialists leave for the teacher.
+  specialistLinks: defineTable({ teacherId: v.id("teachers"), learnerId: v.string(), token: v.string(), createdAt: v.string() }).index("by_token", ["token"]).index("by_teacher", ["teacherId"]),
+  specialistNotes: defineTable({ teacherId: v.id("teachers"), learnerId: v.string(), who: v.string(), text: v.string(), at: v.string() }).index("by_teacher", ["teacherId"]),
+  // The live room: one open room per teacher, and the pupils' answers to the question on screen.
+  rooms: defineTable({ teacherId: v.id("teachers"), code: v.string(), title: v.string(), questions: v.string(), seats: v.string(), index: v.number(), revealed: v.boolean(), ended: v.boolean(), createdAt: v.string() }).index("by_code", ["code"]).index("by_teacher", ["teacherId"]),
+  roomAnswers: defineTable({ roomId: v.id("rooms"), seat: v.string(), q: v.number(), selected: v.number(), at: v.string() }).index("by_room", ["roomId"]),
+
   // Tables below belong to the retired first version. Kept so existing rows stay valid; no function reads them.
   // الطلاب
   students: defineTable({

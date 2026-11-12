@@ -3,6 +3,7 @@ import { api } from '../../convex/_generated/api';
 import { convex } from '../convexClient';
 import type { SharedPayload } from '../../packages/domain/shared';
 import type { ParentChoice } from '../../packages/domain/parent';
+import type { RoomQuestion, RoomSeat } from '../../packages/domain/room';
 
 /** Teacher accounts live on Convex only; without it the workspace stays on this device. */
 export const accountsAvailable = !!convex;
@@ -42,3 +43,24 @@ export const parentReplies = () => call(() => convex!.query(api.parent.replies, 
 export const dismissParentReply = (id: string) => call(() => convex!.mutation(api.parent.dismissReply, { token: teacherToken(), id }));
 export const parentPage = (token: string) => call(() => convex!.query(api.parent.view, { token }));
 export const parentReply = (token: string, choice: ParentChoice, text: string) => call(() => convex!.mutation(api.parent.reply, { token, choice, text }));
+
+// The specialist portal: links the teacher issued and the recommendations left through them. `specialistPage` and `specialistNote` need no session, only the link.
+export const specialistLinks = () => call(() => convex!.query(api.specialist.links, { token: teacherToken() }));
+export const issueSpecialistLink = (learnerId: string, linkToken: string) => call(() => convex!.mutation(api.specialist.issue, { token: teacherToken(), learnerId, linkToken }));
+export const revokeSpecialistLink = (learnerId: string) => call(() => convex!.mutation(api.specialist.revoke, { token: teacherToken(), learnerId }));
+export const specialistNotes = () => call(() => convex!.query(api.specialist.notes, { token: teacherToken() }));
+export const dismissSpecialistNote = (id: string) => call(() => convex!.mutation(api.specialist.dismissNote, { token: teacherToken(), id }));
+export const specialistPage = (token: string) => call(() => convex!.query(api.specialist.view, { token }));
+export const specialistNote = (token: string, who: string, text: string) => call(() => convex!.mutation(api.specialist.note, { token, who, text }));
+
+// The live room. The teacher's calls carry the session; a pupil's device carries only the room code.
+export const openRoom = (code: string, title: string, questions: RoomQuestion[], seats: RoomSeat[]) => call(() => convex!.mutation(api.room.open, { token: teacherToken(), code, title, questions: JSON.stringify(questions), seats: JSON.stringify(seats) }));
+export const currentRoom = () => call(() => convex!.query(api.room.current, { token: teacherToken() }));
+export const stepRoom = (code: string, action: 'next' | 'reveal' | 'end') => call(() => convex!.mutation(api.room.step, { token: teacherToken(), code, action }));
+export const closeRoom = (code: string) => call(() => convex!.mutation(api.room.close, { token: teacherToken(), code }));
+export const answerRoom = (code: string, seat: string, q: number, selected: number) => call(() => convex!.mutation(api.room.answer, { code, seat, q, selected }));
+/** Live subscriptions: the callback runs with every change on the server, and the returned function stops listening. */
+export function watchBoard(code: string, onChange: (board: Awaited<ReturnType<typeof boardOnce>> | null) => void) { const w = convex!.watchQuery(api.room.board, { token: teacherToken(), code }); const read = () => { try { onChange(w.localQueryResult() ?? null); } catch { onChange(null); } }; read(); return w.onUpdate(read); }
+export function watchRoom(code: string, onChange: (room: Awaited<ReturnType<typeof roomOnce>> | null | undefined) => void) { const w = convex!.watchQuery(api.room.join, { code }); const read = () => { try { onChange(w.localQueryResult()); } catch { onChange(null); } }; read(); return w.onUpdate(read); }
+const boardOnce = (code: string) => convex!.query(api.room.board, { token: teacherToken(), code });
+const roomOnce = (code: string) => convex!.query(api.room.join, { code });

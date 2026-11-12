@@ -1,8 +1,11 @@
-import { useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Check, Pencil, Plus, Printer, Trash2, UserRound } from 'lucide-react';
 import { countOf, dateLabel, uid, type Learner } from '../../packages/domain';
 import { consentStates, meetingKinds, referralStates, referralsDue, type ConsentState, type Meeting, type MeetingKind, type Referral, type ReferralState, type TeamMember } from '../../packages/domain/records';
-import { today } from '../../packages/domain/planning';
+import { localDay, today } from '../../packages/domain/planning';
+import { parentToken } from '../../packages/domain/parent';
+import { specialistUrl, type SpecialistLink, type SpecialistNote } from '../../packages/domain/specialist';
+import { accountsAvailable, dismissSpecialistNote, issueSpecialistLink, revokeSpecialistLink, specialistLinks, specialistNotes, SyncError } from './teacherApi';
 import { confirmDialog } from './confirm';
 import { useSiteConfig } from './site';
 import { useWorkspace } from './store';
@@ -68,12 +71,35 @@ function MeetingsTab() {
   </>;
 }
 
-/** The support team around the pupils: its members, referrals to them, and meetings with consents. */
+
+/** Links that let a specialist read one pupil's report and leave a recommendation, and the recommendations that arrived. Needs the teacher's account, since the link is served by the platform's server. */
+function SpecialistsTab() {
+  const { data, account, notify } = useWorkspace(); const [links, setLinks] = useState<SpecialistLink[]>([]); const [notes, setNotes] = useState<SpecialistNote[]>([]); const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading'); const [busy, setBusy] = useState(false); const [copied, setCopied] = useState('');
+  const reload = useCallback(async () => { if (!account) return; try { const [l, n] = await Promise.all([specialistLinks(), specialistNotes()]); setLinks(l); setNotes(n); setState('ready'); } catch { setState('error'); } }, [account]);
+  useEffect(() => { void reload(); }, [reload]);
+  const run = async (work: () => Promise<unknown>, done: string) => { setBusy(true); try { await work(); await reload(); notify(done); } catch (e) { notify(e instanceof SyncError ? e.message : 'تعذّر الاتصال بالخادم.'); } finally { setBusy(false); } };
+  const copy = async (url: string, id: string) => { try { await navigator.clipboard.writeText(url); setCopied(id); window.setTimeout(() => setCopied(''), 2000); } catch { notify('انسخ الرابط من الحقل يدويًا'); } };
+  if (!accountsAvailable) return <section className="panel desk-panel"><p className="info-note desk-note">تعمل روابط الأخصائيين مع خادم المنصة، وهو غير مفعّل في هذه النسخة.</p></section>;
+  if (!account) return <section className="panel desk-panel"><Empty title="سجّل الدخول لتنشئ روابط الأخصائيين" description="الرابط يفتح تقرير الطالب من جهاز الأخصائي، فيحتاج أن تكون بياناتك محفوظة في حسابك. الدخول من «إعدادات المساحة»." /></section>;
+  if (state === 'error') return <section className="panel desk-panel"><p className="info-note desk-note">تعذّر تحميل روابط الأخصائيين. حاول مرة أخرى بعد قليل.</p></section>;
+  if (!data.learners.length) return <section className="panel desk-panel"><Empty title="أضف ملف طالب أولًا" description="الرابط يُنشأ لطالب بعينه، فأضفه من «قائمة الطلاب» ثم عُد." /></section>;
+  return <>
+    {notes.length > 0 && <section className="panel desk-panel"><div className="section-heading"><h2>توصيات وصلت</h2><span className="desk-count">{countOf(notes.length, 'توصية', 'توصيتان', 'توصيات')}</span></div>
+      <ul className="record-list specialist-notes">{notes.map(n => <li className="record-card" key={n.id}><header><div><h2>{n.who}</h2><p className="muted">عن {first(data.learners.find(l => l.id === n.learnerId))} · {dateLabel(localDay(n.at))}</p></div></header><p>{n.text}</p><div className="heading-actions"><button className="button secondary" disabled={busy} onClick={() => run(() => dismissSpecialistNote(n.id), 'أُزيلت التوصية من القائمة')}><Check size={16} />قرأتها</button></div></li>)}</ul></section>}
+    <section className="panel desk-panel"><div className="section-heading"><h2>رابط لكل طالب</h2><span className="desk-count">{countOf(links.length, 'رابط فعّال', 'رابطان فعّالان', 'روابط فعّالة')}</span></div>
+      <p className="muted desk-note">الرابط يفتح تقرير الطالب للقراءة فقط: أهدافه ومستوياته وحضوره وخطط سلوكه وإحالاته. لا يفتح ملف الطالب ولا ملاحظاتك. من يحمل الرابط يرى التقرير، فأرسله للأخصائي المعني وحده، وأوقفه حين ينتهي عمله.</p>
+      <ul className="desk-list specialist-links">{data.learners.map(l => { const link = links.find(x => x.learnerId === l.id); const url = link ? specialistUrl(window.location.origin, link.token) : ''; return <li key={l.id}><div><strong>{l.name}</strong>{link ? <input readOnly dir="ltr" aria-label={`رابط الأخصائي لـ${first(l)}`} value={url} onFocus={e => e.currentTarget.select()} /> : <small>لا رابط بعد</small>}</div>
+        {link ? <><button type="button" className="button secondary" onClick={() => copy(url, l.id)}>{copied === l.id ? 'نُسخ' : 'نسخ'}</button><button type="button" className="button secondary" disabled={busy} onClick={async () => { if (await confirmDialog(`إيقاف رابط الأخصائي لـ${first(l)}؟ لن يُفتح التقرير بعد الآن.`, { ok: 'إيقاف الرابط' })) void run(() => revokeSpecialistLink(l.id), 'أُوقف رابط الأخصائي'); }}>إيقاف</button></>
+          : <button type="button" className="button primary" disabled={busy || state === 'loading'} onClick={() => run(() => issueSpecialistLink(l.id, parentToken(crypto.getRandomValues(new Uint8Array(24)))), 'أُنشئ رابط الأخصائي')}>أنشئ الرابط</button>}</li>; })}</ul></section>
+  </>;
+}
+
+/** The support team around the pupils: its members, referrals to them, meetings with consents, and links for specialists. */
 export function TeamPage() {
-  const [tab, setTab] = useState<'members' | 'referrals' | 'meetings'>('members');
+  const [tab, setTab] = useState<'members' | 'referrals' | 'meetings' | 'links'>('members');
   return <>
     <PageHeading title="الفريق والإحالات" description="من يعمل معك على خطط الطلاب، وإحالة كل طالب ومتابعتها، ومحاضر الاجتماعات وموافقات أولياء الأمور." />
-    <div className="session-tabs desk-tabs no-print" role="tablist" aria-label="أقسام الفريق">{([['members', 'أعضاء الفريق'], ['referrals', 'الإحالات'], ['meetings', 'الاجتماعات والموافقات']] as const).map(([k, t]) => <button key={k} role="tab" aria-selected={tab === k} className={tab === k ? 'active' : ''} onClick={() => setTab(k)}>{t}</button>)}</div>
-    {tab === 'members' ? <MembersTab /> : tab === 'referrals' ? <ReferralsTab /> : <MeetingsTab />}
+    <div className="session-tabs desk-tabs no-print" role="tablist" aria-label="أقسام الفريق">{([['members', 'أعضاء الفريق'], ['referrals', 'الإحالات'], ['meetings', 'الاجتماعات والموافقات'], ['links', 'روابط الأخصائيين']] as const).map(([k, t]) => <button key={k} role="tab" aria-selected={tab === k} className={tab === k ? 'active' : ''} onClick={() => setTab(k)}>{t}</button>)}</div>
+    {tab === 'members' ? <MembersTab /> : tab === 'referrals' ? <ReferralsTab /> : tab === 'meetings' ? <MeetingsTab /> : <SpecialistsTab />}
   </>;
 }

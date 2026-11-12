@@ -139,6 +139,13 @@
 .confidential-note { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 18px; }
 .confidential-note svg { flex: none; margin-block-start: 3px; color: var(--olive-deep, var(--olive)); }
 .confidential-mark { flex: none; display: grid; place-items: center; inline-size: 40px; block-size: 40px; border-radius: 12px; background: var(--brand); color: var(--gold-light, #dfc48e); }
+/* Specialist links */
+.specialist-links > li > div { display: grid; gap: 6px; flex: 1 1 240px; min-width: 0; }
+.specialist-links input { inline-size: 100%; min-block-size: 40px; font-size: 13px; }
+.specialist-notes { padding: 0 24px 20px; margin: 0; }
+.specialist-notes .record-card { background: var(--tint, var(--sand)); border-radius: 16px; }
+.specialist-portal .report-page h1 { margin: 0; font-size: 1.7rem; }
+.specialist-note { display: grid; gap: 14px; }
 /* Reports */
 .report-page { display: grid; gap: 20px; padding: 26px 28px; margin-bottom: 20px; }
 .report-head { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }

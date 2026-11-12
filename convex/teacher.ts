@@ -85,6 +85,9 @@ export const removeTeacher = mutation({
     for (const u of await ctx.db.query("aiUsage").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(u._id);
     for (const l of await ctx.db.query("parentLinks").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(l._id);
     for (const r of await ctx.db.query("parentReplies").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(r._id);
+    for (const l of await ctx.db.query("specialistLinks").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(l._id);
+    for (const r of await ctx.db.query("specialistNotes").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) await ctx.db.delete(r._id);
+    for (const room of await ctx.db.query("rooms").withIndex("by_teacher", (q) => q.eq("teacherId", teacher._id)).collect()) { for (const a of await ctx.db.query("roomAnswers").withIndex("by_room", (q) => q.eq("roomId", room._id)).collect()) await ctx.db.delete(a._id); await ctx.db.delete(room._id); }
     await ctx.db.delete(teacher._id);
     await audit(ctx, actor.username, "حذف حساب معلم وبياناته: " + teacher.username);
   },
