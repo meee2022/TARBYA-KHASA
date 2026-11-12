@@ -1,0 +1,42 @@
+/* ds-allow-hardcode: the reading-comfort menu; literals are component metrics and contrast inks, colors otherwise come from theme tokens. */
+/* ds-allow-hardcode: component metrics and the few contrast inks below; colors otherwise come from theme tokens. */
+.access-bar { position: relative; }
+.access-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--brand-deep); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s ease, box-shadow .2s ease, transform .2s ease; }
+.access-toggle:hover { box-shadow: 0 2px 4px rgba(74, 15, 27, .06), 0 8px 18px rgba(74, 15, 27, .08); transform: translateY(-1px); }
+.access-toggle:active { transform: none; }
+.access-toggle.is-on { background: var(--brand); color: #fff7ea; border-color: transparent; }
+.access-panel { position: absolute; inset-block-start: calc(100% + 10px); inset-inline-end: 0; z-index: 40; inline-size: min(310px, calc(100vw - 32px)); display: grid; gap: 12px; padding: 16px; border-radius: 18px; background: var(--paper); box-shadow: 0 2px 4px rgba(74, 15, 27, .08), 0 18px 44px rgba(74, 15, 27, .18); animation: access-in .22s ease both; }
+@keyframes access-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.access-row { display: grid; gap: 8px; }
+.access-row > span, .access-switch > span { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 500; color: var(--ink); }
+.access-sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.access-sizes button { min-height: 44px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; transition: background .2s ease, color .2s ease; }
+.access-sizes button:nth-child(2) { font-size: 1.1em; }
+.access-sizes button:nth-child(3) { font-size: 1.22em; }
+.access-sizes button.active { background: var(--brand); color: #fff7ea; border-color: transparent; }
+.access-switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); font: inherit; cursor: pointer; }
+.access-switch i { position: relative; inline-size: 44px; block-size: 26px; border-radius: 999px; background: var(--line); transition: background .2s ease; }
+.access-switch i::after { content: ''; position: absolute; inset-block-start: 3px; inset-inline-start: 3px; inline-size: 20px; block-size: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: inset-inline-start .2s ease; }
+.access-switch[aria-checked='true'] i { background: var(--olive); }
+.access-switch[aria-checked='true'] i::after { inset-inline-start: 21px; }
+.access-read { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border: 0; border-radius: 12px; background: var(--gold); color: #24060c; font: inherit; font-weight: 600; cursor: pointer; transition: filter .2s ease, transform .2s ease; }
+.access-read:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.access-read.is-reading { background: var(--brand); color: #fff7ea; }
+.access-panel p { margin: 0; font-size: 12.5px; color: var(--muted); }
+.access-toggle:focus-visible, .access-panel button:focus-visible { outline: 3px solid var(--focus, #1d4ed8); outline-offset: 2px; }
+
+/* Larger text scales the page content, not the frame around it. */
+html[data-text-size='large'] .workspace-main { zoom: 1.12; }
+html[data-text-size='larger'] .workspace-main { zoom: 1.25; }
+
+/* Stronger contrast: secondary text and hairlines darken, links and focus become unmistakable. */
+html[data-contrast='high'] .studio { --muted: #3d2f24; --line: #9b8b76; }
+html[data-contrast='high'][data-theme='dark'] .studio { --muted: #f1e6d8; --line: #b9a88f; }
+html[data-contrast='high'] .studio .muted, html[data-contrast='high'] .studio small { color: var(--muted); }
+html[data-contrast='high'] .studio .text-link, html[data-contrast='high'] .studio .workspace-main a:not(.button) { text-decoration: underline; text-underline-offset: 3px; }
+html[data-contrast='high'] .studio .panel, html[data-contrast='high'] .studio input, html[data-contrast='high'] .studio select, html[data-contrast='high'] .studio textarea { outline: 1px solid var(--line); }
+html[data-contrast='high'] .studio :focus-visible { outline: 4px solid var(--focus, #1d4ed8); outline-offset: 3px; }
+
+@media (max-width: 760px) { .access-toggle span { display: none; } .access-toggle { padding: 8px 11px; } .access-panel { position: fixed; inset-block-start: 74px; inset-inline: 16px; inline-size: auto; } }
+@media (prefers-reduced-motion: reduce) { .access-panel { animation: none; } .access-toggle, .access-read, .access-switch i, .access-switch i::after { transition: none; } .access-toggle:hover, .access-read:hover { transform: none; } }
+@media print { .access-bar { display: none; } html[data-text-size] .workspace-main { zoom: 1; } }
