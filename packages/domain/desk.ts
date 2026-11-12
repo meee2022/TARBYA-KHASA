@@ -1,4 +1,5 @@
 import type { BehaviourNote, Workspace } from './index.ts';
+import { validDistributions, type Distribution } from './distribution.ts';
 
 /** The teacher's working desk: her timetable, her own tasks, her groups, the daily register and where each pupil stands in each skill. */
 export interface TimetableSlot { id: string; day: number; period: number; subject: string; place: string; learnerIds: string[]; lessonId?: string; }
@@ -12,7 +13,7 @@ export interface AttendanceDay { date: string; marks: Record<string, { mark: Att
 export type AssessmentKind = 'pre' | 'formative' | 'final';
 export const assessmentKinds: Record<AssessmentKind, string> = { pre: 'قبلي', formative: 'تكويني', final: 'ختامي' };
 export interface PerformanceEntry { id: string; learnerId: string; domain: string; skill: string; level: number; percent?: number; tool: string; date: string; note: string; /** When in the teaching it was taken; a reading without it counts as formative. */ kind?: AssessmentKind; }
-export interface Desk { timetable?: Timetable; tasks?: Task[]; groups?: Group[]; attendance?: AttendanceDay[]; performance?: PerformanceEntry[]; behaviourPlans?: BehaviourPlan[]; }
+export interface Desk { timetable?: Timetable; tasks?: Task[]; groups?: Group[]; attendance?: AttendanceDay[]; performance?: PerformanceEntry[]; behaviourPlans?: BehaviourPlan[]; distributions?: Distribution[]; }
 /** One target behaviour for one pupil: what is seen and counted, what to teach instead, and how the room helps. The function is the teacher's working guess, never a diagnosis. */
 export interface BehaviourPlan { id: string; learnerId: string; target: string; definition: string; baseline: string; goal: string; func: string; replacement: string; prevention: string[]; reinforcers: string[]; response: string; team: string; review: string; active: boolean; }
 
@@ -86,6 +87,7 @@ export function validDesk(d: unknown): boolean {
   if (x.groups !== undefined && !(Array.isArray(x.groups) && x.groups.length <= 60 && x.groups.every(g => str(g.id, 80) && str(g.name, 80) && str(g.grade, 40) && ids(g.learnerIds) && str(g.subject, 80) && Number.isFinite(g.sessions) && Number.isFinite(g.minutes) && str(g.support, 60)))) return false;
   if (x.attendance !== undefined && !(Array.isArray(x.attendance) && x.attendance.length <= 400 && x.attendance.every(a => str(a.date, 10) && !!a.marks && typeof a.marks === 'object' && Object.values(a.marks).every(m => !!m && m.mark in markLabels && (m.note === undefined || str(m.note, 200)))))) return false;
   if (x.performance !== undefined && !(Array.isArray(x.performance) && x.performance.length <= 3000 && x.performance.every(p => str(p.id, 80) && str(p.learnerId, 80) && str(p.domain, 80) && str(p.skill, 160) && Number.isInteger(p.level) && p.level >= 1 && p.level <= 5 && (p.percent === undefined || (Number.isFinite(p.percent) && p.percent >= 0 && p.percent <= 100)) && str(p.tool, 80) && str(p.date, 10) && str(p.note, 400) && (p.kind === undefined || p.kind in assessmentKinds)))) return false;
+  if (!validDistributions(x.distributions)) return false;
   const list = (v: unknown) => Array.isArray(v) && v.length <= 30 && v.every(s => str(s, 120));
   if (x.behaviourPlans !== undefined && !(Array.isArray(x.behaviourPlans) && x.behaviourPlans.length <= 200 && x.behaviourPlans.every(b => !!b && str(b.id, 80) && str(b.learnerId, 80) && str(b.target, 160) && str(b.definition, 600) && str(b.baseline, 200) && str(b.goal, 200) && str(b.func, 120) && str(b.replacement, 300) && list(b.prevention) && list(b.reinforcers) && str(b.response, 800) && str(b.team, 200) && str(b.review, 10) && typeof b.active === 'boolean'))) return false;
   return true;

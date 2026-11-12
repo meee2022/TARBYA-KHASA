@@ -71,3 +71,24 @@ test('a skill measured more than once shows the level it started from, and the k
   assert.equal(validDesk({ performance: [e('1', '2026-11-01', 2, 'pre')] }), true);
   assert.equal(validDesk({ performance: [e('1', '2026-11-01', 2, 'weekly')] }), false);
 });
+
+test('a term distribution spreads units over the weeks, names each week and finds its preparation', async () => {
+  const { createDistribution, spreadUnits, termWeeks, distributionIssues, distributionBody, validDistributions } = await import('../packages/domain/distribution.ts');
+  const lesson = (n) => ({ id: 'l' + n, title: 'درس ' + n, objective: 'هدف ' + n });
+  const units = [{ id: 'u1', subject: 'اللغة العربية', grade: 'الأول', title: 'الحروف', lessons: [1, 2, 3, 4].map(lesson) }, { id: 'u2', subject: 'اللغة العربية', grade: 'الأول', title: 'الكلمات', lessons: [5, 6].map(lesson) }];
+  const d = { ...createDistribution('الأول', 'اللغة العربية', '2026-09-01'), weeks: 6 };
+  assert.equal(d.termStart, '2026-08-30', 'the term counts from the Sunday of that week');
+  const rows = spreadUnits(units, 6);
+  assert.deepEqual(rows.map(r => [r.from, r.to]), [[1, 4], [5, 6]]);
+  const full = { ...d, rows };
+  const weeks = termWeeks(full, units, [{ id: 'p1', subject: 'اللغة العربية', weekStart: '2026-09-06' }, { id: 'p2', subject: 'العلوم', weekStart: '2026-08-30' }]);
+  assert.equal(weeks.length, 6); assert.deepEqual([weeks[0].start, weeks[0].end, weeks[5].start], ['2026-08-30', '2026-09-03', '2026-10-04']);
+  assert.deepEqual(weeks.map(w => w.lessons.map(l => l.title).join('+')), ['درس 1', 'درس 2', 'درس 3', 'درس 4', 'درس 5', 'درس 6']);
+  assert.equal(weeks[1].planId, 'p1'); assert.equal(weeks[0].planId, undefined, 'another subject does not count');
+  assert.deepEqual(distributionIssues(full), []);
+  const gaps = distributionIssues({ ...full, rows: [{ ...rows[0], to: 2 }, { ...rows[1], from: 6, to: 5 }, { id: 'x', title: 'زائدة', from: 6, to: 9 }] });
+  assert.equal(gaps.length, 3); assert.ok(gaps.some(g => g.includes('3، 4، 5')));
+  assert.equal(spreadUnits([...units, ...units, ...units], 4).length, 4); assert.ok(spreadUnits([...units, ...units, ...units], 4).every(r => r.from === r.to));
+  assert.ok(distributionBody(full, units).includes('درس 6: هدف 6'));
+  assert.equal(validDistributions([full]), true); assert.equal(validDistributions([{ ...full, weeks: 99 }]), false); assert.equal(validDesk({ distributions: [{ ...full, rows: [{ id: 'r', title: 'x', from: 0, to: 1 }] }] }), false);
+});

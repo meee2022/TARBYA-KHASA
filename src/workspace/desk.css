@@ -118,6 +118,18 @@
 .studio.admin-console .admin-header .brand-wordmark { --word: var(--brand); --mark-img: url(/brand/watad-mark-light.svg); background: none; }
 
 @media (max-width: 900px) { .desk-two { grid-template-columns: 1fr; } }
+/* Term distribution */
+.dist-settings { margin: 0 24px 14px; }
+.dist-rows input { inline-size: 100%; min-block-size: 40px; }
+.dist-rows td:first-child { min-inline-size: 210px; }
+.dist-rows td:nth-child(2), .dist-rows td:nth-child(3) { inline-size: 120px; min-inline-size: 84px; }
+.dist-term tr.is-now > * { background: var(--note, #fbf1dc); }
+.dist-term th small { display: block; font-size: 11px; font-weight: 500; color: var(--gold-deep, #a8853a); }
+.dist-lessons { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dist-lessons li { display: grid; gap: 1px; }
+.dist-lessons span { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.desk-panel > .check-notes { margin: 0 24px 14px; }
+@media print { .dist-term { box-shadow: none; } .dist-term .desk-scroll { overflow: visible; } }
 /* Behaviour plans */
 .behaviour-caution { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; }
 .behaviour-caution svg { flex: none; color: var(--gold-deep, var(--gold)); }
