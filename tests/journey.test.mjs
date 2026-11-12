@@ -53,3 +53,21 @@ test('a deck built from a lesson tags each slide with its station, in teaching o
   const tagged = deckFromLesson(lesson).slides.map(s => s.station).filter(Boolean);
   assert.deepEqual([...new Set(tagged)], ['warmup', 'teaching', 'practice', 'independent', 'assessment', 'closing']);
 });
+
+test('the catalog carries the strategy encyclopedia and the prompt lab through validation, in generic wording', async () => {
+  const { fillPrompt, promptBlanks } = await import('../packages/domain/prompts.ts');
+  const clean = validateCatalog(structuredClone(defaultCatalog));
+  assert.equal(clean.strategyGuide.length, 16); assert.equal(clean.prompts.length, defaultCatalog.prompts.length);
+  assert.equal(validateCatalog({}).strategyGuide.length, 16, 'a saved catalog without the new lists gets the defaults');
+  const all = JSON.stringify([clean.strategyGuide, clean.prompts]);
+  assert.equal(/طالبة|معلمة|طالبات|معلمات/.test(all), false);
+  const bad = structuredClone(defaultCatalog); bad.strategyGuide[0].steps = [];
+  assert.throws(() => validateCatalog(bad));
+  const dup = structuredClone(defaultCatalog); dup.prompts[1].id = dup.prompts[0].id;
+  assert.throws(() => validateCatalog(dup));
+  const t = 'درس «{الدرس}» في {المادة} للصف {الصف}. الهدف: {الهدف}. الموقف: {الموقف}. مرة أخرى {الدرس}.';
+  assert.deepEqual(promptBlanks(t), ['الموقف']);
+  const out = fillPrompt(t, { 'الدرس': 'حرف الباء', 'المادة': 'اللغة العربية', 'الصف': 'الأول', 'الهدف': 'يميّز الباء' }, { 'الموقف': 'زيارة المكتبة' });
+  assert.equal(out, 'درس «حرف الباء» في اللغة العربية للصف الأول. الهدف: يميّز الباء. الموقف: زيارة المكتبة. مرة أخرى حرف الباء.');
+  assert.ok(fillPrompt(t, {}, {}).includes('[الدرس]'), 'an empty field stays visible as a bracketed gap');
+});

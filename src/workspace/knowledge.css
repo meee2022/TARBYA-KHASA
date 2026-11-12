@@ -1,0 +1,39 @@
+/* ds-allow-hardcode: strategy encyclopedia and prompt lab; literals are component metrics and shadow inks, colors come from theme tokens. */
+.knowledge-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 16px 20px; margin-bottom: 18px; }
+.studio .knowledge-search { flex: 1 1 260px; display: flex; flex-direction: row; align-items: center; gap: 10px; color: var(--muted); }
+.studio .knowledge-search input { flex: 1; min-height: 46px; }
+.strategy-list { display: grid; gap: 14px; margin-bottom: 20px; }
+.strategy-card { padding: 0; overflow: hidden; animation: strategy-in .4s ease both; animation-delay: calc(min(var(--i, 0), 8) * 45ms); transition: box-shadow .25s ease, transform .25s ease; }
+.strategy-card:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(74, 15, 27, .06), 0 14px 30px rgba(74, 15, 27, .1); }
+@keyframes strategy-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.strategy-head { display: flex; align-items: center; gap: 16px; inline-size: 100%; padding: 18px 22px; border: 0; background: transparent; font: inherit; color: inherit; text-align: start; cursor: pointer; }
+.strategy-head > svg { flex: none; color: var(--gold); transition: transform .25s ease; }
+.strategy-card.is-open .strategy-head > svg { transform: rotate(180deg); }
+.strategy-mark { flex: none; display: grid; place-items: center; inline-size: 48px; block-size: 48px; border-radius: 16px; background: var(--brand); color: var(--gold-light, #dfc48e); }
+.strategy-title { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.strategy-title strong { font-size: 1.2rem; color: var(--brand-deep); }
+.strategy-title small { font-size: 14.5px; line-height: 1.7; color: var(--muted); }
+.strategy-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; padding: 4px 22px 24px; }
+.strategy-body[hidden] { display: none; }
+.strategy-body h3 { margin: 0 0 8px; font-size: 1rem; color: var(--brand-deep); }
+.strategy-body p { margin: 0; line-height: 1.85; }
+.studio .strategy-body ol { list-style: decimal; }
+.studio .strategy-body ul { list-style: disc; }
+.strategy-body ol, .strategy-body ul { margin: 0; padding-inline-start: 22px; display: grid; gap: 6px; line-height: 1.8; }
+.strategy-body dl { margin: 0; display: grid; gap: 10px; }
+.strategy-body dt { font-weight: 600; color: var(--ink); }
+.strategy-body dd { margin: 2px 0 0; line-height: 1.8; color: var(--ink); }
+.strategy-measure { grid-column: 1 / -1; padding: 14px 18px; border-radius: 14px; background: var(--sage); }
+.prompt-layout { display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 18px; align-items: start; margin-bottom: 20px; }
+.prompt-list { display: grid; gap: 6px; padding: 12px; }
+.prompt-list button { display: grid; gap: 2px; padding: 12px 14px; border: 0; border-radius: 14px; background: transparent; font: inherit; text-align: start; color: var(--ink); cursor: pointer; transition: background .2s ease; }
+.prompt-list button:hover { background: var(--sand); }
+.prompt-list button.active { background: var(--brand); color: #fff7ea; }
+.prompt-list small { font-size: 13px; line-height: 1.6; color: var(--muted); }
+.prompt-list button.active small { color: #f1dcc0; }
+.prompt-work { display: grid; gap: 16px; padding-bottom: 22px; }
+.prompt-work > .form-grid, .prompt-work > label, .prompt-work > p, .prompt-work > .heading-actions { margin-inline: 24px; }
+.prompt-text textarea { line-height: 1.9; font-size: 16px; background: var(--tray, var(--sand)); }
+@media (max-width: 860px) { .strategy-body { grid-template-columns: minmax(0, 1fr); } .prompt-layout { grid-template-columns: minmax(0, 1fr); } .strategy-head { padding: 16px; gap: 12px; } .strategy-body { padding: 4px 16px 20px; } .prompt-work > .form-grid, .prompt-work > label, .prompt-work > p, .prompt-work > .heading-actions { margin-inline: 16px; } }
+@media (prefers-reduced-motion: reduce) { .strategy-card { animation: none; transition: none; } .strategy-card:hover { transform: none; } .strategy-head > svg { transition: none; } }
+@media print { .strategy-body[hidden] { display: grid; } .strategy-card { break-inside: avoid; box-shadow: none; border: 1px solid #999; animation: none; } .strategy-head > svg { display: none; } }
