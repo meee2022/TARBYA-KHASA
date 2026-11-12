@@ -638,6 +638,9 @@ html:where([data-theme='dark']) .instrument-skill:where(:not(.theme-preview, .th
 html:where([data-theme='dark']) .achievement-cell strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--brand-text)
 }
+html:where([data-theme='dark']) .record-goal strong:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
+    color: var(--brand-text)
+}
 html:where([data-theme='dark']) .behaviour-chart figcaption b:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     color: var(--brand-text)
 }

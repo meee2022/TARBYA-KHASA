@@ -1,5 +1,6 @@
 import type { BehaviourNote, Workspace } from './index.ts';
 import { validDistributions, type Distribution } from './distribution.ts';
+import { referralsDue, validRecords, type Records } from './records.ts';
 
 /** The teacher's working desk: her timetable, her own tasks, her groups, the daily register and where each pupil stands in each skill. */
 export interface TimetableSlot { id: string; day: number; period: number; subject: string; place: string; learnerIds: string[]; lessonId?: string; }
@@ -23,7 +24,7 @@ export function achievementOf(entries: PerformanceEntry[], learnerId: string): R
   for (const e of entries) if (e.learnerId === learnerId && e.subject && e.percent !== undefined) (by[e.subject] ??= []).push(e);
   return Object.fromEntries(Object.entries(by).map(([subject, list]) => { const last = list.sort((a, b) => a.date.localeCompare(b.date)).slice(-3); return [subject, { average: Math.round(last.reduce((t, e) => t + e.percent!, 0) / last.length), count: last.length }]; }));
 }
-export interface Desk { timetable?: Timetable; tasks?: Task[]; groups?: Group[]; attendance?: AttendanceDay[]; performance?: PerformanceEntry[]; behaviourPlans?: BehaviourPlan[]; distributions?: Distribution[]; instruments?: Instrument[]; }
+export interface Desk extends Records { timetable?: Timetable; tasks?: Task[]; groups?: Group[]; attendance?: AttendanceDay[]; performance?: PerformanceEntry[]; behaviourPlans?: BehaviourPlan[]; distributions?: Distribution[]; instruments?: Instrument[]; }
 /** One target behaviour for one pupil: what is seen and counted, what to teach instead, and how the room helps. The function is the teacher's working guess, never a diagnosis. */
 export interface BehaviourPlan { id: string; learnerId: string; target: string; definition: string; baseline: string; goal: string; func: string; replacement: string; prevention: string[]; reinforcers: string[]; response: string; team: string; review: string; active: boolean; }
 
@@ -53,7 +54,7 @@ export function latestLevels(entries: PerformanceEntry[], learnerId: string, now
   return [...latest.values()].sort((a, b) => b.date.localeCompare(a.date)).map(e => { const start = first.get(key(e))!; return { ...e, stale: daysBetween(e.date, now) > 90, from: start.id === e.id ? undefined : start.level }; });
 }
 
-export interface Notice { id: string; kind: 'register' | 'goal' | 'review' | 'task' | 'pupil' | 'plan' | 'behaviour'; text: string; to: string; }
+export interface Notice { id: string; kind: 'register' | 'goal' | 'review' | 'task' | 'pupil' | 'plan' | 'behaviour' | 'referral'; text: string; to: string; }
 /** What needs the teacher today, worked out from her own data. Nothing here is sent anywhere. */
 export function notices(w: Workspace, now: string): Notice[] {
   const out: Notice[] = []; const desk = w.desk ?? {};
@@ -66,6 +67,7 @@ export function notices(w: Workspace, now: string): Notice[] {
     const due = daysBetween(now, p.nextReview);
     if (due <= 14) out.push({ id: `plan-${p.learnerId}`, kind: 'plan', text: `${l.name.split(/\s|·/)[0]}: ${due < 0 ? 'مضى موعد مراجعة الخطة الفردية' : due === 0 ? 'مراجعة الخطة الفردية اليوم' : 'مراجعة الخطة الفردية خلال أسبوعين'}.`, to: `/iep/${p.learnerId}` });
   }
+  for (const r of referralsDue(desk.referrals ?? [], now)) { const l = w.learners.find(x => x.id === r.learnerId); if (l) out.push({ id: `referral-${r.id}`, kind: 'referral', text: `${l.name.split(/\s|·/)[0]}: حان موعد متابعة الإحالة إلى ${r.to}.`, to: '/team' }); }
   for (const b of desk.behaviourPlans ?? []) {
     const l = w.learners.find(x => x.id === b.learnerId);
     if (l && b.active && b.review && b.review <= now) out.push({ id: `behaviour-${b.id}`, kind: 'behaviour', text: `${l.name.split(/\s|·/)[0]}: حان موعد مراجعة خطة السلوك «${b.target}».`, to: '/behaviour' });
@@ -97,7 +99,7 @@ export function validDesk(d: unknown): boolean {
   if (x.groups !== undefined && !(Array.isArray(x.groups) && x.groups.length <= 60 && x.groups.every(g => str(g.id, 80) && str(g.name, 80) && str(g.grade, 40) && ids(g.learnerIds) && str(g.subject, 80) && Number.isFinite(g.sessions) && Number.isFinite(g.minutes) && str(g.support, 60)))) return false;
   if (x.attendance !== undefined && !(Array.isArray(x.attendance) && x.attendance.length <= 400 && x.attendance.every(a => str(a.date, 10) && !!a.marks && typeof a.marks === 'object' && Object.values(a.marks).every(m => !!m && m.mark in markLabels && (m.note === undefined || str(m.note, 200)))))) return false;
   if (x.performance !== undefined && !(Array.isArray(x.performance) && x.performance.length <= 3000 && x.performance.every(p => str(p.id, 80) && str(p.learnerId, 80) && str(p.domain, 80) && str(p.skill, 160) && Number.isInteger(p.level) && p.level >= 1 && p.level <= 5 && (p.percent === undefined || (Number.isFinite(p.percent) && p.percent >= 0 && p.percent <= 100)) && str(p.tool, 80) && str(p.date, 10) && str(p.note, 400) && (p.kind === undefined || p.kind in assessmentKinds) && (p.subject === undefined || str(p.subject, 80)) && (p.instrumentId === undefined || str(p.instrumentId, 80))))) return false;
-  if (!validDistributions(x.distributions)) return false;
+  if (!validDistributions(x.distributions) || !validRecords(x)) return false;
   if (x.instruments !== undefined && !(Array.isArray(x.instruments) && x.instruments.length <= 200 && x.instruments.every(t => !!t && str(t.id, 80) && str(t.name, 120) && str(t.kind, 60) && str(t.subject, 80) && str(t.domain, 80) && str(t.skill, 160) && Array.isArray(t.items) && t.items.length >= 1 && t.items.length <= 30 && t.items.every(i => str(i, 200)) && Number.isInteger(t.pass) && t.pass >= 1 && t.pass <= t.items.length))) return false;
   const list = (v: unknown) => Array.isArray(v) && v.length <= 30 && v.every(s => str(s, 120));
   if (x.behaviourPlans !== undefined && !(Array.isArray(x.behaviourPlans) && x.behaviourPlans.length <= 200 && x.behaviourPlans.every(b => !!b && str(b.id, 80) && str(b.learnerId, 80) && str(b.target, 160) && str(b.definition, 600) && str(b.baseline, 200) && str(b.goal, 200) && str(b.func, 120) && str(b.replacement, 300) && list(b.prevention) && list(b.reinforcers) && str(b.response, 800) && str(b.team, 200) && str(b.review, 10) && typeof b.active === 'boolean'))) return false;

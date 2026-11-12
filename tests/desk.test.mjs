@@ -103,3 +103,17 @@ test('an instrument scores against its pass mark, and achievement averages the l
   assert.deepEqual(achievementOf([], 'a'), {});
   assert.equal(validDesk({ instruments: [tool] }), true); assert.equal(validDesk({ instruments: [{ ...tool, pass: 9 }] }), false); assert.equal(validDesk({ instruments: [{ ...tool, items: [] }] }), false);
 });
+
+test('records are checked for shape, referrals come due, and training hours add up for the year', async () => {
+  const { validRecords, referralsDue, trainingHours } = await import('../packages/domain/records.ts');
+  const referral = { id: 'r', learnerId: 'demo-1', date: '2026-11-01', to: 'أخصائي النطق', reason: 'تأخر في النطق', state: 'open', followUp: '2026-11-10', reply: '' };
+  assert.equal(referralsDue([referral, { ...referral, id: 'c', state: 'closed' }, { ...referral, id: 'l', followUp: '2026-12-01' }, { ...referral, id: 'n', followUp: '' }], '2026-11-12').length, 1);
+  const w = { ...seedWorkspace(), desk: { referrals: [referral] } };
+  assert.ok(notices(w, '2026-11-12').some(n => n.kind === 'referral')); assert.ok(!notices(w, '2026-11-05').some(n => n.kind === 'referral'));
+  const items = [{ id: '1', section: 'courses', title: 'دورة', date: '2026-03-01', hours: 12, note: '' }, { id: '2', section: 'courses', title: 'دورة', date: '2025-03-01', hours: 5, note: '' }, { id: '3', section: 'awards', title: 'تكريم', date: '2026-05-01', hours: 9, note: '' }, { id: '4', section: 'courses', title: 'بلا ساعات', date: '2026-06-01', note: '' }];
+  assert.equal(trainingHours(items, '2026'), 12);
+  const good = { evidence: [{ id: 'e', learnerId: 'a', title: 'ورقة', date: '2026-11-01', note: '', reviewed: false }], portfolio: items, team: [{ id: 'm', name: 'أ', role: 'معلم الفصل', note: '' }], referrals: [referral], meetings: [{ id: 'g', kind: 'consent', date: '2026-11-01', topic: 'تصوير', attendees: '', notes: '', consent: 'yes' }] };
+  assert.equal(validRecords(good), true); assert.equal(validDesk(good), true);
+  assert.equal(validDesk({ referrals: [{ ...referral, state: 'lost' }] }), false); assert.equal(validDesk({ meetings: [{ ...good.meetings[0], consent: 'maybe' }] }), false);
+  assert.equal(validDesk({ evidence: [{ ...good.evidence[0], reviewed: 'yes' }] }), false); assert.equal(validDesk({ portfolio: [{ ...items[0], section: 'other' }] }), false);
+});

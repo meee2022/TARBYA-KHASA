@@ -1,6 +1,6 @@
 // Everything built on 2026-11-12, tried end to end in a fresh browser profile with the sample data.
 const fem = /طالبة|طالبات|معلمة|معلمات|اختاري|أضيفي|سجّلي|اضغطي|ابدئي/;
-const pages = ['/', '/timetable', '/tasks', '/notifications', '/learners', '/groups', '/attendance', '/performance', '/iep', '/progress', '/behaviour', '/forms', '/distribution', '/plans', '/lessons', '/library', '/presentations', '/packs', '/games', '/tools', '/guide', '/settings', '/privacy'];
+const pages = ['/', '/timetable', '/tasks', '/notifications', '/learners', '/groups', '/attendance', '/performance', '/iep', '/progress', '/behaviour', '/forms', '/portfolio', '/team', '/distribution', '/plans', '/lessons', '/library', '/presentations', '/packs', '/games', '/tools', '/guide', '/settings', '/privacy'];
 
 export const steps = [
   ...pages.map(p => [`page ${p} opens, has a heading, no feminine wording, no sideways scroll`, async t => {

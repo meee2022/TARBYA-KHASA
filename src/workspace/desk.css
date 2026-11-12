@@ -135,6 +135,22 @@
 .achievement-cell strong { font-variant-numeric: tabular-nums; color: var(--brand-deep); }
 .achievement-cell small { color: var(--muted); font-size: 12px; }
 @media (prefers-reduced-motion: reduce) { .instrument-items label { transition: none; } }
+/* Records: evidence, portfolio, meetings */
+.record-bar { margin: 20px 24px; align-items: end; }
+.record-list { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 14px; }
+.record-card { display: grid; gap: 12px; padding: 20px 22px; animation: desk-in .4s var(--ease) both; animation-delay: calc(var(--i, 0) * 50ms); transition: transform .25s ease, box-shadow .25s ease; }
+.record-card:hover { transform: translateY(-1px); }
+.record-card header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.record-card header > div { flex: 1 1 200px; min-width: 0; }
+.record-card h2 { margin: 0; font-size: 1.2rem; }
+.record-card header p { margin: 2px 0 0; font-size: 14px; }
+.record-card > p { margin: 0; line-height: 1.8; color: var(--ink); }
+.record-goal strong { color: var(--brand-deep); }
+.record-summary { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 24px 16px; }
+.record-summary span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 12px; background: var(--sage); color: var(--sage-ink, var(--ink)); font-weight: 500; }
+.record-section + .record-section { margin-top: 0; }
+@media print { .record-card, .record-section { break-inside: avoid; box-shadow: none; border: 1px solid #999; animation: none; } }
+@media (prefers-reduced-motion: reduce) { .record-card { animation: none; transition: none; } .record-card:hover { transform: none; } }
 /* Term distribution */
 .dist-settings { margin: 0 24px 14px; }
 .dist-rows input { inline-size: 100%; min-block-size: 40px; }
