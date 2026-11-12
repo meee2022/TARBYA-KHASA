@@ -81,7 +81,7 @@ export const defaultCatalog: Catalog = {
     { id: 'switch', label: 'مفتاح واحد', description: 'تنقّل تلقائي بين الأزرار وقراءة كل زر.', settings: { responds: ['switch'], scan: true, scanSpeak: true, sound: true, choices: 2, targetSize: 'large' } },
     { id: 'aac', label: 'تواصل بالصور', description: 'الإجابة بالصورة أو الإشارة، وتسجّلها المعلمة.', settings: { response: 'point', responds: ['point'], understands: ['picture', 'model'], choices: 2 } },
   ],
-  avatars: [1, 2, 3, 4, 5, 6].map(n => ({ id: `avatar${n}`, imageId: art(`avatar${n}`) })),
+  avatars: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => ({ id: `avatar${n}`, imageId: art(`avatar${n}`) })),
   communication: symbols('c', [['help', 'أحتاج مساعدة', '🙋'], ['break', 'أحتاج استراحة', '⏸️'], ['repeat', 'أعيدي التعليمات', '🔁'], ['done', 'انتهيت', '✅'], ['yes', 'نعم', '👍'], ['no', 'لا', '✋'], ['water', 'أريد ماء', '💧'], ['toilet', 'دورة المياه', '🚻'], ['hurt', 'أشعر بألم', '🤕'], ['happy', 'أنا سعيد', '😊'], ['sad', 'أنا حزين', '😢'], ['loud', 'الصوت عالٍ', '🔇']]),
   activities: symbols('a', [['circle', 'الروتين الصباحي', '🌤️'], ['read', 'نقرأ', '📖'], ['write', 'نكتب', '✏️'], ['math', 'نعدّ', '🔢'], ['game', 'نلعب نشاطًا', '🎮'], ['video', 'نشاهد', '🎬'], ['hands', 'نشاط يدوي', '✂️'], ['move', 'نتحرك', '🤸'], ['snack', 'نأكل', '🍎'], ['wash', 'نغسل أيدينا', '🧼'], ['break', 'استراحة', '🛋️'], ['home', 'نعود إلى البيت', '🏠']]),
   stories: [

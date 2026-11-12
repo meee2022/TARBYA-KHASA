@@ -120,7 +120,8 @@
   .desk-panel > .form-grid, .desk-panel > label, .desk-panel > .seg, .desk-panel > .heading-actions, .desk-panel > div:not(.section-heading):not(.desk-scroll):not(.form-grid):not(.heading-actions):not(.seg):not(.empty-state) { margin-inline: 16px; }
   .desk-scroll { margin-inline: 8px; }
   .desk-list { padding-inline: 8px; }
-  .attendance-marks { flex: 1 1 100%; }
+  .desk-list > li > .attendance-marks { flex: 1 1 100%; }
+  .attendance-who { flex-basis: 100%; }
   .attendance-marks button { flex: 1; padding-inline: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { .desk-form, .notice-list > li, .group-card { animation: none; } .slot:hover { transform: none; } }
