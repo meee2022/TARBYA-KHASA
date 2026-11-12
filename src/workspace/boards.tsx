@@ -12,10 +12,10 @@ export function MatchBoard({ round, hinted, speakTile, onDone, say }: BoardProps
   const tiles = round.board!; const pictures = useMemo(() => arrange(tiles, round.id), [tiles, round.id]);
   const [word, setWord] = useState(''); const [done, setDone] = useState<string[]>([]); const [wrong] = useState(() => new Set<string>());
   const press = (tile: Tile) => {
-    if (!word) { say('اختر الكلمة أولًا.'); return; }
+    if (!word) { say('اختاري الكلمة أولًا.'); return; }
     if (tile.id !== word) { wrong.add(word); say('لنحاول مرة أخرى.'); return; }
     const next = [...done, tile.id]; setDone(next); setWord(''); speakTile(tile);
-    if (next.length === tiles.length) onDone(tiles.map(t => attempt(round, t, wrong, hinted || tiles.length === 1)), 'طابقت كل البطاقات. أحسنت.');
+    if (next.length === tiles.length) onDone(tiles.map(t => attempt(round, t, wrong, hinted || tiles.length === 1)), 'طابقتِ كل البطاقات. أحسنتِ.');
   };
   return <div className="board-columns">
     <div role="group" aria-label="الكلمات">{tiles.map(t => <button data-scan key={t.id} className={`board-tile ${word === t.id ? 'selected' : ''} ${done.includes(t.id) ? 'solved' : ''}`} disabled={done.includes(t.id)} aria-pressed={word === t.id} onClick={() => setWord(t.id)}><span className="tile-label" dir="auto" lang={t.lang}>{t.label}</span>{done.includes(t.id) && <Check size={22} aria-hidden="true" />}</button>)}</div>
@@ -30,10 +30,10 @@ export function MemoryBoard({ round, hinted, speakTile, onDone, say }: BoardProp
     const next = [...open, key]; setOpen(next); speakTile(tile);
     if (next.length < 2) return;
     const first = cards.find(c => c.key === next[0])!.tile;
-    if (first.id !== tile.id) { wrong.add(first.id); wrong.add(tile.id); say('ليستا متشابهتين. افتح بطاقة أخرى عندما تكون مستعدًا.'); return; }
+    if (first.id !== tile.id) { wrong.add(first.id); wrong.add(tile.id); say('ليستا متشابهتين. افتحي بطاقة أخرى عندما تكونين مستعدة.'); return; }
     const solved = [...found, tile.id]; setFound(solved); setOpen([]);
     // Pair-finding is exploratory, so it always reports practice and not independent recognition.
-    if (solved.length === tiles.length) onDone(tiles.map(t => attempt(round, t, wrong, true)), 'وجدت كل الأزواج. أحسنت.');
+    if (solved.length === tiles.length) onDone(tiles.map(t => attempt(round, t, wrong, true)), 'وجدتِ كل الأزواج. أحسنتِ.');
   };
   return <div className="board-grid memory-grid" role="group" aria-label="بطاقات الذاكرة">{cards.map(({ key, tile }, n) => { const shown = open.includes(key) || found.includes(tile.id); return <button data-scan key={key} className={`board-tile memory-card ${shown ? 'open' : ''} ${found.includes(tile.id) ? 'solved' : ''}`} disabled={found.includes(tile.id) || open.includes(key)} aria-label={shown ? tile.label : `بطاقة ${n + 1} مغلقة`} onClick={() => press(key, tile)}>{shown ? <TileFace tile={{ ...tile, hideLabel: false }} /> : <Star className="memory-back" size={44} aria-hidden="true" />}</button>; })}</div>;
 }
@@ -41,7 +41,7 @@ export function PuzzleBoard({ round, hinted, speakTile, onDone, say }: BoardProp
   const tile = round.board![0]; const count = 4; const pieces = useMemo(() => puzzleOrder(round.id, count), [round.id]);
   const [piece, setPiece] = useState<number | null>(null); const [placed, setPlaced] = useState<number[]>([]); const [mistake, setMistake] = useState(false);
   const place = (slot: number) => {
-    if (piece === null) { say('اختر قطعة أولًا.'); return; }
+    if (piece === null) { say('اختاري قطعة أولًا.'); return; }
     if (piece !== slot) { setMistake(true); say('هذه القطعة لها مكان آخر.'); return; }
     const next = [...placed, slot]; setPlaced(next); setPiece(null);
     if (next.length === count) { speakTile(tile); onDone([{ roundId: round.id, selected: tile.id, correct: !mistake, hintUsed: hinted }], `اكتملت الصورة: ${tile.label}.`); }
@@ -57,7 +57,7 @@ export function BuildBoard({ round, hinted, speakTile, onDone, say }: BoardProps
   const shuffled = useMemo(() => arrange(letters.map((letter, i) => ({ letter, i })), round.id), [letters, round.id]);
   const [used, setUsed] = useState<number[]>([]); const [mistake, setMistake] = useState(false);
   const press = (entry: { letter: string; i: number }) => {
-    if (entry.letter !== letters[used.length]) { setMistake(true); say('جرّب حرفًا آخر.'); return; }
+    if (entry.letter !== letters[used.length]) { setMistake(true); say('جرّبي حرفًا آخر.'); return; }
     const next = [...used, entry.i]; setUsed(next);
     if (next.length === letters.length) { speakTile(tile); onDone([{ roundId: round.id, selected: tile.id, correct: !mistake, hintUsed: hinted }], `ركّبت كلمة ${tile.label}.`); }
   };
@@ -72,5 +72,5 @@ export function RobotBoard({ options, disabled, onSelect }: { options: Tile[]; d
     <div className="robot-pad" dir="ltr" role="group" aria-label="تحريك الروبوت"><button data-scan disabled={disabled} className="up" aria-label="إلى الأعلى" onClick={() => move(0, -1)}><ArrowUp size={34} /></button><button data-scan disabled={disabled} className="left" aria-label="إلى اليسار" onClick={() => move(-1, 0)}><ArrowLeft size={34} /></button><button data-scan disabled={disabled} className="right" aria-label="إلى اليمين" onClick={() => move(1, 0)}><ArrowRight size={34} /></button><button data-scan disabled={disabled} className="down" aria-label="إلى الأسفل" onClick={() => move(0, 1)}><ArrowDown size={34} /></button></div></div>;
 }
 export function DoorReveal({ tile, opened, onOpen }: { tile: Tile; opened: boolean; onOpen: () => void }) {
-  return opened ? <div className="door-open"><TilePicture tile={tile} /><span className="visually-hidden">{tile.description ?? tile.label}</span></div> : <button data-scan className="door-closed" aria-label="افتح الباب" onClick={onOpen}><img src={art('door')} alt="" /><span>افتح الباب</span></button>;
+  return opened ? <div className="door-open"><TilePicture tile={tile} /><span className="visually-hidden">{tile.description ?? tile.label}</span></div> : <button data-scan className="door-closed" aria-label="افتحي الباب" onClick={onOpen}><img src={art('door')} alt="" /><span>افتحي الباب</span></button>;
 }

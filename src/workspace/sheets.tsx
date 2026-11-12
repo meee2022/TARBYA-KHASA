@@ -11,11 +11,11 @@ import './packs.css';
 export function DataSheet() {
   const { id } = useParams(); const { data } = useWorkspace(); const { site } = useSiteConfig();
   const learner = data.learners.find(l => l.id === id);
-  if (!learner) return <Empty title="الملف غير موجود" description="عد إلى قائمة الطلاب." />;
+  if (!learner) return <Empty title="الملف غير موجود" description="عودي إلى قائمة الطالبات." />;
   const levels = site.catalog.support.filter(s => s.enabled && s.id !== 'not-observed');
   const goals = learner.goals.filter(g => !g.approvedAt);
   return <>
-    <Link className="back-link no-print" to={`/learners/${learner.id}`}><ArrowRight size={16} />ملف الطالب</Link>
+    <Link className="back-link no-print" to={`/learners/${learner.id}`}><ArrowRight size={16} />ملف الطالبة</Link>
     <PageHeading title="ورقة تسجيل المحاولات" description="تُطبع قبل الحصة: صفّ لكل هدف، وعشر محاولات، ورمز المساعدة في كل خانة. تُنقل الأرقام بعدها إلى «تسجيل ملاحظة»."><button className="button primary" onClick={() => window.print()}><Printer size={17} />طباعة</button></PageHeading>
     <article className="sheet-page data-sheet" dir="rtl">
       <header className="sheet-head"><div><strong>{learner.name}</strong><span>الصف {learner.grade}</span></div><div><span>التاريخ: ________</span><span>المكان: ________</span><span>مع: ________</span></div></header>
@@ -32,14 +32,14 @@ export function DataSheet() {
 export function Certificate() {
   const { id, goalId } = useParams(); const { data } = useWorkspace(); const { site } = useSiteConfig();
   const learner = data.learners.find(l => l.id === id); const goal = learner?.goals.find(g => g.id === goalId);
-  if (!learner || !goal) return <Empty title="الهدف غير موجود" description="عد إلى ملف الطالب." />;
+  if (!learner || !goal) return <Empty title="الهدف غير موجود" description="عودي إلى ملف الطالبة." />;
   const p = goalProgress(goal, data.observations); const first = learner.name.split(/\s|·/)[0];
   const best = p.teaching.length ? Math.max(...p.teaching.map(o => o.correct)) : 0;
   const level = p.last ? supportLabels[supportOrder.includes(p.last.support) ? p.last.support : 'independent'] : '';
   return <>
-    <Link className="back-link no-print" to={`/learners/${learner.id}`}><ArrowRight size={16} />ملف الطالب</Link>
-    <PageHeading title="شهادة إنجاز" description="للطالب وأسرته: ما تعلّمه، بلا درجات ولا مقارنة. تُطبع بالاسم الذي تعرفه الأسرة."><button className="button primary" onClick={() => window.print()}><Printer size={17} />طباعة</button></PageHeading>
-    {!goal.approvedAt && <p className="info-note no-print">هذا الهدف لم يُعتمد بعد. يمكنك طباعة الشهادة عند الاعتماد، أو الآن لتشجيع الطالب على خطوة كبيرة.</p>}
+    <Link className="back-link no-print" to={`/learners/${learner.id}`}><ArrowRight size={16} />ملف الطالبة</Link>
+    <PageHeading title="شهادة إنجاز" description="للطالبة وأسرتها: ما تعلّمته، بلا درجات ولا مقارنة. تُطبع بالاسم الذي تعرفه الأسرة."><button className="button primary" onClick={() => window.print()}><Printer size={17} />طباعة</button></PageHeading>
+    {!goal.approvedAt && <p className="info-note no-print">هذا الهدف لم يُعتمد بعد. يمكنك طباعة الشهادة عند الاعتماد، أو الآن لتشجيع الطالبة على خطوة كبيرة.</p>}
     <article className="sheet-page certificate" dir="rtl">
       <div className="certificate-frame"><img src="/images/content/ui-rosette.webp" alt="" /><p className="certificate-brand">{site.brandName}</p><h2>شهادة إنجاز</h2><p className="certificate-to">تُمنح إلى</p><p className="certificate-name">{first}</p><p className="certificate-text">لأنك تعلّمت: <strong>{goal.text}</strong></p>{best > 0 && <p className="certificate-text">وأجبت {best} من {goal.opportunities} {level ? `${level}` : ''}</p>}<p className="certificate-date">{dateLabel(goal.approvedAt ? `${goal.approvedAt}T12:00:00.000Z` : new Date().toISOString())}</p><div className="certificate-sign"><span>المعلمة: ______________</span><span>الأسرة: ______________</span></div></div>
     </article>

@@ -24,9 +24,9 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     return withPlanning(seedWorkspace());
   });
   const [notice, setNotice] = useState('');
-  useEffect(() => { try { const raw = localStorage.getItem(KEY); if (raw && !assertWorkspace(JSON.parse(raw))) setError('تعذّر قراءة البيانات المحفوظة. تظهر بيانات تجريبية؛ صدّر نسخة قبل إجراء تغييرات.'); } catch { setError('تعذّر الوصول إلى التخزين المحلي.'); } }, []);
+  useEffect(() => { try { const raw = localStorage.getItem(KEY); if (raw && !assertWorkspace(JSON.parse(raw))) setError('تعذّر قراءة البيانات المحفوظة. تظهر بيانات تجريبية؛ صدّري نسخة قبل إجراء تغييرات.'); } catch { setError('تعذّر الوصول إلى التخزين المحلي.'); } }, []);
   const commit = useCallback((update: (current: Workspace) => Workspace) => {
-    setData(current => { const next = latinizeContent(update(current)); try { localStorage.setItem(KEY, JSON.stringify(next)); setError(''); } catch { setError('تعذّر الحفظ على هذا الجهاز. احتفظ بهذه الصفحة مفتوحة وصدّر نسخة من بياناتك.'); } return next; });
+    setData(current => { const next = latinizeContent(update(current)); try { localStorage.setItem(KEY, JSON.stringify(next)); setError(''); } catch { setError('تعذّر الحفظ على هذا الجهاز. احتفظي بهذه الصفحة مفتوحة وصدّري نسخة من بياناتك.'); } return next; });
   }, []);
   useEffect(() => { const listener = (e: StorageEvent) => { if (e.key === KEY && e.newValue) { try { const value: unknown = JSON.parse(e.newValue); if (assertWorkspace(value)) setData(ready(latinizeContent(value))); } catch {} } }; window.addEventListener('storage', listener); return () => window.removeEventListener('storage', listener); }, []);
   useEffect(() => { if (notice) { const timer = window.setTimeout(() => setNotice(''), 4500); return () => clearTimeout(timer); } }, [notice]);
@@ -44,7 +44,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const savePractice = (value: PracticeRecord) => {
     const next = { ...data, practiceSessions: [...(data.practiceSessions ?? []).filter(p => p.id !== value.id), value] };
     try { localStorage.setItem(KEY, JSON.stringify(next)); setData(next); setError(''); return true; }
-    catch { setError('تعذّر حفظ التدريب على هذا الجهاز. حاول مرة أخرى قبل مغادرة الصفحة.'); return false; }
+    catch { setError('تعذّر حفظ التدريب على هذا الجهاز. حاولي مرة أخرى قبل مغادرة الصفحة.'); return false; }
   };
   const replaceData = (next: Workspace) => {
     try { const clean=ready(latinizeContent(next)); localStorage.setItem(KEY,JSON.stringify(clean));setData(clean);setError('');return true; }
@@ -62,7 +62,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     if (server.json === localJson || !localChanged) { adopt(server.json, server.revision); setSync('saved'); return; }
     if (!serverChanged) { sent.current = ''; setSync('saving'); return; }
     // Both sides changed, or this device never synced: only the teacher can say which copy is right.
-    if (window.confirm('في حسابك نسخة محفوظة تختلف عن بيانات هذا الجهاز.\n\nموافق: افتح نسخة الحساب (تُستبدل بيانات هذا الجهاز).\nإلغاء: احتفظ ببيانات هذا الجهاز وارفعها إلى الحساب.')) { adopt(server.json, server.revision); setSync('saved'); }
+    if (window.confirm('في حسابك نسخة محفوظة تختلف عن بيانات هذا الجهاز.\n\nموافق: افتحي نسخة الحساب (تُستبدل بيانات هذا الجهاز).\nإلغاء: احتفظي ببيانات هذا الجهاز وارفعيها إلى الحساب.')) { adopt(server.json, server.revision); setSync('saved'); }
     else { sent.current = ''; setSync('saving'); }
   }, []);
   useEffect(() => {

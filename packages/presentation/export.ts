@@ -7,7 +7,7 @@ export function buildPowerPoint(input: Deck) {
   const deck = latinizeContent(input);
   const errors = validateDeck(deck);
   if (errors.length) throw new Error(errors[0]);
-  if (!deck.reviewed) throw new Error('راجع الشرائح وحدّد اكتمال المراجعة قبل التنزيل.');
+  if (!deck.reviewed) throw new Error('راجعي الشرائح وحدّدي اكتمال المراجعة قبل التنزيل.');
   const pptx = new pptxgen();
   pptx.layout = 'LAYOUT_WIDE'; pptx.author = 'وتد'; pptx.subject = deck.subject; pptx.title = deck.title;
   pptx.company = 'مساحة الدعم الإضافي'; const lang = deck.language === 'ar' ? 'ar-QA' : 'en-GB';

@@ -27,12 +27,12 @@ export function ShareButton({ build, label = 'انشر للمعلمات' }: { bu
   if (!accountsAvailable) return null;
   const share = async () => {
     const payload = build();
-    if (!account) { notify('سجّل الدخول بحسابك من إعدادات المساحة لتنشر في المكتبة المشتركة.'); return; }
-    if (!await confirmDialog(`نشر «${payload.title}» في مكتبة المعلمات المشتركة؟ تُنشر نسخة بلا بيانات الطلاب، ويظهر اسمك معها، وتستطيع حذفها لاحقًا.`, { ok: 'نشر' })) return;
+    if (!account) { notify('سجّلي الدخول بحسابك من إعدادات المساحة لتنشر في المكتبة المشتركة.'); return; }
+    if (!await confirmDialog(`نشر «${payload.title}» في مكتبة المعلمات المشتركة؟ تُنشر نسخة بلا بيانات الطالبات، ويظهر اسمك معها، وتستطيع حذفها لاحقًا.`, { ok: 'نشر' })) return;
     setBusy(true);
     try { await publishShared(payload); notify('نُشر في المكتبة المشتركة. تجده مع زميلاتك في مكتبة الدروس.'); } catch (e) { notify((e as Error).message); } finally { setBusy(false); }
   };
-  return <button type="button" className="button secondary" disabled={busy} onClick={share} title={account ? undefined : 'يحتاج تسجيل الدخول بحساب المعلم'}><Share2 size={16} />{busy ? 'جارٍ النشر…' : label}</button>;
+  return <button type="button" className="button secondary" disabled={busy} onClick={share} title={account ? undefined : 'يحتاج تسجيل الدخول بحساب المعلمة'}><Share2 size={16} />{busy ? 'جارٍ النشر…' : label}</button>;
 }
 
 const kindOptions: [SharedKind | 'all', string][] = [['all', 'كل الأنواع'], ['lesson', sharedKindLabels.lesson], ['deck', sharedKindLabels.deck], ['pack', sharedKindLabels.pack]];
@@ -42,7 +42,7 @@ export function SharedGrid({ items, state, error, onChange }: { items: SharedMet
   if (!accountsAvailable) return <Empty title="المكتبة المشتركة تعمل على الموقع المنشور" description="حين تسجّل المعلمات الدخول بحساباتهن، تظهر هنا تحضيراتهن وعروضهن وحزمهن." />;
   if (!account) return <Empty title="سجّلي الدخول لترى مكتبة المعلمات" description="كل معلمة تنشر ما عندها من تحضير وعروض وحزم، وتستورد ما يناسب طالباتها. الدخول من إعدادات المساحة." />;
   if (state === 'loading' || state === 'idle') return <div className="shared-grid" aria-busy="true">{[0, 1, 2].map(i => <div key={i} className="panel shared-card skeleton" />)}</div>;
-  if (state === 'error') return <div role="alert" className="alert">{error} <button className="text-link" onClick={onChange}>أعد المحاولة</button></div>;
+  if (state === 'error') return <div role="alert" className="alert">{error} <button className="text-link" onClick={onChange}>أعيدي المحاولة</button></div>;
   const shown = items.filter(i => kind === 'all' || i.kind === kind);
   const take = async (item: SharedMeta) => {
     setBusy(item.id);

@@ -12,7 +12,7 @@ export const MAX_REPLY_TEXT = 300;
 
 export type ParentChoice = 'yes' | 'help' | 'no';
 export const parentChoices: ParentChoice[] = ['yes', 'help', 'no'];
-export const parentChoiceLabels: Record<ParentChoice, string> = { yes: 'نجح وحده', help: 'نجح بمساعدة', no: 'لم ينجح بعد' };
+export const parentChoiceLabels: Record<ParentChoice, string> = { yes: 'نجحت وحدها', help: 'نجحت بمساعدة', no: 'لم تنجح بعد' };
 export interface ParentReply { id: string; learnerId: string; choice: ParentChoice; text: string; at: string; }
 export interface ParentLink { learnerId: string; token: string; createdAt: string; }
 

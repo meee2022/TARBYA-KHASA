@@ -12,7 +12,7 @@ import type { SpecialForm } from './forms';
 export type Understanding = 'text' | 'picture' | 'audio' | 'sign' | 'model';
 export type ResponseWay = 'touch' | 'point' | 'speech' | 'write' | 'practical' | 'switch' | 'dwell';
 export const understandingLabels: Record<Understanding, string> = { text: 'نص مكتوب', picture: 'صورة أو رمز', audio: 'صوت', sign: 'لغة الإشارة', model: 'نموذج عملي' };
-export const responseLabels: Record<ResponseWay, string> = { touch: 'لمس أو لوحة مفاتيح', point: 'إشارة يسجّلها المعلم', speech: 'كلام', write: 'كتابة', practical: 'أداء عملي', switch: 'مفتاح واحد', dwell: 'تثبيت المؤشر على الزر' };
+export const responseLabels: Record<ResponseWay, string> = { touch: 'لمس أو لوحة مفاتيح', point: 'إشارة تسجّلها المعلمة', speech: 'كلام', write: 'كتابة', practical: 'أداء عملي', switch: 'مفتاح واحد', dwell: 'تثبيت المؤشر على الزر' };
 export interface Preferences { largeText: boolean; highContrast: boolean; sound: boolean; reducedMotion: boolean; choices: 1 | 2 | 3 | 4; response: 'touch' | 'point'; access?: AccessSettings; understands?: Understanding[]; responds?: ResponseWay[]; targetSize?: 'normal' | 'large' | 'xl'; hand?: 'any' | 'right' | 'left'; steady?: boolean; instant?: boolean; scan?: boolean; scanSpeak?: boolean; scanSeconds?: number; shortInstructions?: boolean; }
 /** Per-learner boards for the student tools. Lists hold catalog ids. */
 export interface LearnerSupports { schedule?: string[]; first?: string; then?: string; tokenGoal?: number; reward?: string; communication?: string[]; favourite?: string; }
@@ -68,7 +68,7 @@ export const countOf = (n: number, one: string, two: string, many: string) => n 
 export const uid = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 export const dateLabel = (value: string) => new Date(value).toLocaleDateString('ar-QA-u-nu-latn', { day: 'numeric', month: 'long' });
 export function createLesson(subject: Subject = 'اللغة الإنجليزية'): Lesson {
-  return { id: uid(), title: '', subject, grade: 'الثالث', duration: 35, learnerIds: [], goalIds: [], objective: '', warmup: 'أعرض جدول الحصة المصوّر، وأتيح للطالب اختيار وسيلة الاستجابة المناسبة.', teaching: 'أقدّم مثالًا واحدًا واضحًا، ثم أعرض مثالًا آخر مع وقت كافٍ للمعالجة.', practice: 'أقدّم محاولات قصيرة مرتبطة بالهدف، وأسجّل الاستجابة ونوع التلميح بصورة منفصلة.', closing: 'أراجع ما تعلّمناه بمثال مألوف، وأتيح للطالب الإشارة إلى ما يفضّله.', adaptations: 'تعليمات قصيرة، بدائل واضحة، وقت معالجة مرن، واستراحة عند الحاجة.', source: '', sourceText: '', language: subject === 'اللغة الإنجليزية' ? 'en' : 'ar', status: 'draft', reviewNote: '', questions: [], updatedAt: new Date().toISOString() };
+  return { id: uid(), title: '', subject, grade: 'الثالث', duration: 35, learnerIds: [], goalIds: [], objective: '', warmup: 'أعرض جدول الحصة المصوّر، وأتيح للطالبة اختيار وسيلة الاستجابة المناسبة.', teaching: 'أقدّم مثالًا واحدًا واضحًا، ثم أعرض مثالًا آخر مع وقت كافٍ للمعالجة.', practice: 'أقدّم محاولات قصيرة مرتبطة بالهدف، وأسجّل الاستجابة ونوع التلميح بصورة منفصلة.', closing: 'أراجع ما تعلّمناه بمثال مألوف، وأتيح للطالبة الإشارة إلى ما تفضّله.', adaptations: 'تعليمات قصيرة، بدائل واضحة، وقت معالجة مرن، واستراحة عند الحاجة.', source: '', sourceText: '', language: subject === 'اللغة الإنجليزية' ? 'en' : 'ar', status: 'draft', reviewNote: '', questions: [], updatedAt: new Date().toISOString() };
 }
 const animals: Question[] = [
   { id: 'q1', prompt: 'Which animal has a long neck?', options: ['Giraffe', 'Elephant', 'Bird'], answer: 0 },
@@ -80,38 +80,38 @@ const animals: Question[] = [
 export function seedWorkspace(): Workspace {
   const learners: Learner[] = [
     { id: 'demo-1', avatarId: 'avatar1', name: 'سارة · تجريبي', initials: 'س', grade: 'الثالث', color: 'rose', strengths: 'تستمتع بالقصص المصوّرة وتتعرف إلى الحيوانات المألوفة.', needs: 'تعليمات من خطوة واحدة، وقت للمعالجة، وإتاحة الإجابة بالإشارة.', preferences: { ...defaults, choices: 2, response: 'point', understands: ['picture', 'model'], responds: ['point'], shortInstructions: true }, supports: { schedule: ['circle', 'read', 'game', 'break', 'home'], first: 'read', then: 'tablet', tokenGoal: 3, reward: 'tablet', communication: ['help', 'break', 'done', 'yes', 'no', 'water'] }, goals: [{ id: 'g1', text: 'تميّز مفردات الحيوانات من بين بديلين', subject: 'اللغة الإنجليزية', target: 4, opportunities: 5, baseline: 'تتعرف إلى مفردتين من خلال الصور.' }, { id: 'g2', text: 'تعدّ مجموعة حتى خمسة عناصر', subject: 'الرياضيات', target: 4, opportunities: 5, baseline: 'تعدّ حتى ثلاثة عناصر بالمحسوسات.' }] },
-    { id: 'demo-2', avatarId: 'avatar2', name: 'عمر · تجريبي', initials: 'ع', grade: 'الثالث', color: 'sage', strengths: 'يستجيب للمحسوسات والأنشطة ذات التسلسل الواضح.', needs: 'نص كبير، مساحة اختيار واسعة، وإعادة الاستماع عند الطلب.', preferences: { ...defaults, largeText: true, highContrast: true, targetSize: 'xl', choices: 2, understands: ['audio', 'model'], responds: ['touch', 'speech'] }, supports: { schedule: ['circle', 'read', 'move', 'home'], first: 'write', then: 'song', tokenGoal: 4, reward: 'song' }, goals: [{ id: 'g3', text: 'يربط اسم الحيوان بصفته المميّزة', subject: 'اللغة الإنجليزية', target: 4, opportunities: 5, baseline: 'يربط مثالًا مألوفًا بمساعدة لفظية.' }] },
+    { id: 'demo-2', avatarId: 'avatar2', name: 'ريم · تجريبي', initials: 'ر', grade: 'الثالث', color: 'sage', strengths: 'تستجيب للمحسوسات والأنشطة ذات التسلسل الواضح.', needs: 'نص كبير، مساحة اختيار واسعة، وإعادة الاستماع عند الطلب.', preferences: { ...defaults, largeText: true, highContrast: true, targetSize: 'xl', choices: 2, understands: ['audio', 'model'], responds: ['touch', 'speech'] }, supports: { schedule: ['circle', 'read', 'move', 'home'], first: 'write', then: 'song', tokenGoal: 4, reward: 'song' }, goals: [{ id: 'g3', text: 'تربط اسم الحيوان بصفته المميّزة', subject: 'اللغة الإنجليزية', target: 4, opportunities: 5, baseline: 'تربط مثالًا مألوفًا بمساعدة لفظية.' }] },
     { id: 'demo-3', avatarId: 'avatar3', name: 'مريم · تجريبي', initials: 'م', grade: 'الرابع', color: 'sand', strengths: 'تحب تركيب الكلمات والمشاركة في الروتين اليومي.', needs: 'تقليل المشتتات، تسلسل بصري، وخيار الإجابة دون صوت.', preferences: { ...defaults, sound: true, choices: 2, understands: ['picture', 'text'], shortInstructions: true }, supports: { schedule: ['circle', 'read', 'break', 'game', 'move', 'home'], first: 'read', then: 'move', tokenGoal: 3, reward: 'walk', favourite: 'color' }, goals: [{ id: 'g4', text: 'تختار الكلمة التي تبدأ بالحرف المحدد', subject: 'اللغة العربية', target: 4, opportunities: 5, baseline: 'تميّز صوت حرفين مألوفين.' }] },
     { id: 'demo-5', avatarId: 'avatar5', name: 'نور · تجريبي', initials: 'ن', grade: 'الخامس', color: 'blue', strengths: 'قوية بصريًا وتحب التنظيم والبطاقات.', needs: 'تعليمات مكتوبة ومصوّرة، وتغذية راجعة مرئية، دون اعتماد على السمع.', preferences: { ...defaults, sound: false, understands: ['picture', 'text', 'sign'], responds: ['touch', 'write'] }, goals: [{ id: 'g6', text: 'تربط مفردات الحيوانات بصورها', subject: 'اللغة الإنجليزية', target: 4, opportunities: 5, baseline: 'تربط ثلاث مفردات بصورها.' }] },
     { id: 'demo-6', avatarId: 'avatar6', name: 'ليان · تجريبي', initials: 'ل', grade: 'الرابع', color: 'rose', strengths: 'مثابرة وتحب الأنشطة القصيرة.', needs: 'تستخدم يدًا واحدة: أزرار كبيرة قريبة، وضغطة واحدة، ومنع الضغط المكرر.', preferences: { ...defaults, targetSize: 'xl', hand: 'right', steady: true, instant: true, choices: 2, understands: ['picture', 'text', 'audio'] }, goals: [{ id: 'g7', text: 'تختار اسم الحيوان من بين خيارين', subject: 'اللغة الإنجليزية', target: 3, opportunities: 3, baseline: 'تختار بمساعدة لفظية.' }] },
-    { id: 'demo-4', avatarId: 'avatar4', name: 'يوسف · تجريبي', initials: 'ي', grade: 'الثاني', color: 'blue', strengths: 'يفضّل التجربة العملية والفرز حسب اللون والشكل.', needs: 'فترات عمل قصيرة وبديل للإجابة الحركية الدقيقة.', preferences: { ...defaults, choices: 2, scan: true, scanSpeak: true, scanSeconds: 6, targetSize: 'large', responds: ['switch'], understands: ['picture', 'audio'] }, goals: [{ id: 'g5', text: 'يميّز الكائن الحي من الأشياء غير الحية', subject: 'العلوم', target: 3, opportunities: 4, baseline: 'يفرز مثالين بمساعدة النموذج.' }] },
+    { id: 'demo-4', avatarId: 'avatar4', name: 'جود · تجريبي', initials: 'ج', grade: 'الثاني', color: 'blue', strengths: 'تفضّل التجربة العملية والفرز حسب اللون والشكل.', needs: 'فترات عمل قصيرة وبديل للإجابة الحركية الدقيقة.', preferences: { ...defaults, choices: 2, scan: true, scanSpeak: true, scanSeconds: 6, targetSize: 'large', responds: ['switch'], understands: ['picture', 'audio'] }, goals: [{ id: 'g5', text: 'تميّز الكائن الحي من الأشياء غير الحية', subject: 'العلوم', target: 3, opportunities: 4, baseline: 'تفرز مثالين بمساعدة النموذج.' }] },
   ];
   const make = (id: string, title: string, subject: Subject, status: Status, ids: string[], goals: string[], objective: string, questions: Question[]) => ({ ...createLesson(subject), id, title, status, learnerIds: ids, goalIds: goals, objective, questions, source: 'محتوى تجريبي للمراجعة التربوية', updatedAt: new Date().toISOString() });
   const lessons = [
-    { ...make('animals', 'عالم الحيوانات', 'اللغة الإنجليزية', 'approved', ['demo-1', 'demo-2', 'demo-5', 'demo-6'], ['g1', 'g3', 'g6', 'g7'], 'أن يميّز الطالب مفردات الحيوانات وصفاتها في 4 من 5 محاولات، مع تسجيل مقدار المساعدة.', animals), warmup: 'أعرض صورة حيوانات هادئة وأسأل: ماذا تلاحظ؟ أقبل الإشارة أو تسمية الحيوان.', teaching: 'أعرض giraffe ثم elephant ثم bird. أربط كل مفردة بصفة واضحة: long neck، trunk، wings.', practice: 'أقدّم خمس محاولات قصيرة. لكل طالب نسخته من النشاط وفق ملفه، والهدف واحد.', closing: 'يختار الطالب حيوانه المفضّل، ثم نراجع مفردة واحدة بصورة أو كلمة.', source: 'مستوحى من بنية تحضير We love animals؛ أسئلة تجريبية جديدة', packId: 'pack-animals', adaptations: 'بديلان أو ثلاثة حسب ملف الطالب. تقبّل الإشارة. الصوت اختياري. لا يوجد عدّ تنازلي أو مؤثرات مفاجئة.' },
-    make('numbers', 'نعدّ ونكتشف', 'الرياضيات', 'draft', ['demo-1'], ['g2'], 'يعدّ الطالب مجموعات من عنصر واحد إلى خمسة عناصر، في 4 من 5 محاولات.', [{ id: 'n1', prompt: 'كم نقطة ترى؟ ● ● ●', options: ['2', '3', '4'], answer: 1 }, { id: 'n2', prompt: 'ما العدد الذي يأتي بعد 4؟', options: ['3', '5', '2'], answer: 1 }]),
+    { ...make('animals', 'عالم الحيوانات', 'اللغة الإنجليزية', 'approved', ['demo-1', 'demo-2', 'demo-5', 'demo-6'], ['g1', 'g3', 'g6', 'g7'], 'أن تميّز الطالبة مفردات الحيوانات وصفاتها في 4 من 5 محاولات، مع تسجيل مقدار المساعدة.', animals), warmup: 'أعرض صورة حيوانات هادئة وأسأل: ماذا تلاحظ؟ أقبل الإشارة أو تسمية الحيوان.', teaching: 'أعرض giraffe ثم elephant ثم bird. أربط كل مفردة بصفة واضحة: long neck، trunk، wings.', practice: 'أقدّم خمس محاولات قصيرة. لكل طالبة نسختها من النشاط وفق ملفها، والهدف واحد.', closing: 'تختار الطالبة حيوانها المفضّل، ثم نراجع مفردة واحدة بصورة أو كلمة.', source: 'مستوحى من بنية تحضير We love animals؛ أسئلة تجريبية جديدة', packId: 'pack-animals', adaptations: 'بديلان أو ثلاثة حسب ملف الطالبة. تقبّل الإشارة. الصوت اختياري. لا يوجد عدّ تنازلي أو مؤثرات مفاجئة.' },
+    make('numbers', 'نعدّ ونكتشف', 'الرياضيات', 'draft', ['demo-1'], ['g2'], 'تعدّ الطالبة مجموعات من عنصر واحد إلى خمسة عناصر، في 4 من 5 محاولات.', [{ id: 'n1', prompt: 'كم نقطة ترى؟ ● ● ●', options: ['2', '3', '4'], answer: 1 }, { id: 'n2', prompt: 'ما العدد الذي يأتي بعد 4؟', options: ['3', '5', '2'], answer: 1 }]),
     make('letters', 'رحلة مع الحروف', 'اللغة العربية', 'review', ['demo-3'], ['g4'], 'تختار الطالبة كلمة تبدأ بحرف الباء من بين ثلاث كلمات.', [{ id: 'a1', prompt: 'أي كلمة تبدأ بحرف الباء؟', options: ['باب', 'قلم', 'شمس'], answer: 0 }]),
-    make('science', 'حيّ أم غير حيّ؟', 'العلوم', 'approved', ['demo-4'], ['g5'], 'يفرز الطالب أمثلة الكائنات الحية من الأشياء غير الحية.', [{ id: 's1', prompt: 'اختر كائنًا حيًا', options: ['شجرة', 'كرسي', 'قلم'], answer: 0 }, { id: 's2', prompt: 'اختر شيئًا غير حيّ', options: ['قطة', 'حجر', 'زهرة'], answer: 1 }]),
+    make('science', 'حيّ أم غير حيّ؟', 'العلوم', 'approved', ['demo-4'], ['g5'], 'تفرز الطالبة أمثلة الكائنات الحية من الأشياء غير الحية.', [{ id: 's1', prompt: 'اختاري كائنًا حيًا', options: ['شجرة', 'كرسي', 'قلم'], answer: 0 }, { id: 's2', prompt: 'اختاري شيئًا غير حيّ', options: ['قطة', 'حجر', 'زهرة'], answer: 1 }]),
   ];
   return migrateWorkspace({ version: 1, learners, lessons, observations: [] });
 }
 export function validateLesson(lesson: Lesson, learners: Learner[]): string[] {
   const errors: string[] = [];
-  if (!lesson.title.trim()) errors.push('أضف عنوان الدرس.');
-  if (!lesson.objective.trim()) errors.push('اكتب هدفًا قابلًا للملاحظة.');
+  if (!lesson.title.trim()) errors.push('أضيفي عنوان الدرس.');
+  if (!lesson.objective.trim()) errors.push('اكتبي هدفًا قابلًا للملاحظة.');
   if (!Number.isFinite(lesson.duration) || lesson.duration < 5 || lesson.duration > 180) errors.push('مدة الحصة يجب أن تكون بين 5 و180 دقيقة.');
-  if (!lesson.learnerIds.length) errors.push('اختر طالبًا واحدًا على الأقل.');
-  if (!lesson.goalIds.length) errors.push('اربط الدرس بهدف فردي واحد على الأقل.');
+  if (!lesson.learnerIds.length) errors.push('اختاري طالبةً واحدًا على الأقل.');
+  if (!lesson.goalIds.length) errors.push('اربطي الدرس بهدف فردي واحد على الأقل.');
   const validGoals = learners.filter(s => lesson.learnerIds.includes(s.id)).flatMap(s => s.goals.filter(g => g.subject === lesson.subject).map(g => g.id));
-  if (lesson.goalIds.some(g => !validGoals.includes(g))) errors.push('يوجد هدف لا ينتمي للمادة أو للطلاب المحددين.');
-  if ([lesson.warmup, lesson.teaching, lesson.practice, lesson.closing].some(t => !t.trim())) errors.push('أكمل مراحل الحصة الأربع.');
-  lesson.questions.forEach((q, i) => { if (!q.prompt.trim() || q.options.length < 2 || q.options.some(o => !o.trim()) || !Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) errors.push(`راجع السؤال ${i + 1} ومفتاح إجابته.`); });
+  if (lesson.goalIds.some(g => !validGoals.includes(g))) errors.push('يوجد هدف لا ينتمي للمادة أو للطالبات المحددين.');
+  if ([lesson.warmup, lesson.teaching, lesson.practice, lesson.closing].some(t => !t.trim())) errors.push('أكملي مراحل الحصة الأربع.');
+  lesson.questions.forEach((q, i) => { if (!q.prompt.trim() || q.options.length < 2 || q.options.some(o => !o.trim()) || !Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) errors.push(`راجعي السؤال ${i + 1} ومفتاح إجابته.`); });
   return errors;
 }
 export function transitionLesson(lesson: Lesson, status: Status, learners: Learner[], note = ''): Lesson {
   if (status !== 'draft') { const errors = validateLesson(lesson, learners); if (errors.length) throw new Error(errors.join(' ')); }
-  if (status === 'approved' && lesson.status !== 'review') throw new Error('أرسل التحضير إلى المراجعة أولًا.');
-  if (status === 'draft' && lesson.status === 'review' && !note.trim()) throw new Error('أضف سبب الإرجاع لمساعدة المعلم.');
+  if (status === 'approved' && lesson.status !== 'review') throw new Error('أرسلي التحضير إلى المراجعة أولًا.');
+  if (status === 'draft' && lesson.status === 'review' && !note.trim()) throw new Error('أضيفي سبب الإرجاع لمساعدة المعلمة.');
   return { ...lesson, status, reviewNote: note, updatedAt: new Date().toISOString() };
 }
 export function questionOptions(q: Question, count: 1 | 2 | 3 | 4) {
@@ -136,10 +136,10 @@ export function describeAdaptation(p: Preferences): string[] {
   if (p.instant) out.push('اختيار مباشر');
   if (p.scan) out.push(p.access?.switches === 2 ? 'مفتاحان: التالي والاختيار' : 'مسح بمفتاح واحد');
   if (p.responds?.includes('dwell')) out.push('اختيار بالتثبيت');
-  if (p.response === 'point') out.push('يشير والمعلم يسجّل');
+  if (p.response === 'point') out.push('تشير والمعلمة تسجّل');
   if (p.shortInstructions) out.push('تعليمة قصيرة');
   const r = p.access;
-  if (r?.readAlong && p.sound) out.push('اقرأ معي بتظليل الكلمة');
+  if (r?.readAlong && p.sound) out.push('اقرئي معي بتظليل الكلمة');
   if (r?.easyFont) out.push('خط ميسّر للقراءة');
   if (r?.spacing) out.push('تباعد أوسع للأسطر والكلمات');
   if (r?.tint && r.tint !== 'none') out.push('خلفية مريحة للنص');
@@ -151,7 +151,7 @@ export function describeAdaptation(p: Preferences): string[] {
   if (r?.level === 'symbol') out.push('المستوى الثاني: رمز وكلمة');
   if (r?.level === 'word') out.push('المستوى الثالث: كلمة فقط');
   if (r?.model) out.push('نمذجة السؤال الأول قبل البدء');
-  if (r?.repeatMissed) out.push('إعادة ما أخطأ فيه في آخر الجولة');
+  if (r?.repeatMissed) out.push('إعادة ما أخطأت فيه في آخر الجولة');
   if (r?.quiet) out.push('وضع حسي هادئ: بلا صوت ولا حركة ولا اهتزاز');
   if (r?.rounds) out.push(`${r.rounds} أسئلة في الجولة`);
   if (r?.workMinutes) out.push(`مؤقت عمل ${r.workMinutes} دقائق ثم استراحة`);
@@ -164,13 +164,13 @@ export function describeAdaptation(p: Preferences): string[] {
 /** Combinations a teacher probably did not intend. Advice only: nothing is changed automatically. */
 export function adaptationConflicts(p: Preferences): string[] {
   const out: string[] = []; const u = p.understands ?? [];
-  if (!u.length) out.push('لم تحدد كيف يفهم الطالب التعليمات.');
+  if (!u.length) out.push('لم تحدد كيف تفهم الطالبة التعليمات.');
   if (!p.sound && u.length === 1 && u[0] === 'audio') out.push('الصوت متوقف، بينما الصوت هو الطريقة الوحيدة المحددة لفهم التعليمات.');
-  if (u.includes('sign') && !u.includes('picture') && !u.includes('text')) out.push('تحتاج لغة الإشارة إلى فيديو لكل عنصر. أضف صورة أو نصًا كبديل عندما لا يتوفر الفيديو.');
+  if (u.includes('sign') && !u.includes('picture') && !u.includes('text')) out.push('تحتاج لغة الإشارة إلى فيديو لكل عنصر. أضيفي صورة أو نصًا كبديل عندما لا يتوفر الفيديو.');
   if (p.responds?.includes('switch') && !p.scan) out.push('اخترت الإجابة بمفتاح واحد دون تفعيل المسح التلقائي.');
-  if (p.access?.describe && !p.sound) out.push('وصف الصورة صوتيًا يحتاج الصوت، والصوت متوقف لهذا الطالب.');
-  if (p.access?.readAlong && !p.sound) out.push('«اقرأ معي» يحتاج الصوت، والصوت متوقف لهذا الطالب.');
-  if (p.response === 'point' && p.instant) out.push('الاختيار المباشر يسجّل الضغطة فورًا، بينما الطالب يشير والمعلم يضغط: تأكد أن هذا ما تريد.');
+  if (p.access?.describe && !p.sound) out.push('وصف الصورة صوتيًا يحتاج الصوت، والصوت متوقف لهذه الطالبة.');
+  if (p.access?.readAlong && !p.sound) out.push('«اقرئي معي» يحتاج الصوت، والصوت متوقف لهذه الطالبة.');
+  if (p.response === 'point' && p.instant) out.push('الاختيار المباشر يسجّل الضغطة فورًا، بينما الطالبة تشير والمعلمة تضغط: تأكدي أن هذا ما تريدين.');
   return out;
 }
 export function assertWorkspace(value: unknown): value is Workspace {

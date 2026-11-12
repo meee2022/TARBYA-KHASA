@@ -21,17 +21,17 @@ export function SignVideo({ id, auto = false, calm = false }: { id?: string; aut
   const url = useMediaUrl(id); const [open, setOpen] = useState(auto); const [big, setBig] = useState(false);
   const still = calm || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!url) return null;
-  return <div className={`sign-video ${big ? 'is-big' : ''}`}><div className="sign-video-actions"><button type="button" data-scan className="button secondary" onClick={() => setOpen(o => !o)} aria-expanded={open}><Video size={18} />{open ? 'إخفاء الإشارة' : 'شاهد بالإشارة'}</button>{open && <button type="button" data-scan className="button secondary" aria-pressed={big} onClick={() => setBig(b => !b)}>{big ? <Minimize2 size={18} /> : <Maximize2 size={18} />}{big ? 'تصغير الفيديو' : 'تكبير الفيديو'}</button>}</div>{open && <video src={url} controls muted loop={!still} autoPlay={!still} playsInline />}{open && still && <small className="info-note">اضغط تشغيل لمشاهدة الإشارة.</small>}</div>;
+  return <div className={`sign-video ${big ? 'is-big' : ''}`}><div className="sign-video-actions"><button type="button" data-scan className="button secondary" onClick={() => setOpen(o => !o)} aria-expanded={open}><Video size={18} />{open ? 'إخفاء الإشارة' : 'شاهدي بالإشارة'}</button>{open && <button type="button" data-scan className="button secondary" aria-pressed={big} onClick={() => setBig(b => !b)}>{big ? <Minimize2 size={18} /> : <Maximize2 size={18} />}{big ? 'تصغير الفيديو' : 'تكبير الفيديو'}</button>}</div>{open && <video src={url} controls muted loop={!still} autoPlay={!still} playsInline />}{open && still && <small className="info-note">اضغطي تشغيل لمشاهدة الإشارة.</small>}</div>;
 }
 /** A social story, one page at a time: one picture, one literal sentence, and the same buttons in the same place on every page. */
-export function SocialStoryView({ story, sound, onDone, doneLabel = 'أنا مستعد' }: { story: SocialStory; sound: boolean; onDone: () => void; doneLabel?: string }) {
+export function SocialStoryView({ story, sound, onDone, doneLabel = 'أنا مستعدة' }: { story: SocialStory; sound: boolean; onDone: () => void; doneLabel?: string }) {
   const [page, setPage] = useState(0); const { speak } = useSpeech(); const heading = useRef<HTMLHeadingElement>(null);
   const p = story.pages[page]; const last = page === story.pages.length - 1;
   useEffect(() => { heading.current?.focus(); if (sound && p) speak(p.label); }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!p) return null;
   return <section className="social-story rise-in" aria-label={`قصة: ${story.title}`}><p className="story-title">{story.title} · {page + 1} من {story.pages.length}</p>
     <div className="story-page"><SymbolArt entry={p} /><h1 ref={heading} tabIndex={-1}>{p.label}</h1></div>
-    <div className="story-actions"><button data-scan className="button secondary" disabled={!page} onClick={() => setPage(n => n - 1)}>السابق</button>{sound && <button data-scan className="button secondary" onClick={() => speak(p.label)}><Volume2 size={20} />استمع</button>}<button data-scan className="button primary" onClick={() => last ? onDone() : setPage(n => n + 1)}>{last ? doneLabel : 'التالي'}</button></div></section>;
+    <div className="story-actions"><button data-scan className="button secondary" disabled={!page} onClick={() => setPage(n => n - 1)}>السابق</button>{sound && <button data-scan className="button secondary" onClick={() => speak(p.label)}><Volume2 size={20} />استمعي</button>}<button data-scan className="button primary" onClick={() => last ? onDone() : setPage(n => n + 1)}>{last ? doneLabel : 'التالي'}</button></div></section>;
 }
 /** A bar that empties during work time, then asks for a break. It never ends a task or costs anything. */
 export function WorkTimer({ minutes, running, onEnd }: { minutes: number; running: boolean; onEnd: () => void }) {
@@ -53,7 +53,7 @@ export function useSpeech() {
     window.speechSynthesis.cancel(); stopMedia(); setError('');
     const voices = window.speechSynthesis.getVoices();
     const missing = parts.find(p => voices.length && !voices.some(v => v.lang.toLowerCase().startsWith(p.lang ?? 'ar')));
-    if (missing) setError(`لا يوجد صوت ${missing.lang === 'en' ? 'إنجليزي' : 'عربي'} على هذا الجهاز. سجّل صوت المعلم للكلمة، أو استخدم النص المكتوب.`);
+    if (missing) setError(`لا يوجد صوت ${missing.lang === 'en' ? 'إنجليزي' : 'عربي'} على هذا الجهاز. سجّلي صوت المعلمة للكلمة، أو استخدمي النص المكتوب.`);
     for (const part of parts) {
       const speech = new SpeechSynthesisUtterance(part.text); speech.lang = voice(part.lang ?? 'ar'); speech.rate = .8;
       speech.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') setError('تعذّر تشغيل الصوت. يمكنك استخدام التعليمات المكتوبة.'); };
@@ -134,7 +134,7 @@ export function steadyTap(enabled: boolean | undefined) {
   };
 }
 export function accessClass(a: AccessSettings) { return ['access-room', a.large && 'learning-large', a.contrast && 'learning-contrast', a.target && a.target !== 'normal' && `target-${a.target}`, a.hand && a.hand !== 'any' && `hand-${a.hand}`, a.calm && 'calm-room', a.easyFont && 'reading-easy', a.spacing && 'reading-spaced', a.tint && a.tint !== 'none' && `reading-tint-${a.tint}`, a.focusOne && 'focus-one', a.highlight && a.highlight !== 'none' && `highlight-${a.highlight}`, a.quiet && 'sensory-quiet'].filter(Boolean).join(' '); }
-/** Text the student reads, split into words so «اقرأ معي» can light up the word being spoken. */
+/** Text the student reads, split into words so «اقرئي معي» can light up the word being spoken. */
 export function ReadingText({ text, word }: { text: string; word: number }) {
   return <>{readingWords(text).map((w, i) => <Fragment key={i}>{i ? ' ' : ''}<span lang={w.lang} className={i === word ? 'read-word' : undefined}>{w.text}</span></Fragment>)}</>;
 }
@@ -154,12 +154,12 @@ export function HoldButton({ onOpen, children, className = '', style }: { onOpen
   const timer = useRef(0);
   const start = (e: ReactPointerEvent) => { if (e.button) return; timer.current = window.setTimeout(onOpen, 800); };
   const cancel = () => clearTimeout(timer.current);
-  return <button type="button" style={style} className={`hold-button ${className}`} title="اضغط مطولًا" onPointerDown={start} onPointerUp={cancel} onPointerLeave={cancel} onContextMenu={e => e.preventDefault()} onClick={e => { if (e.detail === 0) onOpen(); }}>{children}</button>;
+  return <button type="button" style={style} className={`hold-button ${className}`} title="اضغطي مطولًا" onPointerDown={start} onPointerUp={cancel} onPointerLeave={cancel} onContextMenu={e => e.preventDefault()} onClick={e => { if (e.detail === 0) onOpen(); }}>{children}</button>;
 }
 export function CommunicationBoard({ tiles, words, sound, onBreak, onRepeat, onRequest, collapsible, startOpen }: { tiles: SymbolEntry[]; words?: Tile[]; sound: boolean; onBreak: () => void; onRepeat: () => void; onRequest?: (label: string) => void; collapsible?: boolean; startOpen?: boolean }) {
   const [message, setMessage] = useState(''); const { speak, sayTile, error } = useSpeech(); const [open, setOpen] = useState(!collapsible || !!startOpen);
   if (!tiles.length && !words?.length) return null;
   // Closed by default during a task so it never competes with it, one press away; learners who rely on it start open.
   if (!open) return <div className="communication-toggle"><button data-scan className="button secondary" aria-expanded="false" onClick={() => setOpen(true)}><MessageCircle size={20} />أعبّر بطريقتي</button></div>;
-  return <section className="communication-board" aria-label="لوحة التواصل"><div className="communication-heading"><h2>أعبّر بطريقتي</h2><p>اضغط الرسالة، أو أشر إليها ليختارها المعلّم.</p>{collapsible && <button data-scan className="button secondary" aria-expanded="true" onClick={() => setOpen(false)}>إخفاء</button>}</div><div className="communication-tiles">{tiles.map(tile => <button data-scan key={tile.id} onClick={() => { setMessage(tile.label); onRequest?.(tile.label); if (tile.id === 'repeat') { onRepeat(); return; } if (tile.id === 'break') onBreak(); if (sound) speak(tile.label); }}><SymbolArt entry={tile} /><span>{tile.label}</span></button>)}</div>{!!words?.length && <><h3 className="communication-words-title">كلمات الدرس</h3><div className="communication-tiles">{words.map(w => <button data-scan key={w.id} onClick={() => { setMessage(w.label); onRequest?.(w.label); if (sound) sayTile(w); }}><TilePicture tile={w} /><span dir="auto" lang={w.lang}>{w.label}</span></button>)}</div></>}<p className="communication-message" role="status" aria-live="polite">{message || 'رسالتك ستظهر هنا.'}{error && `. ${error}`}</p></section>;
+  return <section className="communication-board" aria-label="لوحة التواصل"><div className="communication-heading"><h2>أعبّر بطريقتي</h2><p>اضغطي الرسالة، أو أشيري إليها لتختارها المعلمة.</p>{collapsible && <button data-scan className="button secondary" aria-expanded="true" onClick={() => setOpen(false)}>إخفاء</button>}</div><div className="communication-tiles">{tiles.map(tile => <button data-scan key={tile.id} onClick={() => { setMessage(tile.label); onRequest?.(tile.label); if (tile.id === 'repeat') { onRepeat(); return; } if (tile.id === 'break') onBreak(); if (sound) speak(tile.label); }}><SymbolArt entry={tile} /><span>{tile.label}</span></button>)}</div>{!!words?.length && <><h3 className="communication-words-title">كلمات الدرس</h3><div className="communication-tiles">{words.map(w => <button data-scan key={w.id} onClick={() => { setMessage(w.label); onRequest?.(w.label); if (sound) sayTile(w); }}><TilePicture tile={w} /><span dir="auto" lang={w.lang}>{w.label}</span></button>)}</div></>}<p className="communication-message" role="status" aria-live="polite">{message || 'رسالتك ستظهر هنا.'}{error && `. ${error}`}</p></section>;
 }
