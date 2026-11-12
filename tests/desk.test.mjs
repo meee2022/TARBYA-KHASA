@@ -92,3 +92,14 @@ test('a term distribution spreads units over the weeks, names each week and find
   assert.ok(distributionBody(full, units).includes('درس 6: هدف 6'));
   assert.equal(validDistributions([full]), true); assert.equal(validDistributions([{ ...full, weeks: 99 }]), false); assert.equal(validDesk({ distributions: [{ ...full, rows: [{ id: 'r', title: 'x', from: 0, to: 1 }] }] }), false);
 });
+
+test('an instrument scores against its pass mark, and achievement averages the last three scored readings per subject', async () => {
+  const { instrumentScore, achievementOf } = await import('../packages/domain/desk.ts');
+  const tool = { id: 't', name: 'قائمة رصد', kind: 'قائمة رصد', subject: 'اللغة العربية', domain: 'اللغة', skill: 'تمييز الحرف', items: ['أ', 'ب', 'ج', 'د', 'هـ'], pass: 4 };
+  assert.deepEqual(instrumentScore(tool, 3), { percent: 60, met: false }); assert.deepEqual(instrumentScore(tool, 4), { percent: 80, met: true });
+  const e = (id, date, percent, subject = 'اللغة العربية', learnerId = 'a') => ({ id, learnerId, domain: 'اللغة', skill: 's', level: 3, percent, tool: 'x', date, note: '', subject });
+  const got = achievementOf([e('1', '2026-09-01', 20), e('2', '2026-10-01', 60), e('3', '2026-10-15', 70), e('4', '2026-11-01', 80), e('5', '2026-11-02', 90, 'الرياضيات'), e('6', '2026-11-03', 10, 'اللغة العربية', 'b'), e('7', '2026-11-04', undefined), { ...e('8', '2026-11-05', 100), subject: undefined }], 'a');
+  assert.deepEqual(got, { 'اللغة العربية': { average: 70, count: 3 }, 'الرياضيات': { average: 90, count: 1 } });
+  assert.deepEqual(achievementOf([], 'a'), {});
+  assert.equal(validDesk({ instruments: [tool] }), true); assert.equal(validDesk({ instruments: [{ ...tool, pass: 9 }] }), false); assert.equal(validDesk({ instruments: [{ ...tool, items: [] }] }), false);
+});

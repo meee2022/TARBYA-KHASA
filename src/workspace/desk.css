@@ -118,6 +118,23 @@
 .studio.admin-console .admin-header .brand-wordmark { --word: var(--brand); --mark-img: url(/brand/watad-mark-light.svg); background: none; }
 
 @media (max-width: 900px) { .desk-two { grid-template-columns: 1fr; } }
+/* Assessment tabs, instruments and achievement */
+.desk-tabs { margin: 0 0 18px; }
+.desk-tab-actions { margin: 0 0 16px; }
+.instrument-card ol { margin: 0; padding-inline-start: 20px; display: grid; gap: 4px; font-size: 14px; line-height: 1.7; }
+.instrument-skill { margin: 0; color: var(--brand-deep); font-weight: 500; }
+.instrument-items { margin: 0 24px; padding: 0; border: 0; display: grid; gap: 8px; min-inline-size: 0; }
+.instrument-items legend { padding: 0; margin-bottom: 8px; font-weight: 500; color: var(--ink); }
+.studio .instrument-items > label { display: flex; flex-direction: row; align-items: center; gap: 12px; min-block-size: 48px; padding: 8px 14px; border-radius: 12px; background: var(--tint, var(--sand)); cursor: pointer; font-size: 15.5px; transition: background .2s ease, box-shadow .2s ease; }
+.instrument-items label:hover { box-shadow: 0 2px 8px rgba(74, 15, 27, .08); }
+.instrument-items label.is-on { background: var(--sage); }
+.instrument-items label span { flex: none; display: grid; place-items: center; inline-size: 26px; block-size: 26px; border-radius: 50%; background: var(--paper); font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.instrument-items input { inline-size: 20px; block-size: 20px; accent-color: var(--brand); }
+.achievement-who { display: inline-flex; align-items: center; gap: 8px; color: inherit; }
+.achievement-cell { display: grid; }
+.achievement-cell strong { font-variant-numeric: tabular-nums; color: var(--brand-deep); }
+.achievement-cell small { color: var(--muted); font-size: 12px; }
+@media (prefers-reduced-motion: reduce) { .instrument-items label { transition: none; } }
 /* Term distribution */
 .dist-settings { margin: 0 24px 14px; }
 .dist-rows input { inline-size: 100%; min-block-size: 40px; }
@@ -164,6 +181,7 @@
   .desk-list { padding-inline: 8px; }
   .desk-list > li > .attendance-marks { flex: 1 1 100%; }
   .attendance-who { flex-basis: 100%; }
+  .instrument-items { margin-inline: 16px; }
   .behaviour-body { grid-template-columns: minmax(0, 1fr); }
   .behaviour-body dl { grid-template-columns: minmax(0, 1fr); }
   .behaviour-card { padding: 18px 16px; }
