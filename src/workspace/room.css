@@ -16,12 +16,13 @@
 .room-question h1 { margin: 0; font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.5; color: var(--ink); }
 .room-options { display: grid; gap: 14px; inline-size: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .room-options.count-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.room-options button { display: flex; align-items: center; justify-content: center; gap: 10px; min-block-size: 110px; padding: 16px; border: 3px solid var(--line); border-radius: 24px; background: var(--paper); font: inherit; font-size: clamp(1.25rem, 4vw, 1.7rem); font-weight: 500; color: var(--ink); cursor: pointer; transition: transform .15s ease, border-color .2s ease, background .2s ease; }
+.studio .room-options button { display: flex; align-items: center; justify-content: center; gap: 10px; min-block-size: 110px; padding: 16px; border: 3px solid var(--line); border-radius: 24px; background: var(--paper); font: inherit; font-size: clamp(1.25rem, 4vw, 1.7rem); font-weight: 500; color: var(--ink); cursor: pointer; transition: transform .15s ease, border-color .2s ease, background .2s ease; }
 .room-options button:not(:disabled):hover { border-color: var(--gold); }
 .room-options button:not(:disabled):active { transform: scale(.98); }
 .room-options button.is-mine { border-color: var(--brand); background: var(--tint, var(--sand)); }
 .room-options button.is-right { border-color: var(--olive); background: var(--sage); }
-.room-options button:disabled { cursor: default; opacity: 1; }
+.studio .room-options button:disabled { cursor: default; opacity: 1; color: var(--ink); }
+.specialist-note .parent-sent { display: flex; align-items: center; gap: 8px; margin: 0; }
 .room-status { margin: 0; font-size: 1.1rem; color: var(--muted); min-block-size: 1.8em; }
 .room-setup .heading-actions { margin: 0 24px 20px; }
 .room-board { display: grid; gap: 18px; padding: 24px; margin-bottom: 20px; }

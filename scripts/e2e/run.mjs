@@ -24,6 +24,8 @@ async function connect(target) {
   let id = 0; const waits = new Map();
   ws.onmessage = e => { const m = JSON.parse(e.data);
     if (m.id && waits.has(m.id)) { waits.get(m.id)(m); waits.delete(m.id); }
+    // A browser confirm would freeze the page: answer OK, as a teacher choosing the account's copy would.
+    if (m.method === 'Page.javascriptDialogOpening') ws.send(JSON.stringify({ id: ++id, method: 'Page.handleJavaScriptDialog', params: { accept: true } }));
     if (m.method === 'Runtime.exceptionThrown') errors.push('EXCEPTION ' + (m.params.exceptionDetails.exception?.description ?? m.params.exceptionDetails.text).slice(0, 300));
     if (m.method === 'Runtime.consoleAPICalled' && m.params.type === 'error') errors.push('console.error ' + m.params.args.map(a => a.value ?? a.description ?? '').join(' ').slice(0, 300)); };
   const send = (method, params = {}) => new Promise(r => { waits.set(++id, r); ws.send(JSON.stringify({ id, method, params })); });
