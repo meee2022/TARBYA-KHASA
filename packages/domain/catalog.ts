@@ -22,7 +22,7 @@ export interface CurriculumLesson { id: string; title: string; objective: string
 export interface UnitEntry { id: string; subject: string; grade: string; title: string; lessons: CurriculumLesson[]; }
 export const linkKindLabels: Record<LinkSource['kind'], string> = { video: 'فيديو', worksheet: 'أوراق عمل', site: 'موقع' };
 export const searchUrl = (source: LinkSource, words: string) => source.url.replace('{q}', encodeURIComponent(words.trim()).replace(/%20/g, '+'));
-export const planningLists = { settings: 'أماكن الملاحظة', people: 'من كان مع الطالبة', materials: 'وسيلة الملاحظة', strategies: 'إستراتيجيات التدريس', teachingAids: 'الوسائل والترتيبات', assessmentTools: 'أدوات التقييم', classroomAccommodations: 'تسهيلات البيئة الصفية', assessmentAccommodations: 'تسهيلات التقييم', curriculumAccommodations: 'تسهيلات المنهاج', supportLevels: 'مستويات الدعم', curriculumTypes: 'أنواع المنهاج', performanceDomains: 'مجالات الأداء', reviewReasons: 'أسباب مراجعة الخطة', reviewParties: 'أطراف مراجعة الخطة' } as const;
+export const planningLists = { settings: 'أماكن الملاحظة', people: 'من كان مع الطالبة', materials: 'وسيلة الملاحظة', strategies: 'إستراتيجيات التدريس', teachingAids: 'الوسائل والترتيبات', assessmentTools: 'أدوات التقييم', classroomAccommodations: 'تسهيلات البيئة الصفية', assessmentAccommodations: 'تسهيلات التقييم', curriculumAccommodations: 'تسهيلات المنهاج', supportLevels: 'مستويات الدعم', curriculumTypes: 'أنواع المنهاج', performanceDomains: 'مجالات الأداء', reviewReasons: 'أسباب مراجعة الخطة', reviewParties: 'أطراف مراجعة الخطة', behaviourFunctions: 'وظائف السلوك المفترضة', behaviourPrevention: 'إستراتيجيات وقائية للسلوك' } as const;
 export type PlanningList = keyof typeof planningLists;
 export interface Catalog extends Record<PlanningList, string[]> {
   academicYear: string; planPattern: PlanPatternSession[]; goalBank: GoalBankEntry[]; standards: StandardEntry[]; linkSources: LinkSource[]; warmups: WarmupEntry[]; units: UnitEntry[];
@@ -147,6 +147,8 @@ export const defaultCatalog: Catalog = {
   supportLevels: ['دعم بسيط', 'دعم متوسط', 'دعم مكثف'],
   curriculumTypes: ['المنهاج العام', 'منهاج معدّل', 'منهاج مكيّف', 'منهاج مهارات حياتية'],
   performanceDomains: ['المهارات المعرفية والأكاديمية', 'المهارات اللغوية والتواصلية', 'المهارات الحركية', 'المهارات الاجتماعية', 'المهارات السلوكية والانفعالية', 'المهارات الاستقلالية'],
+  behaviourFunctions: ['لجذب الانتباه', 'للتهرب من مهمة أو موقف', 'للحصول على شيء مرغوب', 'حسي أو تنظيم ذاتي', 'غير واضحة بعد، تحتاج ملاحظة'],
+  behaviourPrevention: ['جدول مصوّر لليوم', 'تنبيه قبل الانتقال', 'تقسيم المهمة إلى خطوات', 'خياران محددان', 'استراحات حركية قصيرة', 'تقليل المشتتات', 'قصة اجتماعية', 'ركن هادئ', 'تعزيز السلوك البديل فورًا', 'قواعد الصف مصوّرة'],
   reviewReasons: ['تقييم الأهداف', 'تحديث طرق التدريس', 'تعديل التقييم', 'إضافة خدمات جديدة', 'أخرى'],
   reviewParties: ['معلمة التربية الخاصة', 'منسق التربية الخاصة', 'معلمة الفصل', 'ولي الأمر', 'أخصائي نفسي', 'أخصائي خدمات مساندة'],
   goalBank: ([

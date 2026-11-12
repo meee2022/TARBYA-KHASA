@@ -37,7 +37,7 @@ export interface ObservationContext { setting?: string; person?: string; materia
 export type ObservationSource = 'session' | 'practice' | 'manual' | 'home';
 export interface Observation { id: string; lessonId: string; learnerId: string; goalId: string; date: string; correct: number; total: number; independent: number; support: Support; note: string; responses?: Trial[]; unobserved?: number; phase?: Phase; context?: ObservationContext; source?: ObservationSource; }
 /** A behaviour note in the ABC shape: what came before, what happened, what followed. Describes a moment, never the child. */
-export interface BehaviourNote { id: string; date: string; antecedent: string; behaviour: string; consequence: string; setting?: string; }
+export interface BehaviourNote { id: string; date: string; antecedent: string; behaviour: string; consequence: string; setting?: string; /** The behaviour plan this moment counts toward, when it was recorded from one. */ planId?: string; }
 /** The weekly letter's home task and note, kept so the next letter starts from the last one. */
 export interface FamilyLink { home: string; note: string; updatedAt: string; }
 export function summarizeTrials(trials: Trial[]) {

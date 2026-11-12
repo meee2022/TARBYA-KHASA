@@ -63,7 +63,7 @@ export function TasksPage() {
   </>;
 }
 
-const noticeIcon = { register: ClipboardCheck, goal: Target, review: ListChecks, task: CalendarClock, pupil: UserRound, plan: ClipboardList };
+const noticeIcon = { register: ClipboardCheck, goal: Target, review: ListChecks, task: CalendarClock, pupil: UserRound, plan: ClipboardList, behaviour: ClipboardList };
 /** Alerts worked out from the teacher's own data: the register, goals left unmeasured, work waiting for review. */
 export function NotificationsPage() {
   const { data } = useWorkspace(); const list = notices(data, today());

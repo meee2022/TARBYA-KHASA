@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { seedWorkspace } from '../packages/domain/index.ts';
-import { attendanceSummary, latestLevels, notices, schoolDay, validDesk } from '../packages/domain/desk.ts';
+import { attendanceSummary, behaviourCounts, latestLevels, notices, schoolDay, validDesk } from '../packages/domain/desk.ts';
 
 test('the school week runs Sunday to Thursday', () => {
   assert.equal(schoolDay('2026-11-08'), 0); // Sunday
@@ -48,4 +48,17 @@ test('a desk is checked for shape and size before it is synced', () => {
   assert.equal(validDesk({ timetable: { periods: 20, times: [], slots: [] } }), false);
   assert.equal(validDesk({ performance: [{ id: 'p', learnerId: 'a', domain: 'd', skill: 's', level: 9, tool: 't', date: '2026-11-08', note: '' }] }), false);
   assert.equal(validDesk({ attendance: [{ date: '2026-11-08', marks: { a: { mark: 'here' } } }] }), false);
+});
+
+test('a behaviour plan counts only its own notes per day, and asks for review when its date comes', () => {
+  const note = (date, planId) => ({ id: date + planId, date, antecedent: '', behaviour: 'ترك المقعد', consequence: '', planId });
+  const rows = behaviourCounts([note('2026-11-12', 'p'), note('2026-11-12', 'p'), note('2026-11-10', 'p'), note('2026-11-12', 'other'), note('2026-10-01', 'p'), note('2026-11-11')], 'p', '2026-11-12');
+  assert.equal(rows.length, 14); assert.equal(rows[0].date, '2026-10-30'); assert.equal(rows[13].count, 2); assert.equal(rows[11].count, 1); assert.equal(rows[12].count, 0);
+  assert.equal(rows.reduce((t, r) => t + r.count, 0), 3);
+  const plan = { id: 'p', learnerId: 'demo-1', target: 'ترك المقعد', definition: '', baseline: '', goal: '', func: '', replacement: '', prevention: [], reinforcers: [], response: '', team: '', review: '2026-11-10', active: true };
+  const w = { ...seedWorkspace(), desk: { behaviourPlans: [plan] } };
+  assert.ok(notices(w, '2026-11-12').some(n => n.kind === 'behaviour'));
+  assert.ok(!notices({ ...w, desk: { behaviourPlans: [{ ...plan, active: false }] } }, '2026-11-12').some(n => n.kind === 'behaviour'));
+  assert.equal(validDesk({ behaviourPlans: [plan] }), true);
+  assert.equal(validDesk({ behaviourPlans: [{ ...plan, prevention: 'x' }] }), false);
 });

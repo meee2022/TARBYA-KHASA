@@ -1,4 +1,4 @@
-import type { Workspace } from './index.ts';
+import type { BehaviourNote, Workspace } from './index.ts';
 
 /** The teacher's working desk: her timetable, her own tasks, her groups, the daily register and where each pupil stands in each skill. */
 export interface TimetableSlot { id: string; day: number; period: number; subject: string; place: string; learnerIds: string[]; lessonId?: string; }
@@ -10,7 +10,9 @@ export type AttendanceMark = 'present' | 'absent' | 'late' | 'excused';
 export interface AttendanceDay { date: string; marks: Record<string, { mark: AttendanceMark; note?: string }>; }
 /** One reading of a skill. The level says how much help the pupil needs today; it is never a rank among pupils. */
 export interface PerformanceEntry { id: string; learnerId: string; domain: string; skill: string; level: number; percent?: number; tool: string; date: string; note: string; }
-export interface Desk { timetable?: Timetable; tasks?: Task[]; groups?: Group[]; attendance?: AttendanceDay[]; performance?: PerformanceEntry[]; }
+export interface Desk { timetable?: Timetable; tasks?: Task[]; groups?: Group[]; attendance?: AttendanceDay[]; performance?: PerformanceEntry[]; behaviourPlans?: BehaviourPlan[]; }
+/** One target behaviour for one pupil: what is seen and counted, what to teach instead, and how the room helps. The function is the teacher's working guess, never a diagnosis. */
+export interface BehaviourPlan { id: string; learnerId: string; target: string; definition: string; baseline: string; goal: string; func: string; replacement: string; prevention: string[]; reinforcers: string[]; response: string; team: string; review: string; active: boolean; }
 
 export const weekDays = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
 export const priorityLabels: Record<TaskPriority, string> = { high: 'عالية', mid: 'متوسطة', low: 'منخفضة' };
@@ -38,7 +40,7 @@ export function latestLevels(entries: PerformanceEntry[], learnerId: string, now
   return [...latest.values()].sort((a, b) => b.date.localeCompare(a.date)).map(e => ({ ...e, stale: daysBetween(e.date, now) > 90 }));
 }
 
-export interface Notice { id: string; kind: 'register' | 'goal' | 'review' | 'task' | 'pupil' | 'plan'; text: string; to: string; }
+export interface Notice { id: string; kind: 'register' | 'goal' | 'review' | 'task' | 'pupil' | 'plan' | 'behaviour'; text: string; to: string; }
 /** What needs the teacher today, worked out from her own data. Nothing here is sent anywhere. */
 export function notices(w: Workspace, now: string): Notice[] {
   const out: Notice[] = []; const desk = w.desk ?? {};
@@ -50,6 +52,10 @@ export function notices(w: Workspace, now: string): Notice[] {
     const l = w.learners.find(x => x.id === p.learnerId); if (!l || !/^\d{4}-\d{2}-\d{2}$/.test(p.nextReview)) continue;
     const due = daysBetween(now, p.nextReview);
     if (due <= 14) out.push({ id: `plan-${p.learnerId}`, kind: 'plan', text: `${l.name.split(/\s|·/)[0]}: ${due < 0 ? 'مضى موعد مراجعة الخطة الفردية' : due === 0 ? 'مراجعة الخطة الفردية اليوم' : 'مراجعة الخطة الفردية خلال أسبوعين'}.`, to: `/iep/${p.learnerId}` });
+  }
+  for (const b of desk.behaviourPlans ?? []) {
+    const l = w.learners.find(x => x.id === b.learnerId);
+    if (l && b.active && b.review && b.review <= now) out.push({ id: `behaviour-${b.id}`, kind: 'behaviour', text: `${l.name.split(/\s|·/)[0]}: حان موعد مراجعة خطة السلوك «${b.target}».`, to: '/behaviour' });
   }
   for (const l of w.learners) {
     const name = l.name.split(/\s|·/)[0];
@@ -63,6 +69,11 @@ export function notices(w: Workspace, now: string): Notice[] {
   return out;
 }
 
+/** How often the planned behaviour was noted on each of the last days, oldest first. Only notes recorded against the plan count. */
+export function behaviourCounts(notes: BehaviourNote[] | undefined, planId: string, now: string, days = 14): { date: string; count: number }[] {
+  return Array.from({ length: days }, (_, i) => { const date = new Date(Date.parse(`${now}T12:00:00Z`) - (days - 1 - i) * 86400000).toISOString().slice(0, 10); return { date, count: (notes ?? []).filter(n => n.planId === planId && n.date === date).length }; });
+}
+
 const str = (v: unknown, max = 400) => typeof v === 'string' && v.length <= max;
 const ids = (v: unknown) => Array.isArray(v) && v.length <= 200 && v.every(x => str(x, 80));
 /** Trust boundary for the synced workspace: shapes and sizes only, so a broken or oversized desk never reaches the account. */
@@ -73,5 +84,7 @@ export function validDesk(d: unknown): boolean {
   if (x.groups !== undefined && !(Array.isArray(x.groups) && x.groups.length <= 60 && x.groups.every(g => str(g.id, 80) && str(g.name, 80) && str(g.grade, 40) && ids(g.learnerIds) && str(g.subject, 80) && Number.isFinite(g.sessions) && Number.isFinite(g.minutes) && str(g.support, 60)))) return false;
   if (x.attendance !== undefined && !(Array.isArray(x.attendance) && x.attendance.length <= 400 && x.attendance.every(a => str(a.date, 10) && !!a.marks && typeof a.marks === 'object' && Object.values(a.marks).every(m => !!m && m.mark in markLabels && (m.note === undefined || str(m.note, 200)))))) return false;
   if (x.performance !== undefined && !(Array.isArray(x.performance) && x.performance.length <= 3000 && x.performance.every(p => str(p.id, 80) && str(p.learnerId, 80) && str(p.domain, 80) && str(p.skill, 160) && Number.isInteger(p.level) && p.level >= 1 && p.level <= 5 && (p.percent === undefined || (Number.isFinite(p.percent) && p.percent >= 0 && p.percent <= 100)) && str(p.tool, 80) && str(p.date, 10) && str(p.note, 400)))) return false;
+  const list = (v: unknown) => Array.isArray(v) && v.length <= 30 && v.every(s => str(s, 120));
+  if (x.behaviourPlans !== undefined && !(Array.isArray(x.behaviourPlans) && x.behaviourPlans.length <= 200 && x.behaviourPlans.every(b => !!b && str(b.id, 80) && str(b.learnerId, 80) && str(b.target, 160) && str(b.definition, 600) && str(b.baseline, 200) && str(b.goal, 200) && str(b.func, 120) && str(b.replacement, 300) && list(b.prevention) && list(b.reinforcers) && str(b.response, 800) && str(b.team, 200) && str(b.review, 10) && typeof b.active === 'boolean'))) return false;
   return true;
 }
