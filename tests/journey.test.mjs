@@ -91,3 +91,10 @@ test('the universal-design check sees what a lesson already has, counts ticks, a
   const video = { id: 'v', title: 'أنشودة', url: 'https://youtu.be/abc123DEF45', subject: 'اللغة العربية', note: '', approved: false };
   assert.equal(validVideos([video]), true); assert.equal(validVideos([{ ...video, url: 'javascript:alert(1)' }]), false);
 });
+
+test('the how-to guide passes validation and every card points at a page path', () => {
+  const clean = validateCatalog(structuredClone(defaultCatalog));
+  assert.equal(clean.help.length, defaultCatalog.help.length); assert.ok(clean.help.every(h => /^\/[a-z-]*$/.test(h.to) && h.steps.length >= 1));
+  assert.equal(/طالبة|معلمة|طالبات|معلمات/.test(JSON.stringify(clean.help)), false);
+  const bad = structuredClone(defaultCatalog); bad.help[0].to = 'https://example.org'; assert.throws(() => validateCatalog(bad));
+});

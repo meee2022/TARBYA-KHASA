@@ -43,6 +43,8 @@ const t = {
 
 let { steps } = await import(pathToFileURL(resolve(process.argv[2])).href);
 if (process.env.ONLY) steps = steps.filter(([name]) => name.includes(process.env.ONLY));
+// Warm the dev server: after source edits its first page load recompiles and reloads, which would break the first step.
+await t.go('/'); await sleep(2500); await t.js(`localStorage.clear(); sessionStorage.clear();`); 
 let failed = 0;
 for (const [name, run] of steps) {
   const before = errors.length;

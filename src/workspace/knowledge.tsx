@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Check, ChevronDown, Copy, Lightbulb, Printer, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Check, ChevronDown, ChevronLeft, Copy, Lightbulb, Printer, Search } from 'lucide-react';
 import { countOf } from '../../packages/domain';
 import { fillPrompt, promptBlanks } from '../../packages/domain/prompts';
-import { useSiteConfig } from './site';
+import { routeAvailable, useSiteConfig } from './site';
 import { useWorkspace } from './store';
 import { Empty, PageHeading } from './Workspace';
 import './knowledge.css';
@@ -48,5 +49,15 @@ export function PromptLabPage() {
         <p className="info-note">لا تكتب في الطلب اسم طالب أو تشخيصه أو أي معلومة تعرّف به. راجع ما يكتبه المساعد قبل استخدامه: أنت من يقرر ما يناسب طلابك.</p>
       </section>
     </div>
+  </>;
+}
+
+/** How to use the platform: one card per job, with its steps and a way straight into it. The content comes from the admin catalog. */
+export function HelpPage() {
+  const { site } = useSiteConfig(); const all = site.catalog.help;
+  return <>
+    <PageHeading title="دليل استخدام المنصة" description="كل عمل تأتي لتنجزه في بطاقة: خطواته بالترتيب، وزر يأخذك إليه مباشرة." />
+    {all.length ? <div className="help-grid">{all.map((h, i) => <article className="panel help-card" key={h.id} style={{ '--i': i } as React.CSSProperties}><header><span aria-hidden="true">{i + 1}</span><h2>{h.title}</h2></header><ol>{h.steps.map((x, n) => <li key={n}>{x}</li>)}</ol>{routeAvailable(h.to, site) && <Link className="button secondary" to={h.to}>ابدأ من هنا<ChevronLeft size={16} /></Link>}</article>)}</div>
+      : <section className="panel desk-panel"><Empty title="الدليل فارغ" description="تضيف إدارة المنصة بطاقات الدليل من لوحة الإدارة." /></section>}
   </>;
 }
