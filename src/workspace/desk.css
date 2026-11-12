@@ -135,6 +135,10 @@
 .achievement-cell strong { font-variant-numeric: tabular-nums; color: var(--brand-deep); }
 .achievement-cell small { color: var(--muted); font-size: 12px; }
 @media (prefers-reduced-motion: reduce) { .instrument-items label { transition: none; } }
+/* Confidential file */
+.confidential-note { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 18px; }
+.confidential-note svg { flex: none; margin-block-start: 3px; color: var(--olive-deep, var(--olive)); }
+.confidential-mark { flex: none; display: grid; place-items: center; inline-size: 40px; block-size: 40px; border-radius: 12px; background: var(--brand); color: var(--gold-light, #dfc48e); }
 /* Reports */
 .report-page { display: grid; gap: 20px; padding: 26px 28px; margin-bottom: 20px; }
 .report-head { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
