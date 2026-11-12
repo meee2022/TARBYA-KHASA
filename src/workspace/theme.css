@@ -59,8 +59,6 @@
 .sidebar > * { position: relative; z-index: 1; }
 .brand-lockup { gap: 12px; }
 /* Colored with a mask, so one drawing serves the light and the maroon surfaces. */
-.brand-wordmark { display: block; width: 148px; aspect-ratio: 736 / 235; margin-bottom: 4px; background: var(--brand); -webkit-mask: url(/logo.svg) center / contain no-repeat; mask: url(/logo.svg) center / contain no-repeat; }
-.sidebar .brand-wordmark, .admin-header .brand-wordmark, .play-room .brand-wordmark { background: #fff7ea; }
 .brand-emblem { width: 48px; height: 54px; border: 1.5px solid var(--gold); border-radius: 24px 24px 8px 8px; color: var(--brand); background: #fff7ea; }
 .sidebar .brand-emblem, .admin-header .brand-emblem { color: var(--gold-light); background: #ffffff14; }
 .brand-lockup strong { font-size: 1.5rem; font-weight: 700; color: var(--brand); }

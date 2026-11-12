@@ -147,7 +147,6 @@
 .settings-grid .account-panel .form-grid { grid-template-columns: 1fr; }
 .studio.admin-console { background: var(--canvas); display: grid; grid-template-columns: 304px minmax(0, 1fr); grid-template-rows: 76px auto; }
 .studio.admin-console .admin-header { grid-column: 2; grid-row: 1; margin-right: 0; background: var(--paper); border-bottom: 1px solid var(--line); min-height: 76px; padding: 16px 28px; }
-.studio.admin-console .admin-header .brand-wordmark { background: var(--brand); }
 .studio.admin-console .admin-header .brand-lockup span { color: var(--muted); }
 .studio.admin-console .admin-header .brand-lockup strong, .studio.admin-console .admin-header > div > span { color: var(--ink); }
 .studio.admin-console .admin-layout { display: contents; max-width: none; grid-template-columns: 288px minmax(0, 1fr); }
@@ -171,7 +170,7 @@
 .admin-auth .admin-auth-box { border-radius: 16px; box-shadow: var(--shadow-2); }
 
 .studio.admin-console .admin-brand { display: block; padding: 4px 10px 24px; margin-bottom: 24px; border-bottom: 1px solid #ffffff24; }
-.studio.admin-console .admin-brand .brand-wordmark { width: 214px; background: #fff1db; }
+.studio.admin-console .admin-brand .brand-wordmark { width: 214px; }
 .studio.admin-console .admin-brand .brand-lockup span { color: #f3e4d6; }
 .studio.admin-console .admin-header > div { width: 100%; }
 .studio.admin-console .admin-header > div > .button { margin-inline-start: auto; }

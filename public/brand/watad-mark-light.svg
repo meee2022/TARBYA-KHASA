@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<path d="M32 9.5 6.5 40.5M32 9.5l25.500 31" stroke="#5c1523" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".62"/>
+<path d="M32 55C25 49.500 15 48.500 6 50.500V34c9-2 19-1 26 4.500z" fill="#5c1523"/>
+<path d="M32 55c7-5.500 17-6.500 26-4.500V34c-9-2-19-1-26 4.500z" fill="#5c1523" opacity=".8"/>
+<path d="M27.600 6h8.800a1.700 1.700 0 0 1 1.700 1.700v2.600a1.700 1.700 0 0 1-1.700 1.700h-.8L34.200 43.500 32 50l-2.200-6.500L28.400 12h-.8a1.700 1.700 0 0 1-1.700-1.700V7.700A1.700 1.700 0 0 1 27.600 6z" fill="#b08d3c" stroke="#fcf9f2" stroke-width="1.600" paint-order="stroke" stroke-linejoin="round"/>
+</svg>

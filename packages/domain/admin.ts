@@ -1,3 +1,4 @@
+import { validDesk } from './desk.ts';
 import { assertWorkspace, type Workspace } from './index.ts';
 import { latinizeContent } from './numbers.ts';
 import type { Iep, WeeklyPlan } from './planning.ts';
@@ -31,6 +32,7 @@ export function validateBackup(input:unknown):Workspace {
     if(w.packs!==undefined&&(!Array.isArray(w.packs)||!w.packs.every(p=>textFields(p,['id','title','subject','language'])&&Array.isArray(p.items)&&p.items.every(i=>textFields(i,['id','text'])))))throw new Error();
     if(w.plans!==undefined&&(!Array.isArray(w.plans)||!w.plans.every(validPlan)))throw new Error();
     if(w.ieps!==undefined&&(!Array.isArray(w.ieps)||!w.ieps.every(validIep)))throw new Error();
+    if(!validDesk(w.desk))throw new Error();
     if(w.forms!==undefined&&(!Array.isArray(w.forms)||!w.forms.every(x=>textFields(x,['id','kind','updatedAt'])&&!!x.values&&typeof x.values==='object'&&Object.values(x.values).every(v=>typeof v==='string'||(Array.isArray(v)&&v.every(i=>typeof i==='string'))))))throw new Error();
     return latinizeContent(structuredClone(w));
   }catch{throw new Error('الملف لا يحتوي على نسخة سليمة من مساحة العمل. لم تتغيّر بياناتك.');}

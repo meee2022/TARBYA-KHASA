@@ -8,7 +8,7 @@ export function SiteProvider({children}:{children:ReactNode}){
   async function refresh(){if(convex)return;try{const response=await fetch('/api/site');if(!response.ok)return;const json=await response.json();setSite(validateSite(json.site));}catch{/* Offline workspace retains the last known settings. */}}
   useEffect(()=>{if(convex){const watch=convex.watchQuery(api.admin.getSite,{});const apply=()=>{try{const json=watch.localQueryResult();if(json)setSite(validateSite(JSON.parse(json)));}catch{/* Keeps the last known settings when offline. */}};apply();return watch.onUpdate(apply);}void refresh();const timer=window.setInterval(refresh,30000);const focus=()=>void refresh();window.addEventListener('focus',focus);return()=>{clearInterval(timer);window.removeEventListener('focus',focus);};},[]);
   useEffect(()=>{// A saved config that still carries the retired burgundy default follows the new identity; a colour the admin chose stays.
-    document.documentElement.style.setProperty('--brand-color',site.primaryColor.toLowerCase()==='#801b3b'?defaultSite.primaryColor:site.primaryColor);document.documentElement.dataset.baseTitle=site.brandName+' — مساحة الدعم الإضافي';if(!document.title.includes(' · '))document.title=document.documentElement.dataset.baseTitle;},[site]);
+    document.documentElement.style.setProperty('--brand-color',site.primaryColor.toLowerCase()==='#801b3b'?defaultSite.primaryColor:site.primaryColor);document.documentElement.dataset.baseTitle=site.brandName+' — منصة التربية الخاصة';if(!document.title.includes(' · '))document.title=document.documentElement.dataset.baseTitle;},[site]);
   return <Context.Provider value={{site,refresh,setSite}}>{children}</Context.Provider>;
 }
 export const useSiteConfig=()=>useContext(Context);

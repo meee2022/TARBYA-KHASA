@@ -69,6 +69,6 @@
 }
 
 /* The wordmark is drawn in its background color: on the page it takes the light brand tint, on maroon bars it stays cream. */
-@media screen { :root[data-theme='dark'] .studio .brand-wordmark:not(.sidebar *, .admin-header *, .play-room *) { background: var(--brand-text); } }
+@media screen { :root[data-theme='dark'] .studio .brand-wordmark:not(.sidebar *, .admin-header *, .play-room *) { --word: var(--brand-text); --mark-img: url(/brand/watad-mark-dark.svg); } }
 
 /* ds-allow-hardcode:end */

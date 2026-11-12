@@ -9,7 +9,7 @@ export function buildPowerPoint(input: Deck) {
   if (errors.length) throw new Error(errors[0]);
   if (!deck.reviewed) throw new Error('راجع الشرائح وحدّد اكتمال المراجعة قبل التنزيل.');
   const pptx = new pptxgen();
-  pptx.layout = 'LAYOUT_WIDE'; pptx.author = 'تربية خاصة'; pptx.subject = deck.subject; pptx.title = deck.title;
+  pptx.layout = 'LAYOUT_WIDE'; pptx.author = 'وتد'; pptx.subject = deck.subject; pptx.title = deck.title;
   pptx.company = 'مساحة الدعم الإضافي'; const lang = deck.language === 'ar' ? 'ar-QA' : 'en-GB';
   pptx.theme = { headFontFace: 'Arial', bodyFontFace: 'Arial' };
   const theme = deckThemes[deck.theme]; const rtl = deck.language === 'ar';

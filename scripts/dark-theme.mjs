@@ -6,7 +6,7 @@ import postcss from 'postcss';
 
 const dir = new URL('../src/workspace/', import.meta.url);
 // Same order the app loads them in, so a later rule overrides an earlier one here too.
-export const SOURCES = ['planning.css', 'presentations.css', 'games.css', 'packs.css', 'parent.css', 'journey.css', 'workspace.css', 'theme.css', 'admin.css', 'refinement.css'];
+export const SOURCES = ['planning.css', 'presentations.css', 'games.css', 'packs.css', 'parent.css', 'journey.css', 'desk.css', 'workspace.css', 'theme.css', 'admin.css', 'refinement.css'];
 export const OUTPUT = new URL('dark.generated.css', dir);
 // Learner-facing rooms and paper stay in daylight colors.
 const ISLANDS = ['.theme-preview', '.play-room', '.sheet-page', '.slide-preview', '.sample-slide', '.deck-presenter', '.print-questions'];
