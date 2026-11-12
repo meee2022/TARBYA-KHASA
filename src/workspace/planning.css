@@ -7,6 +7,26 @@
 .plan-state { flex: none; padding: 5px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 500; background: var(--chip); color: var(--chip-ink); }
 .plan-state.ok { background: var(--sage); color: var(--sage-ink); }
 .plan-state.warn { background: var(--note); color: var(--note-ink); }
+.plan-state.late { background: var(--brand); color: #fff7ea; }
+.approval-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 20px 22px; border-radius: 20px; background: var(--tray); box-shadow: 0 1px 2px rgba(74, 15, 27, .06), 0 8px 24px rgba(74, 15, 27, .07); }
+.approval-card > svg { color: var(--gold); }
+.approval-card strong { display: block; color: var(--brand-deep); font-size: 19px; }
+.approval-card p { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.approval-card.approved { background: var(--sage); }
+.approval-card.approved > svg { color: var(--sage-ink); }
+.approval-card.edited { background: var(--note); }
+.version-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.version-list > li { padding: 14px 16px; border-radius: 16px; background: var(--paper); box-shadow: 0 1px 2px rgba(74, 15, 27, .05), 0 4px 14px rgba(74, 15, 27, .06); transition: box-shadow .25s ease, transform .25s ease; }
+.version-list > li:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(74, 15, 27, .06), 0 10px 24px rgba(74, 15, 27, .09); }
+.version-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.version-head > div:nth-child(2) { flex: 1 1 200px; min-width: 0; }
+.version-head strong { display: block; color: var(--ink); }
+.version-head small { color: var(--muted); }
+.version-number { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--brand); color: #fff7ea; font-weight: 600; font-variant-numeric: tabular-nums; }
+.change-list { margin: 12px 0 0; padding: 12px 34px 12px 16px; border-radius: 12px; background: var(--tray); display: grid; gap: 6px; font-size: 14px; line-height: 1.7; color: var(--ink); animation: rise-in .3s ease both; }
+.change-none { margin: 12px 0 0; }
+@media (max-width: 640px) { .approval-card { grid-template-columns: auto minmax(0, 1fr); } .approval-card > .button { grid-column: 1 / -1; } .version-head .heading-actions { flex: 1 1 100%; } .version-head .heading-actions .button { flex: 1; } }
+@media (prefers-reduced-motion: reduce) { .version-list > li, .change-list { transition: none; animation: none; } .version-list > li:hover { transform: none; } }
 .lesson-symbol .avatar { width: 100%; height: 100%; }
 .pack-fill { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: end; padding: 16px 18px; border-radius: 16px; background: var(--sand); }
 .pack-fill .button { min-height: 46px; }

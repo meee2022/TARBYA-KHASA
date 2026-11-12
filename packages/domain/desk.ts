@@ -38,7 +38,7 @@ export function latestLevels(entries: PerformanceEntry[], learnerId: string, now
   return [...latest.values()].sort((a, b) => b.date.localeCompare(a.date)).map(e => ({ ...e, stale: daysBetween(e.date, now) > 90 }));
 }
 
-export interface Notice { id: string; kind: 'register' | 'goal' | 'review' | 'task' | 'pupil'; text: string; to: string; }
+export interface Notice { id: string; kind: 'register' | 'goal' | 'review' | 'task' | 'pupil' | 'plan'; text: string; to: string; }
 /** What needs the teacher today, worked out from her own data. Nothing here is sent anywhere. */
 export function notices(w: Workspace, now: string): Notice[] {
   const out: Notice[] = []; const desk = w.desk ?? {};
@@ -46,6 +46,11 @@ export function notices(w: Workspace, now: string): Notice[] {
   for (const t of desk.tasks ?? []) if (!t.done && t.due && t.due < now) out.push({ id: `task-${t.id}`, kind: 'task', text: `مهمة تجاوزت موعدها: ${t.title}`, to: '/tasks' });
   const waiting = w.lessons.filter(l => l.status === 'review').length;
   if (waiting) out.push({ id: 'review', kind: 'review', text: waiting === 1 ? 'تحضير واحد ينتظر المراجعة.' : `${waiting} تحاضير تنتظر المراجعة.`, to: '/review' });
+  for (const p of w.ieps ?? []) {
+    const l = w.learners.find(x => x.id === p.learnerId); if (!l || !/^\d{4}-\d{2}-\d{2}$/.test(p.nextReview)) continue;
+    const due = daysBetween(now, p.nextReview);
+    if (due <= 14) out.push({ id: `plan-${p.learnerId}`, kind: 'plan', text: `${l.name.split(/\s|·/)[0]}: ${due < 0 ? 'مضى موعد مراجعة الخطة الفردية' : due === 0 ? 'مراجعة الخطة الفردية اليوم' : 'مراجعة الخطة الفردية خلال أسبوعين'}.`, to: `/iep/${p.learnerId}` });
+  }
   for (const l of w.learners) {
     const name = l.name.split(/\s|·/)[0];
     if (!l.goals.length) { out.push({ id: `nogoal-${l.id}`, kind: 'pupil', text: `لا أهداف فردية بعد في ملف ${name}.`, to: `/learners/${l.id}` }); continue; }

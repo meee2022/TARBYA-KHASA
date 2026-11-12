@@ -64,7 +64,7 @@ export function homeObservation(learnerId: string, goalId: string, result: 'yes'
 export interface Workspace { version: 1; learners: Learner[]; lessons: Lesson[]; observations: Observation[]; practiceSessions?: PracticeRecord[]; packs?: ContentPack[]; plans?: WeeklyPlan[]; ieps?: Iep[]; forms?: SpecialForm[]; desk?: import('./desk.ts').Desk; }
 export const defaults: Preferences = { largeText: false, highContrast: false, sound: true, reducedMotion: true, choices: 3, response: 'touch', understands: ['picture', 'text'], responds: ['touch'], targetSize: 'normal', hand: 'any', steady: false, instant: false };
 /** Arabic counting: one and two have their own forms. */
-export const countOf = (n: number, one: string, two: string, many: string) => n === 1 ? `${one} واحد` : n === 2 ? two : `${n} ${many}`;
+export const countOf = (n: number, one: string, two: string, many: string) => n === 1 ? `${one} ${one.split(' ')[0].endsWith('ة') ? 'واحدة' : 'واحد'}` : n === 2 ? two : `${n} ${many}`;
 export const uid = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 export const dateLabel = (value: string) => new Date(value).toLocaleDateString('ar-QA-u-nu-latn', { day: 'numeric', month: 'long' });
 export function createLesson(subject: Subject = 'اللغة الإنجليزية'): Lesson {

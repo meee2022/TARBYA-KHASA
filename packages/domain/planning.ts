@@ -22,7 +22,11 @@ export interface Iep {
   services: { periods: string; scientific: boolean; literary: boolean; skills: boolean; sessions: string; speech: boolean; physical: boolean; occupational: boolean };
   performance: Record<string, { strength: string; need: string }[]>; goals: IepLongGoal[]; classroom: string[]; assessmentAcc: string[]; curriculumAcc: string[];
   tech: { tool: string; purpose: string }[]; team: { name: string; role: string }[]; reviews: IepReview[]; nextReview: string; updatedAt: string;
+  /** Approved copies, oldest first. An approved copy never changes; editing the plan afterwards only makes the live plan differ from it. */
+  versions?: IepVersion[];
 }
+export type IepContent = Omit<Iep, 'versions' | 'updatedAt'>;
+export interface IepVersion { v: number; at: string; plan: IepContent; }
 export interface Issue { where: string; text: string; }
 export const issuesLabel = (n: number) => countOf(n, 'تنبيه', 'تنبيهان', 'تنبيهات');
 /** Keeps a date or year range in order inside Arabic text. */
@@ -95,6 +99,45 @@ export function lessonSiblings(lesson: Lesson, lessons: Lesson[]) {
 export function createIep(learnerId: string, catalog: Catalog): Iep {
   return { learnerId, year: catalog.academicYear, school: '', schoolType: '', birthDate: '', age: '', curriculum: catalog.curriculumTypes[0] ?? '', disability: '', supportLevel: catalog.supportLevels[0] ?? '', summary: '', services: { periods: '', scientific: false, literary: false, skills: false, sessions: '', speech: false, physical: false, occupational: false }, performance: {}, goals: [], classroom: [], assessmentAcc: [], curriculumAcc: [], tech: [], team: [], reviews: [], nextReview: '', updatedAt: new Date().toISOString() };
 }
+/** How many approved copies a plan keeps. Older ones drop off so the synced workspace stays small. */
+export const IEP_VERSIONS_KEPT = 8;
+const contentOf = ({ versions: _v, updatedAt: _u, ...plan }: Iep): IepContent => plan;
+const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+/** Where the plan stands: never approved, approved as it is now, or edited since its last approval. Derived, so it cannot drift from the copies. */
+export function iepApproval(iep: Iep): { state: 'draft' | 'approved' | 'edited'; version: number; at: string } {
+  const last = iep.versions?.[iep.versions.length - 1];
+  return last ? { state: same(last.plan, contentOf(iep)) ? 'approved' : 'edited', version: last.v, at: last.at } : { state: 'draft', version: 0, at: '' };
+}
+export const approvalLabel = (iep: Iep) => { const a = iepApproval(iep); return a.state === 'draft' ? 'مسودة' : a.state === 'approved' ? `معتمدة · الإصدار ${a.version}` : `عُدّلت بعد الإصدار ${a.version}`; };
+/** Freezes the plan as it is now into a new numbered copy. Approving an unchanged plan again adds nothing. */
+export function approveIep(iep: Iep, now = new Date().toISOString()): Iep {
+  const a = iepApproval(iep); if (a.state === 'approved') return iep;
+  return { ...iep, versions: [...(iep.versions ?? []), { v: a.version + 1, at: now, plan: structuredClone(contentOf(iep)) }].slice(-IEP_VERSIONS_KEPT) };
+}
+const fieldNames: [keyof IepContent, string][] = [['year', 'العام الأكاديمي'], ['school', 'المدرسة'], ['schoolType', 'نوع المدرسة'], ['birthDate', 'تاريخ الميلاد'], ['age', 'العمر'], ['curriculum', 'نوع المنهاج'], ['disability', 'نوع الإعاقة'], ['supportLevel', 'مستوى الدعم'], ['summary', 'ملخص الحالة'], ['services', 'الجدول والخدمات'], ['performance', 'الأداء الحالي'], ['tech', 'التكنولوجيا المساندة'], ['team', 'فريق العمل'], ['reviews', 'سجل المراجعات'], ['nextReview', 'موعد المراجعة القادمة']];
+const quote = (text: string) => `«${text.trim().slice(0, 70) || 'بلا نص'}»`;
+/** What changed between an approved copy and the plan now, in the teacher's words. Empty when nothing changed. */
+export function iepChanges(before: IepContent, now: Iep): string[] {
+  const out: string[] = [];
+  for (const [key, name] of fieldNames) if (!same(before[key], now[key])) out.push(`تغيّر: ${name}`);
+  for (const g of now.goals) {
+    const old = before.goals.find(x => x.id === g.id);
+    if (!old) { out.push(`هدف بعيد المدى جديد: ${quote(g.text)}`); continue; }
+    const { shorts: _a, ...head } = g; const { shorts: _b, ...oldHead } = old;
+    if (!same(head, oldHead)) out.push(`عُدّل الهدف بعيد المدى: ${quote(g.text)}`);
+    for (const s of g.shorts) { const was = old.shorts.find(x => x.id === s.id); if (!was) out.push(`هدف قصير جديد: ${quote(s.text)}`); else if (!same(was, s)) out.push(`عُدّل الهدف القصير: ${quote(s.text)}`); }
+    for (const s of old.shorts) if (!g.shorts.some(x => x.id === s.id)) out.push(`حُذف الهدف القصير: ${quote(s.text)}`);
+  }
+  for (const g of before.goals) if (!now.goals.some(x => x.id === g.id)) out.push(`حُذف الهدف بعيد المدى: ${quote(g.text)}`);
+  for (const [key, name] of [['classroom', 'ترتيبات البيئة الصفية'], ['assessmentAcc', 'ترتيبات التقييم'], ['curriculumAcc', 'ترتيبات المنهاج']] as const) {
+    const added = now[key].filter(x => !before[key].includes(x)), removed = before[key].filter(x => !now[key].includes(x));
+    if (added.length) out.push(`أُضيف إلى ${name}: ${added.join('، ')}`);
+    if (removed.length) out.push(`حُذف من ${name}: ${removed.join('، ')}`);
+  }
+  return out;
+}
+/** Days until the next review: negative when it has passed, null when no date is set. */
+export const reviewDue = (iep: Iep, now = today()) => /^\d{4}-\d{2}-\d{2}$/.test(iep.nextReview) ? Math.round((Date.parse(iep.nextReview) - Date.parse(now)) / 864e5) : null;
 export const newLongGoal = (kind: IepLongGoal['kind'], subject: string): IepLongGoal => ({ id: uid(), kind, subject, unit: '', text: '', start: '', end: '', result: '', shorts: [] });
 export const newShortGoal = (long: IepLongGoal, catalog: Catalog): IepShortGoal => ({ id: uid(), text: '', strategy: catalog.strategies[0] ?? '', arrangements: catalog.teachingAids[0] ?? '', assessment: catalog.assessmentTools[0] ?? '', start: long.start, end: long.end, result: '' });
 

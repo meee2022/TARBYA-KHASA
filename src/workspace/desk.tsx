@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CalendarClock, Check, ClipboardCheck, ListChecks, Pencil, Plus, Printer, Settings2, Target, Trash2, UserRound, Users } from 'lucide-react';
+import { ArrowLeft, CalendarClock, Check, ClipboardCheck, ClipboardList, ListChecks, Pencil, Plus, Printer, Settings2, Target, Trash2, UserRound, Users } from 'lucide-react';
 import { countOf, dateLabel, uid, type Learner } from '../../packages/domain';
 import { attendanceSummary, defaultTimetable, latestLevels, levelLabels, markLabels, marks, notices, priorityLabels, schoolDay, weekDays, type AttendanceMark, type Group, type PerformanceEntry, type Task, type TaskPriority, type Timetable, type TimetableSlot } from '../../packages/domain/desk';
 import { checkIep, today } from '../../packages/domain/planning';
@@ -63,7 +63,7 @@ export function TasksPage() {
   </>;
 }
 
-const noticeIcon = { register: ClipboardCheck, goal: Target, review: ListChecks, task: CalendarClock, pupil: UserRound };
+const noticeIcon = { register: ClipboardCheck, goal: Target, review: ListChecks, task: CalendarClock, pupil: UserRound, plan: ClipboardList };
 /** Alerts worked out from the teacher's own data: the register, goals left unmeasured, work waiting for review. */
 export function NotificationsPage() {
   const { data } = useWorkspace(); const list = notices(data, today());

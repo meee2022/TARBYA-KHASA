@@ -281,3 +281,29 @@ test('a ministry form fills from the pupil, counts its progress, and exports eve
   const w = { ...seedWorkspace(), forms: [form] }; assert.equal(validateBackup(JSON.parse(JSON.stringify(w))).forms.length, 1);
   assert.throws(() => validateBackup(JSON.parse(JSON.stringify({ ...w, forms: [{ ...form, values: { x: 5 } }] }))), 'a non-string value is refused');
 });
+
+test('approving a plan freezes a numbered copy, and later edits are listed against it', async () => {
+  const { approveIep, iepApproval, iepChanges, approvalLabel, reviewDue, IEP_VERSIONS_KEPT } = await import('../packages/domain/planning.ts');
+  const long = { ...newLongGoal('academic', 'الرياضيات'), text: 'تعدّ حتى عشرة' };
+  const draft = { ...createIep('l', defaultCatalog), summary: 'ملخص', goals: [long], classroom: ['مقعد قريب'] };
+  assert.equal(iepApproval(draft).state, 'draft'); assert.equal(approvalLabel(draft), 'مسودة');
+  const v1 = approveIep(draft, '2026-11-12T08:00:00.000Z');
+  assert.deepEqual([iepApproval(v1).state, iepApproval(v1).version], ['approved', 1]);
+  assert.equal(approveIep(v1), v1, 'approving an unchanged plan adds no copy');
+  assert.equal(iepApproval({ ...v1, updatedAt: 'later' }).state, 'approved', 'a save time alone is not an edit');
+  const short = { ...newShortGoal(long, defaultCatalog), text: 'تعدّ حتى خمسة' };
+  const edited = { ...v1, summary: 'ملخص جديد', goals: [{ ...long, shorts: [short] }], classroom: ['مقعد قريب', 'وقت إضافي'] };
+  assert.equal(iepApproval(edited).state, 'edited');
+  assert.equal(v1.versions[0].plan.summary, 'ملخص', 'the approved copy does not change');
+  const changes = iepChanges(edited.versions[0].plan, edited);
+  assert.ok(changes.includes('تغيّر: ملخص الحالة')); assert.ok(changes.some(c => c.startsWith('هدف قصير جديد'))); assert.ok(changes.some(c => c.includes('وقت إضافي')));
+  assert.deepEqual(iepChanges(v1.versions[0].plan, v1), []);
+  const v2 = approveIep(edited, '2026-12-01T08:00:00.000Z');
+  assert.deepEqual(v2.versions.map(v => v.v), [1, 2]);
+  let many = v2; for (let i = 0; i < 12; i++) many = approveIep({ ...many, summary: `ملخص ${i}` });
+  assert.equal(many.versions.length, IEP_VERSIONS_KEPT); assert.equal(many.versions.at(-1).v, 14);
+  assert.equal(reviewDue({ ...draft, nextReview: '2026-11-20' }, '2026-11-12'), 8); assert.equal(reviewDue(draft, '2026-11-12'), null);
+  const w = { ...seedWorkspace(), ieps: [v2] }; w.learners[0].id = 'l';
+  assert.doesNotThrow(() => validateBackup(structuredClone(w)));
+  assert.throws(() => validateBackup({ ...w, ieps: [{ ...v2, versions: [{ v: 1, at: 'x', plan: { learnerId: 'l' } }] }] }));
+});
