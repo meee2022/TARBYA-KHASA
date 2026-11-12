@@ -307,3 +307,21 @@ test('approving a plan freezes a numbered copy, and later edits are listed again
   assert.doesNotThrow(() => validateBackup(structuredClone(w)));
   assert.throws(() => validateBackup({ ...w, ieps: [{ ...v2, versions: [{ v: 1, at: 'x', plan: { learnerId: 'l' } }] }] }));
 });
+
+test('a weekly preparation reports the state of its seven stages and what each still lacks', async () => {
+  const { planStages, planStageNames } = await import('../packages/domain/planning.ts');
+  const blank = { ...createPlan(defaultCatalog), bagItems: [], bagLinks: [] };
+  const start = planStages(blank);
+  assert.equal(start.length, 7); assert.equal(planStageNames.length, 7);
+  assert.deepEqual(start.map(s => s.state), ['none', 'none', 'none', 'none', 'none', 'none', 'none']);
+  assert.ok(start.every(s => s.missing));
+  assert.deepEqual(planStages(blank, [{ where: 'header', text: 'x' }, { where: 'session-0', text: 'y' }]).map(s => s.state), Array(7).fill('none'), 'notes on a stage not yet started do not flag it');
+  const stage = { teacher: 'أعرض البطاقة', student: 'يشير', minutes: 10, arrangements: '', assessment: 'ملاحظة المعلم' };
+  const full = { ...blank, title: 'حرف الباء', learnerIds: ['a'], goalIds: ['g'], shortGoals: 'يميّز الباء', bagItems: [{ text: 'بطاقات', done: false }], achieved: 'done', reflection: 'نجح التلميح البصري',
+    sessions: blank.sessions.map(x => ({ ...x, objective: 'يميّز الحرف', warmup: stage, content: stage, closing: stage, done: true })) };
+  assert.deepEqual(planStages(full).map(s => s.state), Array(7).fill('done'));
+  assert.ok(planStages(full).every(s => s.missing === ''));
+  const half = { ...full, shortGoals: '', sessions: full.sessions.map((x, n) => n ? x : { ...x, done: false }) };
+  const states = planStages(half, [{ where: 'session-2', text: 'x' }, { where: 'bag', text: 'y' }]).map(s => s.state);
+  assert.deepEqual(states, ['done', 'done', 'progress', 'review', 'review', 'done', 'progress']);
+});

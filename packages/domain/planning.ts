@@ -59,6 +59,26 @@ export function fillPlan(plan: WeeklyPlan, pack: ContentPack, catalog: Catalog):
   return { ...plan, packId: pack.id, title: plan.title || pack.title, subject: pack.subject, goalIds: pack.subject === plan.subject ? plan.goalIds : [], shortGoals: put(catalog.planPattern[0]?.objective ?? ''), sessions: plan.sessions.map((s, n) => session(s, catalog.planPattern[n], n)), bagItems: plan.bagItems.length ? plan.bagItems : catalog.teachingAids.slice(0, 4).map(text => ({ text, done: false })), updatedAt: new Date().toISOString() };
 }
 /** One lesson, and what differs for this learner. Built from their profile, never from a diagnosis. */
+export type StageState = 'none' | 'progress' | 'done' | 'review';
+export const stageStateLabels: Record<StageState, string> = { none: 'لم تبدأ', progress: 'قيد التنفيذ', done: 'مكتملة', review: 'تحتاج مراجعة' };
+export const planStageNames = ['البيانات الأساسية', 'الطلاب ومستوياتهم', 'الأهداف التعليمية والفردية', 'الجلسات والأنشطة المتمايزة', 'حقيبة الحصة والوسائل', 'التقييم وقياس التقدم', 'التوثيق والإنجاز والتأمل'] as const;
+/** Where each of the seven stages of a weekly preparation stands, and what it still lacks. A consistency note on a stage that has been started outranks its completeness. */
+export function planStages(plan: WeeklyPlan, issues: Issue[] = []): { state: StageState; missing: string }[] {
+  const flagged = (...where: string[]) => issues.some(i => where.some(w => w.endsWith('-') ? i.where.startsWith(w) : i.where === w));
+  const written = (x: PlanSession) => stageKeys.some(k => x[k].teacher.trim() || x[k].student.trim());
+  const tool = (x: PlanSession) => stageKeys.some(k => x[k].assessment.trim());
+  const rows: [started: boolean, complete: boolean, flagged: boolean, missing: string][] = [
+    [!!plan.title.trim(), !!(plan.title.trim() && plan.subject && plan.weekStart && plan.sessionLength > 0), flagged('header'), 'اكتب موضوع الدرس وزمن الجلسة'],
+    [plan.learnerIds.length > 0, plan.learnerIds.length > 0, flagged('learners'), 'اختر الطلاب المشاركين'],
+    [plan.goalIds.length > 0 || !!plan.shortGoals.trim(), plan.goalIds.length > 0 && !!plan.shortGoals.trim(), flagged('goals', 'spelling'), 'اربط هدفًا فرديًا واكتب الأهداف قصيرة المدى'],
+    [plan.sessions.some(x => x.objective.trim() || written(x)), plan.sessions.every(x => x.objective.trim() && written(x)), flagged('session-'), 'اكتب هدف كل جلسة ودور المعلم والطالب فيها'],
+    [plan.bagItems.length + plan.bagLinks.length > 0, plan.bagItems.some(b => b.text.trim()), flagged('bag'), 'أضف ما تجهّزه للحصة'],
+    [plan.sessions.some(tool), plan.sessions.every(tool), false, 'حدّد أداة تقويم في كل جلسة'],
+    [plan.sessions.some(x => x.done) || !!plan.reflection.trim() || plan.achieved !== '', plan.sessions.every(x => x.done) && plan.achieved !== '' && !!plan.reflection.trim(), false, 'أنهِ الجلسات وسجّل تحقق الأهداف والتأمل'],
+  ];
+  // A stage nobody has started is simply not begun: the checker's notes about empty fields are not a reason to review it.
+  return rows.map(([started, complete, flag, missing]) => { const review = flag && (started || complete); return { state: review ? 'review' : complete ? 'done' : started ? 'progress' : 'none', missing: review ? 'راجع تنبيهات فاحص الاتساق' : complete ? '' : missing }; });
+}
 export function learnerPath(l: Learner) {
   const p = l.preferences; const parts = [describeAdaptation(p).join('، ')];
   if (p.understands?.length) parts.push(`يفهم عبر: ${p.understands.map(u => understandingLabels[u]).join('، ')}`);
