@@ -117,3 +117,26 @@ test('records are checked for shape, referrals come due, and training hours add 
   assert.equal(validDesk({ referrals: [{ ...referral, state: 'lost' }] }), false); assert.equal(validDesk({ meetings: [{ ...good.meetings[0], consent: 'maybe' }] }), false);
   assert.equal(validDesk({ evidence: [{ ...good.evidence[0], reviewed: 'yes' }] }), false); assert.equal(validDesk({ portfolio: [{ ...items[0], section: 'other' }] }), false);
 });
+
+test('a pupil report gathers what is recorded about one pupil and builds a Word body', async () => {
+  const { learnerReport, learnerReportBody } = await import('../packages/domain/reports.ts');
+  const { packageParts } = await import('../packages/domain/docx.ts');
+  const base = seedWorkspace(); const id = base.learners[0].id;
+  const w = { ...base, desk: {
+    attendance: [{ date: '2026-11-08', marks: { [id]: { mark: 'present' } } }, { date: '2026-11-09', marks: { [id]: { mark: 'absent' } } }],
+    performance: [{ id: 'p1', learnerId: id, domain: 'اللغة', skill: 'تمييز الحرف', level: 2, percent: 40, tool: 'ملاحظة', date: '2026-09-01', note: '', kind: 'pre', subject: 'اللغة العربية' }, { id: 'p2', learnerId: id, domain: 'اللغة', skill: 'تمييز الحرف', level: 4, percent: 80, tool: 'ملاحظة', date: '2026-11-01', note: '', kind: 'final', subject: 'اللغة العربية' }],
+    behaviourPlans: [{ id: 'b', learnerId: id, target: 'ترك المقعد', definition: '', baseline: '', goal: '', func: '', replacement: 'يرفع البطاقة', prevention: [], reinforcers: [], response: '', team: '', review: '', active: true }],
+    evidence: [{ id: 'e', learnerId: id, title: 'ورقة عمل', date: '2026-11-05', note: '', reviewed: true }, { id: 'x', learnerId: 'other', title: 'ليست له', date: '2026-11-05', note: '', reviewed: false }],
+    referrals: [{ id: 'r', learnerId: id, date: '2026-11-02', to: 'أخصائي النطق', reason: 'نطق الراء', state: 'open', followUp: '', reply: '' }],
+  } };
+  w.learners[0].behaviour = [{ id: 'n', date: '2026-11-11', antecedent: '', behaviour: 'ترك المقعد', consequence: '', planId: 'b' }];
+  const r = learnerReport(w, id, '2026-11-12');
+  assert.deepEqual([r.attendance.recorded, r.attendance.rate], [2, 50]);
+  assert.equal(r.goals.length, w.learners[0].goals.length); assert.equal(r.levels.length, 1); assert.deepEqual([r.levels[0].level, r.levels[0].from], [4, 2]);
+  assert.deepEqual(r.achievement, [{ subject: 'اللغة العربية', average: 60, count: 2 }]);
+  assert.equal(r.behaviour[0].count, 1); assert.equal(r.evidence.length, 1); assert.equal(r.referrals[0].state, 'مفتوحة');
+  assert.equal(learnerReport(w, 'missing', '2026-11-12'), undefined);
+  const xml = packageParts(learnerReportBody(r))['word/document.xml'];
+  for (const part of ['تقرير الطالب', 'الأهداف الفردية', 'مستويات الأداء', 'خطط تعديل السلوك', 'الإحالات', 'توقيع ولي الأمر']) assert.ok(xml.includes(part), part);
+  const bare = learnerReport(base, id, '2026-11-12'); assert.equal(bare.plan.length > 0, true); assert.ok(packageParts(learnerReportBody(bare))['word/document.xml'].includes('لم يُسجَّل حضور هذا الشهر'));
+});

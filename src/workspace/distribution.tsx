@@ -26,7 +26,7 @@ export function DistributionPage() {
   const units = dist ? catalog.units.filter(u => u.grade === dist.grade && u.subject === dist.subject) : [];
   const spread = async () => { if (!dist) return; if (dist.rows.length && !await confirmDialog('توزيع وحدات المنهج يستبدل الوحدات المكتوبة في هذا الجدول. متابعة؟', { ok: 'وزّع الوحدات', danger: false })) return; update({ rows: spreadUnits(units, dist.weeks) }); notify('وُزّعت وحدات المنهج على أسابيع الفصل. عدّل الأسابيع كما تريد.'); };
   const prepare = (start: string, topic: string) => { if (!dist) return; const plan = { ...createPlan(catalog, dist.subject, start), title: topic }; savePlan(plan); notify('بدأ تحضير هذا الأسبوع من التوزيع الفصلي.'); navigate(`/plans/${plan.id}`); };
-  const word = async () => { if (!dist) return; setBusy(true); try { await downloadWord(`الخطة الفصلية ${dist.subject} الصف ${dist.grade}`, distributionBody(dist, catalog.units)); notify('نُزّل ملف Word'); } catch { notify('تعذّر إنشاء الملف. حاول مرة أخرى.'); } finally { setBusy(false); } };
+  const word = async () => { if (!dist) return; setBusy(true); try { await downloadWord(`الخطة الفصلية ${dist.subject} الصف ${dist.grade}`, distributionBody(dist, catalog.units), 'خطة فصلية'); notify('نُزّل ملف Word'); } catch { notify('تعذّر إنشاء الملف. حاول مرة أخرى.'); } finally { setBusy(false); } };
   const weeks = dist ? termWeeks(dist, catalog.units, data.plans ?? []) : []; const issues = dist ? distributionIssues(dist) : []; const thisWeek = weekOf(today());
   return <>
     <PageHeading title="التوزيع الفصلي للمنهج" description="وزّع وحدات المادة على أسابيع الفصل، ومن كل أسبوع ابدأ تحضيره. الجدول يُطبع أو يُصدَّر Word.">

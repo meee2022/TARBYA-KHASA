@@ -34,6 +34,8 @@ export const ltr = (text: string) => `\u2066${text}\u2069`;
 
 export const day = (date: string, add = 0) => { const d = new Date(`${date}T12:00:00Z`); d.setUTCDate(d.getUTCDate() + add); return d.toISOString().slice(0, 10); };
 const valid = (date: string) => /^\d{4}-\d{2}-\d{2}$/.test(date);
+/** The calendar day of a saved moment where the teacher is, not in UTC: a file exported after midnight belongs to the new day. */
+export const localDay = (iso: string) => { const d = new Date(iso); return Number.isNaN(d.getTime()) ? iso.slice(0, 10) : d.toLocaleDateString('en-CA'); };
 export const today = () => new Date().toLocaleDateString('en-CA');
 /** The school week starts on Sunday. */
 export function weekOf(date: string) { const d = new Date(`${date}T12:00:00Z`); return day(date, -d.getUTCDay()); }

@@ -31,7 +31,7 @@ export function FormEditor() {
   const t = formTemplates[form.kind]; const section = t.sections[Math.min(step, t.sections.length - 1)]; const who = data.learners.find(l => l.id === form.learnerId); const progress = formProgress(form);
   const set = (fieldId: string, value: string | string[]) => saveForm({ ...form, values: { ...form.values, [fieldId]: value }, updatedAt: new Date().toISOString() });
   const filled = (s: typeof section) => s.fields.filter(x => { const v = form.values[x.id]; return Array.isArray(v) ? v.length > 0 : !!(v && v.trim()); }).length;
-  const word = async () => { setBusy(true); try { await downloadWord(`${t.short} ${String(form.values.name || '')}`, formBody(form, site.catalog.academicYear)); notify('نُزّل ملف Word'); } catch { notify('تعذّر إنشاء الملف. حاول مرة أخرى.'); } finally { setBusy(false); } };
+  const word = async () => { setBusy(true); try { await downloadWord(`${t.short} ${String(form.values.name || '')}`, formBody(form, site.catalog.academicYear), 'استمارة رسمية'); notify('نُزّل ملف Word'); } catch { notify('تعذّر إنشاء الملف. حاول مرة أخرى.'); } finally { setBusy(false); } };
   const field = (x: FormField) => {
     const v = form.values[x.id];
     if (section.scale && x.kind === 'choice') return <Seg key={x.id} label={x.label} value={typeof v === 'string' ? v : ''} options={section.scale.map(o => [o, o] as const)} onChange={o => set(x.id, o)} />;
