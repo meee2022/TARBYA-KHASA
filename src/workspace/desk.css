@@ -93,6 +93,9 @@
 .level-pill.is-2 { background: #f5e3cf; color: #7a4a12; }
 .level-pill.is-4 { background: var(--sage); color: var(--olive-deep); }
 .level-pill.is-5 { background: var(--olive); color: #fff; }
+.level-change { font-size: 13px; color: var(--muted); white-space: nowrap; }
+.level-change.is-up::after { content: ' ↑'; color: var(--olive-deep); font-weight: 600; }
+.level-change.is-down::after { content: ' ↓'; color: #8a1f17; font-weight: 600; }
 .stale-pill { display: inline-block; margin-inline-start: 8px; padding: 1px 8px; border-radius: 8px; background: #f6dcd9; color: #8a1f17; font-size: 11.5px; }
 
 /* Sidebar sections. */

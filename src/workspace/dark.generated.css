@@ -613,6 +613,9 @@ html:where([data-theme='dark']) .level-pill.is-2:where(:not(.theme-preview, .the
     background: #34291c;
     color: #ebd4b9
 }
+html:where([data-theme='dark']) .level-change.is-down:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *))::after {
+    color: #e9b7b4
+}
 html:where([data-theme='dark']) .stale-pill:where(:not(.theme-preview, .theme-preview *, .play-room, .play-room *, .sheet-page, .sheet-page *, .slide-preview, .slide-preview *, .sample-slide, .sample-slide *, .deck-presenter, .deck-presenter *, .print-questions, .print-questions *)) {
     background: #301c1a;
     color: #e9b7b4

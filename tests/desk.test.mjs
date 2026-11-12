@@ -62,3 +62,12 @@ test('a behaviour plan counts only its own notes per day, and asks for review wh
   assert.equal(validDesk({ behaviourPlans: [plan] }), true);
   assert.equal(validDesk({ behaviourPlans: [{ ...plan, prevention: 'x' }] }), false);
 });
+
+test('a skill measured more than once shows the level it started from, and the kind of a reading is checked', () => {
+  const e = (id, date, level, kind) => ({ id, learnerId: 'a', domain: 'القراءة', skill: 'تمييز الحرف', level, tool: 'ملاحظة', date, note: '', kind });
+  const [row] = latestLevels([e('1', '2026-09-01', 2, 'pre'), e('2', '2026-10-01', 3), e('3', '2026-11-01', 4, 'final')], 'a', '2026-11-12');
+  assert.equal(row.level, 4); assert.equal(row.from, 2);
+  assert.equal(latestLevels([e('1', '2026-11-01', 2, 'pre')], 'a', '2026-11-12')[0].from, undefined);
+  assert.equal(validDesk({ performance: [e('1', '2026-11-01', 2, 'pre')] }), true);
+  assert.equal(validDesk({ performance: [e('1', '2026-11-01', 2, 'weekly')] }), false);
+});
