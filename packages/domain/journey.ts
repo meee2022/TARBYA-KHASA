@@ -9,9 +9,9 @@ export interface StationPlan { minutes?: number; tiers?: Partial<Record<Tier, st
 
 export const stations: { id: StationId; title: string; hint: string; share: number; optional?: boolean }[] = [
   { id: 'warmup', title: 'التهيئة', hint: 'تقديم الروتين وربط الدرس بخبرة مألوفة', share: 12 },
-  { id: 'teaching', title: 'الشرح والنمذجة', hint: 'ماذا تفعل المعلمة؟ وكيف تستجيب الطالبة؟', share: 25 },
-  { id: 'practice', title: 'تدريب موجَّه', hint: 'محاولات قصيرة مع المعلمة، والمساعدة تقل تدريجيًا', share: 23 },
-  { id: 'independent', title: 'تدريب مستقل', hint: 'تجرّب الطالبة وحدها بالوسيلة المناسبة لها', share: 18, optional: true },
+  { id: 'teaching', title: 'الشرح والنمذجة', hint: 'ماذا يفعل المعلم؟ وكيف يستجيب الطالب؟', share: 25 },
+  { id: 'practice', title: 'تدريب موجَّه', hint: 'محاولات قصيرة مع المعلم، والمساعدة تقل تدريجيًا', share: 23 },
+  { id: 'independent', title: 'تدريب مستقل', hint: 'يجرّب الطالب وحده بالوسيلة المناسبة له', share: 18, optional: true },
   { id: 'assessment', title: 'التقويم', hint: 'كيف نعرف أن الهدف تحقق؟', share: 12, optional: true },
   { id: 'closing', title: 'غلق الحصة', hint: 'مراجعة واختيار يعبّر عن التعلّم', share: 10 },
 ];

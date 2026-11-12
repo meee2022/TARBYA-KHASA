@@ -1,5 +1,5 @@
 import { art, defaultCatalog, mediaPath, validateCatalog, type Catalog } from './catalog.ts';
-export const moduleLabels = { plans:'التحضير الأسبوعي', iep:'الخطط الفردية', lessons:'الدروس والحصص', learners:'ملفات الطالبات', packs:'المحتوى والأوراق', tools:'أدوات دعم الطالبة', presentations:'العروض', games:'الألعاب', library:'المكتبة', progress:'متابعة التقدم', review:'مراجعة التحضير' } as const;
+export const moduleLabels = { plans:'التحضير الأسبوعي', iep:'الخطط الفردية', lessons:'الدروس والحصص', learners:'ملفات الطلاب', packs:'المحتوى والأوراق', tools:'أدوات دعم الطالب', presentations:'العروض', games:'الألعاب', library:'المكتبة', progress:'متابعة التقدم', review:'مراجعة التحضير' } as const;
 export interface SiteConfig {
   catalog: Catalog; heroImage: string;
   version: 1; revision: number; brandName: string; tagline: string; welcome: string; description: string;
@@ -11,8 +11,8 @@ export interface SiteConfig {
   teacherSignup: boolean;
 }
 export const defaultSite: SiteConfig = {
-  version:1, revision:0, brandName:'وتد', tagline:'لكلّ طالبة، طريقٌ للتعلّم', welcome:'أهلًا بك، ليومٍ يصنع فرقًا', description:'كل ما تحتاجه لحصة أكثر وضوحًا، وتعلّم أقرب لكل طالبة.',
-  featureTitle:'عالم صغير، اكتشافات كبيرة.', featureDescription:'درس الحيوانات، بتجارب تراعي اختلاف طرق التعلّم.', featuredLessonId:'animals', footer:'تعلّم يناسب كلّ طالبة', announcement:'', announcementEnabled:false, primaryColor:'#5c1523',
+  version:1, revision:0, brandName:'وتد', tagline:'لكلّ طالب، طريقٌ للتعلّم', welcome:'أهلًا بك، ليومٍ يصنع فرقًا', description:'كل ما تحتاجه لحصة أكثر وضوحًا، وتعلّم أقرب لكل طالب.',
+  featureTitle:'عالم صغير، اكتشافات كبيرة.', featureDescription:'درس الحيوانات، بتجارب تراعي اختلاف طرق التعلّم.', featuredLessonId:'animals', footer:'تعلّم يناسب كلّ طالب', announcement:'', announcementEnabled:false, primaryColor:'#5c1523',
   catalog:defaultCatalog, heroImage:art('hero-classroom'), modules:{plans:true,iep:true,lessons:true,learners:true,packs:true,tools:true,presentations:true,games:true,library:true,progress:true,review:true}, aiEnabled:true, aiRequestLimit:15, teacherSignup:true, maintenance:false, maintenanceMessage:'نحدّث المنصة الآن. نعود إليكم قريبًا.',
 };
 export function validateSite(input: unknown): SiteConfig {

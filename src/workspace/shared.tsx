@@ -22,27 +22,27 @@ export function useSharedItems(enabled: boolean) {
 }
 
 /** Publishes a copy to the shared library. The copy carries no pupil, goal or review data; the teacher's display name travels with it. */
-export function ShareButton({ build, label = 'انشر للمعلمات' }: { build: () => SharedPayload; label?: string }) {
+export function ShareButton({ build, label = 'انشر للمعلمين' }: { build: () => SharedPayload; label?: string }) {
   const { account, notify } = useWorkspace(); const [busy, setBusy] = useState(false);
   if (!accountsAvailable) return null;
   const share = async () => {
     const payload = build();
-    if (!account) { notify('سجّلي الدخول بحسابك من إعدادات المساحة لتنشر في المكتبة المشتركة.'); return; }
-    if (!await confirmDialog(`نشر «${payload.title}» في مكتبة المعلمات المشتركة؟ تُنشر نسخة بلا بيانات الطالبات، ويظهر اسمك معها، وتستطيع حذفها لاحقًا.`, { ok: 'نشر' })) return;
+    if (!account) { notify('سجّل الدخول بحسابك من إعدادات المساحة لتنشر في المكتبة المشتركة.'); return; }
+    if (!await confirmDialog(`نشر «${payload.title}» في مكتبة المعلمين المشتركة؟ تُنشر نسخة بلا بيانات الطلاب، ويظهر اسمك معها، وتستطيع حذفها لاحقًا.`, { ok: 'نشر' })) return;
     setBusy(true);
     try { await publishShared(payload); notify('نُشر في المكتبة المشتركة. تجده مع زميلاتك في مكتبة الدروس.'); } catch (e) { notify((e as Error).message); } finally { setBusy(false); }
   };
-  return <button type="button" className="button secondary" disabled={busy} onClick={share} title={account ? undefined : 'يحتاج تسجيل الدخول بحساب المعلمة'}><Share2 size={16} />{busy ? 'جارٍ النشر…' : label}</button>;
+  return <button type="button" className="button secondary" disabled={busy} onClick={share} title={account ? undefined : 'يحتاج تسجيل الدخول بحساب المعلم'}><Share2 size={16} />{busy ? 'جارٍ النشر…' : label}</button>;
 }
 
 const kindOptions: [SharedKind | 'all', string][] = [['all', 'كل الأنواع'], ['lesson', sharedKindLabels.lesson], ['deck', sharedKindLabels.deck], ['pack', sharedKindLabels.pack]];
 /** The grid of what colleagues published, already narrowed by grade and subject from the library page. */
 export function SharedGrid({ items, state, error, onChange }: { items: SharedMeta[]; state: 'idle' | 'loading' | 'ready' | 'error'; error: string; onChange: () => void }) {
   const { account, saveLesson, savePack, notify } = useWorkspace(); const navigate = useNavigate(); const [kind, setKind] = useState<SharedKind | 'all'>('all'); const [busy, setBusy] = useState('');
-  if (!accountsAvailable) return <Empty title="المكتبة المشتركة تعمل على الموقع المنشور" description="حين تسجّل المعلمات الدخول بحساباتهن، تظهر هنا تحضيراتهن وعروضهن وحزمهن." />;
-  if (!account) return <Empty title="سجّلي الدخول لترى مكتبة المعلمات" description="كل معلمة تنشر ما عندها من تحضير وعروض وحزم، وتستورد ما يناسب طالباتها. الدخول من إعدادات المساحة." />;
+  if (!accountsAvailable) return <Empty title="المكتبة المشتركة تعمل على الموقع المنشور" description="حين يسجّل المعلمون الدخول بحساباتهم، تظهر هنا تحضيراتهم وعروضهم وحزمهم." />;
+  if (!account) return <Empty title="سجّل الدخول لترى مكتبة المعلمين" description="كل معلم ينشر ما عنده من تحضير وعروض وحزم، ويستورد ما يناسب طلابه. الدخول من إعدادات المساحة." />;
   if (state === 'loading' || state === 'idle') return <div className="shared-grid" aria-busy="true">{[0, 1, 2].map(i => <div key={i} className="panel shared-card skeleton" />)}</div>;
-  if (state === 'error') return <div role="alert" className="alert">{error} <button className="text-link" onClick={onChange}>أعيدي المحاولة</button></div>;
+  if (state === 'error') return <div role="alert" className="alert">{error} <button className="text-link" onClick={onChange}>أعد المحاولة</button></div>;
   const shown = items.filter(i => kind === 'all' || i.kind === kind);
   const take = async (item: SharedMeta) => {
     setBusy(item.id);
@@ -58,6 +58,6 @@ export function SharedGrid({ items, state, error, onChange }: { items: SharedMet
   return <>
     <div className="shared-toolbar"><div className="option-chips" role="group" aria-label="نوع المحتوى">{kindOptions.map(([k, label]) => <Chip key={k} on={kind === k} label={label} onClick={() => setKind(k)} />)}</div><span className="muted"><Users size={16} />{countOf(shown.length, 'عنصر', 'عنصران', 'عناصر')} من زميلاتك</span></div>
     {shown.length ? <div className="shared-grid">{shown.map((item, n) => <article key={item.id} className="panel shared-card rise-in" style={{ animationDelay: `${Math.min(n, 8) * 40}ms` }}><span className={`shared-kind kind-${item.kind}`}>{sharedKindLabels[item.kind]}</span><h2>{item.title}</h2><span className="eyebrow">{item.subject}{item.grade ? ` · الصف ${item.grade}` : ''}</span><p>{item.summary || 'بلا وصف'}</p><footer><small>{item.mine ? 'أنت' : item.teacherName} · {dateLabel(item.createdAt)}</small><div><button className="button primary" disabled={busy === item.id} onClick={() => take(item)}><Download size={15} />استورد إلى مساحتي</button>{item.mine && <button className="icon-button" aria-label={`حذف ${item.title} من المكتبة`} disabled={busy === item.id} onClick={() => drop(item)}><Trash2 size={17} /></button>}</div></footer></article>)}</div>
-      : <Empty title="لا شيء هنا بعد" description="كوني أول من ينشر: من صفحة أي درس أو عرض أو حزمة، اضغطي «انشر للمعلمات»." />}
+      : <Empty title="لا شيء هنا بعد" description="كن أول من ينشر: من صفحة أي درس أو عرض أو حزمة، اضغط «انشر للمعلمين»." />}
   </>;
 }

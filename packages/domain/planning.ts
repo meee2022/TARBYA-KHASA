@@ -61,8 +61,8 @@ export function fillPlan(plan: WeeklyPlan, pack: ContentPack, catalog: Catalog):
 /** One lesson, and what differs for this learner. Built from their profile, never from a diagnosis. */
 export function learnerPath(l: Learner) {
   const p = l.preferences; const parts = [describeAdaptation(p).join('، ')];
-  if (p.understands?.length) parts.push(`تفهم عبر: ${p.understands.map(u => understandingLabels[u]).join('، ')}`);
-  if (p.responds?.length) parts.push(`تجيب عبر: ${p.responds.map(r => responseLabels[r]).join('، ')}`);
+  if (p.understands?.length) parts.push(`يفهم عبر: ${p.understands.map(u => understandingLabels[u]).join('، ')}`);
+  if (p.responds?.length) parts.push(`يجيب عبر: ${p.responds.map(r => responseLabels[r]).join('، ')}`);
   if (l.needs) parts.push(`لماذا: ${l.needs}`);
   return parts.join('. ');
 }
@@ -155,14 +155,14 @@ export function goalFromDraft(d: GoalDraft): Goal {
 }
 export function draftErrors(d: GoalDraft) {
   const out: string[] = [];
-  if (!d.behaviour.trim()) out.push('اكتبي السلوك الذي نلاحظه.');
-  if (!Number.isInteger(d.x) || d.x < 1 || (d.type === 'percent' && d.x > 100)) out.push('راجعي رقم المعيار.');
+  if (!d.behaviour.trim()) out.push('اكتب السلوك الذي نلاحظه.');
+  if (!Number.isInteger(d.x) || d.x < 1 || (d.type === 'percent' && d.x > 100)) out.push('راجع رقم المعيار.');
   if (d.type === 'of' && (!Number.isInteger(d.y) || d.y < d.x)) out.push('عدد النجاح لا يتجاوز عدد المحاولات.');
   if (!Number.isInteger(d.sessions) || d.sessions < 1) out.push('عدد الجلسات يبدأ من 1.');
   return out;
 }
 export type GoalStatus = 'not-evaluated' | 'training' | 'met' | 'approved' | 'review';
-export const goalStatusLabels: Record<GoalStatus, string> = { 'not-evaluated': 'لم يُقيَّم', training: 'قيد التدريب', met: 'البيانات تشير لتحقق المعيار', approved: 'اعتمدته المعلمة', review: 'يحتاج مراجعة' };
+export const goalStatusLabels: Record<GoalStatus, string> = { 'not-evaluated': 'لم يُقيَّم', training: 'قيد التدريب', met: 'البيانات تشير لتحقق المعيار', approved: 'اعتمده المعلم', review: 'يحتاج مراجعة' };
 /** What the records say. Reaching the criterion is only ever a suggestion: approval is the teacher's click. */
 export const phaseOf = (o: Observation): Phase => o.phase ?? 'intervention';
 /** Maintenance probes after approval: two and six weeks later, each due until a maintenance record lands on or after it. */
@@ -215,11 +215,11 @@ export function checkPlan(plan: WeeklyPlan, ctx: { pack?: ContentPack; learners:
   const out: Issue[] = []; const add = (where: string, text: string) => out.push({ where, text });
   const { pack } = ctx; const learners = ctx.learners.filter(l => plan.learnerIds.includes(l.id));
   const sessionText = (s: PlanSession) => [s.objective, ...stageKeys.flatMap(k => [s[k].teacher, s[k].student, s[k].arrangements, s[k].assessment])].join(' ');
-  if (!plan.title.trim()) add('header', 'أضيفي موضوع الدرس.');
+  if (!plan.title.trim()) add('header', 'أضف موضوع الدرس.');
   if (valid(plan.weekStart) && valid(plan.weekEnd) && plan.weekEnd < plan.weekStart) add('header', 'نهاية الأسبوع قبل بدايته.');
-  if (!plan.learnerIds.length) add('learners', 'اختاري طالبةً واحدًا على الأقل.');
+  if (!plan.learnerIds.length) add('learners', 'اختر طالبًا واحدًا على الأقل.');
   for (const y of otherYears([plan.title, plan.shortGoals, plan.reflection, plan.individual, ...plan.sessions.map(sessionText)].join(' '), plan.year)) add('header', `النص يذكر العام ${ltr(y)}، بينما عام الاستمارة ${ltr(plan.year)}.`);
-  if (plan.shortGoals.trim() && !measurable(plan.shortGoals)) add('goals', 'الأهداف بلا معيار رقمي. أضيفي مثل: 4 من 5 محاولات.');
+  if (plan.shortGoals.trim() && !measurable(plan.shortGoals)) add('goals', 'الأهداف بلا معيار رقمي. أضف مثل: 4 من 5 محاولات.');
   for (const [a, b] of spellingVariants([plan.title, plan.shortGoals, ...plan.sessions.map(sessionText)], pack?.items.map(i => i.text) ?? [])) add('spelling', `«${a}» قريبة من «${b}». هل هي الكلمة نفسها؟`);
   const goalLetters = letterIn(plan.shortGoals);
   plan.sessions.forEach((s, n) => {
@@ -230,16 +230,16 @@ export function checkPlan(plan: WeeklyPlan, ctx: { pack?: ContentPack; learners:
     if (s.date && plan.sessions.findIndex(x => x.date === s.date) !== n) add(where, 'هذا التاريخ مستخدم في جلسة أخرى.');
     if (goalLetters.length) for (const l of letterIn(sessionText(s))) if (!goalLetters.includes(l)) add(where, `النشاط يذكر الحرف «${l}»، والهدف عن «${goalLetters.join('، ')}».`);
     if (s.activity && pack) { const block = templateBlocker(s.activity, pack); if (block) add(where, `النشاط المختار لا يعمل مع هذه الحزمة: ${block}`); }
-    if (s.activity === 'listen') for (const l of learners) if (!l.preferences.sound) add(where, `نشاط الاستماع لا يناسب ${l.name}: الصوت متوقف في ملفها.`);
+    if (s.activity === 'listen') for (const l of learners) if (!l.preferences.sound) add(where, `نشاط الاستماع لا يناسب ${l.name}: الصوت متوقف في ملفه.`);
   });
   if (pack) for (const l of learners) {
     const u = l.preferences.understands ?? [];
     const noPicture = pack.items.filter(i => !i.imageId && !i.emoji).length;
-    if (noPicture && u.includes('picture') && !u.includes('text')) add('learners', `${l.name} تعتمد على الصور، و${noPicture} عناصر في الحزمة بلا صورة.`);
+    if (noPicture && u.includes('picture') && !u.includes('text')) add('learners', `${l.name} يعتمد على الصور، و${noPicture} عناصر في الحزمة بلا صورة.`);
     const noSign = pack.items.filter(i => !i.signId).length;
-    if (noSign && u.includes('sign')) add('learners', `${l.name} تستخدم الإشارة، و${noSign} عناصر بلا فيديو إشارة.`);
+    if (noSign && u.includes('sign')) add('learners', `${l.name} يستخدم الإشارة، و${noSign} عناصر بلا فيديو إشارة.`);
   }
-  for (const l of learners) if (!l.goals.some(g => g.subject === plan.subject)) add('learners', `${l.name} ليس لها هدف في مادة ${plan.subject}.`);
+  for (const l of learners) if (!l.goals.some(g => g.subject === plan.subject)) add('learners', `${l.name} ليس له هدف في مادة ${plan.subject}.`);
   for (const link of plan.bagLinks) if (link.url && !/^https?:\/\//i.test(link.url)) add('bag', `الرابط «${link.title || link.url}» ليس رابط ويب صالحًا.`);
   return out;
 }
@@ -255,8 +255,8 @@ export function checkIep(iep: Iep, now = today()): Issue[] {
   const seen = new Set<string>();
   for (const g of iep.goals) {
     const where = `goal-${g.id}`;
-    if (!g.text.trim()) add(where, 'اكتبي نص الهدف بعيد المدى.');
-    if (!g.shorts.length) add(where, 'أضيفي هدفًا قصير المدى واحدًا على الأقل.');
+    if (!g.text.trim()) add(where, 'اكتب نص الهدف بعيد المدى.');
+    if (!g.shorts.length) add(where, 'أضف هدفًا قصير المدى واحدًا على الأقل.');
     if (valid(g.start) && valid(g.end) && g.end < g.start) add(where, 'تاريخ الانتهاء قبل تاريخ البدء.');
     for (const s of g.shorts) {
       if (s.text.trim() && !measurable(s.text)) add(where, `بلا معيار رقمي: «${s.text.slice(0, 50)}».`);
@@ -266,7 +266,7 @@ export function checkIep(iep: Iep, now = today()): Issue[] {
     }
   }
   if (!iep.classroom.length && !iep.assessmentAcc.length && !iep.curriculumAcc.length) add('accommodations', 'لم تُحدَّد ترتيبات وتسهيلات.');
-  if (!iep.team.some(t => t.name.trim())) add('team', 'أضيفي فريق العمل.');
+  if (!iep.team.some(t => t.name.trim())) add('team', 'أضف فريق العمل.');
   if (valid(iep.nextReview) && iep.nextReview < now) add('review', 'موعد المراجعة القادمة مضى.');
   return out;
 }
@@ -277,20 +277,20 @@ function demoPlan(learners: Learner[]): WeeklyPlan {
   const pack = defaultCatalog.packs.find(p => p.id === 'pack-animals')!;
   const ids = ['demo-1', 'demo-2', 'demo-5', 'demo-6'].filter(id => learners.some(l => l.id === id));
   const plan = fillPlan({ ...createPlan(defaultCatalog, pack.subject), id: animalsId, title: 'We love animals', learnerIds: ids, goalIds: learners.filter(l => ids.includes(l.id)).flatMap(l => l.goals.filter(g => g.subject === pack.subject).map(g => g.id)) }, pack, defaultCatalog);
-  return { ...syncPaths(plan, learners), individual: 'تدريب فردي قصير على الكلمات التي لم تثبت بعد، بالوسيلة المحددة في مسار كل طالبة.', skillGoal: 'أن ترتّب الطالبة أدواتها بعد انتهاء النشاط.', bagLinks: [] };
+  return { ...syncPaths(plan, learners), individual: 'تدريب فردي قصير على الكلمات التي لم تثبت بعد، بالوسيلة المحددة في مسار كل طالب.', skillGoal: 'أن يرتّب الطالب أدواته بعد انتهاء النشاط.', bagLinks: [] };
 }
 function demoIep(learner: Learner, catalog: Catalog): Iep {
   const long = newLongGoal('academic', 'اللغة الإنجليزية');
   return { ...createIep(learner.id, catalog), school: 'مدرسة تجريبية', age: '8 سنوات', summary: 'ملف خيالي لعرض المنصة. تتواصل بالصور والإشارة، وتحتاج تعليمات من خطوة واحدة.', services: { periods: '5', scientific: false, literary: true, skills: false, sessions: '2', speech: true, physical: false, occupational: false },
     performance: { [catalog.performanceDomains[0]]: [{ strength: 'تتعرف إلى الحيوانات المألوفة من الصور.', need: 'زيادة المفردات الإنجليزية.' }], [catalog.performanceDomains[1]]: [{ strength: 'تعبّر عن احتياجاتها بالإشارة.', need: 'استخدام لوحة التواصل باستقلالية.' }] },
-    goals: [{ ...long, unit: 'We love animals', text: 'أن تسمّي الطالبة خمسة حيوانات بالإشارة أو بالكلمة.', start: weekOf(today()), end: day(weekOf(today()), 25), shorts: [{ ...newShortGoal(long, catalog), text: learner.goals[0]?.text ?? '', start: weekOf(today()), end: day(weekOf(today()), 11), trackedGoalId: learner.goals[0]?.id }] }],
-    classroom: catalog.classroomAccommodations.slice(0, 2), assessmentAcc: catalog.assessmentAccommodations.slice(0, 2), curriculumAcc: catalog.curriculumAccommodations.slice(0, 1), tech: [{ tool: 'لوحة التواصل في المنصة', purpose: 'التعبير عن الاحتياجات بالصور' }], team: [{ name: 'اسم خيالي', role: 'معلمة التربية الخاصة' }], nextReview: day(today(), 30) };
+    goals: [{ ...long, unit: 'We love animals', text: 'أن يسمّي الطالب خمسة حيوانات بالإشارة أو بالكلمة.', start: weekOf(today()), end: day(weekOf(today()), 25), shorts: [{ ...newShortGoal(long, catalog), text: learner.goals[0]?.text ?? '', start: weekOf(today()), end: day(weekOf(today()), 11), trackedGoalId: learner.goals[0]?.id }] }],
+    classroom: catalog.classroomAccommodations.slice(0, 2), assessmentAcc: catalog.assessmentAccommodations.slice(0, 2), curriculumAcc: catalog.curriculumAccommodations.slice(0, 1), tech: [{ tool: 'لوحة التواصل في المنصة', purpose: 'التعبير عن الاحتياجات بالصور' }], team: [{ name: 'اسم خيالي', role: 'معلم التربية الخاصة' }], nextReview: day(today(), 30) };
 }
 function demoObservations(w: Workspace): Observation[] {
   const goal = w.learners.find(l => l.id === 'demo-1')?.goals[0]; if (!goal) return [];
   const settings = ['غرفة المصادر', 'غرفة المصادر', 'غرفة المصادر', 'الفصل', 'غرفة المصادر'];
-  const base: Observation = { id: 'demo-obs-base', lessonId: 'manual', learnerId: 'demo-1', goalId: goal.id, date: `${day(today(), -18)}T09:00:00.000Z`, correct: 1, independent: 0, total: 5, support: 'verbal', note: 'قياس قبل البدء: سجل خيالي.', phase: 'baseline', context: { setting: 'غرفة المصادر', person: 'معلمة التربية الخاصة', material: 'بطاقات' }, source: 'manual' };
-  return [base, ...([[1, 0], [2, 1], [3, 2], [4, 4], [4, 4]] as const).map(([correct, independent], n): Observation => ({ id: `demo-obs-${n}`, lessonId: 'animals', learnerId: 'demo-1', goalId: goal.id, date: `${day(today(), (n - 5) * 3)}T09:00:00.000Z`, correct, independent, total: 5, support: (independent === correct ? 'independent' : 'verbal') as Support, note: 'سجل خيالي لعرض التقرير.', phase: 'intervention', context: { setting: settings[n], person: n === 3 ? 'معلمة الفصل' : 'معلمة التربية الخاصة', material: 'الشاشة' }, source: 'session' }))];
+  const base: Observation = { id: 'demo-obs-base', lessonId: 'manual', learnerId: 'demo-1', goalId: goal.id, date: `${day(today(), -18)}T09:00:00.000Z`, correct: 1, independent: 0, total: 5, support: 'verbal', note: 'قياس قبل البدء: سجل خيالي.', phase: 'baseline', context: { setting: 'غرفة المصادر', person: 'معلم التربية الخاصة', material: 'بطاقات' }, source: 'manual' };
+  return [base, ...([[1, 0], [2, 1], [3, 2], [4, 4], [4, 4]] as const).map(([correct, independent], n): Observation => ({ id: `demo-obs-${n}`, lessonId: 'animals', learnerId: 'demo-1', goalId: goal.id, date: `${day(today(), (n - 5) * 3)}T09:00:00.000Z`, correct, independent, total: 5, support: (independent === correct ? 'independent' : 'verbal') as Support, note: 'سجل خيالي لعرض التقرير.', phase: 'intervention', context: { setting: settings[n], person: n === 3 ? 'معلم الفصل' : 'معلم التربية الخاصة', material: 'الشاشة' }, source: 'session' }))];
 }
 /** Older saved workspaces gain the new sections. Demo records appear only beside the fictional learners. */
 export function withPlanning(w: Workspace, catalog: Catalog = defaultCatalog): Workspace {

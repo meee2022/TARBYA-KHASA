@@ -18,9 +18,9 @@ export interface BehaviourPlan { id: string; learnerId: string; target: string; 
 
 export const weekDays = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
 export const priorityLabels: Record<TaskPriority, string> = { high: 'عالية', mid: 'متوسطة', low: 'منخفضة' };
-export const markLabels: Record<AttendanceMark, string> = { present: 'حاضرة', absent: 'غائبة', late: 'متأخرة', excused: 'مستأذنة' };
+export const markLabels: Record<AttendanceMark, string> = { present: 'حاضر', absent: 'غائب', late: 'متأخر', excused: 'مستأذن' };
 export const marks = Object.keys(markLabels) as AttendanceMark[];
-export const levelLabels = ['لا تؤدي المهارة بعد', 'بمساعدة كاملة', 'بمساعدة جزئية', 'بتلميح بسيط', 'مستقلة'];
+export const levelLabels = ['لا يؤدي المهارة بعد', 'بمساعدة كاملة', 'بمساعدة جزئية', 'بتلميح بسيط', 'مستقل'];
 export const defaultTimetable = (): Timetable => ({ periods: 7, times: ['7:10', '7:55', '8:40', '9:45', '10:30', '11:15', '12:00'], slots: [] });
 
 const daysBetween = (from: string, to: string) => Math.round((Date.parse(`${to}T12:00:00Z`) - Date.parse(`${from}T12:00:00Z`)) / 86400000);

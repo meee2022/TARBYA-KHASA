@@ -43,10 +43,10 @@ test('reading supports show in the activity preview, and read-along without soun
   const { describeAdaptation, adaptationConflicts, defaults } = await import('../packages/domain/index.ts');
   const access = { large: false, contrast: false, textAlternative: false, speech: true, choices: 3, scan: false, scanSeconds: 4, readAlong: true, easyFont: true, tint: 'mint', ruler: true };
   const shown = describeAdaptation({ ...defaults, access });
-  for (const x of ['اقرئي معي بتظليل الكلمة', 'خط ميسّر للقراءة', 'خلفية مريحة للنص', 'مسطرة القراءة']) assert.ok(shown.includes(x), x);
-  assert.ok(!describeAdaptation({ ...defaults, sound: false, access }).includes('اقرئي معي بتظليل الكلمة'));
-  assert.ok(adaptationConflicts({ ...defaults, sound: false, access }).some(c => c.includes('اقرئي معي')));
-  assert.ok(!adaptationConflicts({ ...defaults, access }).some(c => c.includes('اقرئي معي')));
+  for (const x of ['اقرأ معي بتظليل الكلمة', 'خط ميسّر للقراءة', 'خلفية مريحة للنص', 'مسطرة القراءة']) assert.ok(shown.includes(x), x);
+  assert.ok(!describeAdaptation({ ...defaults, sound: false, access }).includes('اقرأ معي بتظليل الكلمة'));
+  assert.ok(adaptationConflicts({ ...defaults, sound: false, access }).some(c => c.includes('اقرأ معي')));
+  assert.ok(!adaptationConflicts({ ...defaults, access }).some(c => c.includes('اقرأ معي')));
 });
 
 test('vision supports show in the activity preview, and spoken descriptions without sound are flagged', async () => {

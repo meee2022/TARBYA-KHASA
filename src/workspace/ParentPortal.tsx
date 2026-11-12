@@ -22,7 +22,7 @@ export default function ParentPortal() {
     <header className="parent-top"><span className="brand-wordmark" role="img" aria-label={site.brandName} /><span className="eyebrow">بوابة الأسرة</span></header>
     <main className="parent-main">
       {view === undefined && <div className="parent-skeleton" aria-busy="true" aria-label="جارٍ التحميل"><i /><i /><i /></div>}
-      {view === null && <section className="panel parent-invalid rise-in"><img src={art('ui-sprout')} alt="" /><h1>هذا الرابط لم يعد صالحًا</h1><p>{accountsAvailable ? 'ربما أنشأت المعلمة رابطًا جديدًا، أو أوقفت هذا الرابط. اطلبوا الرابط الجديد من معلمة الدعم.' : 'بوابة الأسرة غير متاحة في هذه النسخة من المنصة.'}</p></section>}
+      {view === null && <section className="panel parent-invalid rise-in"><img src={art('ui-sprout')} alt="" /><h1>هذا الرابط لم يعد صالحًا</h1><p>{accountsAvailable ? 'ربما أنشأ المعلم رابطًا جديدًا، أو أوقف هذا الرابط. اطلبوا الرابط الجديد من معلم الدعم.' : 'بوابة الأسرة غير متاحة في هذه النسخة من المنصة.'}</p></section>}
       {view && <Page view={view} token={token} />}
     </main>
     <footer className="parent-foot"><span>{site.brandName}</span><span>هذه الصفحة للتواصل بين المدرسة والبيت، وليست تقييمًا رسميًا. لا تشاركوا الرابط مع غيركم.</span></footer>
@@ -47,15 +47,15 @@ function Page({ view, token }: { view: ParentView; token: string }) {
     </section>
     {view.goals.length > 0 && <section className="panel parent-section rise-in" {...step()}><h2>كيف تسير الأهداف</h2><ul className="parent-goals">{view.goals.map(g => <li key={g.text}><span>{g.text}</span><strong>{g.status}</strong></li>)}</ul></section>}
     {view.words.length > 0 && <section className="panel parent-section rise-in" {...step()}><h2>كلمات نردّدها في البيت</h2><p className="family-words">{view.words.map(w => <span key={w} dir="auto">{w}</span>)}</p></section>}
-    {view.strengths && <section className="panel parent-section rise-in" {...step()}><h2>ما تحبه وتستمتع به</h2><p>{view.strengths}</p></section>}
-    {(view.home || view.note) && <section className="parent-home rise-in" {...step()}>{view.home && <div><h2>جرّبوا في البيت</h2><p>{view.home}</p></div>}{view.note && <div><h2>ملاحظة المعلمة</h2><p>{view.note}</p></div>}</section>}
+    {view.strengths && <section className="panel parent-section rise-in" {...step()}><h2>ما يحبه ويستمتع به</h2><p>{view.strengths}</p></section>}
+    {(view.home || view.note) && <section className="parent-home rise-in" {...step()}>{view.home && <div><h2>جرّبوا في البيت</h2><p>{view.home}</p></div>}{view.note && <div><h2>ملاحظة المعلم</h2><p>{view.note}</p></div>}</section>}
     <section className="panel parent-section parent-reply rise-in" {...step()} aria-labelledby="reply-title">
-      <h2 id="reply-title">جرّبتم مهمة البيت؟</h2><p className="muted">إجابة واحدة تكفي، وتصل إلى المعلمة وحدها.</p>
-      {sent && <p className="parent-thanks" role="status"><Check size={18} aria-hidden="true" />شكرًا لكم، وصلت إجابتكم إلى المعلمة.</p>}
+      <h2 id="reply-title">جرّبتم مهمة البيت؟</h2><p className="muted">إجابة واحدة تكفي، وتصل إلى المعلم وحده.</p>
+      {sent && <p className="parent-thanks" role="status"><Check size={18} aria-hidden="true" />شكرًا لكم، وصلت إجابتكم إلى المعلم.</p>}
       <div className="parent-choices" role="group" aria-label="كيف سارت المهمة">{(Object.keys(parentChoiceLabels) as ParentChoice[]).map(c => { const Icon = icons[c]; return <button type="button" key={c} className={`parent-choice ${choice === c ? 'on' : ''}`} aria-pressed={choice === c} onClick={() => { setChoice(c); setSent(false); }}><Icon size={26} aria-hidden="true" /><span>{parentChoiceLabels[c]}</span></button>; })}</div>
-      <label>كلمة للمعلمة (اختياري)<input value={text} maxLength={300} onChange={e => setText(e.target.value)} placeholder="مثال: أحبّت اللعبة وطلبت إعادتها" /></label>
+      <label>كلمة للمعلم (اختياري)<input value={text} maxLength={300} onChange={e => setText(e.target.value)} placeholder="مثال: أحب اللعبة وطلب إعادتها" /></label>
       {error && <p className="conflict-note" role="alert">{error}</p>}
-      <button type="button" className="button primary" disabled={!choice || busy} onClick={send}><Send size={16} />أرسلوا للمعلمة</button>
+      <button type="button" className="button primary" disabled={!choice || busy} onClick={send}><Send size={16} />أرسلوا للمعلم</button>
     </section>
   </>;
 }

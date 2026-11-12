@@ -31,15 +31,15 @@ const wash: Tile[] = [
   { id: 'dry', label: 'أجفّف يدي', symbol: 'towel' },
 ];
 export const games: GameDefinition[] = [
-  { id: 'match', title: 'ابحثي عن الشبيه', description: 'مطابقة رمز بآخر، مع وصف لفظي بديل عند الحاجة.', skill: 'المطابقة والتمييز', color: 'sage', rounds: objects.slice(0, 4).map((t, i) => ({ id: `match-${t.id}`, prompt: 'اختاري الرمز المطابق للبطاقة.', target: t, options: [objects[(i + 2) % objects.length], t, objects[(i + 1) % objects.length]], answerId: t.id, hint: `ابحثي عن ${t.label}. ${t.description}.` })) },
+  { id: 'match', title: 'ابحث عن الشبيه', description: 'مطابقة رمز بآخر، مع وصف لفظي بديل عند الحاجة.', skill: 'المطابقة والتمييز', color: 'sage', rounds: objects.slice(0, 4).map((t, i) => ({ id: `match-${t.id}`, prompt: 'اختر الرمز المطابق للبطاقة.', target: t, options: [objects[(i + 2) % objects.length], t, objects[(i + 1) % objects.length]], answerId: t.id, hint: `ابحث عن ${t.label}. ${t.description}.` })) },
   { id: 'classify', title: 'لكل شيء مجموعته', description: 'صنّف أمثلة إلى حي وغير حي، بضغطة واحدة.', skill: 'التصنيف في العلوم', color: 'sand', rounds: objects.map(t => ({ id: `classify-${t.id}`, prompt: `أين نضع ${t.label}؟`, target: t, options: [{ id: 'living', label: 'كائن حي', symbol: 'leaf' }, { id: 'object', label: 'شيء غير حي', symbol: 'book' }], answerId: ['fish', 'bird', 'leaf'].includes(t.id) ? 'living' : 'object', hint: ['fish', 'bird', 'leaf'].includes(t.id) ? 'هذا المثال ينمو ويحتاج إلى الماء أو الغذاء.' : 'هذا الشيء لا ينمو ولا يحتاج إلى الغذاء.' })) },
-  { id: 'sequence', title: 'خطوتي التالية', description: 'رتّبي خطوات غسل اليدين، خطوة واحدة في كل مرة.', skill: 'التسلسل والاستقلالية', color: 'blue', rounds: wash.map((t, i) => ({ id: `sequence-${i}`, prompt: i === 0 ? 'بماذا أبدأ غسل يدي؟' : `بعد «${wash[i - 1].label}»، ماذا أفعل؟`, options: [wash[(i + 2) % 4], t, wash[(i + 1) % 4]], answerId: t.id, hint: `الخطوة ${i + 1}: ${t.label}.` })) },
+  { id: 'sequence', title: 'خطوتي التالية', description: 'رتّب خطوات غسل اليدين، خطوة واحدة في كل مرة.', skill: 'التسلسل والاستقلالية', color: 'blue', rounds: wash.map((t, i) => ({ id: `sequence-${i}`, prompt: i === 0 ? 'بماذا أبدأ غسل يدي؟' : `بعد «${wash[i - 1].label}»، ماذا أفعل؟`, options: [wash[(i + 2) % 4], t, wash[(i + 1) % 4]], answerId: t.id, hint: `الخطوة ${i + 1}: ${t.label}.` })) },
   { id: 'braille', title: 'اكتشف خلية برايل', description: 'كوّن خمسة أحرف عربية بالنقاط الست، مع وصف مواضعها.', skill: 'التعرّف إلى رموز برايل', color: 'rose', rounds: brailleLetters.map((l, i) => ({ id: `braille-${i}`, prompt: `كوّن حرف ${l.name}: ${l.letter}`, options: [], answerId: l.letter, hint: `النقاط المطلوبة لحرف ${l.name}: ${l.dots.join('، ')}.` })) },
 ];
 export const communicationTiles: Tile[] = [
   { id: 'help', label: 'أحتاج مساعدة', symbol: 'help' },
   { id: 'break', label: 'أحتاج استراحة', symbol: 'pause' },
-  { id: 'repeat', label: 'أعيدي التعليمات', symbol: 'repeat' },
+  { id: 'repeat', label: 'أعد التعليمات', symbol: 'repeat' },
   { id: 'water', label: 'أريد ماء', symbol: 'water' },
   { id: 'yes', label: 'نعم', symbol: 'yes' },
   { id: 'no', label: 'لا', symbol: 'no' },
