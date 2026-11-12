@@ -1,4 +1,5 @@
 import { defaultStrategies, type StrategyEntry } from './strategyGuide.ts';
+import { defaultUdl, udlPrinciples, udlSignals, type UdlItem } from './udl.ts';
 import type { ContentPack, TemplateId, TemplateInfo } from './packs.ts';
 import type { Preferences, Support } from './index.ts';
 
@@ -29,7 +30,7 @@ export type PlanningList = keyof typeof planningLists;
 export interface PromptEntry { id: string; title: string; purpose: string; template: string; }
 export type { StrategyEntry };
 export interface Catalog extends Record<PlanningList, string[]> {
-  academicYear: string; planPattern: PlanPatternSession[]; goalBank: GoalBankEntry[]; standards: StandardEntry[]; linkSources: LinkSource[]; warmups: WarmupEntry[]; units: UnitEntry[]; strategyGuide: StrategyEntry[]; prompts: PromptEntry[];
+  academicYear: string; planPattern: PlanPatternSession[]; goalBank: GoalBankEntry[]; standards: StandardEntry[]; linkSources: LinkSource[]; warmups: WarmupEntry[]; units: UnitEntry[]; strategyGuide: StrategyEntry[]; prompts: PromptEntry[]; udl: UdlItem[];
   subjects: string[]; grades: string[]; support: SupportEntry[]; templates: TemplateInfo[]; packs: ContentPack[]; presets: ProfilePreset[];
   avatars: AvatarEntry[]; communication: SymbolEntry[]; activities: SymbolEntry[]; rewards: SymbolEntry[]; rules: SymbolEntry[]; values: SymbolEntry[]; weather: SymbolEntry[]; movement: SymbolEntry[]; stories: SocialStory[];
 }
@@ -139,6 +140,7 @@ export const defaultCatalog: Catalog = {
     ] },
   ],
   strategyGuide: defaultStrategies,
+  udl: defaultUdl,
   // Ready requests a teacher fills from a lesson and pastes into whichever writing assistant the school allows. No tool is named: the text works in any of them.
   prompts: [
     { id: 'pr-differentiate', title: 'ثلاثة مستويات لنشاط واحد', purpose: 'نشاط واحد يُقدَّم بثلاث درجات من المساعدة', template: 'أنا معلم دعم في المرحلة الابتدائية. درسي عن «{الدرس}» في مادة {المادة} للصف {الصف}، وهدفه: {الهدف}.\nاكتب نشاطًا واحدًا بثلاثة مستويات من المساعدة: مساعدة كاملة، مساعدة جزئية، استقلالية. لكل مستوى: ما يفعله المعلم، ما يفعله الطالب، والوسيلة المطلوبة. اجعل اللغة بسيطة والجمل قصيرة، ولا تذكر أسماء طلاب ولا تشخيصات.' },
@@ -219,5 +221,6 @@ export function validateCatalog(input: unknown): Catalog {
   const lines = (x: unknown, min: number, max: number, size: number, name: string) => { if (!Array.isArray(x) || x.length < min || x.length > max) throw new Error(`راجع قائمة: ${name}.`); return x.map(i => text(i, size, name)); };
   const strategyGuide = unique(list(v.strategyGuide ?? d.strategyGuide, 80, 'موسوعة الاستراتيجيات', r => ({ id: text(r.id, 64, 'موسوعة الاستراتيجيات'), title: text(r.title, 60, 'اسم الاستراتيجية'), summary: text(r.summary, 240, 'تعريف الاستراتيجية'), when: text(r.when, 240, 'متى تُستخدم'), steps: lines(r.steps, 1, 8, 200, 'خطوات الاستراتيجية'), adaptations: list(r.adaptations ?? [], 6, 'تكييفات الاستراتيجية', a => ({ need: text(a.need, 60, 'الحاجة'), text: text(a.text, 220, 'التكييف') })), mistakes: lines(r.mistakes ?? [], 0, 6, 160, 'أخطاء شائعة'), measure: text(r.measure, 220, 'كيف نعرف أنها نجحت') })), 'موسوعة الاستراتيجيات');
   const prompts = unique(list(v.prompts ?? d.prompts, 80, 'مختبر الأوامر', r => ({ id: text(r.id, 64, 'مختبر الأوامر'), title: text(r.title, 80, 'عنوان الأمر'), purpose: text(r.purpose, 160, 'الغرض من الأمر'), template: text(r.template, 1500, 'نص الأمر') })), 'مختبر الأوامر');
-  return { ...planning, academicYear, planPattern, goalBank, standards, linkSources, warmups, units, strategyGuide, prompts, avatars, subjects: strings(v.subjects ?? d.subjects, 'المواد'), grades: strings(v.grades ?? d.grades, 'الصفوف'), support, templates, packs, presets, communication: symbolsOf(v.communication ?? d.communication, symbolLists.communication), activities: symbolsOf(v.activities ?? d.activities, symbolLists.activities), rewards: symbolsOf(v.rewards ?? d.rewards, symbolLists.rewards), rules: symbolsOf(v.rules ?? d.rules, symbolLists.rules), values: symbolsOf(v.values ?? d.values, symbolLists.values), weather: symbolsOf(v.weather ?? d.weather, symbolLists.weather), movement: symbolsOf(v.movement ?? d.movement, symbolLists.movement), stories: unique(list(v.stories ?? d.stories, 40, 'القصص الاجتماعية', r => ({ id: text(r.id, 64, 'القصص الاجتماعية'), title: text(r.title, 80, 'عنوان القصة'), pages: symbolsOf(r.pages, 'صفحات القصة').slice(0, 12) })), 'القصص الاجتماعية') };
+  const udl = unique(list(v.udl ?? d.udl, 30, 'بنود التصميم الشامل', r => { const principle = text(r.principle, 20, 'مبدأ البند'); if (!(principle in udlPrinciples)) throw new Error('راجع مبدأ بند التصميم الشامل.'); const sees = opt(r.sees, 20); if (sees !== undefined && !(udlSignals as readonly string[]).includes(sees)) throw new Error('راجع ربط بند التصميم الشامل.'); return { id: text(r.id, 64, 'بنود التصميم الشامل'), principle, text: text(r.text, 160, 'نص البند'), tip: text(r.tip, 220, 'اقتراح البند'), ...(sees ? { sees } : {}) } as UdlItem; }), 'بنود التصميم الشامل');
+  return { ...planning, academicYear, planPattern, goalBank, standards, linkSources, warmups, units, strategyGuide, prompts, udl, avatars, subjects: strings(v.subjects ?? d.subjects, 'المواد'), grades: strings(v.grades ?? d.grades, 'الصفوف'), support, templates, packs, presets, communication: symbolsOf(v.communication ?? d.communication, symbolLists.communication), activities: symbolsOf(v.activities ?? d.activities, symbolLists.activities), rewards: symbolsOf(v.rewards ?? d.rewards, symbolLists.rewards), rules: symbolsOf(v.rules ?? d.rules, symbolLists.rules), values: symbolsOf(v.values ?? d.values, symbolLists.values), weather: symbolsOf(v.weather ?? d.weather, symbolLists.weather), movement: symbolsOf(v.movement ?? d.movement, symbolLists.movement), stories: unique(list(v.stories ?? d.stories, 40, 'القصص الاجتماعية', r => ({ id: text(r.id, 64, 'القصص الاجتماعية'), title: text(r.title, 80, 'عنوان القصة'), pages: symbolsOf(r.pages, 'صفحات القصة').slice(0, 12) })), 'القصص الاجتماعية') };
 }

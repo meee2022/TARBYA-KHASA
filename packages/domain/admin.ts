@@ -21,7 +21,7 @@ export function validateBackup(input:unknown):Workspace {
     }
     for(const l of w.lessons){
       if(!textFields(l,['id','title','subject','grade','objective','warmup','teaching','practice','closing','adaptations','source','sourceText','language','reviewNote','updatedAt'])||!l.id||!Number.isFinite(l.duration)||!['draft','review','approved'].includes(l.status)||!['ar','en'].includes(l.language)||!strings(l.learnerIds)||!strings(l.goalIds))throw new Error();
-      if([l.independent,l.assessment].some(x=>x!==undefined&&typeof x!=='string')||(l.stationPlans!==undefined&&(typeof l.stationPlans!=='object'||!l.stationPlans||Object.values(l.stationPlans).some(p=>!p||(p.minutes!==undefined&&!Number.isFinite(p.minutes))||(p.tiers!==undefined&&Object.values(p.tiers).some(t=>typeof t!=='string'))))))throw new Error();
+      if((l.udl!==undefined&&!(Array.isArray(l.udl)&&l.udl.length<=60&&l.udl.every(x=>typeof x==='string'&&x.length<=64)))||[l.independent,l.assessment].some(x=>x!==undefined&&typeof x!=='string')||(l.stationPlans!==undefined&&(typeof l.stationPlans!=='object'||!l.stationPlans||Object.values(l.stationPlans).some(p=>!p||(p.minutes!==undefined&&!Number.isFinite(p.minutes))||(p.tiers!==undefined&&Object.values(p.tiers).some(t=>typeof t!=='string'))))))throw new Error();
       for(const q of l.questions)if(!textFields(q,['id','prompt'])||!strings(q.options)||q.options.length<2||!Number.isInteger(q.answer)||q.answer<0||q.answer>=q.options.length)throw new Error();
       if(l.kit!==undefined&&(!rows(l.kit,['id','stage','title'])||!l.kit.every(k=>['warmup','content','closing'].includes(k.stage)&&typeof k.done==='boolean')))throw new Error();
       if(l.standardIds!==undefined&&!strings(l.standardIds))throw new Error();

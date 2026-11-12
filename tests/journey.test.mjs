@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createLesson } from '../packages/domain/index.ts';
+import { createLesson, seedWorkspace } from '../packages/domain/index.ts';
 import { defaultCatalog, validateCatalog } from '../packages/domain/catalog.ts';
 import { journey, lessonFromCurriculum, warmupsFor } from '../packages/domain/journey.ts';
 
@@ -70,4 +70,24 @@ test('the catalog carries the strategy encyclopedia and the prompt lab through v
   const out = fillPrompt(t, { 'الدرس': 'حرف الباء', 'المادة': 'اللغة العربية', 'الصف': 'الأول', 'الهدف': 'يميّز الباء' }, { 'الموقف': 'زيارة المكتبة' });
   assert.equal(out, 'درس «حرف الباء» في اللغة العربية للصف الأول. الهدف: يميّز الباء. الموقف: زيارة المكتبة. مرة أخرى حرف الباء.');
   assert.ok(fillPrompt(t, {}, {}).includes('[الدرس]'), 'an empty field stays visible as a bracketed gap');
+});
+
+test('the universal-design check sees what a lesson already has, counts ticks, and video links are checked', async () => {
+  const { udlCheck, udlSeen, defaultUdl } = await import('../packages/domain/udl.ts');
+  const { youtubeId, safeLink, validVideos } = await import('../packages/domain/videos.ts');
+  const w = seedWorkspace(); const bare = { ...createLesson(), learnerIds: [] };
+  assert.deepEqual(udlSeen(bare, w.learners), []);
+  const none = udlCheck(bare, w.learners); assert.equal(none.total, 9); assert.equal(none.met, 0);
+  const rich = { ...bare, learnerIds: w.learners.map(l => l.id), goalIds: ['g1'], adaptations: 'وقت إضافي', warmup: 'نبدأ بلعبة يحبها الطلاب', questions: [{ id: 'q', prompt: 'أين؟', options: ['أ', 'ب'], answer: 0 }], kit: [{ id: 'k', stage: 'content', title: 'بطاقات', done: false }], stationPlans: { teaching: { tiers: { full: 'نموذج كامل' } } }, udl: ['udl-pupil-choice'] };
+  const full = udlCheck(rich, w.learners);
+  assert.equal(full.items.find(i => i.id === 'udl-pupil-choice').seen, false); assert.equal(full.items.find(i => i.id === 'udl-tiers').seen, true);
+  assert.equal(full.met, full.items.filter(i => i.seen).length + 1); assert.ok(full.met >= 7);
+  assert.deepEqual(Object.values(full.byPrinciple).map(c => c.total), [3, 3, 3]);
+  assert.equal(validateCatalog(structuredClone(defaultCatalog)).udl.length, defaultUdl.length);
+  const bad = structuredClone(defaultCatalog); bad.udl[0].principle = 'other'; assert.throws(() => validateCatalog(bad));
+  assert.equal(youtubeId('https://www.youtube.com/watch?v=abc123DEF45'), 'abc123DEF45'); assert.equal(youtubeId('https://youtu.be/abc123DEF45?t=3'), 'abc123DEF45'); assert.equal(youtubeId('https://www.youtube.com/shorts/abc123DEF45'), 'abc123DEF45');
+  assert.equal(youtubeId('https://example.org/watch?v=abc123DEF45'), undefined); assert.equal(youtubeId('javascript:alert(1)'), undefined); assert.equal(youtubeId('not a link'), undefined);
+  assert.equal(safeLink('https://example.org/a'), true); assert.equal(safeLink('http://example.org/a'), false); assert.equal(safeLink('javascript:alert(1)'), false);
+  const video = { id: 'v', title: 'أنشودة', url: 'https://youtu.be/abc123DEF45', subject: 'اللغة العربية', note: '', approved: false };
+  assert.equal(validVideos([video]), true); assert.equal(validVideos([{ ...video, url: 'javascript:alert(1)' }]), false);
 });
