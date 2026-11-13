@@ -1,7 +1,8 @@
 // Offline support for a classroom with weak internet. Same-origin GET only; admin, API and other origins always go to the network.
 // Pages: network first, so a new deploy shows at once; the last copy opens when offline.
 // Hashed build files and pictures: cache first, they never change under the same name.
-const CACHE = 'tarbya-v1';
+// Bump this name when a file changes under the same path (the logo did with the rename to Watad): activation then drops the old copies.
+const CACHE = 'watad-v2';
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/', '/manifest.webmanifest', '/favicon.svg']))); self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
