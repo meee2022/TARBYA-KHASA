@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
@@ -7,7 +7,7 @@ import { useLocalSearchParams, usePreventRemove } from 'expo-router';
 import { Deck, deckFromLesson, deckFromAI, deckThemes, DeckTheme, isDeck, newSlide, Slide, validateDeck, AuthorRequest } from '../../../../packages/domain/presentations';
 import { buildPowerPoint, safeDeckFilename } from '../../../../packages/presentation/export';
 import { useStore } from '../components/store';
-import { Button, Card, Choice, colors, Field, Screen, styles, Txt } from '../components/ui';
+import { Button, Card, Choice, colors, Field, Screen, styles, Txt, Tap as Pressable } from '../components/ui';
 
 const KEY = 'tarbya.native.presentations.v1';
 const API = (process.env.EXPO_PUBLIC_AUTHOR_API_URL || '').replace(/\/$/, '');

@@ -42,3 +42,7 @@ yarn-error.*
 
 /dist-accessibility/
 /dist-authoring/
+/dist-web/
+
+# screenshots from the browser check
+/artifacts/

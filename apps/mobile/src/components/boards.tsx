@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { arrange, boardAttempt, GameRound, PracticeAttempt, puzzleOrder, Tile } from '../../../../packages/domain/games';
 import { wordLetters } from '../../../../packages/domain/packs';
-import { colors, Txt } from './ui';
+import { colors, Txt, Tap as Pressable } from './ui';
 import { SITE, TileArt } from './learning';
 
 // The same board games as the website, drawn with native buttons so TalkBack, VoiceOver and Switch Access reach every piece.
@@ -88,7 +88,7 @@ export function RobotBoard({ options, disabled, onSelect }: { options: Tile[]; d
 }
 
 const bs = StyleSheet.create({
-  piece: { minHeight: 76, padding: 12, borderRadius: 16, borderWidth: 2, borderColor: '#adbd9b', backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  piece: { minHeight: 76, padding: 12, borderRadius: 16, borderWidth: 2, borderColor: '#dccfb2', backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', gap: 6 },
   selected: { borderColor: colors.wine, backgroundColor: colors.rose, borderWidth: 3 }, solved: { borderColor: colors.green, backgroundColor: colors.sage },
   tick: { position: 'absolute', top: 6, left: 6 },
   columns: { flexDirection: 'row-reverse', gap: 14, marginTop: 18 }, column: { flex: 1, gap: 12 },

@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { AccessibilityInfo, Pressable, StyleSheet, Switch, Text, Vibration, View } from 'react-native';
+import { AccessibilityInfo, StyleSheet, Switch, Text, Vibration, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { uid } from '../../../../../../packages/domain';
 import { defaultCatalog } from '../../../../../../packages/domain/catalog';
 import { accessFromPreferences, AccessSettings, defaultAccess, fitRounds, gameOptions, GameRound, lessonWords, missedRounds, PracticeAttempt, practiceSummary, roundAtLevel, Tile } from '../../../../../../packages/domain/games';
 import { PlayableGame, playablePack, shortPrompts, templateBlocker } from '../../../../../../packages/domain/packs';
-import { Button, Card, Choice, colors, Screen, styles, Txt } from '../../../components/ui';
+import { Button, Card, Choice, colors, Screen, styles, Txt, Tap as Pressable } from '../../../components/ui';
 import { CommunicationBoard, nativeTemplates, say, sayTile, TileArt } from '../../../components/learning';
 import { useStore } from '../../../components/store';
 import { BuildBoard, MatchBoard, MemoryBoard, PuzzleBoard, RobotBoard } from '../../../components/boards';
@@ -81,7 +81,7 @@ function Player({ game, access, learnerId, onRestart }: { game: PlayableGame; ac
       {round!.reveal && !opened && <Button title="افتح الباب" icon="key-outline" onPress={() => setOpened(true)} />}
       {(isRepeat || isCards) && access.speech && round!.target && <Button secondary title="استمع" icon="volume-medium-outline" onPress={() => void sayTile(round!.target!, true)} />}
       {showOptions && <View style={{ gap: 14, marginTop: 20 }}>{options.map(tile => <Pressable key={tile.id} accessibilityRole="button" accessibilityLabel={name(tile)} accessibilityState={{ selected: choice === tile.id, disabled: checked }} disabled={checked} onPress={() => { setChoice(tile.id); if (access.speech && !tile.hideLabel) void sayTile(tile, true); if (access.instant) answer(tile.id); }}
-        style={[ps.option, { minHeight: 110 * big, borderColor: access.contrast ? '#000' : choice === tile.id ? colors.wine : '#adbd9b', backgroundColor: choice === tile.id ? access.contrast ? '#000' : colors.rose : '#fff' }, checked && tile.id === round!.answerId && { borderColor: colors.green, borderWidth: 4 }]}>
+        style={[ps.option, { minHeight: 110 * big, borderColor: access.contrast ? '#000' : choice === tile.id ? colors.wine : '#dccfb2', backgroundColor: choice === tile.id ? access.contrast ? '#000' : colors.rose : '#fff' }, checked && tile.id === round!.answerId && { borderColor: colors.green, borderWidth: 4 }]}>
         <TileArt tile={tile} size={72 * big} />{!tile.hideLabel && <Txt bold style={{ fontSize: 24 * big, lineHeight: 36 * big, flex: 1, color: choice === tile.id && access.contrast ? '#fff' : ink }}>{tile.label}</Txt>}</Pressable>)}</View>}
       {game.template === 'match' && <MatchBoard key={round!.id} {...boardProps} />}{game.template === 'memory' && <MemoryBoard key={round!.id} {...boardProps} />}{game.template === 'puzzle' && <PuzzleBoard key={round!.id} {...boardProps} />}{game.template === 'build' && <BuildBoard key={round!.id} {...boardProps} />}
       {isRobot && <RobotBoard key={round!.id} options={options} disabled={checked} onSelect={t => { setChoice(t.id); answer(t.id); }} />}
@@ -93,4 +93,4 @@ function Player({ game, access, learnerId, onRestart }: { game: PlayableGame; ac
     <CommunicationBoard sound={access.speech} contrast={access.contrast} words={words} onBreak={() => setPaused(true)} onRepeat={() => tell(shown)} />
   </Screen>;
 }
-const ps = StyleSheet.create({ task: { marginTop: 20, borderWidth: 1, borderColor: colors.line, borderRadius: 18, padding: 20, backgroundColor: '#fff' }, target: { backgroundColor: '#eff4e6', padding: 22, borderRadius: 16, marginTop: 18, alignItems: 'center', gap: 12 }, option: { flexDirection: 'row-reverse', alignItems: 'center', gap: 18, padding: 18, borderWidth: 2, borderRadius: 16 }, feedback: { fontFamily: 'Tajawal_500Medium', textAlign: 'center', marginTop: 16, lineHeight: 30 }, toggle: { flexDirection: 'row-reverse', alignItems: 'center', gap: 12, minHeight: 52, borderBottomWidth: 1, borderBottomColor: colors.line }, row: { flexDirection: 'row-reverse', flexWrap: 'wrap', gap: 8, marginTop: 8 }, rate: { marginTop: 18, padding: 14, borderRadius: 16, backgroundColor: colors.sand, gap: 6 } });
+const ps = StyleSheet.create({ task: { marginTop: 20, borderWidth: 1, borderColor: colors.line, borderRadius: 18, padding: 20, backgroundColor: '#fff' }, target: { backgroundColor: '#f7eedb', padding: 22, borderRadius: 16, marginTop: 18, alignItems: 'center', gap: 12 }, option: { flexDirection: 'row-reverse', alignItems: 'center', gap: 18, padding: 18, borderWidth: 2, borderRadius: 16 }, feedback: { fontFamily: 'Tajawal_500Medium', textAlign: 'center', marginTop: 16, lineHeight: 30 }, toggle: { flexDirection: 'row-reverse', alignItems: 'center', gap: 12, minHeight: 52, borderBottomWidth: 1, borderBottomColor: colors.line }, row: { flexDirection: 'row-reverse', flexWrap: 'wrap', gap: 8, marginTop: 8 }, rate: { marginTop: 18, padding: 14, borderRadius: 16, backgroundColor: colors.sand, gap: 6 } });

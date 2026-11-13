@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "تربية خاصة",
+    "name": "وتد",
+    "description": "منصة وتد للتربية الخاصة: لكلّ طالب، طريقٌ للتعلّم",
     "slug": "tarbya-support",
     "version": "1.0.0",
     "orientation": "default",
@@ -12,22 +13,34 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#5c1523",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": true,
       "package": "qa.tarbya.support"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png",
+      "bundler": "metro",
+      "output": "single",
+      "themeColor": "#5c1523",
+      "backgroundColor": "#fcf9f2"
     },
     "plugins": [
       "expo-router",
       "expo-font",
       "expo-localization",
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
+          "backgroundColor": "#5c1523"
+        }
+      ]
     ],
     "scheme": "tarbya"
   }
