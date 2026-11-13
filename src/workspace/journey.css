@@ -100,3 +100,10 @@
 }
 @media (prefers-reduced-motion: reduce) { .journey-line > li, .curriculum-lessons > li { animation: none; } .journey-line > li:hover .journey-card, .curriculum-lessons > li:hover { transform: none; } }
 @media print { .journey-line > li { animation: none; break-inside: avoid; } .journey-card { box-shadow: none; } }
+
+/* The differentiated lesson: one row per pupil */
+.differentiated-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.differentiated-list li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--tint, var(--sand)); }
+.differentiated-list p { margin: 2px 0 0; font-size: 14px; line-height: 1.75; color: var(--muted); }
+.differentiated-list .differentiated-goal { color: var(--ink); }
+@media print { .differentiated-list li { break-inside: avoid; border: 1px solid #bbb; background: none; } }
